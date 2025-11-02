@@ -4,7 +4,7 @@ set -euo pipefail
 # Author: BigLin
 # Requirements:
 #   - FastTree (for --method fasttree)
-#   - raxmlHPC or raxmlHPC-PTHREADS (for --method raxml)
+#   - raxml or raxmlHPC-PTHREADS (for --method raxml)
 #   - taxit
 #   - pplacer
 #   - perl
