@@ -8,6 +8,15 @@ library(ggplot2)
 library(colorspace)
 library(ggtreeExtra)
 
+#*========使用方式========*
+# Rscript \
+#   2-可视化.R \
+#   placer.aln.snp-sites.raxml.jplace \
+#   "" \
+#   /output/
+#*========使用方式========*
+
+
 `%||%` <- function(x, y) if (!is.null(x)) x else y
 
 make_safe_filename <- function(x) {

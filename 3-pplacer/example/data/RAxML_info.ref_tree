@@ -9,8 +9,8 @@ IMPORTANT WARNING
 Found 2 sequences that are exactly identical to other sequences in the alignment.
 Normally they should be excluded from the analysis.
 
-An alignment file with sequence duplicates removed has already
-been printed to file /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/3-pplacer/example/data/example.aln.snp-sites.fasta.reduced
+Just in case you might need it, an alignment file with 
+sequence duplicates removed is printed to file /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/3-pplacer/example/data/example.aln.snp-sites.fasta.reduced
 
 
 Using BFGS method to optimize GTR rate parameters, to disable this specify "--no-bfgs" 
@@ -80,7 +80,7 @@ WARNING the alpha parameter with a value of 12.693162 estimated by RAxML for par
 is larger than 10.000000. You should do a model test and confirm that you actually need to incorporate a model of rate heterogeneity!
 You can run inferences with a plain substitution model (without rate heterogeneity) by specifyng the CAT model and the "-V" option!
 
-Inference[0]: Time 39.444493 GAMMA-based likelihood -17113.410588, best rearrangement setting 10
+Inference[0]: Time 231.092093 GAMMA-based likelihood -17113.410588, best rearrangement setting 10
 alpha[0]: 12.693162 rates[0] ac ag at cg ct gt: 3.136203 93.159735 1.766661 2.495814 81.776235 1.000000 
 
 
@@ -101,5 +101,5 @@ Final GAMMA-based Score of best tree -17113.405623
 Program execution info written to /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/3-pplacer/example/data/RAxML_info.ref_tree
 Best-scoring ML tree written to: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/3-pplacer/example/data/RAxML_bestTree.ref_tree
 
-Overall execution time: 52.788758 secs or 0.014664 hours or 0.000611 days
+Overall execution time: 264.058196 secs or 0.073349 hours or 0.003056 days
 
