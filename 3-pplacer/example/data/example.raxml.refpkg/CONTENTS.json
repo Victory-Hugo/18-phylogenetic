@@ -1,0 +1,25 @@
+{
+    "metadata": {
+        "create_date": "2025-11-02 10:07:16",
+        "format_version": "1.1",
+        "locus": "example_raxml"
+    },
+    "files": {
+        "phylo_model": "phylo_modelnsaipnp9.json",
+        "aln_fasta": "example.aln.snp-sites.fasta",
+        "tree": "RAxML_bestTree.ref_tree",
+        "tree_stats": "RAxML_info.ref_tree"
+    },
+    "md5": {
+        "phylo_model": "1ecc0f6f5f6cfaee512935dd904d7584",
+        "aln_fasta": "3db1b342fca552a3aac5a6bc2b1d234d",
+        "tree": "63e599a940d179d6cb5db7837a812d92",
+        "tree_stats": "3c4e6856720d5e13f7bc60c5614b0df0"
+    },
+    "log": [
+        "Stripped refpkg (removed 0 files)",
+        "Loaded initial files into empty refpkg"
+    ],
+    "rollback": null,
+    "rollforward": null
+}

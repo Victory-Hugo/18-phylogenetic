@@ -1,0 +1,105 @@
+
+
+IMPORTANT WARNING: Sequences KC911392 and KC911616 are exactly identical
+
+
+IMPORTANT WARNING: Sequences KC911429 and KC911534 are exactly identical
+
+IMPORTANT WARNING
+Found 2 sequences that are exactly identical to other sequences in the alignment.
+Normally they should be excluded from the analysis.
+
+An alignment file with sequence duplicates removed has already
+been printed to file /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/3-pplacer/example/data/example.aln.snp-sites.fasta.reduced
+
+
+Using BFGS method to optimize GTR rate parameters, to disable this specify "--no-bfgs" 
+
+
+
+This is RAxML version 8.2.12 released by Alexandros Stamatakis on May 2018.
+
+With greatly appreciated code contributions by:
+Andre Aberer      (HITS)
+Simon Berger      (HITS)
+Alexey Kozlov     (HITS)
+Kassian Kobert    (HITS)
+David Dao         (KIT and HITS)
+Sarah Lutteropp   (KIT and HITS)
+Nick Pattengale   (Sandia)
+Wayne Pfeiffer    (SDSC)
+Akifumi S. Tanabe (NRIFS)
+Charlie Taylor    (UF)
+
+
+Alignment has 1110 distinct alignment patterns
+
+Proportion of gaps and completely undetermined characters in this alignment: 0.00%
+
+RAxML rapid hill-climbing mode
+
+Using 1 distinct models/data partitions with joint branch length optimization
+
+
+Executing 1 inferences on the original alignment using 1 distinct randomized MP trees
+
+All free model parameters will be estimated by RAxML
+GAMMA model of rate heterogeneity, ML estimate of alpha-parameter
+
+GAMMA Model parameters will be estimated up to an accuracy of 0.1000000000 Log Likelihood units
+
+Partition: 0
+Alignment Patterns: 1110
+Name: No Name Provided
+DataType: DNA
+Substitution Matrix: GTR
+
+
+
+
+RAxML was called as follows:
+
+raxmlHPC-PTHREADS -T 24 -m GTRGAMMA -p 12345 -s /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/3-pplacer/example/data/example.aln.snp-sites.fasta -n ref_tree 
+
+
+Partition: 0 with name: No Name Provided
+Base frequencies: 0.290 0.262 0.186 0.261 
+
+
+WARNING the alpha parameter with a value of 12.680057 estimated by RAxML for partition number 0 with the name "No Name Provided"
+is larger than 10.000000. You should do a model test and confirm that you actually need to incorporate a model of rate heterogeneity!
+You can run inferences with a plain substitution model (without rate heterogeneity) by specifyng the CAT model and the "-V" option!
+
+
+WARNING the alpha parameter with a value of 12.800672 estimated by RAxML for partition number 0 with the name "No Name Provided"
+is larger than 10.000000. You should do a model test and confirm that you actually need to incorporate a model of rate heterogeneity!
+You can run inferences with a plain substitution model (without rate heterogeneity) by specifyng the CAT model and the "-V" option!
+
+
+WARNING the alpha parameter with a value of 12.693162 estimated by RAxML for partition number 0 with the name "No Name Provided"
+is larger than 10.000000. You should do a model test and confirm that you actually need to incorporate a model of rate heterogeneity!
+You can run inferences with a plain substitution model (without rate heterogeneity) by specifyng the CAT model and the "-V" option!
+
+Inference[0]: Time 39.444493 GAMMA-based likelihood -17113.410588, best rearrangement setting 10
+alpha[0]: 12.693162 rates[0] ac ag at cg ct gt: 3.136203 93.159735 1.766661 2.495814 81.776235 1.000000 
+
+
+Conducting final model optimizations on all 1 trees under GAMMA-based models ....
+
+
+WARNING the alpha parameter with a value of 12.430856 estimated by RAxML for partition number 0 with the name "No Name Provided"
+is larger than 10.000000. You should do a model test and confirm that you actually need to incorporate a model of rate heterogeneity!
+You can run inferences with a plain substitution model (without rate heterogeneity) by specifyng the CAT model and the "-V" option!
+
+Inference[0] final GAMMA-based Likelihood: -17113.405672 tree written to file /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/3-pplacer/example/data/RAxML_result.ref_tree
+
+
+Starting final GAMMA-based thorough Optimization on tree 0 likelihood -17113.405672 .... 
+
+Final GAMMA-based Score of best tree -17113.405623
+
+Program execution info written to /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/3-pplacer/example/data/RAxML_info.ref_tree
+Best-scoring ML tree written to: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/3-pplacer/example/data/RAxML_bestTree.ref_tree
+
+Overall execution time: 52.788758 secs or 0.014664 hours or 0.000611 days
+

@@ -22,7 +22,7 @@ RAXML_REF_PKG="$DATA_DIR/example.raxml.refpkg"
 RAXML_OUTPUT_JPLACE="/mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/3-pplacer/output/placer.aln.snp-sites.raxml.jplace"
 
 # 固定执行策略：fasttree 或 raxml
-METHOD="raxmlHPC-PTHREADS"
+METHOD="fasttree"
 # 若使用 RAxML，可在此设置线程数（为空时自动检测）
 THREADS_OVERRIDE=""
 
