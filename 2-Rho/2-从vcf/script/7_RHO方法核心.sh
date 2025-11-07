@@ -2,12 +2,12 @@
 set -euo pipefail
 
 # —————————————— 配置区 ——————————————
-BASE_DIR='/mnt/f/OneDrive/文档（科研）/脚本/我的科研脚本/Python/母系专用/ρ方法/2-从vcf'
+BASE_DIR='/mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/2-Rho/2-从vcf'
 INPUT="$BASE_DIR/input/rho.csv"
 TEMPDIR="$BASE_DIR/temp"
 OUTDIR="$BASE_DIR/output/rho_number"
 LOGFILE="$BASE_DIR/process.log"
-PYTHON_BIN="/home/luolintao/miniconda3/bin/python3"
+PYTHON_BIN="/home/luolintao/miniconda3/envs/BigLin/bin/python3"
 #todo 选择使用vcf计算还是使用fasta计算
 #PY_SCRIPT="$BASE_DIR/script/7_RHO方法.py"
 PY_SCRIPT="$BASE_DIR/script/7_RHO方法_fasta.py"
@@ -20,20 +20,20 @@ mkdir -p "$TEMPDIR" "$OUTDIR" "$(dirname "$LOGFILE")"
 
 echo "[$(date '+%F %T')] === 开始拆分 ${INPUT} ===" | tee -a "$LOGFILE"
 # 拆分 rho.csv，根据第二列（hap）分文件，并只写一次表头
-# {
-#   read header
-#   tail -n +2 | awk -F',' -v hdr="$header" -v outdir="$TEMPDIR" '
-#   {
-#     hap = $2
-#     gsub(/^[ \t]+|[ \t]+$/, "", hap)
-#     fname = outdir "/" hap ".csv"
-#     if (!(hap in seen)) {
-#       print hdr > fname
-#       seen[hap] = 1
-#     }
-#     print $0 >> fname
-#   }'
-# } < "$INPUT"
+{
+  read header
+  tail -n +2 | awk -F',' -v hdr="$header" -v outdir="$TEMPDIR" '
+  {
+    hap = $2
+    gsub(/^[ \t]+|[ \t]+$/, "", hap)
+    fname = outdir "/" hap ".csv"
+    if (!(hap in seen)) {
+      print hdr > fname
+      seen[hap] = 1
+    }
+    print $0 >> fname
+  }'
+} < "$INPUT"
 
 echo "[$(date '+%F %T')] === 拆分完成，临时目录：${TEMPDIR} ===" | tee -a "$LOGFILE"
 
