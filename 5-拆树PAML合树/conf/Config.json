@@ -1,0 +1,43 @@
+{
+  "paths": {
+    "input_tree": "data/big_rooted.tree",
+    "outgroup_tip_file": "data/outgroup_tips.txt",
+    "output_dir": "output",
+    "backbone_tree": null
+  },
+  "runtime": {
+    "max_tips": 2000,
+    "min_baseml_tips": 100,
+    "threads": 4,
+    "enable_merge_small_blocks": false,
+    "clean_subtree_dir": true,
+    "log_level": "INFO",
+    "construct_baseml_subtrees": true,
+    "always_include_outgroup": true,
+    "anchor_strategy": "rsrs_plus_local",
+    "reserve_slots_for_outgroup": 1
+  },
+  "tools": {
+    "python": "python3",
+    "conda_env": "BigLin",
+    "gotree": "gotree"
+  },
+  "backbone": {
+    "mode": "reference_only"
+  },
+  "merge": {
+    "enabled": true,
+    "output_dir": "output/merge",
+    "analysis_tree_source": "simulated",
+    "external_result_dir": null,
+    "clean_output_dir": true,
+    "randomization_model": "lognormal_multiplicative",
+    "randomization_sigma": 0.25,
+    "randomization_seed": 20260313,
+    "min_branch_length": 1e-8,
+    "preserve_master_topology": true,
+    "strict_core_topology_match": true,
+    "scaffold_scale_aggregation": "weighted_geometric_mean",
+    "scaffold_scale_clamp": null
+  }
+}
