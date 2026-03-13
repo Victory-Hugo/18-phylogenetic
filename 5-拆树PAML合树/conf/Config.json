@@ -33,7 +33,7 @@
     "clean_output_dir": true,
     "randomization_model": "lognormal_multiplicative",
     "randomization_sigma": 0.25,
-    "randomization_seed": 20260313,
+    "randomization_seed": 42,
     "min_branch_length": 1e-8,
     "preserve_master_topology": true,
     "strict_core_topology_match": true,
