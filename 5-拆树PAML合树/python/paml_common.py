@@ -5,11 +5,12 @@ from __future__ import annotations
 
 import csv
 import io
+import os
 import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Sequence
+from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
 from Bio import Phylo, SeqIO
 from Bio.SeqRecord import SeqRecord
@@ -320,14 +321,83 @@ def build_parameter_rows(parsed_output: ParsedBasemlOutput) -> List[Dict[str, ob
         )
     return rows
 
+def parse_cpu_list(cpu_list: str) -> Tuple[int, ...]:
+    values: List[int] = []
+    for token in str(cpu_list).split(","):
+        token = token.strip()
+        if not token:
+            continue
+        values.append(int(token))
+    if not values:
+        raise PipelineError(f"CPU list is empty: {cpu_list}")
+    return tuple(values)
 
-def run_baseml_job(baseml_bin: str, ctlfile: Path, job_dir: Path) -> subprocess.CompletedProcess:
+
+def _read_cpu_topology_key(cpu_id: int, key_name: str) -> Optional[int]:
+    path = Path(f"/sys/devices/system/cpu/cpu{cpu_id}/topology/{key_name}")
+    try:
+        return int(path.read_text(encoding="utf-8").strip())
+    except (FileNotFoundError, ValueError):
+        return None
+
+
+def plan_cpu_slots(threads_per_job: int) -> List[Tuple[int, ...]]:
+    if int(threads_per_job) <= 0:
+        raise PipelineError(f"threads_per_job must be positive: {threads_per_job}")
+
+    available_cpus = sorted(os.sched_getaffinity(0))
+    if len(available_cpus) < int(threads_per_job):
+        raise PipelineError(
+            f"Not enough CPUs for threads_per_job={threads_per_job}; available={len(available_cpus)}"
+        )
+
+    core_groups: Dict[Tuple[int, int], List[int]] = {}
+    for cpu_id in available_cpus:
+        package_id = _read_cpu_topology_key(cpu_id, "physical_package_id")
+        core_id = _read_cpu_topology_key(cpu_id, "core_id")
+        if package_id is None:
+            package_id = 0
+        if core_id is None:
+            core_id = cpu_id
+        core_groups.setdefault((package_id, core_id), []).append(cpu_id)
+
+    ordered_groups = [sorted(group) for _, group in sorted(core_groups.items())]
+    max_siblings = max(len(group) for group in ordered_groups)
+    cpu_order: List[int] = []
+    for sibling_index in range(max_siblings):
+        for group in ordered_groups:
+            if sibling_index < len(group):
+                cpu_order.append(group[sibling_index])
+
+    slots: List[Tuple[int, ...]] = []
+    for index in range(0, len(cpu_order) - int(threads_per_job) + 1, int(threads_per_job)):
+        slot = tuple(cpu_order[index : index + int(threads_per_job)])
+        if len(slot) == int(threads_per_job):
+            slots.append(slot)
+    if not slots:
+        raise PipelineError("Failed to derive any CPU slots from the current CPU affinity.")
+    return slots
+
+
+def run_baseml_job(
+    baseml_bin: str,
+    ctlfile: Path,
+    job_dir: Path,
+    cpu_ids: Optional[Sequence[int]] = None,
+) -> subprocess.CompletedProcess:
+    child_affinity = tuple(int(cpu_id) for cpu_id in cpu_ids) if cpu_ids else None
+
+    def _apply_affinity():
+        if child_affinity is not None:
+            os.sched_setaffinity(0, set(child_affinity))
+
     return subprocess.run(
         [baseml_bin, ctlfile.name],
         cwd=str(job_dir),
         check=False,
         text=True,
         capture_output=True,
+        preexec_fn=_apply_affinity if child_affinity is not None else None,
     )
 
 

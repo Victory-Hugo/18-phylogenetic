@@ -40,6 +40,10 @@ config_get() {
     "$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key "$1"
 }
 
+config_get_default() {
+    "$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key "$1" --default "$2"
+}
+
 PYTHON_BIN=$(config_get tools.python)
 BASEML_BIN=$(config_get tools.baseml)
 
@@ -56,6 +60,9 @@ CTL_TEMPLATE=$(resolve_path "$(config_get paml.ctl_template)")
 PAML_OUTPUT_DIR=$(resolve_path "$(config_get paml.output_dir)")
 PAML_CLEAN_OUTPUT_DIR=$(config_get paml.clean_output_dir)
 PAML_PARALLEL_JOBS=$(config_get paml.parallel_jobs)
+PAML_THREADS_PER_JOB=$(config_get paml.threads_per_job)
+PAML_ENABLE_PAR3=$(config_get paml.enable_par3)
+PAML_BIND_CPU_AFFINITY=$(config_get_default paml.bind_cpu_affinity true)
 SEQ_ID_STRATEGY=$(config_get paml.seq_id_strategy)
 PAML_SKIP_EXISTING=$(config_get paml.skip_existing)
 BACKBONE_ONLY_ENABLED=$(config_get paml.backbone_only_enabled)
@@ -70,6 +77,19 @@ PAML_TREE_DIR="$SPLIT_OUTPUT_DIR/paml_subtrees"
 MANIFEST_PATH="$PAML_OUTPUT_DIR/paml_job_manifest.tsv"
 BACKBONE_TREE="$SPLIT_OUTPUT_DIR/backbone_tree.nwk"
 BACKBONE_SUMMARY_TSV="$SPLIT_OUTPUT_DIR/backbone_summary.tsv"
+
+if ! [[ "$PAML_THREADS_PER_JOB" =~ ^[1-9][0-9]*$ ]]; then
+    echo "[ERROR] paml.threads_per_job must be a positive integer: $PAML_THREADS_PER_JOB" >&2
+    exit 1
+fi
+
+PAML_RUNTIME_ENV=(
+    "OMP_NUM_THREADS=$PAML_THREADS_PER_JOB"
+)
+
+if [[ "$PAML_ENABLE_PAR3" == "True" || "$PAML_ENABLE_PAR3" == "true" ]]; then
+    PAML_RUNTIME_ENV+=("BASEML_PAR3=1")
+fi
 
 for required in \
     "$PAML_SUBTREE_SUMMARY_TSV" \
@@ -119,15 +139,20 @@ RUN_ARGS=(
     --manifest "$MANIFEST_PATH"
     --baseml-bin "$BASEML_BIN"
     --parallel-jobs "$PAML_PARALLEL_JOBS"
+    --threads-per-job "$PAML_THREADS_PER_JOB"
     --log-level "$LOG_LEVEL"
 )
 
 if [[ "$PAML_SKIP_EXISTING" == "True" || "$PAML_SKIP_EXISTING" == "true" ]]; then
     RUN_ARGS+=(--skip-existing)
 fi
+if [[ "$PAML_BIND_CPU_AFFINITY" == "True" || "$PAML_BIND_CPU_AFFINITY" == "true" ]]; then
+    RUN_ARGS+=(--bind-cpu-affinity)
+fi
 
 echo "[INFO] Stage 2/6: run_paml_jobs"
-"$PYTHON_BIN" "$PROJECT_ROOT/python/run_paml_jobs.py" "${RUN_ARGS[@]}"
+env "${PAML_RUNTIME_ENV[@]}" \
+    "$PYTHON_BIN" "$PROJECT_ROOT/python/run_paml_jobs.py" "${RUN_ARGS[@]}"
 
 echo "[INFO] Stage 3/6: parse_paml_outputs"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/parse_paml_outputs.py" \
@@ -158,14 +183,19 @@ if [[ "$BACKBONE_ONLY_ENABLED" == "True" || "$BACKBONE_ONLY_ENABLED" == "true" ]
     BACKBONE_RUN_ARGS=(
         --job-dir "$BACKBONE_JOB_DIR"
         --baseml-bin "$BASEML_BIN"
+        --threads-per-job "$PAML_THREADS_PER_JOB"
         --log-level "$LOG_LEVEL"
     )
     if [[ "$BACKBONE_SKIP_EXISTING" == "True" || "$BACKBONE_SKIP_EXISTING" == "true" ]]; then
         BACKBONE_RUN_ARGS+=(--skip-existing)
     fi
+    if [[ "$PAML_BIND_CPU_AFFINITY" == "True" || "$PAML_BIND_CPU_AFFINITY" == "true" ]]; then
+        BACKBONE_RUN_ARGS+=(--bind-cpu-affinity)
+    fi
 
     echo "[INFO] Stage 5/6: run_backbone_paml_job"
-    "$PYTHON_BIN" "$PROJECT_ROOT/python/run_backbone_paml_job.py" "${BACKBONE_RUN_ARGS[@]}"
+    env "${PAML_RUNTIME_ENV[@]}" \
+        "$PYTHON_BIN" "$PROJECT_ROOT/python/run_backbone_paml_job.py" "${BACKBONE_RUN_ARGS[@]}"
 
     echo "[INFO] Stage 6/6: parse_backbone_paml_output"
     "$PYTHON_BIN" "$PROJECT_ROOT/python/parse_backbone_paml_output.py" \

@@ -3,6 +3,7 @@ CC = gcc
 CFLAGS = -O3 -Wall -Wno-unused-variable -Wno-unused-result
 OPENMP ?= 1
 BASEML_OMPFLAGS =
+BASEML_LLT_OMPFLAGS = -fopenmp
 
 ifeq ($(OPENMP),1)
 BASEML_OMPFLAGS = -fopenmp
@@ -14,6 +15,8 @@ all : $(PRGS)
 
 baseml : baseml.o tools.o treesub.c treespace.c paml.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ baseml.o tools.o $(LIBS)
+baseml_llt : baseml_llt.o tools.o treesub.c treespace.c paml.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ baseml_llt.o tools.o $(LIBS) $(BASEML_LLT_OMPFLAGS)
 basemlg: basemlg.o tools.o treesub.c treespace.c paml.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ basemlg.o tools.o $(LIBS)
 codeml: codeml.o tools.o treesub.c treespace.c paml.h
@@ -36,6 +39,8 @@ tools.o : paml.h tools.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -c tools.c
 baseml.o : paml.h baseml.c treesub.c treespace.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -c baseml.c
+baseml_llt.o : paml.h baseml.c treesub.c treespace.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(BASEML_LLT_OMPFLAGS) -c baseml.c -o $@
 
 baseml: LIBS += $(BASEML_OMPFLAGS)
 baseml.o: CFLAGS += $(BASEML_OMPFLAGS)
@@ -55,4 +60,4 @@ ds.o : paml.h ds.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -c ds.c
 
 clean :
-	-rm *.o $(PRGS)
+	-rm *.o $(PRGS) baseml_llt
