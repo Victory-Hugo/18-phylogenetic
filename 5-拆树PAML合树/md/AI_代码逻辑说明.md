@@ -10,30 +10,30 @@
 
 ## 2. 主控脚本
 
-### `pipe/run_split_pipeline.sh`
+### `pipe/1-run_split_pipeline.sh`
 
 职责：
 
-1. 读取 `conf/1-split.json`
+1. 读取 `conf/1-split.yaml`
 2. 解析输入树、外群、backbone 参数
 3. 调用 [split_phylo_tree.py](/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/python/split_phylo_tree.py)
 4. 调用 [validate_phylo_split.py](/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/python/validate_phylo_split.py)
 
-### `pipe/run_paml_pipeline.sh`
+### `pipe/2-run_paml_pipeline.sh`
 
 职责：
 
-1. 读取 `conf/2-paml.json`
+1. 读取 `conf/2-paml.yaml`
 2. 读取 `output/split/paml_subtree_summary.tsv`
 2. 生成 `jobs/*/treefile, fasta, ctl`
 3. 批量运行 baseml
 4. 解析 `mlb`
 
-### `pipe/run_merge_pipeline.sh`
+### `pipe/3-run_merge_pipeline.sh`
 
 职责：
 
-1. 读取 `conf/3-merge.json`
+1. 读取 `conf/3-merge.yaml`
 2. 读取新的 split 输出
 3. 加载 analysis trees
 4. 构建 scaffold

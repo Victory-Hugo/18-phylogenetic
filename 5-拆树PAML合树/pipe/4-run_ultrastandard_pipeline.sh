@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROJECT_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
-DEFAULT_CONFIG_PATH="$PROJECT_ROOT/conf/4-ultrastandard.json"
+DEFAULT_CONFIG_PATH="$PROJECT_ROOT/conf/4-ultrastandard.yaml"
 CONFIG_PATH="$DEFAULT_CONFIG_PATH"
 BOOTSTRAP_PYTHON="python3"
 
@@ -109,7 +109,7 @@ if [[ "$BACKBONE_ULTRA_TREE" != "null" && -n "$BACKBONE_ULTRA_TREE" ]]; then
     MERGE_ARGS+=(--backbone-ultrametric-tree "$(resolve_path "$BACKBONE_ULTRA_TREE")")
 fi
 
-echo "[INFO] Stage 1/2: merge_ultrastandard_tree"
+echo "[INFO] Stage 1/3: merge_ultrastandard_tree"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/merge_ultrastandard_tree.py" "${MERGE_ARGS[@]}"
 
 VALIDATE_ARGS=(
@@ -124,7 +124,22 @@ if [[ "$BACKBONE_ULTRA_TREE" != "null" && -n "$BACKBONE_ULTRA_TREE" ]]; then
     VALIDATE_ARGS+=(--backbone-ultrametric-tree "$(resolve_path "$BACKBONE_ULTRA_TREE")")
 fi
 
-echo "[INFO] Stage 2/2: validate_ultrastandard_tree"
+echo "[INFO] Stage 2/3: validate_ultrastandard_tree"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/validate_ultrastandard_tree.py" "${VALIDATE_ARGS[@]}"
+
+echo "[INFO] Stage 3/3: compare_final_topology"
+if "$PYTHON_BIN" "$PROJECT_ROOT/python/check_tree_topology_match.py" \
+    --reference-tree "$SPLIT_OUTPUT_DIR/intermediate/rooted.tree" \
+    --query-tree "$ULTRA_OUTPUT_DIR/merged_tree.nwk" \
+    --log-level "$LOG_LEVEL"; then
+    echo "[OK] Ultrastandard merged tree topology matches the original rooted tree."
+else
+    compare_status=$?
+    if [[ "$compare_status" -eq 2 ]]; then
+        echo "[WARN] Ultrastandard merged tree topology does not match the original rooted tree."
+    else
+        exit "$compare_status"
+    fi
+fi
 
 echo "[OK] Ultrastandard pipeline finished."

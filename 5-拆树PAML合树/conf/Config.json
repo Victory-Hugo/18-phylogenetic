@@ -1,7 +1,0 @@
-{
-  "deprecated": true,
-  "message": "请改用 conf/1-split.json、conf/2-paml.json、conf/3-merge.json；pipe 不再读取本文件。",
-  "split_config": "conf/1-split.json",
-  "paml_config": "conf/2-paml.json",
-  "merge_config": "conf/3-merge.json"
-}

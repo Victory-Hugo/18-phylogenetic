@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROJECT_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
-DEFAULT_CONFIG_PATH="$PROJECT_ROOT/conf/1-split.json"
+DEFAULT_CONFIG_PATH="$PROJECT_ROOT/conf/1-split.yaml"
 CONFIG_PATH="$DEFAULT_CONFIG_PATH"
 BOOTSTRAP_PYTHON="python3"
 

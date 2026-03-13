@@ -5,7 +5,7 @@
         noisy = 3   * 屏幕输出冗余度（0=安静, 3=详细）
       verbose = 0   * 输出结果详细程度（0=简洁, 1=详细）
 
-        model = 4   * 4: HKY85核苷酸替换模型 
+        model = 7   * 7: REV（通常对应 GTR）核苷酸替换模型
                     * 0:JC69, 1:K80, 2:F81, 3:F84, 4:HKY85
                     * 5:T92, 6:TN93, 7:REV, 8:UNREST, 9:REVu; 10:UNRESTu
         Mgene = 0   * 不区分基因，整个对齐用同一模型

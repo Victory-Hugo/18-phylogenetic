@@ -31,9 +31,10 @@
 ## 2. 当前配置默认值
 
 分阶段配置文件：
-- [1-split.json](/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/conf/1-split.json)
-- [2-paml.json](/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/conf/2-paml.json)
-- [3-merge.json](/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/conf/3-merge.json)
+- [1-split.yaml](/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/conf/1-split.yaml)
+- [2-paml.yaml](/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/conf/2-paml.yaml)
+- [3-merge.yaml](/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/conf/3-merge.yaml)
+- [4-ultrastandard.yaml](/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/conf/4-ultrastandard.yaml)
 
 当前默认样例输入：
 
@@ -82,7 +83,7 @@
 RSRS_MRCA
 ```
 
-若外群文件中只有这 1 个 tip，则无需再在 JSON 中重复设置 `outgroup_tip_name`。
+若外群文件中只有这 1 个 tip，则无需再在 YAML 中重复设置 `outgroup_tip_name`。
 
 ## 4. 自动骨架树逻辑
 
@@ -177,6 +178,14 @@ backbone tips + target non-backbone tips + outgroup tip
 
 其他参数保持模板原样。
 
+当前实现不是在 Python 中硬编码整份 `baseml.ctl` 内容，而是从 `conf/2-paml.yaml` 的 `paml.ctl_template` 读取模板；默认模板文件为 `conf/baseml_mtDNA.ctl`。
+
+因此：
+
+- 若要修改 `model`、`clock`、`kappa`、`alpha`、`cleandata` 等 PAML 参数，直接修改模板文件即可
+- 程序只会为每个子树 job 改写 3 个字段：`seqfile`、`treefile`、`outfile`
+- 若模板中缺少这 3 个字段，程序会在生成的 `baseml.ctl` 末尾自动补上
+
 ## 8. merge 逻辑
 
 merge 的核心是 scaffold + graft：
@@ -201,30 +210,36 @@ merge 的核心是 scaffold + graft：
 
 ## 9. 运行方式
 
-三个阶段完全独立，分别读取自己的 JSON 配置。
+四个阶段完全独立，分别读取自己的 YAML 配置。
 
 拆树：
 
 ```bash
-bash /mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/pipe/run_split_pipeline.sh
+bash /mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/pipe/1-run_split_pipeline.sh
 ```
 
 PAML：
 
 ```bash
-bash /mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/pipe/run_paml_pipeline.sh
+bash /mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/pipe/2-run_paml_pipeline.sh
 ```
 
 合树：
 
 ```bash
-bash /mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/pipe/run_merge_pipeline.sh
+bash /mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/pipe/3-run_merge_pipeline.sh
+```
+
+超标准合树：
+
+```bash
+bash /mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/pipe/4-run_ultrastandard_pipeline.sh
 ```
 
 如需切换配置，可显式指定：
 
 ```bash
-bash /mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/pipe/run_split_pipeline.sh --config /path/to/1-split.json
+bash /mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/pipe/1-run_split_pipeline.sh --config /path/to/1-split.yaml
 ```
 
 ## 10. 样例现状说明
