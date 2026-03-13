@@ -1,0 +1,28 @@
+{
+  "paths": {
+    "input_fasta": "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/data/big.fasta",
+    "split_output_dir": "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/split",
+    "tmp_dir": "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/tmp"
+  },
+  "runtime": {
+    "log_level": "INFO"
+  },
+  "tools": {
+    "python": "python3",
+    "baseml": "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/bin/baseml"
+  },
+  "paml": {
+    "ctl_template": "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/conf/baseml_mtDNA.ctl",
+    "output_dir": "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/paml",
+    "clean_output_dir": true,
+    "parallel_jobs": 16,
+    "seq_id_strategy": "prefix_before_first_underscore",
+    "skip_existing": true,
+    "backbone_only_enabled": true,
+    "backbone_job_dir": "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/paml/backbone_job",
+    "backbone_analysis_dir": "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/paml/backbone_analysis",
+    "backbone_skip_existing": true,
+    "ultrametric_normalization": "extend_terminal_to_max_depth",
+    "ultrametric_tolerance": 1e-8
+  }
+}

@@ -3,8 +3,22 @@ set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROJECT_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
-CONFIG_PATH="$PROJECT_ROOT/conf/Config.json"
+DEFAULT_CONFIG_PATH="$PROJECT_ROOT/conf/3-merge.json"
+CONFIG_PATH="$DEFAULT_CONFIG_PATH"
 BOOTSTRAP_PYTHON="python3"
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --config)
+            CONFIG_PATH="$2"
+            shift 2
+            ;;
+        *)
+            echo "[ERROR] Unknown argument: $1" >&2
+            exit 1
+            ;;
+    esac
+done
 
 resolve_path() {
     local value="$1"
@@ -20,129 +34,118 @@ if [[ ! -f "$CONFIG_PATH" ]]; then
     exit 1
 fi
 
-bash "$PROJECT_ROOT/script/check_env.sh"
-
 CONFIG_LOADER="$PROJECT_ROOT/python/config_loader.py"
-PYTHON_BIN=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key tools.python)
-INPUT_TREE=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key paths.input_tree)
-OUTGROUP_TIP_FILE=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key paths.outgroup_tip_file)
-SPLIT_OUTPUT_DIR=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key paths.output_dir)
-CONDA_ENV=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key tools.conda_env)
-GOTREE_BIN=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key tools.gotree)
-THREADS=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key runtime.threads)
-LOG_LEVEL=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key runtime.log_level)
 
-MERGE_ENABLED=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.enabled)
-MERGE_OUTPUT_DIR=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.output_dir)
-ANALYSIS_TREE_SOURCE=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.analysis_tree_source)
-EXTERNAL_RESULT_DIR=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.external_result_dir)
-CLEAN_OUTPUT_DIR=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.clean_output_dir)
-RANDOMIZATION_MODEL=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.randomization_model)
-RANDOMIZATION_SIGMA=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.randomization_sigma)
-RANDOMIZATION_SEED=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.randomization_seed)
-MIN_BRANCH_LENGTH=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.min_branch_length)
-PRESERVE_MASTER_TOPOLOGY=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.preserve_master_topology)
-STRICT_CORE_TOPOLOGY_MATCH=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.strict_core_topology_match)
-SCAFFOLD_SCALE_AGGREGATION=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.scaffold_scale_aggregation)
-SCAFFOLD_SCALE_CLAMP=$("$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key merge.scaffold_scale_clamp)
+config_get() {
+    "$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key "$1"
+}
 
-if [[ "$MERGE_ENABLED" != "True" && "$MERGE_ENABLED" != "true" ]]; then
-    echo "[INFO] merge.enabled=false; skipping merge pipeline."
-    exit 0
-fi
+config_get_optional() {
+    "$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key "$1" --default "${2:-}"
+}
 
-INPUT_TREE_ABS=$(resolve_path "$INPUT_TREE")
-OUTGROUP_TIP_FILE_ABS=$(resolve_path "$OUTGROUP_TIP_FILE")
-SPLIT_OUTPUT_DIR_ABS=$(resolve_path "$SPLIT_OUTPUT_DIR")
-MERGE_OUTPUT_DIR_ABS=$(resolve_path "$MERGE_OUTPUT_DIR")
+PYTHON_BIN=$(config_get tools.python)
+
+bash "$PROJECT_ROOT/script/check_env.sh" \
+    --python "$PYTHON_BIN"
+
+SPLIT_OUTPUT_DIR=$(resolve_path "$(config_get paths.split_output_dir)")
+PAML_OUTPUT_DIR=$(resolve_path "$(config_get paths.paml_output_dir)")
+LOG_LEVEL=$(config_get runtime.log_level)
+
+MERGE_OUTPUT_DIR=$(resolve_path "$(config_get merge.output_dir)")
+ANALYSIS_TREE_SOURCE=$(config_get merge.analysis_tree_source)
+EXTERNAL_RESULT_DIR=$(config_get_optional merge.external_result_dir)
+CLEAN_OUTPUT_DIR=$(config_get merge.clean_output_dir)
+MERGE_MODE=$(config_get merge.mode)
+BACKBONE_EDGE_AGGREGATION=$(config_get merge.backbone_edge_aggregation)
+RANDOMIZATION_MODEL=$(config_get merge.randomization_model)
+RANDOMIZATION_SIGMA=$(config_get merge.randomization_sigma)
+RANDOMIZATION_SEED=$(config_get merge.randomization_seed)
+MIN_BRANCH_LENGTH=$(config_get merge.min_branch_length)
+OUTGROUP_TIP_NAME=$(config_get_optional merge.outgroup_tip_name)
 
 if [[ "$EXTERNAL_RESULT_DIR" != "null" && -n "$EXTERNAL_RESULT_DIR" ]]; then
     EXTERNAL_RESULT_DIR_ABS=$(resolve_path "$EXTERNAL_RESULT_DIR")
+elif [[ "$ANALYSIS_TREE_SOURCE" == "external" ]]; then
+    EXTERNAL_RESULT_DIR_ABS="$PAML_OUTPUT_DIR/analysis_trees"
 else
     EXTERNAL_RESULT_DIR_ABS=""
 fi
 
 for required in \
-    "$SPLIT_OUTPUT_DIR_ABS/intermediate/rooted.tree" \
-    "$SPLIT_OUTPUT_DIR_ABS/core_subtree_summary.tsv" \
-    "$SPLIT_OUTPUT_DIR_ABS/baseml_subtree_summary.tsv" \
-    "$SPLIT_OUTPUT_DIR_ABS/baseml_tree_manifest.tsv"; do
+    "$SPLIT_OUTPUT_DIR/intermediate/rooted.tree" \
+    "$SPLIT_OUTPUT_DIR/backbone_summary.tsv" \
+    "$SPLIT_OUTPUT_DIR/target_subtree_summary.tsv" \
+    "$SPLIT_OUTPUT_DIR/paml_subtree_summary.tsv" \
+    "$SPLIT_OUTPUT_DIR/paml_tree_manifest.tsv"; do
     if [[ ! -f "$required" ]]; then
         echo "[ERROR] Required split output not found: $required" >&2
         exit 1
     fi
 done
 
-mkdir -p "$MERGE_OUTPUT_DIR_ABS" "$MERGE_OUTPUT_DIR_ABS/intermediate" "$MERGE_OUTPUT_DIR_ABS/simulated_baseml_subtrees"
+mkdir -p "$MERGE_OUTPUT_DIR" "$MERGE_OUTPUT_DIR/intermediate" "$MERGE_OUTPUT_DIR/simulated_baseml_subtrees"
 
 if [[ "$CLEAN_OUTPUT_DIR" == "True" || "$CLEAN_OUTPUT_DIR" == "true" ]]; then
-    rm -f "$MERGE_OUTPUT_DIR_ABS"/simulation_manifest.tsv
-    rm -f "$MERGE_OUTPUT_DIR_ABS"/merge_report.tsv
-    rm -f "$MERGE_OUTPUT_DIR_ABS"/edge_update_report.tsv
-    rm -f "$MERGE_OUTPUT_DIR_ABS"/merge_validation_report.tsv
-    rm -f "$MERGE_OUTPUT_DIR_ABS"/merged_tree.nwk
-    rm -f "$MERGE_OUTPUT_DIR_ABS"/merge.log
-    rm -f "$MERGE_OUTPUT_DIR_ABS"/simulated_baseml_subtrees/*.nwk
+    rm -f "$MERGE_OUTPUT_DIR"/simulation_manifest.tsv
+    rm -f "$MERGE_OUTPUT_DIR"/assembly_scaffold.nwk
+    rm -f "$MERGE_OUTPUT_DIR"/backbone_edge_estimates.tsv
+    rm -f "$MERGE_OUTPUT_DIR"/graft_report.tsv
+    rm -f "$MERGE_OUTPUT_DIR"/edge_update_report.tsv
+    rm -f "$MERGE_OUTPUT_DIR"/merge_validation_report.tsv
+    rm -f "$MERGE_OUTPUT_DIR"/merged_tree.nwk
+    rm -f "$MERGE_OUTPUT_DIR"/merge.log
+    rm -f "$MERGE_OUTPUT_DIR"/simulated_baseml_subtrees/*.nwk
 fi
 
 if [[ "$ANALYSIS_TREE_SOURCE" == "simulated" ]]; then
-    "$PYTHON_BIN" "$PROJECT_ROOT/python/simulate_baseml_results.py" \
-        --baseml-summary-tsv "$SPLIT_OUTPUT_DIR_ABS/baseml_subtree_summary.tsv" \
-        --baseml-tree-dir "$SPLIT_OUTPUT_DIR_ABS/baseml_subtrees" \
-        --output-dir "$MERGE_OUTPUT_DIR_ABS" \
-        --randomization-model "$RANDOMIZATION_MODEL" \
-        --randomization-sigma "$RANDOMIZATION_SIGMA" \
-        --randomization-seed "$RANDOMIZATION_SEED" \
-        --min-branch-length "$MIN_BRANCH_LENGTH" \
+    SIMULATE_ARGS=(
+        --paml-summary-tsv "$SPLIT_OUTPUT_DIR/paml_subtree_summary.tsv"
+        --paml-tree-dir "$SPLIT_OUTPUT_DIR/paml_subtrees"
+        --output-dir "$MERGE_OUTPUT_DIR"
+        --randomization-model "$RANDOMIZATION_MODEL"
+        --randomization-sigma "$RANDOMIZATION_SIGMA"
+        --randomization-seed "$RANDOMIZATION_SEED"
+        --min-branch-length "$MIN_BRANCH_LENGTH"
         --log-level "$LOG_LEVEL"
+    )
+    if [[ -n "$OUTGROUP_TIP_NAME" ]]; then
+        SIMULATE_ARGS+=(--outgroup-tip-name "$OUTGROUP_TIP_NAME")
+    fi
+    "$PYTHON_BIN" "$PROJECT_ROOT/python/simulate_baseml_results.py" "${SIMULATE_ARGS[@]}"
 fi
 
 MERGE_ARGS=(
-    --input-tree "$INPUT_TREE_ABS"
-    --outgroup-tip-file "$OUTGROUP_TIP_FILE_ABS"
-    --split-output-dir "$SPLIT_OUTPUT_DIR_ABS"
-    --merge-output-dir "$MERGE_OUTPUT_DIR_ABS"
+    --split-output-dir "$SPLIT_OUTPUT_DIR"
+    --merge-output-dir "$MERGE_OUTPUT_DIR"
     --analysis-tree-source "$ANALYSIS_TREE_SOURCE"
-    --conda-env "$CONDA_ENV"
-    --gotree-bin "$GOTREE_BIN"
-    --threads "$THREADS"
-    --scaffold-scale-aggregation "$SCAFFOLD_SCALE_AGGREGATION"
+    --merge-mode "$MERGE_MODE"
+    --backbone-edge-aggregation "$BACKBONE_EDGE_AGGREGATION"
     --min-branch-length "$MIN_BRANCH_LENGTH"
     --log-level "$LOG_LEVEL"
 )
 
-if [[ "$PRESERVE_MASTER_TOPOLOGY" == "True" || "$PRESERVE_MASTER_TOPOLOGY" == "true" ]]; then
-    MERGE_ARGS+=(--preserve-master-topology)
-fi
-
-if [[ "$STRICT_CORE_TOPOLOGY_MATCH" == "True" || "$STRICT_CORE_TOPOLOGY_MATCH" == "true" ]]; then
-    MERGE_ARGS+=(--strict-core-topology-match)
+if [[ -n "$OUTGROUP_TIP_NAME" ]]; then
+    MERGE_ARGS+=(--outgroup-tip-name "$OUTGROUP_TIP_NAME")
 fi
 
 if [[ -n "$EXTERNAL_RESULT_DIR_ABS" ]]; then
     MERGE_ARGS+=(--external-result-dir "$EXTERNAL_RESULT_DIR_ABS")
 fi
 
-if [[ "$SCAFFOLD_SCALE_CLAMP" != "null" && -n "$SCAFFOLD_SCALE_CLAMP" ]]; then
-    MERGE_ARGS+=(--scaffold-scale-clamp "$SCAFFOLD_SCALE_CLAMP")
-fi
-
 "$PYTHON_BIN" "$PROJECT_ROOT/python/merge_baseml_subtrees.py" "${MERGE_ARGS[@]}"
 
 VALIDATE_ARGS=(
-    --input-tree "$INPUT_TREE_ABS"
-    --outgroup-tip-file "$OUTGROUP_TIP_FILE_ABS"
-    --split-output-dir "$SPLIT_OUTPUT_DIR_ABS"
-    --merge-output-dir "$MERGE_OUTPUT_DIR_ABS"
-    --conda-env "$CONDA_ENV"
-    --gotree-bin "$GOTREE_BIN"
-    --threads "$THREADS"
-    --scaffold-scale-aggregation "$SCAFFOLD_SCALE_AGGREGATION"
+    --split-output-dir "$SPLIT_OUTPUT_DIR"
+    --merge-output-dir "$MERGE_OUTPUT_DIR"
+    --merge-mode "$MERGE_MODE"
+    --backbone-edge-aggregation "$BACKBONE_EDGE_AGGREGATION"
     --log-level "$LOG_LEVEL"
 )
 
-if [[ "$STRICT_CORE_TOPOLOGY_MATCH" == "True" || "$STRICT_CORE_TOPOLOGY_MATCH" == "true" ]]; then
-    VALIDATE_ARGS+=(--strict-core-topology-match)
+if [[ -n "$OUTGROUP_TIP_NAME" ]]; then
+    VALIDATE_ARGS+=(--outgroup-tip-name "$OUTGROUP_TIP_NAME")
 fi
 
 "$PYTHON_BIN" "$PROJECT_ROOT/python/validate_merged_tree.py" "${VALIDATE_ARGS[@]}"

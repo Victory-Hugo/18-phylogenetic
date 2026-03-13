@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Validate core partitions and baseml-ready subtree outputs.
-
-Dependencies:
-  pip install biopython
-  conda run -n BigLin gotree --help
-"""
+"""Validate backbone-target split outputs."""
 
 from __future__ import annotations
 
@@ -13,117 +8,92 @@ import sys
 from pathlib import Path
 
 from phylo_split_common import (
-    BASEML_SUMMARY_COLUMNS,
-    CORE_SUMMARY_COLUMNS,
-    GLOBAL_OUTGROUP_TIP,
-    OVERLAP_COLUMNS,
+    BACKBONE_SUMMARY_COLUMNS,
+    PAML_MANIFEST_COLUMNS,
+    PAML_SUMMARY_COLUMNS,
+    TARGET_MANIFEST_COLUMNS,
+    TARGET_SUMMARY_COLUMNS,
     PipelineError,
     assign_node_ids,
-    build_baseml_subtrees,
-    build_core_partition,
-    build_overlap_rows,
-    build_tip_owner_map,
+    build_paml_subtrees,
+    build_target_manifest_rows,
+    build_target_partition,
     compute_tip_hash,
-    compute_tip_counts,
-    decode_json_list,
     detect_tree_rooted_status,
+    get_tip_names_from_clade,
     get_tip_names_from_tree,
     is_binary_rooted_with_outgroup,
     load_table,
-    load_root_list,
-    load_backbone_tips,
     parse_tip_file,
     prepare_rooted_tree,
     read_newick_tree,
+    resolve_backbone_selection,
+    resolve_outgroup_tip_name,
     setup_logger,
-    summarize_context,
     validate_outgroup_tips,
     write_validation_report,
 )
 
 
-def compare_row_dicts(actual_rows, expected_rows, key_fields, report_rows, label):
+def _compare_rows(actual_rows, expected_rows, key_fields, report_rows, label):
     if isinstance(key_fields, str):
         key_fields = [key_fields]
 
-    def normalize_row(row):
+    def normalize(row):
         return {key: str(value) for key, value in row.items()}
 
     def build_key(row):
-        return tuple(row[field] for field in key_fields)
+        return tuple(str(row[field]) for field in key_fields)
 
-    actual_map = {build_key(row): normalize_row(row) for row in actual_rows}
-    expected_map = {build_key(normalize_row(row)): normalize_row(row) for row in expected_rows}
-    actual_keys = set(actual_map)
-    expected_keys = set(expected_map)
-    if actual_keys != expected_keys:
-        missing = sorted(expected_keys - actual_keys)
-        extra = sorted(actual_keys - expected_keys)
+    actual_map = {build_key(row): normalize(row) for row in actual_rows}
+    expected_map = {build_key(row): normalize(row) for row in expected_rows}
+    if set(actual_map) != set(expected_map):
+        missing = sorted(set(expected_map) - set(actual_map))
+        extra = sorted(set(actual_map) - set(expected_map))
         report_rows.append((label, "FAIL", f"Key mismatch. missing={missing[:5]} extra={extra[:5]}"))
         return
-    report_rows.append((label, "PASS", f"{len(actual_keys)} rows present as expected"))
-    for key in sorted(expected_keys):
+    report_rows.append((label, "PASS", f"{len(actual_map)} rows present as expected"))
+    for key in sorted(expected_map):
         if actual_map[key] != expected_map[key]:
             report_rows.append((f"{label}:{key}", "FAIL", "Row contents do not match expected values"))
-        else:
-            report_rows.append((f"{label}:{key}", "PASS", "Row matches expected values"))
 
 
-def validate_core_tree_files(actual_rows, output_dir: Path, expected_tip_map, effective_core_max_tips: int, report_rows):
+def _validate_tree_files(actual_rows, output_dir: Path, tip_field: str, tree_field: str, outgroup_tip_name: str, max_tips: int, report_rows, label_prefix: str, expected_tip_sets=None):
     for row in actual_rows:
-        subtree_path = output_dir / row["core_tree_file"]
-        if not subtree_path.exists():
-            report_rows.append(("core_tree_exists", "FAIL", f"{row['core_subtree_id']}: missing file"))
-            continue
-        tree = read_newick_tree(subtree_path)
-        tips = get_tip_names_from_tree(tree)
-        if len(tips) != int(row["core_n_tips"]):
-            report_rows.append(("core_tree_count", "FAIL", f"{row['core_subtree_id']}: tip count mismatch"))
-        else:
-            report_rows.append(("core_tree_count", "PASS", f"{row['core_subtree_id']}: tip count verified"))
-        if len(tips) > effective_core_max_tips:
-            report_rows.append(("core_tree_limit", "FAIL", f"{row['core_subtree_id']}: exceeds effective core max"))
-        else:
-            report_rows.append(("core_tree_limit", "PASS", f"{row['core_subtree_id']}: within effective core max"))
-        if set(tips) != expected_tip_map[row["core_subtree_id"]]:
-            report_rows.append(("core_tree_tip_set", "FAIL", f"{row['core_subtree_id']}: tip set mismatch"))
-        else:
-            report_rows.append(("core_tree_tip_set", "PASS", f"{row['core_subtree_id']}: tip set verified"))
-        if compute_tip_hash(tips) != row["tip_hash"]:
-            report_rows.append(("core_tree_hash", "FAIL", f"{row['core_subtree_id']}: hash mismatch"))
-        else:
-            report_rows.append(("core_tree_hash", "PASS", f"{row['core_subtree_id']}: hash verified"))
-
-
-def validate_baseml_tree_files(actual_rows, output_dir: Path, min_baseml_tips: int, max_tips: int, total_input_tips: int, report_rows):
-    for row in actual_rows:
-        tree_path = output_dir / row["baseml_tree_file"]
+        tree_path = output_dir / row[tree_field]
+        subtree_id = row.get("paml_subtree_id") or row.get("target_subtree_id") or tree_path.stem
         if not tree_path.exists():
-            report_rows.append(("baseml_tree_exists", "FAIL", f"{row['baseml_subtree_id']}: missing file"))
+            report_rows.append((f"{label_prefix}_tree_exists", "FAIL", f"{subtree_id}: missing file"))
             continue
         tree = read_newick_tree(tree_path)
-        tips = get_tip_names_from_tree(tree)
-        ok, reason = is_binary_rooted_with_outgroup(tree, GLOBAL_OUTGROUP_TIP)
-        if ok:
-            report_rows.append(("baseml_rooted_binary", "PASS", f"{row['baseml_subtree_id']}: rooted binary"))
+        tip_names = get_tip_names_from_tree(tree)
+        if expected_tip_sets is None:
+            expected_tip_names = set(eval_tip_list(row[tip_field]))
         else:
-            report_rows.append(("baseml_rooted_binary", "FAIL", f"{row['baseml_subtree_id']}: {reason}"))
-        if tips.count(GLOBAL_OUTGROUP_TIP) != 1:
-            report_rows.append(("baseml_outgroup_once", "FAIL", f"{row['baseml_subtree_id']}: RSRS count != 1"))
+            expected_tip_names = expected_tip_sets[subtree_id]
+        if set(tip_names) != expected_tip_names:
+            report_rows.append((f"{label_prefix}_tree_tip_set", "FAIL", f"{subtree_id}: tip set mismatch"))
         else:
-            report_rows.append(("baseml_outgroup_once", "PASS", f"{row['baseml_subtree_id']}: RSRS present exactly once"))
-        if total_input_tips >= min_baseml_tips and len(tips) < min_baseml_tips:
-            report_rows.append(("baseml_min_tips", "FAIL", f"{row['baseml_subtree_id']}: below min_baseml_tips"))
+            report_rows.append((f"{label_prefix}_tree_tip_set", "PASS", f"{subtree_id}: tip set verified"))
+        if compute_tip_hash(tip_names) != compute_tip_hash(sorted(expected_tip_names)):
+            report_rows.append((f"{label_prefix}_tree_hash", "FAIL", f"{subtree_id}: hash mismatch"))
         else:
-            report_rows.append(("baseml_min_tips", "PASS", f"{row['baseml_subtree_id']}: min size acceptable"))
-        if len(tips) > max_tips:
-            report_rows.append(("baseml_max_tips", "FAIL", f"{row['baseml_subtree_id']}: exceeds max_tips"))
-        else:
-            report_rows.append(("baseml_max_tips", "PASS", f"{row['baseml_subtree_id']}: within max_tips"))
-        if compute_tip_hash(tips) != row["tip_hash"]:
-            report_rows.append(("baseml_hash", "FAIL", f"{row['baseml_subtree_id']}: hash mismatch"))
-        else:
-            report_rows.append(("baseml_hash", "PASS", f"{row['baseml_subtree_id']}: hash verified"))
+            report_rows.append((f"{label_prefix}_tree_hash", "PASS", f"{subtree_id}: hash verified"))
+        if tree_field == "paml_tree_file":
+            ok, reason = is_binary_rooted_with_outgroup(tree, outgroup_tip_name)
+            if not ok:
+                report_rows.append((f"{label_prefix}_rooted_binary", "FAIL", f"{subtree_id}: {reason}"))
+            elif len(tip_names) > max_tips:
+                report_rows.append((f"{label_prefix}_max_tips", "FAIL", f"{subtree_id}: exceeds max_tips"))
+            else:
+                report_rows.append((f"{label_prefix}_rooted_binary", "PASS", f"{subtree_id}: rooted binary"))
+
+
+def eval_tip_list(value: str):
+    import json
+
+    parsed = json.loads(value)
+    return [str(item) for item in parsed]
 
 
 def run(
@@ -131,40 +101,29 @@ def run(
     outgroup_tip_file,
     output_dir,
     max_tips,
-    min_baseml_tips,
+    backbone_size,
     conda_env,
     gotree_bin,
     threads,
     backbone_tree=None,
-    backbone_mode="reference_only",
+    backbone_tip_id_file=None,
+    backbone_sampling_strategy="greedy_farthest_patristic",
+    target_partition_mode="recursive_monophyletic",
     log_level="INFO",
-    construct_baseml_subtrees=True,
-    always_include_outgroup=True,
-    anchor_strategy="rsrs_plus_local",
-    reserve_slots_for_outgroup=1,
-    enable_merge_small_blocks=False,
+    outgroup_tip_name=None,
 ):
     input_tree = Path(input_tree).resolve()
     outgroup_tip_file = Path(outgroup_tip_file).resolve() if outgroup_tip_file else None
     output_dir = Path(output_dir).resolve()
     backbone_tree = Path(backbone_tree).resolve() if backbone_tree else None
-
-    if backbone_mode != "reference_only":
-        raise PipelineError(f"Unsupported backbone mode: {backbone_mode}")
-    if not always_include_outgroup:
-        raise PipelineError("This workflow requires always_include_outgroup=true.")
-    if anchor_strategy != "rsrs_plus_local":
-        raise PipelineError(f"Unsupported anchor strategy: {anchor_strategy}")
+    backbone_tip_id_file = Path(backbone_tip_id_file).resolve() if backbone_tip_id_file else None
+    outgroup_tip_name = resolve_outgroup_tip_name(outgroup_tip_file, outgroup_tip_name)
 
     logger = setup_logger("validate_phylo_split", None, log_level)
-    logger.info("Starting validation for baseml-oriented subtree outputs.")
-
     original_tree = read_newick_tree(input_tree)
     original_tip_names = get_tip_names_from_tree(original_tree)
-    if GLOBAL_OUTGROUP_TIP not in original_tip_names:
-        raise PipelineError(f"Required global outgroup tip {GLOBAL_OUTGROUP_TIP} is missing from input tree.")
-    if backbone_tree:
-        _ = load_backbone_tips(backbone_tree, original_tip_names)
+    if outgroup_tip_name not in original_tip_names:
+        raise PipelineError(f"Required global outgroup tip {outgroup_tip_name} is missing from input tree.")
 
     rooted_status, _ = detect_tree_rooted_status(input_tree, conda_env, gotree_bin, threads, logger)
     if rooted_status == "unrooted":
@@ -172,8 +131,8 @@ def run(
             raise PipelineError("Input tree is unrooted and --outgroup-tip-file is required.")
         outgroup_tips = parse_tip_file(outgroup_tip_file)
         validate_outgroup_tips(outgroup_tips, original_tip_names)
-        if GLOBAL_OUTGROUP_TIP not in outgroup_tips:
-            raise PipelineError(f"Outgroup tip file must contain {GLOBAL_OUTGROUP_TIP}.")
+        if outgroup_tip_name not in outgroup_tips:
+            raise PipelineError(f"Outgroup tip file must contain {outgroup_tip_name}.")
 
     rooted_tree_path = output_dir / "intermediate" / "rooted.validation.tree"
     prepare_rooted_tree(
@@ -187,145 +146,126 @@ def run(
         rooted_status=rooted_status,
     )
     rooted_tree = read_newick_tree(rooted_tree_path)
-    context = summarize_context(rooted_tree, GLOBAL_OUTGROUP_TIP, int(max_tips), int(reserve_slots_for_outgroup))
     node_id_map, _, parent_map = assign_node_ids(rooted_tree)
-    tip_counts = compute_tip_counts(rooted_tree)
 
-    expected_core_records = build_core_partition(
-        tree=rooted_tree,
-        node_id_map=node_id_map,
-        parent_map=parent_map,
-        tip_counts=tip_counts,
-        effective_core_max_tips=int(context["effective_core_max_tips"]),
-        outgroup_tip=GLOBAL_OUTGROUP_TIP,
-        enable_merge_small_blocks=enable_merge_small_blocks,
+    backbone_tips, backbone_records, _ = resolve_backbone_selection(
+        rooted_tree=rooted_tree,
+        outgroup_tip_name=outgroup_tip_name,
+        backbone_tree=backbone_tree,
+        backbone_tip_id_file=backbone_tip_id_file,
+        backbone_size=int(backbone_size),
         logger=logger,
     )
-    expected_baseml_records, expected_manifest_rows = build_baseml_subtrees(
+    target_records = build_target_partition(
         tree=rooted_tree,
-        core_records=expected_core_records,
-        parent_map=parent_map,
-        tip_counts=tip_counts,
         node_id_map=node_id_map,
-        outgroup_tip=GLOBAL_OUTGROUP_TIP,
-        min_baseml_tips=int(min_baseml_tips),
+        parent_map=parent_map,
+        backbone_tip_set=set(backbone_tips),
+        outgroup_tip=outgroup_tip_name,
+        target_capacity=int(max_tips) - len(backbone_tips) - 1,
+        logger=logger,
+    )
+    paml_records, paml_manifest_rows = build_paml_subtrees(
+        tree=rooted_tree,
+        backbone_tip_names=backbone_tips,
+        target_records=target_records,
+        outgroup_tip=outgroup_tip_name,
         max_tips=int(max_tips),
         logger=logger,
     )
-    expected_overlap_rows = build_overlap_rows(expected_manifest_rows, build_tip_owner_map(expected_core_records))
+    expected_backbone_rows = [record.to_row() for record in backbone_records]
+    expected_target_rows = [record.to_row() for record in target_records]
+    expected_target_manifest_rows = build_target_manifest_rows(target_records)
+    expected_paml_rows = [record.to_row() for record in paml_records]
+    expected_target_tip_sets = {
+        record.target_subtree_id: set(get_tip_names_from_clade(record.clade))
+        for record in target_records
+    }
 
-    actual_core_rows = load_table(output_dir / "core_subtree_summary.tsv")
-    actual_baseml_rows = load_table(output_dir / "baseml_subtree_summary.tsv")
-    actual_manifest_rows = load_table(output_dir / "baseml_tree_manifest.tsv")
-    actual_overlap_rows = load_table(output_dir / "overlap_report.tsv")
-    actual_root_ids = load_root_list(output_dir / "core_subtree_roots.txt")
+    actual_backbone_rows = load_table(output_dir / "backbone_summary.tsv")
+    actual_target_rows = load_table(output_dir / "target_subtree_summary.tsv")
+    actual_target_manifest_rows = load_table(output_dir / "target_tree_manifest.tsv")
+    actual_paml_rows = load_table(output_dir / "paml_subtree_summary.tsv")
+    actual_paml_manifest_rows = load_table(output_dir / "paml_tree_manifest.tsv")
 
     report_rows = []
+    _compare_rows(actual_backbone_rows, expected_backbone_rows, "backbone_tip_name", report_rows, "backbone_summary")
+    _compare_rows(actual_target_rows, expected_target_rows, "target_subtree_id", report_rows, "target_summary")
+    _compare_rows(actual_target_manifest_rows, expected_target_manifest_rows, ["target_subtree_id", "tip_name"], report_rows, "target_manifest")
+    _compare_rows(actual_paml_rows, expected_paml_rows, "paml_subtree_id", report_rows, "paml_summary")
+    _compare_rows(actual_paml_manifest_rows, paml_manifest_rows, ["paml_subtree_id", "tip_name"], report_rows, "paml_manifest")
 
-    expected_core_rows = [record.to_row() for record in expected_core_records]
-    expected_baseml_rows = [record.to_row() for record in expected_baseml_records]
-
-    compare_row_dicts(actual_core_rows, expected_core_rows, "core_subtree_id", report_rows, "core_summary")
-    compare_row_dicts(actual_baseml_rows, expected_baseml_rows, "baseml_subtree_id", report_rows, "baseml_summary")
-    compare_row_dicts(actual_manifest_rows, expected_manifest_rows, ["baseml_subtree_id", "tip_name"], report_rows, "manifest")
-    compare_row_dicts(actual_overlap_rows, expected_overlap_rows, "tip_name", report_rows, "overlap")
-
-    expected_root_ids = [record.core_root_node_id for record in expected_core_records]
-    if actual_root_ids != expected_root_ids:
-        report_rows.append(("core_root_order", "FAIL", "core_subtree_roots.txt order does not match expected values"))
+    backbone_tip_file = output_dir / "backbone_tips.txt"
+    if not backbone_tip_file.exists():
+        report_rows.append(("backbone_tip_file", "FAIL", "backbone_tips.txt is missing"))
     else:
-        report_rows.append(("core_root_order", "PASS", "core_subtree_roots.txt order verified"))
+        actual_backbone_tip_file = [line.strip() for line in backbone_tip_file.read_text(encoding="utf-8").splitlines() if line.strip()]
+        if actual_backbone_tip_file != backbone_tips:
+            report_rows.append(("backbone_tip_file", "FAIL", "backbone_tips.txt contents differ from expected backbone"))
+        else:
+            report_rows.append(("backbone_tip_file", "PASS", f"{len(actual_backbone_tip_file)} backbone tips verified"))
 
-    expected_core_tip_map = {
-        record.core_subtree_id: set(record.core_tip_names)
-        for record in expected_core_records
-    }
-    validate_core_tree_files(
-        actual_rows=actual_core_rows,
-        output_dir=output_dir,
-        expected_tip_map=expected_core_tip_map,
-        effective_core_max_tips=int(context["effective_core_max_tips"]),
-        report_rows=report_rows,
+    backbone_tree_path = output_dir / "backbone_tree.nwk"
+    if not backbone_tree_path.exists():
+        report_rows.append(("backbone_tree_exists", "FAIL", "backbone_tree.nwk is missing"))
+    else:
+        backbone_tree_obj = read_newick_tree(backbone_tree_path)
+        ok, reason = is_binary_rooted_with_outgroup(backbone_tree_obj, outgroup_tip_name)
+        expected_tip_set = set(backbone_tips) | {outgroup_tip_name}
+        if set(get_tip_names_from_tree(backbone_tree_obj)) != expected_tip_set:
+            report_rows.append(("backbone_tree_tip_set", "FAIL", "backbone_tree.nwk tip set mismatch"))
+        elif not ok:
+            report_rows.append(("backbone_tree_rooted_binary", "FAIL", reason))
+        else:
+            report_rows.append(("backbone_tree_rooted_binary", "PASS", "backbone_tree.nwk verified"))
+
+    _validate_tree_files(
+        actual_target_rows,
+        output_dir,
+        "target_nonbackbone_tip_names",
+        "target_tree_file",
+        outgroup_tip_name,
+        int(max_tips),
+        report_rows,
+        "target",
+        expected_tip_sets=expected_target_tip_sets,
     )
-    validate_baseml_tree_files(
-        actual_rows=actual_baseml_rows,
-        output_dir=output_dir,
-        min_baseml_tips=int(min_baseml_tips),
-        max_tips=int(max_tips),
-        total_input_tips=len(original_tip_names),
-        report_rows=report_rows,
-    )
+    _validate_tree_files(actual_paml_rows, output_dir, "total_tip_names", "paml_tree_file", outgroup_tip_name, int(max_tips), report_rows, "paml")
 
-    for row in actual_baseml_rows:
-        core_tip_names = set(decode_json_list(row["core_tip_names"]))
-        anchor_tip_names = set(decode_json_list(row["anchor_tip_names"]))
-        total_tip_names = set(decode_json_list(row["total_tip_names"]))
-        if GLOBAL_OUTGROUP_TIP in core_tip_names:
-            report_rows.append(("baseml_core_outgroup", "FAIL", f"{row['baseml_subtree_id']}: RSRS appears in core tips"))
-        else:
-            report_rows.append(("baseml_core_outgroup", "PASS", f"{row['baseml_subtree_id']}: RSRS not in core tips"))
-        if core_tip_names & anchor_tip_names:
-            report_rows.append(("baseml_core_anchor_overlap", "FAIL", f"{row['baseml_subtree_id']}: core/anchor overlap exists"))
-        else:
-            report_rows.append(("baseml_core_anchor_overlap", "PASS", f"{row['baseml_subtree_id']}: core/anchor disjoint"))
-        if not core_tip_names.issubset(total_tip_names):
-            report_rows.append(("baseml_core_subset", "FAIL", f"{row['baseml_subtree_id']}: core tips not subset of total"))
-        else:
-            report_rows.append(("baseml_core_subset", "PASS", f"{row['baseml_subtree_id']}: core tips subset of total"))
+    nonbackbone_union = set()
+    for row in actual_target_rows:
+        for tip_name in eval_tip_list(row["target_nonbackbone_tip_names"]):
+            if tip_name in nonbackbone_union:
+                report_rows.append(("target_overlap", "FAIL", f"{tip_name} appears in more than one target subtree"))
+                break
+            nonbackbone_union.add(tip_name)
+    if not any(name == "target_overlap" and status == "FAIL" for name, status, _ in report_rows):
+        report_rows.append(("target_overlap", "PASS", f"{len(nonbackbone_union)} non-backbone tips assigned exactly once"))
 
-    owner_map = build_tip_owner_map(expected_core_records)
-    manifest_by_tip = {}
-    for row in actual_manifest_rows:
-        manifest_by_tip.setdefault(row["tip_name"], []).append(row)
-    for tip_name, entries in manifest_by_tip.items():
-        if tip_name == GLOBAL_OUTGROUP_TIP:
-            if any(entry["tip_role"] != "outgroup" for entry in entries):
-                report_rows.append(("overlap_roles", "FAIL", f"{tip_name}: RSRS appears with non-outgroup role"))
-            else:
-                report_rows.append(("overlap_roles", "PASS", f"{tip_name}: RSRS roles verified"))
-            continue
-        owner = owner_map.get(tip_name)
-        for entry in entries:
-            role = entry["tip_role"]
-            source_core_subtree_id = entry["source_core_subtree_id"]
-            if role == "core" and source_core_subtree_id != owner:
-                report_rows.append(("overlap_roles", "FAIL", f"{tip_name}: core role owner mismatch"))
-            elif role != "core" and source_core_subtree_id == owner:
-                report_rows.append(("overlap_roles", "PASS", f"{tip_name}: owner preserved"))
-        non_owner_roles = [entry["tip_role"] for entry in entries if entry["source_core_subtree_id"] != owner]
-        if any(role == "core" for role in non_owner_roles):
-            report_rows.append(("overlap_roles", "FAIL", f"{tip_name}: appears as core outside owner subtree"))
-        else:
-            report_rows.append(("overlap_roles", "PASS", f"{tip_name}: overlap roles valid"))
-
-    write_validation_report(report_rows, output_dir / "baseml_validation_report.tsv")
-    failed = [row for row in report_rows if row[1] == "FAIL"]
-    if failed:
-        details = "; ".join(f"{name}: {detail}" for name, _, detail in failed[:10])
-        raise PipelineError(f"Validation failed with {len(failed)} issue(s): {details}")
-
-    logger.info("Validation completed successfully for %d core and %d baseml subtrees.", len(actual_core_rows), len(actual_baseml_rows))
+    write_validation_report(report_rows, output_dir / "split_validation_report.tsv")
+    failures = [row for row in report_rows if row[1] == "FAIL"]
+    if failures:
+        details = "; ".join(f"{name}: {detail}" for name, _, detail in failures[:10])
+        raise PipelineError(f"Split validation failed with {len(failures)} issue(s): {details}")
     return 0
 
 
 def build_parser():
-    parser = argparse.ArgumentParser(description="Validate core partitions and baseml-ready subtree outputs.")
+    parser = argparse.ArgumentParser(description="Validate backbone-target split outputs.")
     parser.add_argument("--input-tree", required=True, help="Path to the input Newick tree.")
     parser.add_argument("--outgroup-tip-file", default=None, help="Path to the outgroup tip file.")
     parser.add_argument("--output-dir", required=True, help="Output directory.")
-    parser.add_argument("--max-tips", required=True, type=int, help="Maximum allowed tips per baseml subtree.")
-    parser.add_argument("--min-baseml-tips", required=True, type=int, help="Minimum desired tips per baseml subtree.")
+    parser.add_argument("--max-tips", required=True, type=int, help="Maximum total tips per PAML subtree.")
+    parser.add_argument("--backbone-size", required=True, type=int, help="Number of ingroup tips in the backbone.")
     parser.add_argument("--threads", required=True, type=int, help="Thread count passed to gotree.")
     parser.add_argument("--conda-env", required=True, help="Conda environment containing gotree.")
     parser.add_argument("--gotree-bin", required=True, help="gotree executable name.")
-    parser.add_argument("--backbone-tree", default=None, help="Optional backbone tree path.")
-    parser.add_argument("--backbone-mode", default="reference_only", help="Backbone handling mode.")
+    parser.add_argument("--backbone-tree", default=None, help="Optional user-provided backbone tree.")
+    parser.add_argument("--backbone-tip-id-file", default=None, help="Optional user-provided backbone tip text file.")
+    parser.add_argument("--backbone-sampling-strategy", default="greedy_farthest_patristic", help="Backbone sampling strategy.")
+    parser.add_argument("--target-partition-mode", default="recursive_monophyletic", help="Target partition mode.")
     parser.add_argument("--log-level", default="INFO", help="Logging level.")
-    parser.add_argument("--construct-baseml-subtrees", action="store_true", help="Construct overlapping baseml analysis trees.")
-    parser.add_argument("--always-include-outgroup", action="store_true", help="Always include RSRS in each baseml subtree.")
-    parser.add_argument("--anchor-strategy", default="rsrs_plus_local", help="Anchor construction strategy.")
-    parser.add_argument("--reserve-slots-for-outgroup", type=int, default=1, help="Tips reserved from core max to hold the outgroup.")
-    parser.add_argument("--enable-merge-small-blocks", action="store_true", help="Enable deterministic core subtree merging.")
+    parser.add_argument("--outgroup-tip-name", default=None, help="Singleton outgroup tip retained at the root.")
     return parser
 
 
@@ -338,18 +278,16 @@ def main(argv=None):
             outgroup_tip_file=args.outgroup_tip_file,
             output_dir=args.output_dir,
             max_tips=args.max_tips,
-            min_baseml_tips=args.min_baseml_tips,
+            backbone_size=args.backbone_size,
             conda_env=args.conda_env,
             gotree_bin=args.gotree_bin,
             threads=args.threads,
             backbone_tree=args.backbone_tree,
-            backbone_mode=args.backbone_mode,
+            backbone_tip_id_file=args.backbone_tip_id_file,
+            backbone_sampling_strategy=args.backbone_sampling_strategy,
+            target_partition_mode=args.target_partition_mode,
             log_level=args.log_level,
-            construct_baseml_subtrees=args.construct_baseml_subtrees,
-            always_include_outgroup=args.always_include_outgroup,
-            anchor_strategy=args.anchor_strategy,
-            reserve_slots_for_outgroup=args.reserve_slots_for_outgroup,
-            enable_merge_small_blocks=args.enable_merge_small_blocks,
+            outgroup_tip_name=args.outgroup_tip_name,
         )
     except PipelineError as exc:
         print(f"[ERROR] {exc}", file=sys.stderr)

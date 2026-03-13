@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Shared utilities for simulated baseml outputs and heuristic tree merging."""
+"""Shared utilities for backbone-graft merge operations."""
 
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import math
@@ -14,22 +15,25 @@ from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 from Bio.Phylo.BaseTree import Clade, Tree
 
 from phylo_split_common import (
-    GLOBAL_OUTGROUP_TIP,
     PipelineError,
     assign_node_ids,
+    collapse_unary_tree,
     compute_tip_hash,
     decode_json_list,
     encode_json_list,
+    get_tip_names_from_clade,
     get_tip_names_from_tree,
+    is_rooted_with_singleton_outgroup,
     is_binary_rooted_with_outgroup,
     load_table,
+    normalize_tree_binary,
     read_newick_tree,
     write_table,
     write_tree,
 )
 
 SIMULATION_MANIFEST_COLUMNS = [
-    "baseml_subtree_id",
+    "paml_subtree_id",
     "source_tree_file",
     "simulated_tree_file",
     "tree_seed",
@@ -39,104 +43,144 @@ SIMULATION_MANIFEST_COLUMNS = [
     "mean_multiplier",
 ]
 
-MERGE_REPORT_COLUMNS = [
-    "core_subtree_id",
-    "core_root_node_id",
-    "baseml_subtree_id",
+BACKBONE_EDGE_ESTIMATE_COLUMNS = [
+    "signature_key",
+    "descendant_backbone_n_tips",
+    "supporting_paml_subtree_ids",
+    "n_estimates",
+    "aggregated_branch_length",
+    "details",
+]
+
+GRAFT_REPORT_COLUMNS = [
+    "target_subtree_id",
+    "target_root_node_id",
+    "paml_subtree_id",
     "analysis_tree_file",
-    "core_n_tips",
-    "analysis_total_n_tips",
-    "matched_internal_edges",
-    "matched_tip_edges",
-    "replaced_core_root_edge",
+    "target_nonbackbone_n_tips",
+    "graft_status",
+    "attachment_placeholder",
     "topology_match",
-    "merge_status",
     "details",
 ]
 
 EDGE_UPDATE_COLUMNS = [
     "edge_role",
-    "core_subtree_id",
-    "baseml_subtree_id",
+    "target_subtree_id",
+    "paml_subtree_id",
     "node_id",
     "descendant_tip_hash",
     "descendant_n_tips",
     "old_branch_length",
     "new_branch_length",
-    "scale_multiplier",
-    "scale_source_core_ids",
+    "aggregation_source",
     "changed",
 ]
 
 
 @dataclass
-class CoreSummaryRecord:
-    core_subtree_id: str
-    core_root_node_id: str
-    parent_node_id: str
-    core_n_tips: int
-    core_tip_names: List[str]
-    tip_hash: str
-    core_tree_file: str
+class BackboneSummaryRecord:
+    backbone_tip_name: str
+    selection_source: str
+    selection_rank: int
+    is_user_supplied: bool
+    patristic_seed_distance: Optional[float]
 
 
 @dataclass
-class BasemlSummaryRecord:
-    baseml_subtree_id: str
-    core_subtree_id: str
-    core_root_node_id: str
+class TargetSummaryRecord:
+    target_subtree_id: str
+    target_root_node_id: str
+    parent_node_id: str
+    target_nonbackbone_n_tips: int
+    target_nonbackbone_tip_names: List[str]
+    target_tip_hash: str
+    target_tree_file: str
+
+
+@dataclass
+class PamlSummaryRecord:
+    paml_subtree_id: str
+    target_subtree_id: str
+    target_root_node_id: str
     outgroup_tip: str
-    core_n_tips: int
-    anchor_n_tips: int
+    backbone_n_tips: int
+    target_nonbackbone_n_tips: int
     total_n_tips: int
-    core_tip_names: List[str]
-    anchor_tip_names: List[str]
+    backbone_tip_names: List[str]
+    target_nonbackbone_tip_names: List[str]
     total_tip_names: List[str]
-    anchor_source_node_ids: List[str]
     tip_hash: str
-    baseml_tree_file: str
+    paml_tree_file: str
+
+    @property
+    def baseml_subtree_id(self) -> str:
+        return self.paml_subtree_id
+
+    @property
+    def baseml_tree_file(self) -> str:
+        return self.paml_tree_file
 
 
-def load_core_summary(path: Path) -> List[CoreSummaryRecord]:
+def load_backbone_summary(path: Path) -> List[BackboneSummaryRecord]:
     rows = load_table(path)
-    records: List[CoreSummaryRecord] = []
+    records: List[BackboneSummaryRecord] = []
     for row in rows:
         records.append(
-            CoreSummaryRecord(
-                core_subtree_id=row["core_subtree_id"],
-                core_root_node_id=row["core_root_node_id"],
+            BackboneSummaryRecord(
+                backbone_tip_name=row["backbone_tip_name"],
+                selection_source=row["selection_source"],
+                selection_rank=int(row["selection_rank"]),
+                is_user_supplied=str(row["is_user_supplied"]).lower() == "true",
+                patristic_seed_distance=float(row["patristic_seed_distance"]) if row["patristic_seed_distance"] else None,
+            )
+        )
+    return records
+
+
+def load_target_summary(path: Path) -> List[TargetSummaryRecord]:
+    rows = load_table(path)
+    records: List[TargetSummaryRecord] = []
+    for row in rows:
+        records.append(
+            TargetSummaryRecord(
+                target_subtree_id=row["target_subtree_id"],
+                target_root_node_id=row["target_root_node_id"],
                 parent_node_id=row["parent_node_id"],
-                core_n_tips=int(row["core_n_tips"]),
-                core_tip_names=decode_json_list(row["core_tip_names"]),
-                tip_hash=row["tip_hash"],
-                core_tree_file=row["core_tree_file"],
+                target_nonbackbone_n_tips=int(row["target_nonbackbone_n_tips"]),
+                target_nonbackbone_tip_names=decode_json_list(row["target_nonbackbone_tip_names"]),
+                target_tip_hash=row["target_tip_hash"],
+                target_tree_file=row["target_tree_file"],
             )
         )
     return records
 
 
-def load_baseml_summary(path: Path) -> List[BasemlSummaryRecord]:
+def load_paml_summary(path: Path) -> List[PamlSummaryRecord]:
     rows = load_table(path)
-    records: List[BasemlSummaryRecord] = []
+    records: List[PamlSummaryRecord] = []
     for row in rows:
         records.append(
-            BasemlSummaryRecord(
-                baseml_subtree_id=row["baseml_subtree_id"],
-                core_subtree_id=row["core_subtree_id"],
-                core_root_node_id=row["core_root_node_id"],
+            PamlSummaryRecord(
+                paml_subtree_id=row["paml_subtree_id"],
+                target_subtree_id=row["target_subtree_id"],
+                target_root_node_id=row["target_root_node_id"],
                 outgroup_tip=row["outgroup_tip"],
-                core_n_tips=int(row["core_n_tips"]),
-                anchor_n_tips=int(row["anchor_n_tips"]),
+                backbone_n_tips=int(row["backbone_n_tips"]),
+                target_nonbackbone_n_tips=int(row["target_nonbackbone_n_tips"]),
                 total_n_tips=int(row["total_n_tips"]),
-                core_tip_names=decode_json_list(row["core_tip_names"]),
-                anchor_tip_names=decode_json_list(row["anchor_tip_names"]),
+                backbone_tip_names=decode_json_list(row["backbone_tip_names"]),
+                target_nonbackbone_tip_names=decode_json_list(row["target_nonbackbone_tip_names"]),
                 total_tip_names=decode_json_list(row["total_tip_names"]),
-                anchor_source_node_ids=decode_json_list(row["anchor_source_node_ids"]),
                 tip_hash=row["tip_hash"],
-                baseml_tree_file=row["baseml_tree_file"],
+                paml_tree_file=row["paml_tree_file"],
             )
         )
     return records
+
+
+def load_baseml_summary(path: Path) -> List[PamlSummaryRecord]:
+    return load_paml_summary(path)
 
 
 def stable_hash_int(value: str) -> int:
@@ -157,43 +201,20 @@ def write_rows(rows: Sequence[Dict[str, object]], columns: Sequence[str], destin
     write_table(rows, columns, destination)
 
 
-def iter_nonroot_clades(tree: Tree) -> Iterable[Clade]:
-    for clade in tree.find_clades(order="preorder"):
-        if clade is tree.root:
-            continue
-        yield clade
-
-
-def randomize_tree_branch_lengths(
-    tree: Tree,
-    sigma: float,
-    seed: int,
-    min_branch_length: float,
-) -> Tuple[int, float, float, float]:
-    rng = random.Random(seed)
-    mu = -(sigma ** 2) / 2.0
-    multipliers: List[float] = []
-    n_edges = 0
-    for clade in iter_nonroot_clades(tree):
-        baseline = ensure_positive_branch_length(clade.branch_length, min_branch_length)
-        multiplier = math.exp(rng.gauss(mu, sigma))
-        clade.branch_length = baseline * multiplier
-        multipliers.append(multiplier)
-        n_edges += 1
-    if not multipliers:
-        return 0, 1.0, 1.0, 1.0
-    return n_edges, min(multipliers), max(multipliers), sum(multipliers) / len(multipliers)
-
-
 def validate_tip_hash(expected_tip_names: Sequence[str], expected_hash: str, label: str) -> None:
     actual_hash = compute_tip_hash(expected_tip_names)
     if actual_hash != expected_hash:
         raise PipelineError(f"{label} tip hash mismatch.")
 
 
-def validate_tree_against_expected_tip_set(tree: Tree, expected_tip_names: Sequence[str], label: str) -> None:
+def validate_tree_against_expected_tip_set(
+    tree: Tree,
+    expected_tip_names: Sequence[str],
+    label: str,
+    outgroup_tip: str,
+) -> None:
     actual_tip_names = get_tip_names_from_tree(tree)
-    if actual_tip_names.count(GLOBAL_OUTGROUP_TIP) != expected_tip_names.count(GLOBAL_OUTGROUP_TIP):
+    if actual_tip_names.count(outgroup_tip) != expected_tip_names.count(outgroup_tip):
         raise PipelineError(f"{label}: outgroup tip count mismatch.")
     if set(actual_tip_names) != set(expected_tip_names):
         missing = sorted(set(expected_tip_names) - set(actual_tip_names))
@@ -205,80 +226,53 @@ def validate_tree_against_expected_tip_set(tree: Tree, expected_tip_names: Seque
 def get_tip_lookup(tree: Tree) -> Dict[str, Clade]:
     lookup: Dict[str, Clade] = {}
     for tip in tree.get_terminals():
-        if tip.name in lookup:
-            raise PipelineError(f"Duplicate tip name found in tree: {tip.name}")
-        lookup[str(tip.name)] = tip
+        tip_name = str(tip.name)
+        if tip_name in lookup:
+            raise PipelineError(f"Duplicate tip name found in tree: {tip_name}")
+        lookup[tip_name] = tip
     return lookup
 
 
-def find_core_mrca(tree: Tree, core_tip_names: Sequence[str]) -> Clade:
-    tip_lookup = get_tip_lookup(tree)
-    try:
-        targets = [tip_lookup[tip_name] for tip_name in core_tip_names]
-    except KeyError as exc:
-        raise PipelineError(f"Result tree is missing a core tip: {exc}") from exc
-    core_mrca = tree.common_ancestor(targets)
-    descendant_tips = get_tip_names_from_clade(core_mrca)
-    if set(descendant_tips) != set(core_tip_names):
-        raise PipelineError("Core tips are not monophyletic in the analysis tree.")
-    return core_mrca
-
-
-def get_tip_names_from_clade(clade: Clade) -> List[str]:
-    names: List[str] = []
-    for tip in clade.get_terminals():
-        if not tip.name:
-            raise PipelineError("Found unnamed terminal tip in clade.")
-        names.append(str(tip.name))
-    return names
-
-
-def build_clade_signature_maps(root_clade: Clade) -> Tuple[Dict[str, Clade], Dict[str, int]]:
+def build_clade_signature_maps(root_clade: Clade, allowed_tip_set: Optional[set[str]] = None) -> Tuple[Dict[str, Clade], Dict[str, int]]:
     signature_to_clade: Dict[str, Clade] = {}
     signature_to_count: Dict[str, int] = {}
 
-    def recurse(clade: Clade) -> Tuple[List[str], str]:
+    def recurse(clade: Clade) -> List[str]:
         if clade.is_terminal():
-            tip_names = [str(clade.name)]
+            tip_names = [str(clade.name)] if allowed_tip_set is None or str(clade.name) in allowed_tip_set else []
         else:
             tip_names = []
             for child in clade.clades:
-                child_tip_names, _ = recurse(child)
-                tip_names.extend(child_tip_names)
+                tip_names.extend(recurse(child))
             tip_names.sort()
-        signature = compute_tip_hash(tip_names)
-        signature_to_clade[signature] = clade
-        signature_to_count[signature] = len(tip_names)
-        return tip_names, signature
+        if tip_names:
+            signature = compute_tip_hash(tip_names)
+            signature_to_clade[signature] = clade
+            signature_to_count[signature] = len(tip_names)
+        return tip_names
 
     recurse(root_clade)
     return signature_to_clade, signature_to_count
 
 
-def build_tree_signature_set(tree: Tree) -> set:
+def build_tree_signature_set(tree: Tree) -> set[str]:
     signature_map, _ = build_clade_signature_maps(tree.root)
     return set(signature_map)
 
 
 def build_analysis_tree_path(
     merge_output_dir: Path,
-    baseml_subtree_id: str,
+    paml_subtree_id: str,
     analysis_tree_source: str,
     external_result_dir: Optional[Path],
 ) -> Path:
     if analysis_tree_source == "simulated":
-        return merge_output_dir / "simulated_baseml_subtrees" / f"{baseml_subtree_id}.nwk"
+        return merge_output_dir / "simulated_baseml_subtrees" / f"{paml_subtree_id}.nwk"
     if analysis_tree_source == "external":
         if external_result_dir is None:
             raise PipelineError("analysis_tree_source=external requires external_result_dir.")
-        return external_result_dir / f"{baseml_subtree_id}.nwk"
+        return external_result_dir / f"{paml_subtree_id}.nwk"
     raise PipelineError(f"Unsupported analysis_tree_source: {analysis_tree_source}")
-
-
-def compute_multiplier(old_value: Optional[float], new_value: Optional[float], min_branch_length: float) -> float:
-    old_positive = ensure_positive_branch_length(old_value, min_branch_length)
-    new_positive = ensure_positive_branch_length(new_value, min_branch_length)
-    return new_positive / old_positive
 
 
 def weighted_geometric_mean(values: Sequence[Tuple[float, int]]) -> float:
@@ -298,7 +292,7 @@ def weighted_geometric_mean(values: Sequence[Tuple[float, int]]) -> float:
     return math.exp(numerator / denominator)
 
 
-def get_outgroup_child(tree: Tree, outgroup_tip: str = GLOBAL_OUTGROUP_TIP) -> Clade:
+def get_outgroup_child(tree: Tree, outgroup_tip: str) -> Clade:
     matching_children: List[Clade] = []
     for child in tree.root.clades:
         child_tip_names = set(get_tip_names_from_clade(child))
@@ -309,78 +303,22 @@ def get_outgroup_child(tree: Tree, outgroup_tip: str = GLOBAL_OUTGROUP_TIP) -> C
     return matching_children[0]
 
 
-def build_descendant_core_ids(
-    tree: Tree,
-    core_root_node_to_core_id: Dict[str, str],
-    node_id_map: Dict[Clade, str],
-) -> Dict[Clade, List[str]]:
-    descendant_core_ids: Dict[Clade, List[str]] = {}
-    for clade in tree.find_clades(order="postorder"):
-        node_id = node_id_map[clade]
-        if node_id in core_root_node_to_core_id:
-            descendant_core_ids[clade] = [core_root_node_to_core_id[node_id]]
-            continue
-        core_ids = set()
-        for child in clade.clades:
-            core_ids.update(descendant_core_ids[child])
-        descendant_core_ids[clade] = sorted(core_ids)
-    return descendant_core_ids
-
-
-def build_node_id_branch_map(tree: Tree) -> Dict[str, Optional[float]]:
-    node_id_map, _, _ = assign_node_ids(tree)
-    return {node_id: clade.branch_length for clade, node_id in node_id_map.items() if clade is not tree.root}
-
-
-def edge_role_for_core(node_id: str, clade: Clade, core_root_node_id: str) -> str:
-    if node_id == core_root_node_id:
-        return "core_root"
-    if clade.is_terminal():
-        return "core_tip"
-    return "core_internal"
-
-
-def edge_role_for_scaffold(clade: Clade) -> str:
-    if clade.is_terminal():
-        return "scaffold_tip"
-    return "scaffold_internal"
-
-
-def build_edge_update_row(
-    edge_role: str,
-    core_subtree_id: str,
-    baseml_subtree_id: str,
-    node_id: str,
-    descendant_tip_hash: str,
-    descendant_n_tips: int,
-    old_branch_length: float,
-    new_branch_length: float,
-    scale_multiplier: float,
-    scale_source_core_ids: Sequence[str],
-) -> Dict[str, object]:
-    return {
-        "edge_role": edge_role,
-        "core_subtree_id": core_subtree_id,
-        "baseml_subtree_id": baseml_subtree_id,
-        "node_id": node_id,
-        "descendant_tip_hash": descendant_tip_hash,
-        "descendant_n_tips": descendant_n_tips,
-        "old_branch_length": format_float(old_branch_length),
-        "new_branch_length": format_float(new_branch_length),
-        "scale_multiplier": format_float(scale_multiplier),
-        "scale_source_core_ids": encode_json_list(scale_source_core_ids),
-        "changed": "true" if abs(new_branch_length - old_branch_length) > 0 else "false",
-    }
-
-
 def validate_branch_lengths_complete(tree: Tree) -> None:
-    for clade in iter_nonroot_clades(tree):
+    for clade in tree.find_clades(order="preorder"):
+        if clade is tree.root:
+            continue
         if clade.branch_length is None or clade.branch_length < 0:
             raise PipelineError("Merged tree contains missing or negative branch lengths.")
 
 
-def validate_rooted_binary_tree(tree: Tree, outgroup_tip: str = GLOBAL_OUTGROUP_TIP) -> None:
+def validate_rooted_binary_tree(tree: Tree, outgroup_tip: str) -> None:
     ok, reason = is_binary_rooted_with_outgroup(tree, outgroup_tip)
+    if not ok:
+        raise PipelineError(reason)
+
+
+def validate_rooted_tree_with_outgroup(tree: Tree, outgroup_tip: str) -> None:
+    ok, reason = is_rooted_with_singleton_outgroup(tree, outgroup_tip)
     if not ok:
         raise PipelineError(reason)
 
@@ -389,3 +327,172 @@ def write_tree_file(tree: Tree, destination: Path) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     write_tree(tree, destination)
 
+
+def iter_nonroot_clades(tree: Tree) -> Iterable[Clade]:
+    for clade in tree.find_clades(order="preorder"):
+        if clade is tree.root:
+            continue
+        yield clade
+
+
+def randomize_tree_branch_lengths(tree: Tree, sigma: float, seed: int, min_branch_length: float) -> Tuple[int, float, float, float]:
+    rng = random.Random(seed)
+    mu = -(sigma**2) / 2.0
+    multipliers: List[float] = []
+    n_edges = 0
+    for clade in iter_nonroot_clades(tree):
+        baseline = ensure_positive_branch_length(clade.branch_length, min_branch_length)
+        multiplier = math.exp(rng.gauss(mu, sigma))
+        clade.branch_length = baseline * multiplier
+        multipliers.append(multiplier)
+        n_edges += 1
+    if not multipliers:
+        return 0, 1.0, 1.0, 1.0
+    return n_edges, min(multipliers), max(multipliers), sum(multipliers) / len(multipliers)
+
+
+def build_scaffold_tree(
+    master_tree: Tree,
+    target_records: Sequence[TargetSummaryRecord],
+    backbone_tip_names: Sequence[str],
+    outgroup_tip_name: str,
+) -> Tuple[Tree, Dict[str, str]]:
+    del backbone_tip_names
+    placeholder_to_target_id: Dict[str, str] = {}
+    target_root_map: Dict[str, Tuple[TargetSummaryRecord, str]] = {}
+    for record in target_records:
+        placeholder = f"TARGET_{record.target_subtree_id.split('_')[-1]}"
+        placeholder_to_target_id[placeholder] = record.target_subtree_id
+        if record.target_root_node_id in target_root_map:
+            raise PipelineError(f"Duplicate target_root_node_id in target summary: {record.target_root_node_id}")
+        target_root_map[record.target_root_node_id] = (record, placeholder)
+
+    node_id_map, _, _ = assign_node_ids(master_tree)
+
+    def prune_target_tips(clade: Clade, target_tip_set: set[str]) -> Optional[Clade]:
+        if clade.is_terminal():
+            tip_name = str(clade.name)
+            if tip_name in target_tip_set:
+                return None
+            return Clade(name=tip_name, branch_length=clade.branch_length)
+
+        kept_children = []
+        for child in clade.clades:
+            pruned_child = prune_target_tips(child, target_tip_set)
+            if pruned_child is not None:
+                kept_children.append(pruned_child)
+        if not kept_children:
+            return None
+        return Clade(name=clade.name, branch_length=clade.branch_length, clades=kept_children)
+
+    def recurse(clade: Clade) -> Clade:
+        node_id = node_id_map[clade]
+        target_entry = target_root_map.get(node_id)
+        if target_entry is not None:
+            record, placeholder = target_entry
+            target_tip_set = set(record.target_nonbackbone_tip_names)
+            retained_children = []
+            for child in clade.clades:
+                pruned_child = prune_target_tips(child, target_tip_set)
+                if pruned_child is not None:
+                    retained_children.append(pruned_child)
+            if not retained_children:
+                return Clade(name=placeholder, branch_length=clade.branch_length)
+            retained_children.append(Clade(name=placeholder, branch_length=None))
+            return Clade(name=clade.name, branch_length=clade.branch_length, clades=retained_children)
+
+        if clade.is_terminal():
+            return Clade(name=str(clade.name), branch_length=clade.branch_length)
+        return Clade(
+            name=clade.name,
+            branch_length=clade.branch_length,
+            clades=[recurse(child) for child in clade.clades],
+        )
+
+    scaffold_tree = Tree(root=recurse(master_tree.root), rooted=True)
+    scaffold_tree = collapse_unary_tree(scaffold_tree)
+    validate_rooted_tree_with_outgroup(scaffold_tree, outgroup_tip_name)
+    return scaffold_tree, placeholder_to_target_id
+
+
+def build_backbone_signature_key(clade: Clade, backbone_tip_set: set[str], outgroup_tip_name: str) -> Optional[str]:
+    descendant_backbone = sorted(tip for tip in get_tip_names_from_clade(clade) if tip in backbone_tip_set)
+    if descendant_backbone:
+        return compute_tip_hash(descendant_backbone)
+    if set(get_tip_names_from_clade(clade)) == {outgroup_tip_name}:
+        return "__OUTGROUP__"
+    return None
+
+
+def extract_monophyletic_target_clade(tree: Tree, target_tip_names: Sequence[str]) -> Clade:
+    tip_lookup = get_tip_lookup(tree)
+    try:
+        target_tips = [tip_lookup[tip_name] for tip_name in target_tip_names]
+    except KeyError as exc:
+        raise PipelineError(f"Analysis tree is missing target tip: {exc}") from exc
+    target_mrca = tree.common_ancestor(target_tips)
+    extracted = Tree(root=copy.deepcopy(target_mrca), rooted=True)
+    target_tip_set = set(target_tip_names)
+    for tip in list(extracted.get_terminals()):
+        if str(tip.name) not in target_tip_set:
+            extracted.prune(target=tip)
+    extracted = collapse_unary_tree(extracted)
+    extracted_tip_names = sorted(get_tip_names_from_tree(extracted))
+    if extracted_tip_names != sorted(target_tip_names):
+        raise PipelineError("Could not extract the exact target tip set from the analysis tree.")
+    extracted.root.branch_length = target_mrca.branch_length
+    return extracted.root
+
+
+def replace_placeholder_with_clade(tree: Tree, placeholder_name: str, replacement: Clade) -> bool:
+    if tree.root.is_terminal():
+        return False
+    stack = [tree.root]
+    while stack:
+        parent = stack.pop()
+        for idx, child in enumerate(parent.clades):
+            if child.is_terminal() and str(child.name) == placeholder_name:
+                parent.clades[idx] = replacement
+                return True
+            if not child.is_terminal():
+                stack.append(child)
+    return False
+
+
+def compute_branch_by_signature(tree: Tree, backbone_tip_set: set[str], outgroup_tip_name: str, min_branch_length: float) -> Dict[str, float]:
+    signature_map: Dict[str, float] = {}
+    for clade in iter_nonroot_clades(tree):
+        signature_key = build_backbone_signature_key(clade, backbone_tip_set, outgroup_tip_name)
+        if signature_key is None:
+            continue
+        signature_map[signature_key] = ensure_positive_branch_length(clade.branch_length, min_branch_length)
+    return signature_map
+
+
+def build_edge_update_row(
+    edge_role: str,
+    target_subtree_id: str,
+    paml_subtree_id: str,
+    node_id: str,
+    descendant_tip_hash: str,
+    descendant_n_tips: int,
+    old_branch_length: float,
+    new_branch_length: float,
+    aggregation_source: str,
+) -> Dict[str, object]:
+    return {
+        "edge_role": edge_role,
+        "target_subtree_id": target_subtree_id,
+        "paml_subtree_id": paml_subtree_id,
+        "node_id": node_id,
+        "descendant_tip_hash": descendant_tip_hash,
+        "descendant_n_tips": descendant_n_tips,
+        "old_branch_length": format_float(old_branch_length),
+        "new_branch_length": format_float(new_branch_length),
+        "aggregation_source": aggregation_source,
+        "changed": "true" if abs(new_branch_length - old_branch_length) > 0 else "false",
+    }
+
+
+def copy_tree(tree: Tree) -> Tree:
+    return copy.deepcopy(tree)

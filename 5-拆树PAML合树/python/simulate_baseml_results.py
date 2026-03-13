@@ -20,21 +20,22 @@ from phylo_merge_common import (
     write_rows,
     write_tree_file,
 )
-from phylo_split_common import GLOBAL_OUTGROUP_TIP, PipelineError, setup_logger
+from phylo_split_common import PipelineError, setup_logger
 
 
 def run(
-    baseml_summary_tsv,
-    baseml_tree_dir,
+    paml_summary_tsv,
+    paml_tree_dir,
     output_dir,
     randomization_model,
     randomization_sigma,
     randomization_seed,
     min_branch_length,
     log_level="INFO",
+    outgroup_tip_name=None,
 ):
-    baseml_summary_tsv = Path(baseml_summary_tsv).resolve()
-    baseml_tree_dir = Path(baseml_tree_dir).resolve()
+    paml_summary_tsv = Path(paml_summary_tsv).resolve()
+    paml_tree_dir = Path(paml_tree_dir).resolve()
     output_dir = Path(output_dir).resolve()
     simulated_tree_dir = output_dir / "simulated_baseml_subtrees"
     simulated_tree_dir.mkdir(parents=True, exist_ok=True)
@@ -45,16 +46,23 @@ def run(
     logger = setup_logger("simulate_baseml_results", output_dir / "merge.log", log_level)
     logger.info("Starting simulated baseml subtree generation.")
 
-    baseml_records = load_baseml_summary(baseml_summary_tsv)
+    baseml_records = load_baseml_summary(paml_summary_tsv)
+    if outgroup_tip_name in (None, "", "null"):
+        unique_outgroups = sorted({record.outgroup_tip for record in baseml_records})
+        if len(unique_outgroups) != 1:
+            raise PipelineError(
+                f"Could not infer a unique outgroup tip from {paml_summary_tsv}: {unique_outgroups}"
+            )
+        outgroup_tip_name = unique_outgroups[0]
     manifest_rows = []
 
     for record in baseml_records:
-        source_tree_path = baseml_tree_dir / Path(record.baseml_tree_file).name
+        source_tree_path = paml_tree_dir / Path(record.baseml_tree_file).name
         if not source_tree_path.exists():
             raise PipelineError(f"Baseml subtree file not found: {source_tree_path}")
         source_tree = read_newick_tree(source_tree_path)
-        validate_tree_against_expected_tip_set(source_tree, record.total_tip_names, record.baseml_subtree_id)
-        validate_rooted_binary_tree(source_tree, GLOBAL_OUTGROUP_TIP)
+        validate_tree_against_expected_tip_set(source_tree, record.total_tip_names, record.baseml_subtree_id, outgroup_tip_name)
+        validate_rooted_binary_tree(source_tree, outgroup_tip_name)
 
         tree_seed = int(randomization_seed) + (stable_hash_int(record.baseml_subtree_id) % (2 ** 31))
         simulated_tree = copy.deepcopy(source_tree)
@@ -94,14 +102,15 @@ def run(
 
 def build_parser():
     parser = argparse.ArgumentParser(description="Simulate baseml subtree outputs by randomizing branch lengths.")
-    parser.add_argument("--baseml-summary-tsv", required=True, help="Path to baseml_subtree_summary.tsv.")
-    parser.add_argument("--baseml-tree-dir", required=True, help="Directory containing baseml subtree tree files.")
+    parser.add_argument("--paml-summary-tsv", required=True, help="Path to paml_subtree_summary.tsv.")
+    parser.add_argument("--paml-tree-dir", required=True, help="Directory containing PAML subtree tree files.")
     parser.add_argument("--output-dir", required=True, help="Merge output directory.")
     parser.add_argument("--randomization-model", required=True, help="Randomization model name.")
     parser.add_argument("--randomization-sigma", required=True, type=float, help="Sigma for lognormal perturbation.")
     parser.add_argument("--randomization-seed", required=True, type=int, help="Base random seed.")
     parser.add_argument("--min-branch-length", required=True, type=float, help="Minimum branch length floor.")
     parser.add_argument("--log-level", default="INFO", help="Logging level.")
+    parser.add_argument("--outgroup-tip-name", default=None, help="Singleton outgroup tip retained at the root.")
     return parser
 
 
@@ -110,14 +119,15 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         return run(
-            baseml_summary_tsv=args.baseml_summary_tsv,
-            baseml_tree_dir=args.baseml_tree_dir,
+            paml_summary_tsv=args.paml_summary_tsv,
+            paml_tree_dir=args.paml_tree_dir,
             output_dir=args.output_dir,
             randomization_model=args.randomization_model,
             randomization_sigma=args.randomization_sigma,
             randomization_seed=args.randomization_seed,
             min_branch_length=args.min_branch_length,
             log_level=args.log_level,
+            outgroup_tip_name=args.outgroup_tip_name,
         )
     except PipelineError as exc:
         print(f"[ERROR] {exc}", file=sys.stderr)

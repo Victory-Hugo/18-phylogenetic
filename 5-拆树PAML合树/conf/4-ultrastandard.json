@@ -1,0 +1,22 @@
+{
+  "paths": {
+    "split_output_dir": "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/split",
+    "paml_output_dir": "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/paml"
+  },
+  "runtime": {
+    "log_level": "INFO"
+  },
+  "tools": {
+    "python": "python3"
+  },
+  "ultrastandard": {
+    "output_dir": "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/ultrastandard",
+    "clean_output_dir": true,
+    "min_branch_length": 1e-8,
+    "ultrametric_tolerance": 1e-8,
+    "relative_ultrametric_method": "extend_terminal_to_max_depth",
+    "require_backbone_descendant_anchor": true,
+    "allow_multifurcation": true,
+    "backbone_ultrametric_tree": null
+  }
+}
