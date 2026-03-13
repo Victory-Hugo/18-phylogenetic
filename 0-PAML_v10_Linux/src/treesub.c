@@ -7202,7 +7202,6 @@ int NodeScale(int inode, int pos0, int pos1)
    /* scale to avoid underflow
     */
    int h, k, j, n = com.ncode;
-   double t;
 
    for (j = 0, k = 0; j < tree.nnode; j++)   /* k-th node for scaling */
       if (j == inode)
@@ -7210,8 +7209,13 @@ int NodeScale(int inode, int pos0, int pos1)
       else if (com.nodeScale[j])
          k++;
 
+#if defined(BASEML) && defined(_OPENMP)
+   #pragma omp parallel for schedule(static) private(j) if (pos1 - pos0 >= BASEML_OMP_MIN_PATTERNS)
+#endif
    for (h = pos0; h < pos1; h++) {
-      for (j = 0, t = 0; j < n; j++)
+      double t = 0;
+
+      for (j = 0; j < n; j++)
          if (nodes[inode].conP[h * n + j] > t)
             t = nodes[inode].conP[h * n + j];
 
@@ -7623,10 +7627,50 @@ double lfundG(double x[], int np)
    */
    int h, ir, it, FPE = 0;
    double lnL = 0, fh = 0, t;
+   int use_parallel_sum = 0, bad_fh = 0;
 
    NFunCall++;
+#if defined(BASEML)
+   if (BasemlPar3TryLfundG(x, np, &lnL))
+      return(lnL);
+#endif
    fx_r(x, np);
 
+   use_parallel_sum = (com.print >= 0 && LASTROUND != 2 && com.npatt >= BASEML_OMP_MIN_PATTERNS);
+#if defined(BASEML) && defined(_OPENMP)
+   use_parallel_sum = (use_parallel_sum && omp_get_max_threads() > 1);
+#endif
+
+#if defined(BASEML) && defined(_OPENMP)
+   if (use_parallel_sum) {
+      #pragma omp parallel for schedule(static) reduction(+:lnL,bad_fh)
+      for (h = 0; h < com.npatt; h++) {
+         double fh_local = 0, t_local = 0;
+         int ir_local, it_local = 0;
+
+         if (com.fpatt[h] <= 0) continue;
+         if (com.NnodeScale) { /* com.fhK[] has log{f(x|r}.  Note the scaling for nodes */
+            for (ir_local = 1; ir_local < com.ncatG; ir_local++)
+               if (com.fhK[ir_local * com.npatt + h] > com.fhK[it_local * com.npatt + h]) it_local = ir_local;
+            t_local = com.fhK[it_local * com.npatt + h];
+            for (ir_local = 0; ir_local < com.ncatG; ir_local++)
+               fh_local += com.freqK[ir_local] * exp(com.fhK[ir_local * com.npatt + h] - t_local);
+            fh_local = t_local + log(fh_local);
+         }
+         else {
+            for (ir_local = 0; ir_local < com.ncatG; ir_local++)
+               fh_local += com.freqK[ir_local] * com.fhK[ir_local * com.npatt + h];
+            if (fh_local <= 0) {
+               bad_fh++;
+               fh_local = 1e-300;
+            }
+            fh_local = log(fh_local);
+         }
+         lnL -= fh_local * com.fpatt[h];
+      }
+   }
+   else
+#endif
    for (h = 0; h < com.npatt; h++) {
       if (com.fpatt[h] <= 0 && com.print >= 0) continue;
       if (com.NnodeScale) { /* com.fhK[] has log{f(x|r}.  Note the scaling for nodes */
@@ -7655,6 +7699,38 @@ double lfundG(double x[], int np)
       if (LASTROUND == 2) dfsites[h] = fh;
       if (com.print < 0) print_lnf_site(h, fh);
    }
+
+#if defined(BASEML) && defined(_OPENMP)
+   if (use_parallel_sum && bad_fh) {
+      lnL = 0;
+      for (h = 0; h < com.npatt; h++) {
+         if (com.fpatt[h] <= 0 && com.print >= 0) continue;
+         if (com.NnodeScale) {
+            for (ir = 1, it = 0; ir < com.ncatG; ir++)
+               if (com.fhK[ir * com.npatt + h] > com.fhK[it * com.npatt + h]) it = ir;
+            t = com.fhK[it * com.npatt + h];
+            for (ir = 0, fh = 0; ir < com.ncatG; ir++)
+               fh += com.freqK[ir] * exp(com.fhK[ir * com.npatt + h] - t);
+            fh = t + log(fh);
+         }
+         else {
+            for (ir = 0, fh = 0; ir < com.ncatG; ir++)
+               fh += com.freqK[ir] * com.fhK[ir * com.npatt + h];
+            if (fh <= 0) {
+               if (!FPE) {
+                  FPE = 1;  matout(F0, x, 1, np);
+                  printf("\nlfundG: h=%4d  fhK=%9.6e\ndata: ", h + 1, fh);
+                  print1site(F0, h);
+                  printf("\n");
+               }
+               fh = 1e-300;
+            }
+            fh = log(fh);
+         }
+         lnL -= fh * com.fpatt[h];
+      }
+   }
+#endif
 
    return(lnL);
 }
@@ -7767,14 +7843,49 @@ double lfun(double x[], int np)
    */
    int  h, i, k, ig, FPE = 0;
    double lnL = 0, fh;
+   int use_parallel_sum = 0;
 
    NFunCall++;
+#if defined(BASEML)
+   if (BasemlPar3TryLfun(x, np, &lnL))
+      return(lnL);
+#endif
    if (SetParameters(x)) puts("\npar err..");
+   use_parallel_sum = (com.print >= 0 && LASTROUND != 2 && com.npatt >= BASEML_OMP_MIN_PATTERNS);
+#if defined(BASEML) && defined(_OPENMP)
+   use_parallel_sum = (use_parallel_sum && omp_get_max_threads() > 1);
+#endif
    for (ig = 0; ig < com.ngene; ig++) {
+      double lnL_gene = 0;
+      int bad_fh = 0;
+
       if (com.Mgene > 1)
          SetPGene(ig, 1, 1, 0, x);
       ConditionalPNode(tree.root, ig, x);
 
+#if defined(BASEML) && defined(_OPENMP)
+      if (use_parallel_sum) {
+         #pragma omp parallel for schedule(static) reduction(+:lnL_gene,bad_fh)
+         for (h = com.posG[ig]; h < com.posG[ig + 1]; h++) {
+            double fh_local = 0;
+            int i_local, k_local;
+
+            if (com.fpatt[h] <= 0) continue;
+            for (i_local = 0; i_local < com.ncode; i_local++)
+               fh_local += com.pi[i_local] * nodes[tree.root].conP[h * com.ncode + i_local];
+            if (fh_local <= 0) {
+               bad_fh++;
+               fh_local = 1e-80;
+            }
+            fh_local = log(fh_local);
+            for (k_local = 0; k_local < com.NnodeScale; k_local++)
+               fh_local += com.nodeScaleF[k_local * com.npatt + h];
+
+            lnL_gene -= fh_local * com.fpatt[h];
+         }
+      }
+      else
+#endif
       for (h = com.posG[ig]; h < com.posG[ig + 1]; h++) {
          if (com.fpatt[h] <= 0 && com.print >= 0) continue;
          for (i = 0, fh = 0; i < com.ncode; i++)
@@ -7797,11 +7908,41 @@ double lfun(double x[], int np)
          for (k = 0; k < com.NnodeScale; k++)
             fh += com.nodeScaleF[k * com.npatt + h];
 
-         lnL -= fh * com.fpatt[h];
+         lnL_gene -= fh * com.fpatt[h];
          if (LASTROUND == 2) dfsites[h] = fh;
          if (com.print < 0)
             print_lnf_site(h, fh);
       }
+
+#if defined(BASEML) && defined(_OPENMP)
+      if (use_parallel_sum && bad_fh) {
+         lnL_gene = 0;
+         for (h = com.posG[ig]; h < com.posG[ig + 1]; h++) {
+            if (com.fpatt[h] <= 0 && com.print >= 0) continue;
+            for (i = 0, fh = 0; i < com.ncode; i++)
+               fh += com.pi[i] * nodes[tree.root].conP[h * com.ncode + i];
+            if (fh <= 0) {
+               if (fh < -1e-5 && noisy) {
+                  printf("\nfh = %.6f negative\n", fh);
+                  exit(-1);
+               }
+               if (!FPE) {
+                  FPE = 1;  matout(F0, x, 1, np);
+                  printf("lfun: h=%4d  fh=%9.6e\nData: ", h + 1, fh);
+                  print1site(F0, h);
+                  printf("\n");
+                  matout(F0, x, 1, com.np);
+               }
+               fh = 1e-80;
+            }
+            fh = log(fh);
+            for (k = 0; k < com.NnodeScale; k++)
+               fh += com.nodeScaleF[k * com.npatt + h];
+            lnL_gene -= fh * com.fpatt[h];
+         }
+      }
+#endif
+      lnL += lnL_gene;
    }
    return (lnL);
 }

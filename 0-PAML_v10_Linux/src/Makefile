@@ -1,6 +1,12 @@
 PRGS =  baseml codeml basemlg mcmctree pamp evolver yn00 chi2 ds
 CC = gcc
 CFLAGS = -O3 -Wall -Wno-unused-variable -Wno-unused-result
+OPENMP ?= 1
+BASEML_OMPFLAGS =
+
+ifeq ($(OPENMP),1)
+BASEML_OMPFLAGS = -fopenmp
+endif
 
 LIBS = -lm
 
@@ -30,6 +36,9 @@ tools.o : paml.h tools.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -c tools.c
 baseml.o : paml.h baseml.c treesub.c treespace.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -c baseml.c
+
+baseml: LIBS += $(BASEML_OMPFLAGS)
+baseml.o: CFLAGS += $(BASEML_OMPFLAGS)
 basemlg.o : paml.h basemlg.c treesub.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -c basemlg.c
 codeml.o : paml.h codeml.c treesub.c treespace.c

@@ -10,6 +10,10 @@
 
 #include "paml.h"
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 #define NS            7000
 #define NBRANCH       (NS*2-2)
 #define NNODE         (NS*2-1)
@@ -135,10 +139,605 @@ enum { GlobalClock = 1, LocalClock, ClockCombined } ClockModels;
 double _rateSite = 1; /* rate for a site */
 int N_PMatUVRoot = 0;
 
+#define BASEML_OMP_MIN_PATTERNS 256
+
+typedef struct {
+   int enabled;
+   int block_patterns;
+   int plan_ready;
+   int tree_nnode, tree_root, ncode;
+   int nintern, nscale, postorder_len;
+   int postorder[NNODE];
+   int intern_index[NNODE];
+   int scale_index[NNODE];
+} BASEML_PAR3_PLAN;
+
+typedef struct {
+   int use_site_classes;
+   int ngene_eff, nclass_eff, ncode, tree_nnode, pmat_mode;
+   size_t branchP_cap, branchT_cap, rootPi_cap, freqK_cap, geneKappa_cap, qmat_cap;
+   size_t geneRoot_cap, geneCijk_cap, geneNR_cap, branchRoot_cap, branchCijk_cap, branchNR_cap;
+   double *branchP, *branchT, *rootPi, *freqK, *geneKappa, *qmat;
+   double *geneRoot, *geneCijk, *branchRoot, *branchCijk;
+   int *geneNR, *branchNR;
+} BASEML_PAR3_EVAL;
+
+typedef struct {
+   int capacity_patterns, capacity_classes;
+   size_t conP_cap, nodeScale_cap, fhK_cap;
+   double *conP, *nodeScaleF, *fhK;
+} BASEML_PAR3_WS;
+
+static BASEML_PAR3_PLAN basemlPar3Plan = { 0 };
+static BASEML_PAR3_EVAL basemlPar3Eval = { 0 };
+static BASEML_PAR3_WS *basemlPar3WS = NULL;
+static int basemlPar3WSCount = 0;
+
+enum {
+   BASEML_PAR3_PMAT_K80 = 0,
+   BASEML_PAR3_PMAT_GENE_CIJK,
+   BASEML_PAR3_PMAT_BRANCH_CIJK,
+   BASEML_PAR3_PMAT_Q
+};
+
+int BasemlPar3TryLfun(double x[], int np, double *lnL);
+int BasemlPar3TryLfundG(double x[], int np, double *lnL);
 
 #define BASEML 1
 #include "treesub.c"
 #include "treespace.c"
+
+static int BasemlPar3Enabled(void)
+{
+   static int initialized = 0;
+   const char *env = NULL;
+   long block = 512;
+
+   if (!initialized) {
+      env = getenv("BASEML_PAR3");
+      basemlPar3Plan.enabled = (env && atoi(env) != 0);
+
+      env = getenv("BASEML_PAR3_BLOCK");
+      if (env && *env) {
+         block = strtol(env, NULL, 10);
+         if (block < BASEML_OMP_MIN_PATTERNS)
+            block = BASEML_OMP_MIN_PATTERNS;
+      }
+      if (block < BASEML_OMP_MIN_PATTERNS)
+         block = BASEML_OMP_MIN_PATTERNS;
+      basemlPar3Plan.block_patterns = (int)block;
+      initialized = 1;
+   }
+   return basemlPar3Plan.enabled;
+}
+
+static void BasemlPar3BuildPostorderNode(int inode)
+{
+   int i, ison;
+
+   if (inode < com.ns) return;
+   for (i = 0; i < nodes[inode].nson; i++) {
+      ison = nodes[inode].sons[i];
+      if (nodes[ison].nson > 0)
+         BasemlPar3BuildPostorderNode(ison);
+   }
+   basemlPar3Plan.intern_index[inode] = basemlPar3Plan.postorder_len;
+   basemlPar3Plan.postorder[basemlPar3Plan.postorder_len++] = inode;
+}
+
+static int BasemlPar3EnsurePlan(void)
+{
+   int i;
+
+   if (!BasemlPar3Enabled()) return 0;
+   if (basemlPar3Plan.plan_ready
+      && basemlPar3Plan.tree_nnode == tree.nnode
+      && basemlPar3Plan.tree_root == tree.root
+      && basemlPar3Plan.ncode == com.ncode)
+      return 1;
+
+   basemlPar3Plan.tree_nnode = tree.nnode;
+   basemlPar3Plan.tree_root = tree.root;
+   basemlPar3Plan.ncode = com.ncode;
+   basemlPar3Plan.nintern = 0;
+   basemlPar3Plan.nscale = 0;
+   basemlPar3Plan.postorder_len = 0;
+   for (i = 0; i < tree.nnode; i++) {
+      basemlPar3Plan.intern_index[i] = -1;
+      basemlPar3Plan.scale_index[i] = -1;
+   }
+
+   BasemlPar3BuildPostorderNode(tree.root);
+   basemlPar3Plan.nintern = basemlPar3Plan.postorder_len;
+   for (i = 0; i < tree.nnode; i++)
+      if (com.nodeScale && com.nodeScale[i])
+         basemlPar3Plan.scale_index[i] = basemlPar3Plan.nscale++;
+
+   basemlPar3Plan.plan_ready = 1;
+   return 1;
+}
+
+static int BasemlPar3ResizeBuffer(double **ptr, size_t *cap, size_t need)
+{
+   double *tmp = NULL;
+
+   if (need <= *cap) return 1;
+   tmp = (double*)realloc(*ptr, need * sizeof(double));
+   if (tmp == NULL) return 0;
+   *ptr = tmp;
+   *cap = need;
+   return 1;
+}
+
+static int BasemlPar3ResizeIntBuffer(int **ptr, size_t *cap, size_t need)
+{
+   int *tmp = NULL;
+
+   if (need <= *cap) return 1;
+   tmp = (int*)realloc(*ptr, need * sizeof(int));
+   if (tmp == NULL) return 0;
+   *ptr = tmp;
+   *cap = need;
+   return 1;
+}
+
+static int BasemlPar3EnsureEvalBuffers(int use_site_classes)
+{
+   size_t branch_need = 0, branch_time_need = 0, root_need = 0, freq_need = 0, gene_kappa_need = 0;
+   size_t gene_root_need = 0, gene_cijk_need = 0, gene_nr_need = 0;
+   size_t branch_root_need = 0, branch_cijk_need = 0, branch_nr_need = 0;
+   size_t qmat_need = 0;
+   int nclass_eff = (use_site_classes ? com.ncatG : 1);
+
+   branch_need = (size_t)com.ngene * nclass_eff * tree.nnode * com.ncode * com.ncode;
+   branch_time_need = (size_t)com.ngene * nclass_eff * tree.nnode;
+   root_need = (size_t)com.ngene * com.ncode;
+   freq_need = (use_site_classes ? (size_t)com.ngene * nclass_eff : 0);
+   gene_kappa_need = (size_t)com.ngene;
+
+   if (com.model <= K80)
+      basemlPar3Eval.pmat_mode = BASEML_PAR3_PMAT_K80;
+   else if (com.model <= REV || com.model == REVu)
+      basemlPar3Eval.pmat_mode = (com.nhomo >= 2 ? BASEML_PAR3_PMAT_BRANCH_CIJK : BASEML_PAR3_PMAT_GENE_CIJK);
+   else
+      basemlPar3Eval.pmat_mode = BASEML_PAR3_PMAT_Q;
+
+   if (basemlPar3Eval.pmat_mode == BASEML_PAR3_PMAT_GENE_CIJK) {
+      gene_root_need = (size_t)com.ngene * NCODE;
+      gene_cijk_need = (size_t)com.ngene * NCODE * NCODE * NCODE;
+      gene_nr_need = (size_t)com.ngene;
+   }
+   else if (basemlPar3Eval.pmat_mode == BASEML_PAR3_PMAT_BRANCH_CIJK) {
+      branch_root_need = (size_t)tree.nnode * NCODE;
+      branch_cijk_need = (size_t)tree.nnode * NCODE * NCODE * NCODE;
+      branch_nr_need = (size_t)tree.nnode;
+   }
+   else if (basemlPar3Eval.pmat_mode == BASEML_PAR3_PMAT_Q) {
+      qmat_need = (size_t)com.ncode * com.ncode;
+   }
+
+   if (!BasemlPar3ResizeBuffer(&basemlPar3Eval.branchP, &basemlPar3Eval.branchP_cap, branch_need))
+      return 0;
+   if (!BasemlPar3ResizeBuffer(&basemlPar3Eval.branchT, &basemlPar3Eval.branchT_cap, branch_time_need))
+      return 0;
+   if (!BasemlPar3ResizeBuffer(&basemlPar3Eval.rootPi, &basemlPar3Eval.rootPi_cap, root_need))
+      return 0;
+   if (freq_need && !BasemlPar3ResizeBuffer(&basemlPar3Eval.freqK, &basemlPar3Eval.freqK_cap, freq_need))
+      return 0;
+   if (gene_kappa_need && !BasemlPar3ResizeBuffer(&basemlPar3Eval.geneKappa, &basemlPar3Eval.geneKappa_cap, gene_kappa_need))
+      return 0;
+   if (gene_root_need && !BasemlPar3ResizeBuffer(&basemlPar3Eval.geneRoot, &basemlPar3Eval.geneRoot_cap, gene_root_need))
+      return 0;
+   if (gene_cijk_need && !BasemlPar3ResizeBuffer(&basemlPar3Eval.geneCijk, &basemlPar3Eval.geneCijk_cap, gene_cijk_need))
+      return 0;
+   if (gene_nr_need && !BasemlPar3ResizeIntBuffer(&basemlPar3Eval.geneNR, &basemlPar3Eval.geneNR_cap, gene_nr_need))
+      return 0;
+   if (branch_root_need && !BasemlPar3ResizeBuffer(&basemlPar3Eval.branchRoot, &basemlPar3Eval.branchRoot_cap, branch_root_need))
+      return 0;
+   if (branch_cijk_need && !BasemlPar3ResizeBuffer(&basemlPar3Eval.branchCijk, &basemlPar3Eval.branchCijk_cap, branch_cijk_need))
+      return 0;
+   if (branch_nr_need && !BasemlPar3ResizeIntBuffer(&basemlPar3Eval.branchNR, &basemlPar3Eval.branchNR_cap, branch_nr_need))
+      return 0;
+   if (qmat_need && !BasemlPar3ResizeBuffer(&basemlPar3Eval.qmat, &basemlPar3Eval.qmat_cap, qmat_need))
+      return 0;
+
+   basemlPar3Eval.use_site_classes = use_site_classes;
+   basemlPar3Eval.ngene_eff = com.ngene;
+   basemlPar3Eval.nclass_eff = nclass_eff;
+   basemlPar3Eval.ncode = com.ncode;
+   basemlPar3Eval.tree_nnode = tree.nnode;
+   return 1;
+}
+
+static int BasemlPar3EnsureThreadWS(int nthreads, int nclass_eff)
+{
+   size_t conP_need = 0, nodeScale_need = 0, fhK_need = 0;
+   BASEML_PAR3_WS *tmp = NULL;
+   int i, old_count = basemlPar3WSCount;
+
+   conP_need = (size_t)max2(basemlPar3Plan.nintern, 1) * com.ncode * basemlPar3Plan.block_patterns;
+   nodeScale_need = (size_t)basemlPar3Plan.nscale * basemlPar3Plan.block_patterns;
+   fhK_need = (size_t)max2(nclass_eff, 1) * basemlPar3Plan.block_patterns;
+
+   if (nthreads > basemlPar3WSCount) {
+      tmp = (BASEML_PAR3_WS*)realloc(basemlPar3WS, nthreads * sizeof(BASEML_PAR3_WS));
+      if (tmp == NULL) return 0;
+      basemlPar3WS = tmp;
+      for (i = old_count; i < nthreads; i++) {
+         basemlPar3WS[i].capacity_patterns = 0;
+         basemlPar3WS[i].capacity_classes = 0;
+         basemlPar3WS[i].conP_cap = basemlPar3WS[i].nodeScale_cap = basemlPar3WS[i].fhK_cap = 0;
+         basemlPar3WS[i].conP = basemlPar3WS[i].nodeScaleF = basemlPar3WS[i].fhK = NULL;
+      }
+      basemlPar3WSCount = nthreads;
+   }
+
+   for (i = 0; i < nthreads; i++) {
+      if (!BasemlPar3ResizeBuffer(&basemlPar3WS[i].conP, &basemlPar3WS[i].conP_cap, conP_need))
+         return 0;
+      if (nodeScale_need
+         && !BasemlPar3ResizeBuffer(&basemlPar3WS[i].nodeScaleF, &basemlPar3WS[i].nodeScale_cap, nodeScale_need))
+         return 0;
+      if (!BasemlPar3ResizeBuffer(&basemlPar3WS[i].fhK, &basemlPar3WS[i].fhK_cap, fhK_need))
+         return 0;
+      basemlPar3WS[i].capacity_patterns = basemlPar3Plan.block_patterns;
+      basemlPar3WS[i].capacity_classes = nclass_eff;
+   }
+   return 1;
+}
+
+static double *BasemlPar3BranchMat(int igene, int iclass, int inode)
+{
+   size_t offset = ((((size_t)igene * basemlPar3Eval.nclass_eff + iclass) * tree.nnode + inode)
+      * com.ncode * com.ncode);
+   return basemlPar3Eval.branchP + offset;
+}
+
+static double *BasemlPar3BranchTimes(int igene, int iclass)
+{
+   size_t offset = ((size_t)igene * basemlPar3Eval.nclass_eff + iclass) * tree.nnode;
+   return basemlPar3Eval.branchT + offset;
+}
+
+static const double *BasemlPar3RootPi(int igene)
+{
+   return basemlPar3Eval.rootPi + (size_t)igene * com.ncode;
+}
+
+static double *BasemlPar3FreqK(int igene)
+{
+   return basemlPar3Eval.freqK + (size_t)igene * basemlPar3Eval.nclass_eff;
+}
+
+static double *BasemlPar3GeneRoot(int igene)
+{
+   return basemlPar3Eval.geneRoot + (size_t)igene * NCODE;
+}
+
+static double *BasemlPar3GeneCijk(int igene)
+{
+   return basemlPar3Eval.geneCijk + (size_t)igene * NCODE * NCODE * NCODE;
+}
+
+static double *BasemlPar3BranchRoot(int inode)
+{
+   return basemlPar3Eval.branchRoot + (size_t)inode * NCODE;
+}
+
+static double *BasemlPar3BranchCijk(int inode)
+{
+   return basemlPar3Eval.branchCijk + (size_t)inode * NCODE * NCODE * NCODE;
+}
+
+static void BasemlPar3PMatCijkLocal(double P[], double t, int n, int nr, const double Root[], const double Cijk[])
+{
+   int i, j, k;
+   double exptm1[NCODE] = { 0 };
+
+   memset(P, 0, (size_t)n * n * sizeof(double));
+   for (k = 1; k < nr; k++)
+      exptm1[k] = expm1(t * Root[k]);
+
+   for (i = 0; i < n; i++) {
+      for (j = 0; j < n; j++) {
+         for (k = 0; k < nr; k++)
+            P[i * n + j] += Cijk[i * n * nr + j * nr + k] * exptm1[k];
+      }
+      P[i * n + i]++;
+   }
+}
+
+static int BasemlPar3PrepareEval(double x[], int use_site_classes)
+{
+   int igene, iclass, inode, i, total_tasks = 0;
+   int nclass_eff = (use_site_classes ? com.ncatG : 1);
+   double t = 0;
+
+   if (SetParameters(x)) puts("\npar err..");
+   if (!BasemlPar3EnsurePlan()) return 0;
+   if (!BasemlPar3EnsureEvalBuffers(use_site_classes)) return 0;
+
+   if (basemlPar3Eval.pmat_mode == BASEML_PAR3_PMAT_Q)
+      QUNREST(NULL, basemlPar3Eval.qmat, x + com.ntime + com.nrgene, com.pi);
+
+   if (basemlPar3Eval.pmat_mode == BASEML_PAR3_PMAT_BRANCH_CIJK) {
+      for (inode = 0; inode < tree.nnode; inode++) {
+         if (inode == tree.root) continue;
+
+         if (com.nhomo == 2)
+            eigenTN93(com.model, *nodes[inode].pkappa, -1, com.pi, basemlPar3Eval.branchNR + inode,
+               BasemlPar3BranchRoot(inode), BasemlPar3BranchCijk(inode));
+         else if (com.model <= TN93)
+            eigenTN93(com.model, *nodes[inode].pkappa, *(nodes[inode].pkappa + 1), nodes[inode].pi,
+               basemlPar3Eval.branchNR + inode, BasemlPar3BranchRoot(inode), BasemlPar3BranchCijk(inode));
+         else
+            eigenQREVbase(NULL, PMat, nodes[inode].pkappa, nodes[inode].pi, basemlPar3Eval.branchNR + inode,
+               BasemlPar3BranchRoot(inode), BasemlPar3BranchCijk(inode));
+      }
+   }
+
+   for (igene = 0; igene < com.ngene; igene++) {
+      if (use_site_classes) {
+         if (com.Mgene > 1 || com.nalpha > 1)
+            SetPGene(igene, com.Mgene > 1, com.Mgene > 1, com.nalpha > 1, x);
+         for (i = 0; i < nclass_eff; i++)
+            BasemlPar3FreqK(igene)[i] = com.freqK[i];
+      }
+      else {
+         if (com.Mgene > 1)
+            SetPGene(igene, 1, 1, 0, x);
+      }
+
+      if (basemlPar3Eval.pmat_mode == BASEML_PAR3_PMAT_K80)
+         basemlPar3Eval.geneKappa[igene] = com.kappa;
+      else if (basemlPar3Eval.pmat_mode == BASEML_PAR3_PMAT_GENE_CIJK) {
+         basemlPar3Eval.geneNR[igene] = nR;
+         xtoy(Root, BasemlPar3GeneRoot(igene), NCODE);
+         xtoy(Cijk, BasemlPar3GeneCijk(igene), NCODE * NCODE * NCODE);
+      }
+
+      for (i = 0; i < com.ncode; i++)
+         ((double*)BasemlPar3RootPi(igene))[i] = com.pi[i];
+
+      for (iclass = 0; iclass < nclass_eff; iclass++) {
+         double rate_site = (use_site_classes ? com.rK[iclass] : 1);
+         double *branchT = BasemlPar3BranchTimes(igene, iclass);
+
+         branchT[tree.root] = 0;
+         for (inode = 0; inode < tree.nnode; inode++) {
+            if (inode == tree.root) continue;
+            t = nodes[inode].branch * rate_site;
+            if (com.clock < 5) {
+               if (com.clock) t *= GetBranchRate(igene, (int)nodes[inode].label, x, NULL);
+               else           t *= com.rgene[igene];
+            }
+            branchT[inode] = t;
+         }
+      }
+   }
+
+   total_tasks = com.ngene * nclass_eff * (tree.nnode - 1);
+#if defined(_OPENMP)
+   #pragma omp parallel for schedule(static) if (total_tasks >= BASEML_OMP_MIN_PATTERNS)
+#endif
+   for (i = 0; i < total_tasks; i++) {
+      int tasks_per_gene = nclass_eff * (tree.nnode - 1);
+      int ig = i / tasks_per_gene;
+      int rest = i % tasks_per_gene;
+      int ic = rest / (tree.nnode - 1);
+      int inode_compact = rest % (tree.nnode - 1);
+      int in = (inode_compact >= tree.root ? inode_compact + 1 : inode_compact);
+      double *Pt = BasemlPar3BranchMat(ig, ic, in);
+      double tt = BasemlPar3BranchTimes(ig, ic)[in];
+
+      if (basemlPar3Eval.pmat_mode == BASEML_PAR3_PMAT_K80)
+         PMatK80(Pt, tt, basemlPar3Eval.geneKappa[ig]);
+      else if (basemlPar3Eval.pmat_mode == BASEML_PAR3_PMAT_GENE_CIJK)
+         BasemlPar3PMatCijkLocal(Pt, tt, com.ncode, basemlPar3Eval.geneNR[ig],
+            BasemlPar3GeneRoot(ig), BasemlPar3GeneCijk(ig));
+      else if (basemlPar3Eval.pmat_mode == BASEML_PAR3_PMAT_BRANCH_CIJK)
+         BasemlPar3PMatCijkLocal(Pt, tt, com.ncode, basemlPar3Eval.branchNR[in],
+            BasemlPar3BranchRoot(in), BasemlPar3BranchCijk(in));
+      else {
+         double space[NCODE * NCODE * 3] = { 0 };
+
+         xtoy(basemlPar3Eval.qmat, Pt, com.ncode * com.ncode);
+         abyx(tt, Pt, com.ncode * com.ncode);
+         matexp(Pt, com.ncode, 7, 5, space);
+      }
+   }
+   return 1;
+}
+
+static int BasemlPar3ComputeRootLogFh(int igene, int iclass, int h0, int h1,
+   BASEML_PAR3_WS *ws, double floor_prob, double out_logfh[])
+{
+   int block = h1 - h0, bs = basemlPar3Plan.block_patterns, n = com.ncode;
+   int ipost, inode, ison, ichild, i, j, k, iscale;
+   double *dst = NULL, *src = NULL, *scaleF = NULL;
+   const double *Pt = NULL, *rootPi = BasemlPar3RootPi(igene);
+   int bad_fh = 0;
+
+   for (ipost = 0; ipost < basemlPar3Plan.postorder_len; ipost++) {
+      inode = basemlPar3Plan.postorder[ipost];
+      dst = ws->conP + (size_t)basemlPar3Plan.intern_index[inode] * n * bs;
+
+      for (j = 0; j < n; j++)
+         for (i = 0; i < block; i++)
+            dst[j * bs + i] = 1;
+
+      for (ichild = 0; ichild < nodes[inode].nson; ichild++) {
+         ison = nodes[inode].sons[ichild];
+         Pt = BasemlPar3BranchMat(igene, iclass, ison);
+
+         if (nodes[ison].nson < 1 && com.cleandata) {
+            for (j = 0; j < n; j++)
+               for (i = 0; i < block; i++)
+                  dst[j * bs + i] *= Pt[j * n + com.z[ison][h0 + i]];
+         }
+         else if (nodes[ison].nson < 1 && !com.cleandata) {
+            for (j = 0; j < n; j++) {
+               for (i = 0; i < block; i++) {
+                  double sumP = 0;
+                  int obs = com.z[ison][h0 + i];
+
+                  for (k = 0; k < nChara[obs]; k++)
+                     sumP += Pt[j * n + CharaMap[obs][k]];
+                  dst[j * bs + i] *= sumP;
+               }
+            }
+         }
+         else {
+            src = ws->conP + (size_t)basemlPar3Plan.intern_index[ison] * n * bs;
+            for (j = 0; j < n; j++) {
+               for (i = 0; i < block; i++) {
+                  double sumP = 0;
+
+                  for (k = 0; k < n; k++)
+                     sumP += Pt[j * n + k] * src[k * bs + i];
+                  dst[j * bs + i] *= sumP;
+               }
+            }
+         }
+      }
+
+      iscale = basemlPar3Plan.scale_index[inode];
+      if (iscale >= 0) {
+         scaleF = ws->nodeScaleF + (size_t)iscale * bs;
+         for (i = 0; i < block; i++) {
+            double scale = 0;
+
+            for (j = 0; j < n; j++)
+               if (dst[j * bs + i] > scale)
+                  scale = dst[j * bs + i];
+
+            if (scale < 1e-300) {
+               for (j = 0; j < n; j++)
+                  dst[j * bs + i] = 1;
+               scaleF[i] = -800;
+            }
+            else {
+               for (j = 0; j < n; j++)
+                  dst[j * bs + i] /= scale;
+               scaleF[i] = log(scale);
+            }
+         }
+      }
+   }
+
+   dst = ws->conP + (size_t)basemlPar3Plan.intern_index[tree.root] * n * bs;
+   for (i = 0; i < block; i++) {
+      double fh = 0;
+
+      for (j = 0; j < n; j++)
+         fh += rootPi[j] * dst[j * bs + i];
+      if (fh <= 0) {
+         bad_fh++;
+         fh = floor_prob;
+      }
+      out_logfh[i] = log(fh);
+      for (iscale = 0; iscale < basemlPar3Plan.nscale; iscale++)
+         out_logfh[i] += ws->nodeScaleF[(size_t)iscale * bs + i];
+   }
+   return bad_fh;
+}
+
+static int BasemlPar3CanUse(void)
+{
+   if (!BasemlPar3Enabled()) return 0;
+#if defined(_OPENMP)
+   if (omp_get_max_threads() <= 1) return 0;
+#else
+   return 0;
+#endif
+   if (com.method != 0 || com.print < 0 || LASTROUND == 2) return 0;
+   if (com.clock >= 5 || tree.root < com.ns) return 0;
+   if (com.npatt < basemlPar3Plan.block_patterns) return 0;
+   return 1;
+}
+
+int BasemlPar3TryLfun(double x[], int np, double *lnL)
+{
+   int igene, h0, h1, i, bad_fh = 0, nthreads = 1;
+   double lnL_total = 0;
+
+   (void)np;
+   if (!BasemlPar3CanUse()) return 0;
+#if defined(_OPENMP)
+   nthreads = omp_get_max_threads();
+#endif
+   if (!BasemlPar3PrepareEval(x, 0)) return 0;
+   if (!BasemlPar3EnsureThreadWS(nthreads, 1)) return 0;
+
+#if defined(_OPENMP)
+   #pragma omp parallel reduction(+:lnL_total,bad_fh)
+   {
+      int tid = omp_get_thread_num();
+      BASEML_PAR3_WS *ws = basemlPar3WS + tid;
+
+      for (igene = 0; igene < com.ngene; igene++) {
+         #pragma omp for schedule(static)
+         for (h0 = com.posG[igene]; h0 < com.posG[igene + 1]; h0 += basemlPar3Plan.block_patterns) {
+            h1 = min2(com.posG[igene + 1], h0 + basemlPar3Plan.block_patterns);
+            bad_fh += BasemlPar3ComputeRootLogFh(igene, 0, h0, h1, ws, 1e-80, ws->fhK);
+            for (i = 0; i < h1 - h0; i++)
+               lnL_total -= ws->fhK[i] * com.fpatt[h0 + i];
+         }
+      }
+   }
+#endif
+   if (bad_fh) return 0;
+   *lnL = lnL_total;
+   return 1;
+}
+
+int BasemlPar3TryLfundG(double x[], int np, double *lnL)
+{
+   int igene, iclass, h0, h1, i, nthreads = 1, bad_fh = 0;
+   double lnL_total = 0;
+
+   (void)np;
+   if (!BasemlPar3CanUse()) return 0;
+#if defined(_OPENMP)
+   nthreads = omp_get_max_threads();
+#endif
+   if (!BasemlPar3PrepareEval(x, 1)) return 0;
+   if (!BasemlPar3EnsureThreadWS(nthreads, com.ncatG)) return 0;
+
+#if defined(_OPENMP)
+   #pragma omp parallel reduction(+:lnL_total,bad_fh)
+   {
+      int tid = omp_get_thread_num();
+      BASEML_PAR3_WS *ws = basemlPar3WS + tid;
+
+      for (igene = 0; igene < com.ngene; igene++) {
+         const double *freqK = BasemlPar3FreqK(igene);
+
+         #pragma omp for schedule(static)
+         for (h0 = com.posG[igene]; h0 < com.posG[igene + 1]; h0 += basemlPar3Plan.block_patterns) {
+            h1 = min2(com.posG[igene + 1], h0 + basemlPar3Plan.block_patterns);
+            for (iclass = 0; iclass < com.ncatG; iclass++)
+               bad_fh += BasemlPar3ComputeRootLogFh(igene, iclass, h0, h1, ws, 1e-300,
+                  ws->fhK + (size_t)iclass * basemlPar3Plan.block_patterns);
+
+            for (i = 0; i < h1 - h0; i++) {
+               double best = ws->fhK[i], sum_mix = 0;
+
+               for (iclass = 1; iclass < com.ncatG; iclass++)
+                  if (ws->fhK[(size_t)iclass * basemlPar3Plan.block_patterns + i] > best)
+                     best = ws->fhK[(size_t)iclass * basemlPar3Plan.block_patterns + i];
+               for (iclass = 0; iclass < com.ncatG; iclass++)
+                  sum_mix += freqK[iclass] * exp(ws->fhK[(size_t)iclass * basemlPar3Plan.block_patterns + i] - best);
+               lnL_total -= (best + log(sum_mix)) * com.fpatt[h0 + i];
+            }
+         }
+      }
+   }
+#endif
+   if (bad_fh) return 0;
+   *lnL = lnL_total;
+   return 1;
+}
 
 int main (int argc, char *argv[])
 {
@@ -1516,20 +2115,29 @@ int testx(double x[], int np)
 
 int ConditionalPNode(int inode, int igene, double x[])
 {
-   int n = com.ncode, i, j, k, h, ison, pos0 = com.posG[igene], pos1 = com.posG[igene + 1];
+   int n = com.ncode, i, j, h, ison, pos0 = com.posG[igene], pos1 = com.posG[igene + 1];
    double t;
 
    for (i = 0; i < nodes[inode].nson; i++)
       if (nodes[nodes[inode].sons[i]].nson > 0 && !com.oldconP[nodes[inode].sons[i]])
          ConditionalPNode(nodes[inode].sons[i], igene, x);
    if (inode < com.ns) {  /* young ancestor */
+#if defined(BASEML) && defined(_OPENMP)
+      #pragma omp parallel for schedule(static) if (pos1 - pos0 >= BASEML_OMP_MIN_PATTERNS)
+#endif
       for (h = pos0*n; h < pos1*n; h++)
          nodes[inode].conP[h] = 0;
    }
    else
+#if defined(BASEML) && defined(_OPENMP)
+      #pragma omp parallel for schedule(static) if (pos1 - pos0 >= BASEML_OMP_MIN_PATTERNS)
+#endif
       for (h = pos0*n; h < pos1*n; h++)
          nodes[inode].conP[h] = 1;
    if (com.cleandata && inode < com.ns) /* young ancestor */
+#if defined(BASEML) && defined(_OPENMP)
+      #pragma omp parallel for schedule(static) if (pos1 - pos0 >= BASEML_OMP_MIN_PATTERNS)
+#endif
       for (h = pos0; h < pos1; h++)
          nodes[inode].conP[h*n + com.z[inode][h]] = 1;
 
@@ -1544,24 +2152,39 @@ int ConditionalPNode(int inode, int igene, double x[])
       GetPMatBranch(PMat, x, t, ison);
 
       if (nodes[ison].nson < 1 && com.cleandata) {        /* tip && clean */
+#if defined(BASEML) && defined(_OPENMP)
+         #pragma omp parallel for schedule(static) private(j) if (pos1 - pos0 >= BASEML_OMP_MIN_PATTERNS)
+#endif
          for (h = pos0; h < pos1; h++)
             for (j = 0; j < n; j++)
                nodes[inode].conP[h*n + j] *= PMat[j*n + com.z[ison][h]];
       }
       else if (nodes[ison].nson < 1 && !com.cleandata) {  /* tip & unclean */
+#if defined(BASEML) && defined(_OPENMP)
+         #pragma omp parallel for schedule(static) private(j) if (pos1 - pos0 >= BASEML_OMP_MIN_PATTERNS)
+#endif
          for (h = pos0; h < pos1; h++)
             for (j = 0; j < n; j++) {
-               for (k = 0, t = 0; k < nChara[(int)com.z[ison][h]]; k++)
-                  t += PMat[j*n + CharaMap[(int)com.z[ison][h]][k]];
-               nodes[inode].conP[h*n + j] *= t;
+               int k;
+               double sumP = 0;
+
+               for (k = 0; k < nChara[(int)com.z[ison][h]]; k++)
+                  sumP += PMat[j*n + CharaMap[(int)com.z[ison][h]][k]];
+               nodes[inode].conP[h*n + j] *= sumP;
             }
       }
       else {
+#if defined(BASEML) && defined(_OPENMP)
+         #pragma omp parallel for schedule(static) private(j) if (pos1 - pos0 >= BASEML_OMP_MIN_PATTERNS)
+#endif
          for (h = pos0; h < pos1; h++)
             for (j = 0; j < n; j++) {
-               for (k = 0, t = 0; k < n; k++)
-                  t += PMat[j*n + k] * nodes[ison].conP[h*n + k];
-               nodes[inode].conP[h*n + j] *= t;
+               int k;
+               double sumP = 0;
+
+               for (k = 0; k < n; k++)
+                  sumP += PMat[j*n + k] * nodes[ison].conP[h*n + k];
+               nodes[inode].conP[h*n + j] *= sumP;
             }
       }
    }        /*  for (ison)  */
