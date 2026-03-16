@@ -189,6 +189,10 @@ def setup_logger(name: str, log_path: Optional[Path], level: str) -> logging.Log
 
 
 def read_newick_tree(tree_path: Path) -> Tree:
+    if not tree_path.exists():
+        raise PipelineError(f"Newick tree file not found: {tree_path}")
+    if tree_path.stat().st_size == 0:
+        raise PipelineError(f"Newick tree file is empty: {tree_path}")
     try:
         return Phylo.read(str(tree_path), "newick")
     except Exception as exc:  # pragma: no cover
@@ -198,7 +202,21 @@ def read_newick_tree(tree_path: Path) -> Tree:
 def write_tree(tree: Tree, destination: Path) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     tree.rooted = True
-    Phylo.write(tree, str(destination), "newick", format_branch_length="%1.12g")
+    with tempfile.NamedTemporaryFile(
+        "w",
+        encoding="utf-8",
+        dir=destination.parent,
+        delete=False,
+        suffix=destination.suffix or ".nwk",
+    ) as handle:
+        tmp_path = Path(handle.name)
+    try:
+        Phylo.write(tree, str(tmp_path), "newick", format_branch_length="%1.12g")
+        if tmp_path.stat().st_size == 0:
+            raise PipelineError(f"Generated Newick tree is empty: {tmp_path}")
+        tmp_path.replace(destination)
+    finally:
+        tmp_path.unlink(missing_ok=True)
 
 
 def get_tip_names_from_tree(tree: Tree) -> List[str]:
@@ -613,12 +631,18 @@ def build_induced_tree_file(
             ],
             logger,
         )
+        if not pruned_tree.exists() or pruned_tree.stat().st_size == 0:
+            raise PipelineError(f"gotree prune produced an empty tree: {pruned_tree}")
+        if not rerooted_tree.exists() or rerooted_tree.stat().st_size == 0:
+            raise PipelineError(f"gotree reroot produced an empty tree: {rerooted_tree}")
         tree = read_newick_tree(rerooted_tree)
         tree = normalize_tree_binary(tree)
         ok, reason = is_binary_rooted_with_outgroup(tree, outgroup_tip)
         if not ok:
             raise PipelineError(f"Constructed subtree is not rooted binary with outgroup: {reason}")
         write_tree(tree, destination)
+        if not destination.exists() or destination.stat().st_size == 0:
+            raise PipelineError(f"Failed to write induced subtree: {destination}")
     finally:
         keep_tip_file.unlink(missing_ok=True)
         outgroup_file.unlink(missing_ok=True)
