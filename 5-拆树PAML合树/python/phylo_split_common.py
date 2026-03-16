@@ -686,8 +686,8 @@ def resolve_backbone_selection(
     return [step.tip_name for step in steps], records, "auto"
 
 
-def build_ordered_tip_list(master_tip_order: Sequence[str], selected_tip_set: set[str]) -> List[str]:
-    return [tip_name for tip_name in master_tip_order if tip_name in selected_tip_set]
+def build_ordered_tip_list(tip_order_index: Dict[str, int], selected_tip_set: set[str]) -> List[str]:
+    return sorted(selected_tip_set, key=tip_order_index.__getitem__)
 
 
 def write_tip_list(tip_names: Sequence[str], destination: Path) -> None:
@@ -695,29 +695,37 @@ def write_tip_list(tip_names: Sequence[str], destination: Path) -> None:
     destination.write_text("\n".join(tip_names) + "\n", encoding="utf-8")
 
 
-def compute_target_partition_counts(
+def compute_target_partition_profiles(
     tree: Tree,
     backbone_tip_set: set[str],
     outgroup_tip: str,
-) -> Tuple[Dict[Clade, int], Dict[Clade, int]]:
+) -> Tuple[Dict[Clade, int], Dict[Clade, int], Dict[Clade, List[str]]]:
     nonbackbone_counts: Dict[Clade, int] = {}
     backbone_counts: Dict[Clade, int] = {}
+    ordered_nonbackbone_tips: Dict[Clade, List[str]] = {}
     for clade in tree.find_clades(order="postorder"):
         if clade.is_terminal():
             tip_name = str(clade.name)
             if tip_name == outgroup_tip:
                 nonbackbone_counts[clade] = 0
                 backbone_counts[clade] = 0
+                ordered_nonbackbone_tips[clade] = []
             elif tip_name in backbone_tip_set:
                 nonbackbone_counts[clade] = 0
                 backbone_counts[clade] = 1
+                ordered_nonbackbone_tips[clade] = []
             else:
                 nonbackbone_counts[clade] = 1
                 backbone_counts[clade] = 0
+                ordered_nonbackbone_tips[clade] = [tip_name]
             continue
         nonbackbone_counts[clade] = sum(nonbackbone_counts[child] for child in clade.clades)
         backbone_counts[clade] = sum(backbone_counts[child] for child in clade.clades)
-    return nonbackbone_counts, backbone_counts
+        tip_names: List[str] = []
+        for child in clade.clades:
+            tip_names.extend(ordered_nonbackbone_tips[child])
+        ordered_nonbackbone_tips[clade] = tip_names
+    return nonbackbone_counts, backbone_counts, ordered_nonbackbone_tips
 
 
 def build_target_partition(
@@ -733,8 +741,11 @@ def build_target_partition(
         raise PipelineError("runtime.max_tips - runtime.backbone_size - 1 leaves no room for target tips.")
 
     _, ingroup_child = get_root_children_for_outgroup(tree, outgroup_tip)
-    master_tip_order = get_tip_names_from_tree(tree)
-    nonbackbone_counts, backbone_counts = compute_target_partition_counts(tree, backbone_tip_set, outgroup_tip)
+    nonbackbone_counts, backbone_counts, ordered_nonbackbone_tips = compute_target_partition_profiles(
+        tree,
+        backbone_tip_set,
+        outgroup_tip,
+    )
     selected: List[Clade] = []
 
     def recurse(clade: Clade) -> None:
@@ -756,10 +767,10 @@ def build_target_partition(
 
     records: List[TargetSubtreeRecord] = []
     seen_nonbackbone_tips: set[str] = set()
-    expected_nonbackbone_tips = set(get_tip_names_from_clade(ingroup_child)) - backbone_tip_set - {outgroup_tip}
+    expected_nonbackbone_tips = set(ordered_nonbackbone_tips[ingroup_child])
 
     for index, clade in enumerate(selected, start=1):
-        tip_names = [tip_name for tip_name in master_tip_order if tip_name in set(get_tip_names_from_clade(clade)) and tip_name not in backbone_tip_set and tip_name != outgroup_tip]
+        tip_names = list(ordered_nonbackbone_tips[clade])
         if not tip_names:
             continue
         overlap = seen_nonbackbone_tips.intersection(tip_names)
@@ -820,6 +831,7 @@ def build_paml_subtrees(
     logger: logging.Logger,
 ) -> Tuple[List[PamlSubtreeRecord], List[Dict[str, object]]]:
     master_tip_order = get_tip_names_from_tree(tree)
+    tip_order_index = {tip_name: index for index, tip_name in enumerate(master_tip_order)}
     backbone_tip_set = set(backbone_tip_names)
     records: List[PamlSubtreeRecord] = []
     manifest_rows: List[Dict[str, object]] = []
@@ -827,7 +839,7 @@ def build_paml_subtrees(
         selected_tip_set = set(backbone_tip_set)
         selected_tip_set.update(target_record.target_nonbackbone_tip_names)
         selected_tip_set.add(outgroup_tip)
-        ordered_tip_names = build_ordered_tip_list(master_tip_order, selected_tip_set)
+        ordered_tip_names = build_ordered_tip_list(tip_order_index, selected_tip_set)
         if len(ordered_tip_names) > max_tips:
             raise PipelineError(
                 f"{target_record.target_subtree_id} produces {len(ordered_tip_names)} tips, exceeding max_tips={max_tips}"

@@ -97,7 +97,11 @@ def map_tip_to_source_id(
         if seq_id_strategy == "exact":
             source_id = tip_name
         else:
-            source_id = tip_name.split("_", 1)[0]
+            # Prefer an exact FASTA id match when available. This keeps the
+            # prefix strategy compatible with datasets whose tree tips and FASTA
+            # headers already match in full, while still supporting prefix-only
+            # FASTA ids such as JX289104_M33a3a -> JX289104.
+            source_id = tip_name if tip_name in fasta_id_set else tip_name.split("_", 1)[0]
         if source_id not in fasta_id_set:
             raise PipelineError(f"Could not map tree tip to FASTA id: {tip_name} -> {source_id}")
         owner = used_source_ids.get(source_id)

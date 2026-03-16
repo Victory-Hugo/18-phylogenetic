@@ -66,7 +66,7 @@
 - `exact`
 - `prefix_before_first_underscore`
 
-样例默认使用第二种，例如：
+样例默认使用第二种。该模式会优先尝试 FASTA header 与树 tip 的完整匹配；只有完整匹配不存在时，才退回到首个下划线前缀匹配。例如：
 
 - `JX289104_M33a3a -> JX289104`
 - `RSRS_MRCA -> RSRS`

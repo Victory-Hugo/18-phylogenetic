@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 from phylo_split_common import (
@@ -34,6 +35,16 @@ from phylo_split_common import (
     write_tree,
     write_clade_tree,
 )
+
+
+def _plan_parallel_tree_builds(total_threads: int, task_count: int) -> tuple[int, int]:
+    total_threads = max(1, int(total_threads))
+    task_count = max(0, int(task_count))
+    if task_count <= 1:
+        return 1, total_threads
+    worker_count = min(task_count, total_threads, 8)
+    per_task_threads = max(1, total_threads // worker_count)
+    return worker_count, per_task_threads
 
 
 def run(
@@ -166,18 +177,49 @@ def run(
 
     for record in target_records:
         write_clade_tree(record.clade, output_dir / record.target_tree_file)
-    for record in paml_records:
-        build_induced_tree_file(
-            rooted_master_tree=rooted_tree_path,
-            selected_tip_names=record.total_tip_names,
-            outgroup_tip=outgroup_tip_name,
-            destination=output_dir / record.paml_tree_file,
-            intermediate_dir=output_dir / "intermediate",
-            conda_env=conda_env,
-            gotree_bin=gotree_bin,
-            threads=int(threads),
-            logger=logger,
-        )
+    worker_count, per_task_threads = _plan_parallel_tree_builds(int(threads), len(paml_records))
+    logger.info(
+        "Building %d PAML subtrees with %d parallel workers (%d gotree threads per task).",
+        len(paml_records),
+        worker_count,
+        per_task_threads,
+    )
+    if worker_count == 1:
+        for record in paml_records:
+            build_induced_tree_file(
+                rooted_master_tree=rooted_tree_path,
+                selected_tip_names=record.total_tip_names,
+                outgroup_tip=outgroup_tip_name,
+                destination=output_dir / record.paml_tree_file,
+                intermediate_dir=output_dir / "intermediate",
+                conda_env=conda_env,
+                gotree_bin=gotree_bin,
+                threads=per_task_threads,
+                logger=logger,
+            )
+    else:
+        with ThreadPoolExecutor(max_workers=worker_count) as executor:
+            future_to_subtree = {
+                executor.submit(
+                    build_induced_tree_file,
+                    rooted_master_tree=rooted_tree_path,
+                    selected_tip_names=record.total_tip_names,
+                    outgroup_tip=outgroup_tip_name,
+                    destination=output_dir / record.paml_tree_file,
+                    intermediate_dir=output_dir / "intermediate",
+                    conda_env=conda_env,
+                    gotree_bin=gotree_bin,
+                    threads=per_task_threads,
+                    logger=logger,
+                ): record.paml_subtree_id
+                for record in paml_records
+            }
+            for future in as_completed(future_to_subtree):
+                subtree_id = future_to_subtree[future]
+                try:
+                    future.result()
+                except Exception as exc:
+                    raise PipelineError(f"Failed while building {subtree_id}: {exc}") from exc
 
     logger.info("Constructed %d target subtrees and %d PAML subtrees.", len(target_records), len(paml_records))
     return 0

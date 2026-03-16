@@ -45,7 +45,7 @@
 - `runtime.backbone_size = 100`
 - `runtime.backbone_sampling_strategy = greedy_farthest_patristic`
 - `runtime.target_partition_mode = recursive_monophyletic`
-- `paml.seq_id_strategy = prefix_before_first_underscore`
+- `paml.seq_id_strategy = prefix_before_first_underscore`（优先完整匹配，找不到时再回退到首个下划线前缀）
 - `merge.mode = backbone_graft`
 
 ## 3. 输入要求
