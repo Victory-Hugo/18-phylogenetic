@@ -1,0 +1,18 @@
+projectpath: "."
+
+paths:
+  meta_tsv: "meta/骨架树筛选.tsv"
+  basic_info_tsv: "meta/基础信息.tsv"
+  vcf_gz: "data/merged_clean_去除hot.snp.vcf.gz"
+  output_dir: "output"
+
+tools:
+  python: "python3"
+
+runtime:
+  tiers: "100,150,200,250,300"
+  distance_mode: "alt_hamming"
+  seed_mode: "deep_lineage_cover"
+  deep_lineage_labels: "auto"
+  min_quality: 0.0
+  log_level: "INFO"

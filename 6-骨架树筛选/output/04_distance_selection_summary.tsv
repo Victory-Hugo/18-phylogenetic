@@ -1,0 +1,6 @@
+tier	selected_n	mean_pairwise_distance_estimate	min_pairwise_distance_estimate	deep_lineage_covered_n	unique_haplogroup_label_n	notes
+100	100	0.005876	0.002873	4	74	distance_mode=alt_hamming;seed_mode=deep_lineage_cover
+150	150	0.005334	0.002258	4	100	distance_mode=alt_hamming;seed_mode=deep_lineage_cover
+200	200	0.005071	0.001847	4	115	distance_mode=alt_hamming;seed_mode=deep_lineage_cover
+250	250	0.004932	0.001642	4	126	distance_mode=alt_hamming;seed_mode=deep_lineage_cover
+300	300	0.004762	0.001437	4	134	distance_mode=alt_hamming;seed_mode=deep_lineage_cover

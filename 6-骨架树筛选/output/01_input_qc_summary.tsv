@@ -1,0 +1,20 @@
+metric	value	note
+raw_row_count	78218	Raw metadata rows before any filtering.
+raw_unique_sample_ids	78002	Unique SampleID values in metadata.
+vcf_sample_count	77559	Total samples present in the VCF header.
+vcf_overlap_sample_ids	77451	Metadata SampleIDs present in the VCF header.
+missing_in_vcf_sample_ids	551	Metadata SampleIDs absent from the VCF header.
+duplicate_sample_ids	216	SampleIDs with more than one metadata row.
+strict_full_length_rows	66665	Rows whose normalized Range equals 1-16569.
+quality_not_one_rows	62143	Rows removed because Quality was not exactly 1.
+quality_filtered_rows	0	Rows removed because Quality was below --min-quality.
+missing_basic_info_rows	109	Rows removed because the SampleID was absent from basic info.
+llt_source_rows	1038	Rows removed because Source in basic info started with LLT.
+identical_duplicate_ids	1	Duplicate SampleIDs collapsed because all retained fields matched.
+conflicting_duplicate_ids	0	Duplicate SampleIDs resolved by quality and haplogroup tie-break rules.
+clean_candidate_pool_size	3346	Unique SampleIDs retained after filtering and deduplication.
+variant_site_count	9745	Variant rows scanned from the VCF body for distance encoding.
+distance_mode	alt_hamming	Distance function used during diversity expansion.
+seed_mode	deep_lineage_cover	Seed selection mode used before diversity expansion.
+deep_lineage_label_count	4	Deep-lineage labels considered during seed coverage.
+requested_tiers	100,150,200,250,300	Tier cutoffs sliced from the global ordered backbone master list.
