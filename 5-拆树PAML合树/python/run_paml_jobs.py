@@ -8,14 +8,20 @@ import concurrent.futures
 import datetime as dt
 import fcntl
 import queue
-import re
 import sys
 import threading
 import time
 from pathlib import Path
 
 from phylo_split_common import PipelineError, setup_logger
-from paml_common import PAML_RUN_STATUS_COLUMNS, load_rows, plan_cpu_slots, run_baseml_job, write_rows
+from paml_common import (
+    PAML_RUN_STATUS_COLUMNS,
+    baseml_output_looks_complete,
+    load_rows,
+    plan_cpu_slots,
+    run_baseml_job,
+    write_rows,
+)
 
 
 class ResumeTracker:
@@ -68,11 +74,7 @@ class ResumeTracker:
 
 
 def _has_complete_baseml_output(outfile: Path) -> bool:
-    if not outfile.exists() or outfile.stat().st_size == 0:
-        return False
-    text = outfile.read_text(encoding="utf-8", errors="replace")
-    has_lnl = re.search(r"^\s*lnL\(", text, flags=re.MULTILINE) is not None
-    return has_lnl and "SEs for parameters" in text and "tree length" in text
+    return baseml_output_looks_complete(outfile)
 
 
 def _has_known_numeric_failure(*paths: Path) -> bool:

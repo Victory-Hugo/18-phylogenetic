@@ -9,15 +9,11 @@ import sys
 from pathlib import Path
 
 from phylo_split_common import PipelineError, setup_logger
-from paml_common import parse_cpu_list, plan_cpu_slots, run_baseml_job
+from paml_common import baseml_output_looks_complete, parse_cpu_list, plan_cpu_slots, run_baseml_job
 
 
 def _has_complete_baseml_output(outfile: Path) -> bool:
-    if not outfile.exists() or outfile.stat().st_size == 0:
-        return False
-    text = outfile.read_text(encoding="utf-8", errors="replace")
-    has_lnl = re.search(r"^\s*lnL\(", text, flags=re.MULTILINE) is not None
-    return has_lnl and "SEs for parameters" in text and "tree length" in text
+    return baseml_output_looks_complete(outfile)
 
 
 def _rewrite_ctl_file(source_ctl: Path, destination_ctl: Path, overrides):

@@ -198,6 +198,15 @@ def next_nonempty_index(lines: Sequence[str], start_index: int) -> int:
     raise PipelineError("Unexpected end of baseml output while searching for the next non-empty line.")
 
 
+def collect_nonempty_lines(
+    lines: Sequence[str],
+    start_index: int,
+    end_index: Optional[int] = None,
+) -> List[str]:
+    stop_index = len(lines) if end_index is None else min(len(lines), end_index)
+    return [line.strip() for line in lines[start_index:stop_index] if line.strip()]
+
+
 def parse_baseml_output(result_file: Path) -> ParsedBasemlOutput:
     lines = result_file.read_text(encoding="utf-8").splitlines()
 
@@ -209,22 +218,47 @@ def parse_baseml_output(result_file: Path) -> ParsedBasemlOutput:
     lnl_index = lnl_candidates[-1] if lnl_candidates else None
     if lnl_index is None:
         raise PipelineError(f"Could not locate lnL section in baseml result: {result_file}")
-    branch_tags_index = next_nonempty_index(lines, lnl_index + 1)
-    branch_params_index = next_nonempty_index(lines, branch_tags_index + 1)
-    se_anchor_index = next((idx for idx, line in enumerate(lines) if "SEs for parameters" in line), None)
-    if se_anchor_index is None:
-        raise PipelineError(f"Could not locate SEs section in baseml result: {result_file}")
-    if branch_params_index == se_anchor_index:
-        branch_tags_line = ""
-        branch_params_line = lines[branch_tags_index].strip()
-    else:
-        branch_tags_line = lines[branch_tags_index].strip()
-        branch_params_line = lines[branch_params_index].strip()
-    se_line_index = next_nonempty_index(lines, se_anchor_index + 1)
 
     tree_anchor_index = next((idx for idx, line in enumerate(lines) if "tree length" in line), None)
     if tree_anchor_index is None:
         raise PipelineError(f"Could not locate tree length section in baseml result: {result_file}")
+    if tree_anchor_index <= lnl_index:
+        raise PipelineError(f"Invalid baseml output ordering around lnL/tree length: {result_file}")
+
+    se_anchor_index = next(
+        (
+            idx
+            for idx, line in enumerate(lines)
+            if lnl_index < idx < tree_anchor_index and "SEs for parameters" in line
+        ),
+        None,
+    )
+
+    parameter_lines = collect_nonempty_lines(
+        lines,
+        lnl_index + 1,
+        se_anchor_index if se_anchor_index is not None else tree_anchor_index,
+    )
+    if not parameter_lines:
+        raise PipelineError(f"Could not locate branch parameter section in baseml result: {result_file}")
+
+    first_parameter_tokens = parameter_lines[0].split()
+    has_branch_tags = bool(first_parameter_tokens) and all(".." in token for token in first_parameter_tokens)
+    if has_branch_tags:
+        branch_tags_line = parameter_lines[0]
+        if len(parameter_lines) < 2:
+            raise PipelineError(f"Could not locate branch parameter values in baseml result: {result_file}")
+        branch_params_line = parameter_lines[1]
+    else:
+        branch_tags_line = ""
+        branch_params_line = parameter_lines[0]
+
+    se_line = ""
+    if se_anchor_index is not None:
+        se_lines = collect_nonempty_lines(lines, se_anchor_index + 1, tree_anchor_index)
+        if not se_lines:
+            raise PipelineError(f"Could not locate SE values after SE header in baseml result: {result_file}")
+        se_line = se_lines[0]
 
     named_tree_line = None
     indexed_tree_line = None
@@ -247,10 +281,20 @@ def parse_baseml_output(result_file: Path) -> ParsedBasemlOutput:
     return ParsedBasemlOutput(
         branch_tags_line=branch_tags_line,
         branch_params_line=branch_params_line,
-        se_line=lines[se_line_index].strip(),
+        se_line=se_line,
         named_tree_line=named_tree_line,
         indexed_tree_line=indexed_tree_line,
     )
+
+
+def baseml_output_looks_complete(result_file: Path) -> bool:
+    if not result_file.exists() or result_file.stat().st_size == 0:
+        return False
+    try:
+        parse_baseml_output(result_file)
+    except PipelineError:
+        return False
+    return True
 
 
 def parse_indexed_tip_mapping(indexed_tree_line: str) -> Dict[int, str]:
@@ -284,16 +328,16 @@ def build_parameter_rows(parsed_output: ParsedBasemlOutput) -> List[Dict[str, ob
     branch_params = parsed_output.branch_params_line.split()
     se_values = parsed_output.se_line.split()
     if not branch_tags or any(".." not in branch_tag for branch_tag in branch_tags):
-        n_rows = min(len(branch_params), len(se_values))
+        n_rows = len(branch_params)
         if n_rows == 0:
             raise PipelineError("No parameter rows could be parsed from baseml output.")
         rows: List[Dict[str, object]] = []
-        for idx, (branch_param, se_value) in enumerate(zip(branch_params[:n_rows], se_values[:n_rows]), start=1):
+        for idx, branch_param in enumerate(branch_params[:n_rows], start=1):
             rows.append(
                 {
                     "Branch": f"PARAM_{idx}",
                     "Param": branch_param,
-                    "SE": se_value,
+                    "SE": se_values[idx - 1] if idx - 1 < len(se_values) else "",
                     "Parent": "",
                     "Child": "",
                     "Parent_ID": "",
@@ -303,12 +347,12 @@ def build_parameter_rows(parsed_output: ParsedBasemlOutput) -> List[Dict[str, ob
         return rows
 
     indexed_tip_map = parse_indexed_tip_mapping(parsed_output.indexed_tree_line)
-    n_rows = min(len(branch_tags), len(branch_params), len(se_values))
+    n_rows = min(len(branch_tags), len(branch_params))
     if n_rows == 0:
         raise PipelineError("No branch parameter rows could be parsed from baseml output.")
 
     rows: List[Dict[str, object]] = []
-    for branch_tag, branch_param, se_value in zip(branch_tags[:n_rows], branch_params[:n_rows], se_values[:n_rows]):
+    for idx, (branch_tag, branch_param) in enumerate(zip(branch_tags[:n_rows], branch_params[:n_rows])):
         parent_str, child_str = branch_tag.split("..", 1)
         parent_id = int(parent_str)
         child_id = int(child_str)
@@ -316,7 +360,7 @@ def build_parameter_rows(parsed_output: ParsedBasemlOutput) -> List[Dict[str, ob
             {
                 "Branch": branch_tag,
                 "Param": branch_param,
-                "SE": se_value,
+                "SE": se_values[idx] if idx < len(se_values) else "",
                 "Parent": parent_id,
                 "Child": child_id,
                 "Parent_ID": indexed_tip_map.get(parent_id, ""),
