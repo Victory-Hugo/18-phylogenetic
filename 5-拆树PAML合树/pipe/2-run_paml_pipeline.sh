@@ -75,6 +75,8 @@ ULTRAMETRIC_TOLERANCE=$(config_get paml.ultrametric_tolerance)
 PAML_SUBTREE_SUMMARY_TSV="$SPLIT_OUTPUT_DIR/paml_subtree_summary.tsv"
 PAML_TREE_DIR="$SPLIT_OUTPUT_DIR/paml_subtrees"
 MANIFEST_PATH="$PAML_OUTPUT_DIR/paml_job_manifest.tsv"
+PAML_RESUME_LOG_DIR="$PAML_OUTPUT_DIR/log"
+PAML_RESUME_SUCCESS_LOG="$PAML_RESUME_LOG_DIR/success.log"
 BACKBONE_TREE="$SPLIT_OUTPUT_DIR/backbone_tree.nwk"
 BACKBONE_SUMMARY_TSV="$SPLIT_OUTPUT_DIR/backbone_summary.tsv"
 
@@ -111,18 +113,39 @@ fi
 mkdir -p "$PAML_OUTPUT_DIR" "$TMP_DIR"
 
 if [[ "$PAML_CLEAN_OUTPUT_DIR" == "True" || "$PAML_CLEAN_OUTPUT_DIR" == "true" ]]; then
-    rm -rf "$PAML_OUTPUT_DIR/jobs"
-    rm -rf "$PAML_OUTPUT_DIR/analysis_trees"
-    rm -rf "$PAML_OUTPUT_DIR/tables"
-    rm -rf "$BACKBONE_JOB_DIR"
-    rm -rf "$BACKBONE_ANALYSIS_DIR"
-    rm -f "$PAML_OUTPUT_DIR/paml_job_manifest.tsv"
-    rm -f "$PAML_OUTPUT_DIR/paml_run_status.tsv"
-    rm -f "$PAML_OUTPUT_DIR/paml_parse_status.tsv"
-    rm -f "$PAML_OUTPUT_DIR/prepare_paml_inputs.log"
-    rm -f "$PAML_OUTPUT_DIR/run_paml_jobs.log"
-    rm -f "$PAML_OUTPUT_DIR/parse_paml_outputs.log"
-    rm -rf "$TMP_DIR/paml_parse"
+    if [[ -s "$PAML_RESUME_SUCCESS_LOG" ]]; then
+        echo "[INFO] Resume logs detected at $PAML_RESUME_SUCCESS_LOG; skip destructive cleanup even though paml.clean_output_dir=true."
+    else
+        rm -rf "$PAML_OUTPUT_DIR/jobs"
+        rm -rf "$PAML_OUTPUT_DIR/analysis_trees"
+        rm -rf "$PAML_OUTPUT_DIR/tables"
+        rm -rf "$PAML_OUTPUT_DIR/log"
+        rm -rf "$BACKBONE_JOB_DIR"
+        rm -rf "$BACKBONE_ANALYSIS_DIR"
+        rm -f "$PAML_OUTPUT_DIR/paml_job_manifest.tsv"
+        rm -f "$PAML_OUTPUT_DIR/paml_run_status.tsv"
+        rm -f "$PAML_OUTPUT_DIR/paml_parse_status.tsv"
+        rm -f "$PAML_OUTPUT_DIR/prepare_paml_inputs.log"
+        rm -f "$PAML_OUTPUT_DIR/run_paml_jobs.log"
+        rm -f "$PAML_OUTPUT_DIR/parse_paml_outputs.log"
+        rm -rf "$TMP_DIR/paml_parse"
+    fi
+fi
+
+RUN_ARGS=(
+    --manifest "$MANIFEST_PATH"
+    --baseml-bin "$BASEML_BIN"
+    --parallel-jobs "$PAML_PARALLEL_JOBS"
+    --threads-per-job "$PAML_THREADS_PER_JOB"
+    --resume-log-dir "$PAML_RESUME_LOG_DIR"
+    --log-level "$LOG_LEVEL"
+)
+
+if [[ "$PAML_SKIP_EXISTING" == "True" || "$PAML_SKIP_EXISTING" == "true" ]]; then
+    RUN_ARGS+=(--legacy-skip-existing)
+fi
+if [[ "$PAML_BIND_CPU_AFFINITY" == "True" || "$PAML_BIND_CPU_AFFINITY" == "true" ]]; then
+    RUN_ARGS+=(--bind-cpu-affinity)
 fi
 
 echo "[INFO] Stage 1/6: prepare_paml_inputs"
@@ -134,21 +157,6 @@ echo "[INFO] Stage 1/6: prepare_paml_inputs"
     --output-dir "$PAML_OUTPUT_DIR" \
     --seq-id-strategy "$SEQ_ID_STRATEGY" \
     --log-level "$LOG_LEVEL"
-
-RUN_ARGS=(
-    --manifest "$MANIFEST_PATH"
-    --baseml-bin "$BASEML_BIN"
-    --parallel-jobs "$PAML_PARALLEL_JOBS"
-    --threads-per-job "$PAML_THREADS_PER_JOB"
-    --log-level "$LOG_LEVEL"
-)
-
-if [[ "$PAML_SKIP_EXISTING" == "True" || "$PAML_SKIP_EXISTING" == "true" ]]; then
-    RUN_ARGS+=(--skip-existing)
-fi
-if [[ "$PAML_BIND_CPU_AFFINITY" == "True" || "$PAML_BIND_CPU_AFFINITY" == "true" ]]; then
-    RUN_ARGS+=(--bind-cpu-affinity)
-fi
 
 echo "[INFO] Stage 2/6: run_paml_jobs"
 env "${PAML_RUNTIME_ENV[@]}" \
@@ -168,18 +176,6 @@ if [[ "$BACKBONE_ONLY_ENABLED" == "True" || "$BACKBONE_ONLY_ENABLED" == "true" ]
         exit 1
     fi
 
-    echo "[INFO] Stage 4/6: prepare_backbone_paml_input"
-    "$PYTHON_BIN" "$PROJECT_ROOT/python/prepare_backbone_paml_input.py" \
-        --backbone-tree "$BACKBONE_TREE" \
-        --backbone-summary-tsv "$BACKBONE_SUMMARY_TSV" \
-        --paml-summary-tsv "$PAML_SUBTREE_SUMMARY_TSV" \
-        --input-fasta "$INPUT_FASTA" \
-        --ctl-template "$CTL_TEMPLATE" \
-        --job-dir "$BACKBONE_JOB_DIR" \
-        --analysis-dir "$BACKBONE_ANALYSIS_DIR" \
-        --seq-id-strategy "$SEQ_ID_STRATEGY" \
-        --log-level "$LOG_LEVEL"
-
     BACKBONE_RUN_ARGS=(
         --job-dir "$BACKBONE_JOB_DIR"
         --baseml-bin "$BASEML_BIN"
@@ -192,6 +188,18 @@ if [[ "$BACKBONE_ONLY_ENABLED" == "True" || "$BACKBONE_ONLY_ENABLED" == "true" ]
     if [[ "$PAML_BIND_CPU_AFFINITY" == "True" || "$PAML_BIND_CPU_AFFINITY" == "true" ]]; then
         BACKBONE_RUN_ARGS+=(--bind-cpu-affinity)
     fi
+
+    echo "[INFO] Stage 4/6: prepare_backbone_paml_input"
+    "$PYTHON_BIN" "$PROJECT_ROOT/python/prepare_backbone_paml_input.py" \
+        --backbone-tree "$BACKBONE_TREE" \
+        --backbone-summary-tsv "$BACKBONE_SUMMARY_TSV" \
+        --paml-summary-tsv "$PAML_SUBTREE_SUMMARY_TSV" \
+        --input-fasta "$INPUT_FASTA" \
+        --ctl-template "$CTL_TEMPLATE" \
+        --job-dir "$BACKBONE_JOB_DIR" \
+        --analysis-dir "$BACKBONE_ANALYSIS_DIR" \
+        --seq-id-strategy "$SEQ_ID_STRATEGY" \
+        --log-level "$LOG_LEVEL"
 
     echo "[INFO] Stage 5/6: run_backbone_paml_job"
     env "${PAML_RUNTIME_ENV[@]}" \

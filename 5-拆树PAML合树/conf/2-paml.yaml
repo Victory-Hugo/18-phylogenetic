@@ -1,5 +1,5 @@
 paths:
-  input_fasta: "/mnt/l/6_起源地混合地/8-第一轮修稿/1-新的mtDNA系统发育树/data/filtered_sequences.aln.fasta"
+  input_fasta: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/data/big.fasta"
   split_output_dir: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/split"
   tmp_dir: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/tmp"
 runtime:
@@ -16,7 +16,7 @@ paml:
   enable_par3: true
   bind_cpu_affinity: true
   seq_id_strategy: "prefix_before_first_underscore"
-  skip_existing: true
+  skip_existing: false
   backbone_only_enabled: true
   backbone_job_dir: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/paml/backbone_job"
   backbone_analysis_dir: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/paml/backbone_analysis"
