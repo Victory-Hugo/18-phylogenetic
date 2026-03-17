@@ -3,6 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROJECT_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
+PATH_ROOT="$PROJECT_ROOT"
 DEFAULT_CONFIG_PATH="$PROJECT_ROOT/conf/1-split.yaml"
 CONFIG_PATH="$DEFAULT_CONFIG_PATH"
 BOOTSTRAP_PYTHON="python3"
@@ -22,10 +23,23 @@ done
 
 resolve_path() {
     local value="$1"
+    if [[ -z "$value" || "$value" == "null" ]]; then
+        printf '%s\n' "$value"
+        return
+    fi
     if [[ "$value" == /* ]]; then
         printf '%s\n' "$value"
     else
-        printf '%s\n' "$PROJECT_ROOT/$value"
+        printf '%s\n' "$PATH_ROOT/$value"
+    fi
+}
+
+resolve_command_or_path() {
+    local value="$1"
+    if [[ "$value" == */* || "$value" == .* ]]; then
+        resolve_path "$value"
+    else
+        printf '%s\n' "$value"
     fi
 }
 
@@ -44,9 +58,12 @@ config_get_optional() {
     "$BOOTSTRAP_PYTHON" "$CONFIG_LOADER" --config "$CONFIG_PATH" --key "$1" --default "${2:-}"
 }
 
-PYTHON_BIN=$(config_get tools.python)
+CONFIG_PROJECT_ROOT=$(config_get_optional projectpath "$PROJECT_ROOT")
+PATH_ROOT=$(resolve_path "$CONFIG_PROJECT_ROOT")
+
+PYTHON_BIN=$(resolve_command_or_path "$(config_get tools.python)")
 CONDA_ENV=$(config_get tools.conda_env)
-GOTREE_BIN=$(config_get tools.gotree)
+GOTREE_BIN=$(resolve_command_or_path "$(config_get tools.gotree)")
 
 bash "$PROJECT_ROOT/script/check_env.sh" \
     --python "$PYTHON_BIN" \

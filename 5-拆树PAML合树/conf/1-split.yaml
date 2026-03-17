@@ -1,7 +1,9 @@
+projectpath: "."
+
 paths:
-  input_tree: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/data/big_rooted.tree"
-  outgroup_tip_file: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/conf/outgroup_tips.txt"
-  output_dir: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/split"
+  input_tree: "data/big_rooted.tree"
+  outgroup_tip_file: "conf/outgroup_tips.txt"
+  output_dir: "output/split"
   #? 若不提供 backbone_tree，则运行时自动构建
   backbone_tree: null
   #? 可以不提供，将由算法自动生成

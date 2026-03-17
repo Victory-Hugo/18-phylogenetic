@@ -8,6 +8,7 @@ import concurrent.futures
 import datetime as dt
 import fcntl
 import queue
+import re
 import sys
 import threading
 import time
