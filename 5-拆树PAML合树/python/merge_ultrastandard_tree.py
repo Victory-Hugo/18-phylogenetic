@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import copy
 import sys
 from pathlib import Path
 
@@ -21,7 +20,7 @@ from phylo_merge_common import (
     validate_rooted_tree_with_outgroup,
     validate_tree_against_expected_tip_set,
 )
-from phylo_split_common import PipelineError, assign_node_ids, get_tip_names_from_tree, setup_logger
+from phylo_split_common import PipelineError, assign_node_ids, clone_clade, get_tip_names_from_tree, setup_logger
 from phylo_ultrastandard_common import (
     BACKBONE_EDGE_ASSIGNMENT_COLUMNS,
     GRAFT_REPORT_COLUMNS,
@@ -166,7 +165,7 @@ def run(
         )
 
         extracted_clade = extract_monophyletic_target_clade(analysis_tree, target_record.target_nonbackbone_tip_names)
-        target_tree = collapse_tree(Tree(root=copy.deepcopy(extracted_clade), rooted=True))
+        target_tree = collapse_tree(Tree(root=clone_clade(extracted_clade), rooted=True))
         relative_tree, relative_height, _ = normalize_relative_ultrametric_tree(
             target_tree,
             min_branch_length=min_branch_length,
@@ -187,7 +186,7 @@ def run(
                 f"{target_id} anchor height is not below the tree height: anchor={anchor_height:.12g}, H={H:.12g}"
             )
         scaled_tree = scale_tree_nonroot(relative_tree, available_depth, min_branch_length=min_branch_length)
-        scaled_root = copy.deepcopy(scaled_tree.root)
+        scaled_root = clone_clade(scaled_tree.root)
         scaled_root.branch_length = 0.0
         replace_placeholder_with_scaled_tree(scaffold_tree, placeholder_name, scaled_root)
 

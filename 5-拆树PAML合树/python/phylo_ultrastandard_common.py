@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import copy
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
@@ -20,6 +19,7 @@ from phylo_merge_common import (
 from phylo_split_common import (
     PipelineError,
     collapse_unary_tree,
+    clone_tree,
     compute_tip_hash,
     get_tip_names_from_clade,
     get_tip_names_from_tree,
@@ -131,7 +131,7 @@ def extend_terminal_branches_to_height(
     min_branch_length: float,
     tolerance: float,
 ) -> Tuple[Tree, float, Dict[str, str]]:
-    tree = copy.deepcopy(tree)
+    tree = clone_tree(tree)
     for clade in tree.find_clades(order="preorder"):
         if clade is tree.root:
             clade.branch_length = None
@@ -194,7 +194,7 @@ def normalize_relative_ultrametric_tree(
 def scale_tree_nonroot(tree: Tree, factor: float, min_branch_length: float) -> Tree:
     if factor <= 0:
         raise PipelineError(f"Scaling factor must be positive, got {factor}")
-    scaled_tree = copy.deepcopy(tree)
+    scaled_tree = clone_tree(tree)
     for clade in scaled_tree.find_clades(order="preorder"):
         if clade is scaled_tree.root:
             clade.branch_length = None

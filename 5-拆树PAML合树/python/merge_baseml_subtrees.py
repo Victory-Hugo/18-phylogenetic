@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import copy
 import json
 import sys
 from pathlib import Path
@@ -34,7 +33,7 @@ from phylo_merge_common import (
     write_rows,
     write_tree_file,
 )
-from phylo_split_common import PipelineError, assign_node_ids, compute_tip_hash, setup_logger
+from phylo_split_common import PipelineError, assign_node_ids, clone_clade, compute_tip_hash, setup_logger
 
 
 def _resolve_external_result_dir(external_result_dir):
@@ -134,7 +133,7 @@ def run(
         target_record = target_by_id[target_id]
         try:
             target_clade = extract_monophyletic_target_clade(analysis_tree, target_record.target_nonbackbone_tip_names)
-            extracted_grafts[target_id] = copy.deepcopy(target_clade)
+            extracted_grafts[target_id] = clone_clade(target_clade)
             graft_report_rows.append(
                 {
                     "target_subtree_id": target_record.target_subtree_id,
@@ -207,7 +206,7 @@ def run(
 
     for target_record in target_records:
         placeholder = target_to_placeholder[target_record.target_subtree_id]
-        replacement = copy.deepcopy(extracted_grafts[target_record.target_subtree_id])
+        replacement = clone_clade(extracted_grafts[target_record.target_subtree_id])
         replacement.branch_length = ensure_positive_branch_length(replacement.branch_length, min_branch_length)
         if not replace_placeholder_with_clade(scaffold_tree, placeholder, replacement):
             raise PipelineError(f"Failed to replace placeholder {placeholder} in scaffold tree.")

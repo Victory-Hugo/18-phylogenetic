@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import copy
 import sys
 from pathlib import Path
 
@@ -20,7 +19,7 @@ from phylo_merge_common import (
     write_rows,
     write_tree_file,
 )
-from phylo_split_common import PipelineError, setup_logger
+from phylo_split_common import PipelineError, clone_tree, setup_logger
 
 
 def run(
@@ -65,7 +64,7 @@ def run(
         validate_rooted_binary_tree(source_tree, outgroup_tip_name)
 
         tree_seed = int(randomization_seed) + (stable_hash_int(record.baseml_subtree_id) % (2 ** 31))
-        simulated_tree = copy.deepcopy(source_tree)
+        simulated_tree = clone_tree(source_tree)
         n_edges, min_multiplier, max_multiplier, mean_multiplier = randomize_tree_branch_lengths(
             simulated_tree,
             sigma=float(randomization_sigma),

@@ -199,9 +199,52 @@ def read_newick_tree(tree_path: Path) -> Tree:
         raise PipelineError(f"Failed to read Newick tree: {tree_path}") from exc
 
 
+def estimate_tree_depth(tree: Tree) -> int:
+    max_depth = 0
+    stack: List[Tuple[Clade, int]] = [(tree.root, 1)]
+    while stack:
+        clade, depth = stack.pop()
+        if depth > max_depth:
+            max_depth = depth
+        for child in clade.clades:
+            stack.append((child, depth + 1))
+    return max_depth
+
+
+def clone_clade(clade: Clade) -> Clade:
+    cloned_root = Clade()
+    stack: List[Tuple[Clade, Clade]] = [(clade, cloned_root)]
+    while stack:
+        source, target = stack.pop()
+        for key, value in vars(source).items():
+            if key == "clades":
+                continue
+            setattr(target, key, copy.copy(value))
+        target.clades = []
+        for child in source.clades:
+            cloned_child = Clade()
+            target.clades.append(cloned_child)
+            stack.append((child, cloned_child))
+    return cloned_root
+
+
+def clone_tree(tree: Tree) -> Tree:
+    cloned = Tree(root=clone_clade(tree.root), rooted=tree.rooted)
+    for key, value in vars(tree).items():
+        if key == "root":
+            continue
+        setattr(cloned, key, copy.copy(value))
+    return cloned
+
+
 def write_tree(tree: Tree, destination: Path) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     tree.rooted = True
+    depth = estimate_tree_depth(tree)
+    previous_limit = sys.getrecursionlimit()
+    required_limit = max(previous_limit, depth * 4 + 500)
+    if required_limit > previous_limit:
+        sys.setrecursionlimit(required_limit)
     with tempfile.NamedTemporaryFile(
         "w",
         encoding="utf-8",
@@ -217,6 +260,8 @@ def write_tree(tree: Tree, destination: Path) -> None:
         tmp_path.replace(destination)
     finally:
         tmp_path.unlink(missing_ok=True)
+        if required_limit > previous_limit:
+            sys.setrecursionlimit(previous_limit)
 
 
 def get_tip_names_from_tree(tree: Tree) -> List[str]:
@@ -944,5 +989,5 @@ def build_paml_subtrees(
 
 
 def write_clade_tree(clade: Clade, destination: Path) -> None:
-    subtree = Tree(root=copy.deepcopy(clade), rooted=True)
+    subtree = Tree(root=clone_clade(clade), rooted=True)
     write_tree(subtree, destination)

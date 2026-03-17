@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import copy
 import hashlib
 import json
 import math
@@ -18,6 +17,8 @@ from phylo_split_common import (
     PipelineError,
     assign_node_ids,
     collapse_unary_tree,
+    clone_clade,
+    clone_tree,
     compute_tip_hash,
     decode_json_list,
     encode_json_list,
@@ -431,7 +432,7 @@ def extract_monophyletic_target_clade(tree: Tree, target_tip_names: Sequence[str
     except KeyError as exc:
         raise PipelineError(f"Analysis tree is missing target tip: {exc}") from exc
     target_mrca = tree.common_ancestor(target_tips)
-    extracted = Tree(root=copy.deepcopy(target_mrca), rooted=True)
+    extracted = Tree(root=clone_clade(target_mrca), rooted=True)
     target_tip_set = set(target_tip_names)
     for tip in list(extracted.get_terminals()):
         if str(tip.name) not in target_tip_set:
@@ -495,4 +496,4 @@ def build_edge_update_row(
 
 
 def copy_tree(tree: Tree) -> Tree:
-    return copy.deepcopy(tree)
+    return clone_tree(tree)
