@@ -1,18 +1,18 @@
-projectpath: "."
+projectpath: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树"
 
 paths:
-  input_tree: "data/big_rooted.tree"
+  input_tree: "data/VFT_rooted.tree"
   outgroup_tip_file: "conf/outgroup_tips.txt"
   output_dir: "output/split"
   #? 若不提供 backbone_tree，则运行时自动构建
   backbone_tree: null
   #? 可以不提供，将由算法自动生成
-  backbone_tip_id_file: null
+  backbone_tip_id_file: "conf/1_backbone_300.tsv"
 runtime:
   #? [注意该数字包括了 backbone_tree 中的 tip 数量]每个子树的最大 tip 数量，超过该数量的子树将继续被拆分
-  max_tips: 250          
+  max_tips: 500          
   #? backbone_tree 的目标 tip 数量，若 backbone_tree 中的 tip 数量超过该值，则会被进一步拆分
-  backbone_size: 100  
+  backbone_size: 300  
   threads: 20
   clean_output_dir: true
   log_level: "INFO"

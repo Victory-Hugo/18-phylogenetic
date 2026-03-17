@@ -83,6 +83,7 @@ CLEAN_SPLIT_OUTPUT_DIR=$(config_get runtime.clean_output_dir)
 LOG_LEVEL=$(config_get runtime.log_level)
 BACKBONE_SAMPLING_STRATEGY=$(config_get runtime.backbone_sampling_strategy)
 TARGET_PARTITION_MODE=$(config_get runtime.target_partition_mode)
+PRE_BINARIZE_ROOTED_TREE=$(config_get_optional runtime.pre_binarize_rooted_tree true)
 
 mkdir -p "$OUTPUT_DIR" "$OUTPUT_DIR/target_subtrees" "$OUTPUT_DIR/paml_subtrees" "$OUTPUT_DIR/intermediate"
 
@@ -113,6 +114,7 @@ SPLIT_ARGS=(
     --gotree-bin "$GOTREE_BIN"
     --backbone-sampling-strategy "$BACKBONE_SAMPLING_STRATEGY"
     --target-partition-mode "$TARGET_PARTITION_MODE"
+    --pre-binarize-rooted-tree "$PRE_BINARIZE_ROOTED_TREE"
     --log-level "$LOG_LEVEL"
 )
 
@@ -145,6 +147,7 @@ VALIDATE_ARGS=(
     --gotree-bin "$GOTREE_BIN"
     --backbone-sampling-strategy "$BACKBONE_SAMPLING_STRATEGY"
     --target-partition-mode "$TARGET_PARTITION_MODE"
+    --pre-binarize-rooted-tree "$PRE_BINARIZE_ROOTED_TREE"
     --log-level "$LOG_LEVEL"
 )
 

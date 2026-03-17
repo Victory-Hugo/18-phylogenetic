@@ -396,6 +396,8 @@ def prepare_rooted_tree(
     logger: logging.Logger,
     outgroup_tip_file: Optional[Path] = None,
     rooted_status: Optional[str] = None,
+    outgroup_tip_name: Optional[str] = None,
+    pre_binarize_rooted_tree: bool = True,
 ) -> str:
     if rooted_status is None:
         rooted_status, _ = detect_tree_rooted_status(input_tree, conda_env, gotree_bin, threads, logger)
@@ -403,10 +405,29 @@ def prepare_rooted_tree(
     if rooted_status == "rooted":
         shutil.copy2(input_tree, rooted_tree)
         logger.info("Input tree is already rooted; copied directly to %s", rooted_tree)
-        return rooted_status
-    if outgroup_tip_file is None:
-        raise PipelineError("Input tree is unrooted and no outgroup tip file was provided.")
-    reroot_with_outgroup(input_tree, outgroup_tip_file, rooted_tree, conda_env, gotree_bin, threads, logger)
+    else:
+        if outgroup_tip_file is None:
+            raise PipelineError("Input tree is unrooted and no outgroup tip file was provided.")
+        reroot_with_outgroup(input_tree, outgroup_tip_file, rooted_tree, conda_env, gotree_bin, threads, logger)
+    if pre_binarize_rooted_tree:
+        tree = read_newick_tree(rooted_tree)
+        if outgroup_tip_name is not None:
+            ok, reason = is_rooted_with_singleton_outgroup(tree, outgroup_tip_name)
+            if not ok:
+                raise PipelineError(f"Rooted tree cannot be binarized with singleton outgroup {outgroup_tip_name}: {reason}")
+            was_binary, _ = is_binary_rooted_with_outgroup(tree, outgroup_tip_name)
+        else:
+            was_binary = False
+        tree = normalize_tree_binary(tree)
+        if outgroup_tip_name is not None:
+            ok, reason = is_binary_rooted_with_outgroup(tree, outgroup_tip_name)
+            if not ok:
+                raise PipelineError(f"Binarized rooted tree failed rooted-binary validation: {reason}")
+        write_tree(tree, rooted_tree)
+        if was_binary:
+            logger.info("Intermediate rooted tree already satisfied rooted-binary constraints: %s", rooted_tree)
+        else:
+            logger.info("Normalized intermediate rooted tree to rooted binary form: %s", rooted_tree)
     return rooted_status
 
 

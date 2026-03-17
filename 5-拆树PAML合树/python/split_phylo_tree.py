@@ -60,6 +60,7 @@ def run(
     backbone_tip_id_file=None,
     backbone_sampling_strategy="greedy_farthest_patristic",
     target_partition_mode="recursive_monophyletic",
+    pre_binarize_rooted_tree=True,
     clean_split_output_dir=True,
     log_level="INFO",
     outgroup_tip_name=None,
@@ -113,6 +114,8 @@ def run(
         logger=logger,
         outgroup_tip_file=outgroup_tip_file,
         rooted_status=rooted_status,
+        outgroup_tip_name=outgroup_tip_name,
+        pre_binarize_rooted_tree=pre_binarize_rooted_tree,
     )
 
     rooted_tree = read_newick_tree(rooted_tree_path)
@@ -239,6 +242,11 @@ def build_parser():
     parser.add_argument("--backbone-tip-id-file", default=None, help="Optional user-provided backbone tip text file.")
     parser.add_argument("--backbone-sampling-strategy", default="greedy_farthest_patristic", help="Backbone sampling strategy.")
     parser.add_argument("--target-partition-mode", default="recursive_monophyletic", help="Target partition mode.")
+    parser.add_argument(
+        "--pre-binarize-rooted-tree",
+        default="true",
+        help="Normalize intermediate rooted.tree into a rooted binary tree before split logic.",
+    )
     parser.add_argument("--clean-split-output-dir", action="store_true", help="Clean generated outputs before running.")
     parser.add_argument("--log-level", default="INFO", help="Logging level.")
     parser.add_argument("--outgroup-tip-name", default=None, help="Singleton outgroup tip retained at the root.")
@@ -262,6 +270,7 @@ def main(argv=None):
             backbone_tip_id_file=args.backbone_tip_id_file,
             backbone_sampling_strategy=args.backbone_sampling_strategy,
             target_partition_mode=args.target_partition_mode,
+            pre_binarize_rooted_tree=str(args.pre_binarize_rooted_tree).lower() == "true",
             clean_split_output_dir=args.clean_split_output_dir,
             log_level=args.log_level,
             outgroup_tip_name=args.outgroup_tip_name,
