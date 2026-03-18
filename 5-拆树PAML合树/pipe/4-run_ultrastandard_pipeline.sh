@@ -1,4 +1,60 @@
 #!/usr/bin/env bash
+################################################################################
+# 脚本名称: 4-run_ultrastandard_pipeline.sh
+# 功能描述: 
+#   执行超度量树构建的完整流程，包括三个主要阶段：
+#   1. 合并超度量树 (merge_ultrastandard_tree)
+#   2. 验证超度量树 (validate_ultrastandard_tree)
+#   3. 比较最终拓扑结构 (check_tree_topology_match)
+#
+# 用法:
+#   ./4-run_ultrastandard_pipeline.sh [--config CONFIG_FILE]
+#
+# 参数:
+#   --config CONFIG_FILE  指定配置文件路径（可选，默认为 conf/4-ultrastandard.yaml）
+#
+# 依赖文件:
+#   - conf/4-ultrastandard.yaml         超度量树配置文件
+#   - python/config_loader.py           配置加载器
+#   - python/merge_ultrastandard_tree.py 树合并模块
+#   - python/validate_ultrastandard_tree.py 树验证模块
+#   - python/check_tree_topology_match.py 拓扑比较模块
+#   - script/check_env.sh               环境检查脚本
+#
+# 必需输入文件:
+#   - split_output_dir/intermediate/rooted.tree
+#   - split_output_dir/paml_subtree_summary.tsv
+#   - merge_output_dir/merged_ml_tree.nwk
+#
+# 输出文件:
+#   - ultrastandard_output_dir/assembly_scaffold.nwk
+#   - ultrastandard_output_dir/backbone_assigned_scaffold.nwk
+#   - ultrastandard_output_dir/merged_ultrametric_tree.nwk
+#   - ultrastandard_output_dir/*.tsv （各类报告文件）
+#
+# 配置项:
+#   tools.python                        Python 解释器路径
+#   paths.split_output_dir              拆分输出目录
+#   paths.merge_output_dir              合并输出目录
+#   runtime.log_level                   日志级别
+#   ultrastandard.output_dir            超度量树输出目录
+#   ultrastandard.clean_output_dir      是否清理输出目录
+#   ultrastandard.min_branch_length     最小分支长度
+#   ultrastandard.ultrametric_tolerance 超度量容差值
+#   ultrastandard.projection_mode       投影模式
+#   ultrastandard.primary_tree_input    主要树输入（可选）
+#
+# 返回值:
+#   0  成功完成所有阶段
+#   1  配置文件缺失或必需输入文件缺失
+#   2  拓扑结构不匹配但继续执行
+#   其他  执行过程中出现错误
+#
+# 错误处理:
+#   - 使用 set -euo pipefail 确保错误立即退出
+#   - 验证所有必需输入文件存在
+#   - 捕获拓扑比较的返回状态进行判断
+################################################################################
 set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)

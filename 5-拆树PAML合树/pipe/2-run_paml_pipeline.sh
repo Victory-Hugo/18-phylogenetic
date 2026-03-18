@@ -1,4 +1,51 @@
 #!/usr/bin/env bash
+
+# 说明：
+#   此脚本基于项目配置文件（默认 conf/2-paml.yaml）准备输入、提交并解析 PAML（baseml）作业，
+#   支持真实执行（real）和伪造输出（fake）两种模式。脚本会解析配置、检查运行环境并按阶段执行子脚本。
+#
+# 用法：
+#   2-run_paml_pipeline.sh [--config <配置文件路径>]
+#
+# 关键行为：
+#   - 从配置中读取路径与工具位置（支持相对路径解析为基于 project root 的绝对路径）。
+#   - 根据 paml.execution_mode 选择：
+#       * fake：仅调用 python/fake_paml_outputs.py 生成伪造的 PAML 输出并退出。
+#       * real：按顺序执行 prepare_paml_inputs -> run_paml_jobs -> parse_paml_outputs，并可选执行 backbone 分析流程。
+#   - 支持通过环境变量配置 PAML 运行时（例如 OMP_NUM_THREADS、BASEML_PAR3）。
+#   - 支持跳过已存在结果、绑定 CPU 亲和等选项（从配置读取并传递到子程序）。
+#   - 若配置启用 paml.clean_output_dir，会删除旧的输出文件（但若检测到 resume 成功日志则跳过破坏性清理）。
+#
+# 主要配置键（脚本中使用，示例并非穷举）：
+#   projectpath, tools.python, tools.baseml,
+#   paml.execution_mode, paml.ctl_template, paml.output_dir, paml.clean_output_dir,
+#   paml.parallel_jobs, paml.threads_per_job, paml.enable_par3, paml.bind_cpu_affinity,
+#   paml.seq_id_strategy, paml.skip_existing,
+#   paml.backbone_only_enabled, paml.backbone_job_dir, paml.backbone_analysis_dir, paml.backbone_skip_existing,
+#   paml.ultrametric_normalization, paml.ultrametric_tolerance,
+#   paths.split_output_dir, paths.input_fasta, paths.tmp_dir, runtime.log_level
+#
+# 必需的输入文件/目录（脚本运行前必须存在）：
+#   - <split_output_dir>/paml_subtree_summary.tsv
+#   - <split_output_dir>/paml_subtrees/  （子树目录）
+#   - <split_output_dir>/backbone_tree.nwk
+#   - <split_output_dir>/backbone_summary.tsv
+#   - 若 execution_mode != fake：input fasta 文件 与 ctl 模板 文件
+#
+# 主要产物与输出位置：
+#   - PAML_OUTPUT_DIR（配置指定）下生成 jobs、analysis_trees、tables、log、paml_job_manifest.tsv 等文件
+#   - PAML_RESUME_LOG_DIR/success.log 用于支持断点续跑逻辑
+#
+# 错误与退出：
+#   - 找不到配置文件、必需输入文件或目录、threads_per_job 非正整数等情况会以非零状态退出并打印错误信息。
+#
+# 示例：
+#   ./2-run_paml_pipeline.sh --config conf/2-paml.yaml
+#
+# 备注：
+#   - 脚本依赖项目内的 python 脚本（python/*.py）及 script/check_env.sh 用于环境验证。
+#   - backbone-only 分支会对 ultrametric_normalization 做限制（当前仅支持 extend_terminal_to_max_depth）。
+
 set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)

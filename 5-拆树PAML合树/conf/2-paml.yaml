@@ -1,4 +1,4 @@
-projectpath: "/mnt/l/22-WHALE/8-优化PAML大于ML进行校正方案"
+projectpath: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树"
 
 paths:
   input_fasta: "data/iqtree_rooted.fasta"

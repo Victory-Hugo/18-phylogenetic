@@ -1,4 +1,71 @@
 #!/usr/bin/env bash
+
+# 3-run_merge_pipeline.sh
+#
+# 功能
+#   根据配置文件执行合并（merge）流水线：校验环境、可选的模拟基线结果、合并 PAML 子树结果并验证合并后的树。
+#
+# 用法
+#   ./3-run_merge_pipeline.sh [--config /path/to/config.yaml]
+#
+# 参数
+#   --config    指定配置文件路径（可为相对或绝对路径）。默认：conf/3-merge.yaml（相对于项目根目录）。
+#
+# 配置项（来自 YAML，使用 python/config_loader.py 读取）
+#   projectpath                       （可选）项目根路径，用于解析相对路径
+#   tools.python                      Python 可执行文件（可为命令或路径）
+#   paths.split_output_dir            拆分步骤输出目录（必需，包含多种 summary 和子树）
+#   paths.paml_output_dir             PAML 输出基础目录
+#   merge.output_dir                  合并结果输出目录（将被创建）
+#   merge.analysis_tree_source        one of: external|simulated|...（决定是否模拟）
+#   merge.external_result_dir         （可选）外部结果目录
+#   merge.clean_output_dir            是否清理旧输出（"True"/"true" 表示清理）
+#   merge.mode                        合并模式（默认 "backbone_graft"）
+#   merge.backbone_tree               主干树文件（可为自定义路径）
+#   merge.redline_tolerance           redline 检查容忍度（默认 1e-6）
+#   merge.parallel_jobs               并行作业数（默认 8）
+#   merge.randomization_model         模拟时使用的随机化模型
+#   merge.randomization_sigma         模拟时的 sigma 参数
+#   merge.randomization_seed          模拟时的随机种子
+#   merge.min_branch_length           最短分支长度阈值
+#   merge.outgroup_tip_name           （可选）外群 tip 名称，用于模拟或验证
+#   runtime.log_level                 日志等级（传递给下游脚本）
+#
+# 主要行为
+#   1. 解析并规范化路径（相对路径以 projectpath 或脚本根路径为基准）。
+#   2. 使用 python/config_loader.py 读取配置；默认使用 python3 启动该 loader。
+#   3. 调用 script/check_env.sh 验证运行时环境（传递 --python）。
+#   4. 检查必需输入文件是否存在：
+#        - $SPLIT_OUTPUT_DIR/intermediate/rooted.tree
+#        - $SPLIT_OUTPUT_DIR/backbone_summary.tsv
+#        - $SPLIT_OUTPUT_DIR/target_subtree_summary.tsv
+#        - $SPLIT_OUTPUT_DIR/paml_subtree_summary.tsv
+#        - $SPLIT_OUTPUT_DIR/paml_tree_manifest.tsv
+#        - $BACKBONE_TREE
+#      若缺失则以错误退出。
+#   5. 根据配置创建输出目录：merge.output_dir 及其子目录 intermediate、simulated_baseml_subtrees。
+#   6. 若 merge.clean_output_dir 为真，则删除若干旧的合并产物文件以便重跑。
+#   7. 若 merge.analysis_tree_source == "simulated"，调用 python/simulate_baseml_results.py 生成模拟的 Baseml 结果（可传 outgroup）。
+#   8. 调用 python/merge_baseml_subtrees_redline.py 执行合并（传入分裂输出目录、backbone_tree、redline 容忍度、并行数等）。
+#   9. 调用 python/validate_merged_tree.py 验证合并结果（传入 merge.mode、outgroup 等）。
+#  10. 成功完成后输出 "[OK] Merge pipeline finished."
+#
+# 退出码
+#   0   成功完成
+#   1   常见错误：找不到配置文件、必需的拆分输出文件缺失、未知脚本参数或下游脚本返回错误（脚本使用 set -euo pipefail）
+#
+# 依赖（项目内脚本/模块）
+#   - python/config_loader.py
+#   - script/check_env.sh
+#   - python/simulate_baseml_results.py
+#   - python/merge_baseml_subtrees_redline.py
+#   - python/validate_merged_tree.py
+#
+# 注意
+#   - 相对路径会基于配置中的 projectpath（若存在）或脚本所在的项目根目录进行解析。
+#   - config_loader 使用独立的 Python（脚本内默认为 python3）加载配置；实际 pipeline 脚本使用配置中指定的 tools.python。
+#   - 本脚本严格模式运行（set -euo pipefail），遇到未捕获错误即退出。
+
 set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
@@ -74,9 +141,10 @@ MERGE_OUTPUT_DIR=$(resolve_path "$(config_get merge.output_dir)")
 ANALYSIS_TREE_SOURCE=$(config_get merge.analysis_tree_source)
 EXTERNAL_RESULT_DIR=$(config_get_optional merge.external_result_dir)
 CLEAN_OUTPUT_DIR=$(config_get merge.clean_output_dir)
-MERGE_MODE=$(config_get merge.mode)
-SUBTREE_SCALE_METHOD=$(config_get_optional merge.subtree_scale_method "median_log_path_ratio")
-BACKBONE_EDGE_AGGREGATION=$(config_get merge.backbone_edge_aggregation)
+MERGE_MODE=$(config_get_optional merge.mode "backbone_graft")
+BACKBONE_TREE=$(resolve_path "$(config_get_optional merge.backbone_tree "$PAML_OUTPUT_DIR/backbone_analysis/backbone_ultrametric_tree.nwk")")
+REDLINE_TOLERANCE=$(config_get_optional merge.redline_tolerance 1e-6)
+PARALLEL_JOBS=$(config_get_optional merge.parallel_jobs 8)
 RANDOMIZATION_MODEL=$(config_get merge.randomization_model)
 RANDOMIZATION_SIGMA=$(config_get merge.randomization_sigma)
 RANDOMIZATION_SEED=$(config_get merge.randomization_seed)
@@ -96,7 +164,8 @@ for required in \
     "$SPLIT_OUTPUT_DIR/backbone_summary.tsv" \
     "$SPLIT_OUTPUT_DIR/target_subtree_summary.tsv" \
     "$SPLIT_OUTPUT_DIR/paml_subtree_summary.tsv" \
-    "$SPLIT_OUTPUT_DIR/paml_tree_manifest.tsv"; do
+    "$SPLIT_OUTPUT_DIR/paml_tree_manifest.tsv" \
+    "$BACKBONE_TREE"; do
     if [[ ! -f "$required" ]]; then
         echo "[ERROR] Required split output not found: $required" >&2
         exit 1
@@ -106,7 +175,6 @@ done
 mkdir -p "$MERGE_OUTPUT_DIR" "$MERGE_OUTPUT_DIR/intermediate" "$MERGE_OUTPUT_DIR/simulated_baseml_subtrees"
 
 if [[ "$CLEAN_OUTPUT_DIR" == "True" || "$CLEAN_OUTPUT_DIR" == "true" ]]; then
-    rm -f "$MERGE_OUTPUT_DIR"/simulation_manifest.tsv
     rm -f "$MERGE_OUTPUT_DIR"/assembly_scaffold.nwk
     rm -f "$MERGE_OUTPUT_DIR"/backbone_edge_estimates.tsv
     rm -f "$MERGE_OUTPUT_DIR"/graft_report.tsv
@@ -115,7 +183,7 @@ if [[ "$CLEAN_OUTPUT_DIR" == "True" || "$CLEAN_OUTPUT_DIR" == "true" ]]; then
     rm -f "$MERGE_OUTPUT_DIR"/merge_validation_report.tsv
     rm -f "$MERGE_OUTPUT_DIR"/merged_ml_tree.nwk
     rm -f "$MERGE_OUTPUT_DIR"/merged_tree.nwk
-    rm -f "$MERGE_OUTPUT_DIR"/merge.log
+    rm -f "$MERGE_OUTPUT_DIR"/redline_failed_tip_depths.tsv
     rm -f "$MERGE_OUTPUT_DIR"/simulated_baseml_subtrees/*.nwk
 fi
 
@@ -140,28 +208,22 @@ MERGE_ARGS=(
     --split-output-dir "$SPLIT_OUTPUT_DIR"
     --merge-output-dir "$MERGE_OUTPUT_DIR"
     --analysis-tree-source "$ANALYSIS_TREE_SOURCE"
-    --merge-mode "$MERGE_MODE"
-    --subtree-scale-method "$SUBTREE_SCALE_METHOD"
-    --backbone-edge-aggregation "$BACKBONE_EDGE_AGGREGATION"
+    --backbone-tree "$BACKBONE_TREE"
     --min-branch-length "$MIN_BRANCH_LENGTH"
-    --log-level "$LOG_LEVEL"
+    --redline-tolerance "$REDLINE_TOLERANCE"
+    --parallel-jobs "$PARALLEL_JOBS"
 )
-
-if [[ -n "$OUTGROUP_TIP_NAME" ]]; then
-    MERGE_ARGS+=(--outgroup-tip-name "$OUTGROUP_TIP_NAME")
-fi
 
 if [[ -n "$EXTERNAL_RESULT_DIR_ABS" ]]; then
     MERGE_ARGS+=(--external-result-dir "$EXTERNAL_RESULT_DIR_ABS")
 fi
 
-"$PYTHON_BIN" "$PROJECT_ROOT/python/merge_baseml_subtrees.py" "${MERGE_ARGS[@]}"
+"$PYTHON_BIN" "$PROJECT_ROOT/python/merge_baseml_subtrees_redline.py" "${MERGE_ARGS[@]}"
 
 VALIDATE_ARGS=(
     --split-output-dir "$SPLIT_OUTPUT_DIR"
     --merge-output-dir "$MERGE_OUTPUT_DIR"
     --merge-mode "$MERGE_MODE"
-    --backbone-edge-aggregation "$BACKBONE_EDGE_AGGREGATION"
     --log-level "$LOG_LEVEL"
 )
 

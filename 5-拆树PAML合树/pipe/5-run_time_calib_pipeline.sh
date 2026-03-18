@@ -1,4 +1,57 @@
 #!/usr/bin/env bash
+
+# 脚本名称: 5-run_time_calib_pipeline.sh
+# 描述: 系统发育树时间校准管道脚本
+# 
+# 功能:
+#   - 从配置文件中读取时间校准相关参数
+#   - 验证输入树文件的有效性
+#   - 执行树的分子钟校准
+#   - 生成时间校准后的超度量树
+#
+# 用法:
+#   ./5-run_time_calib_pipeline.sh [--config CONFIG_PATH]
+#
+# 参数:
+#   --config CONFIG_PATH      指定配置文件路径（可选，默认为 conf/5-time_calib.yaml）
+#
+# 依赖:
+#   - python3: Python运行环境
+#   - config_loader.py: 配置文件解析工具
+#   - time_calibrate_tree.py: 时间校准核心模块
+#   - check_env.sh: 环境检查脚本
+#   - 配置文件: conf/5-time_calib.yaml
+#
+# 环境变量:
+#   - BOOTSTRAP_PYTHON: Python3解释器路径（默认: python3）
+#
+# 配置参数说明:
+#   - projectpath: 项目根路径
+#   - tools.python: Python可执行文件路径
+#   - paths.ultrastandard_output_dir: 超度量树输出目录
+#   - runtime.log_level: 日志级别
+#   - time_calib.input_tree: 输入树文件路径（可选）
+#   - time_calib.output_dir: 输出目录
+#   - time_calib.clean_output_dir: 是否清空输出目录
+#   - time_calib.method: 校准方法（默认: molecular_clock）
+#   - time_calib.substitution_rate_per_site_per_year: 每位点每年替代率
+#   - time_calib.sequence_length: 序列长度
+#   - time_calib.branch_length_unit: 分支长度单位（默认: substitutions_per_site）
+#   - time_calib.node_calibration_tip_name: 校准节点名称（默认: RSRS）
+#   - time_calib.node_calibration_divergence_years: 校准分化时间年数（默认: 180000）
+#   - time_calib.output_tree_name: 输出树文件名（默认: merged_ultrametric_tree_years.nwk）
+#
+# 输出文件:
+#   - time_calibration.log: 校准日志文件
+#   - time_calibration_summary.tsv: 校准摘要表
+#   - time_calibration_edge_report.tsv: 分支报告表
+#   - merged_ultrametric_tree_years.nwk: 时间校准后的树文件
+#
+# 错误处理:
+#   - 脚本在任何命令失败时立即退出
+#   - 配置文件不存在时报错并退出
+#   - 输入树文件不存在时报错并退出
+
 set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)

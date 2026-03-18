@@ -1,4 +1,65 @@
 #!/usr/bin/env bash
+
+# 脚本说明：
+#   1-run_split_pipeline.sh
+#   用途：基于输入系统发育树拆分为若干子树，生成用于 PAML 等下游分析的子树与校验报告。
+#
+# 用法：
+#   ./1-run_split_pipeline.sh [--config /path/to/config.yaml]
+#   默认配置文件：conf/1-split.yaml（相对于项目根目录）
+#
+# 主要工作流程（3 个阶段）：
+#   1) precompute_split_context：预计算拆分所需的上下文（precompute_split_context.py）
+#   2) split_phylo_tree：按照配置拆分主树并生成子树与清单（split_phylo_tree.py）
+#   3) validate_phylo_split：对拆分结果进行校验并输出报告（validate_phylo_split.py）
+#
+# 关键行为：
+#   - 解析并规范化配置与路径（支持相对/绝对路径）。
+#   - 调用 script/check_env.sh 验证 python、conda 环境与 gotree 工具可用性。
+#   - 创建输出目录：output_dir、output_dir/target_subtrees、output_dir/paml_subtrees、output_dir/intermediate。
+#   - 当配置中 clean_output_dir 为 true 时，清理历史输出文件（若存在）。
+#   - 将配置中的各项通过命令行参数传递给三个 Python 程序，并使用指定的 python 可执行文件运行。
+#
+# 主要配置键（config.yaml 中常用项）：
+#   projectpath
+#   tools.python                 -> Python 可执行路径或命令
+#   tools.conda_env              -> Conda 环境名称（用于 check_env.sh）
+#   tools.gotree                 -> gotree 可执行路径或命令
+#   paths.input_tree             -> 输入树文件（Newick）
+#   paths.outgroup_tip_file      -> 外群（outgroup）tip id 文件
+#   paths.output_dir             -> 输出根目录
+#   paths.backbone_tree          -> 可选：骨干树文件
+#   paths.backbone_tip_id_file   -> 可选：骨干 tip id 文件
+#   runtime.max_tips
+#   runtime.backbone_size
+#   runtime.threads
+#   runtime.outgroup_tip_name
+#   runtime.clean_output_dir
+#   runtime.log_level
+#   runtime.backbone_sampling_strategy
+#   runtime.target_partition_mode
+#   runtime.local_anchor_count
+#   runtime.anchor_selection_strategy
+#   runtime.benchmark_tree_tips
+#   runtime.pre_binarize_rooted_tree
+#   runtime.validation_mode
+#
+# 主要输出（位于 output_dir）：
+#   - target_subtrees/target_subtree_*.nwk
+#   - paml_subtrees/paml_subtree_*.nwk
+#   - intermediate/split_context.json
+#   - backbone_tree.nwk、backbone_tips.txt（若采用骨干抽样）
+#   - 多个 summary/manifest/validation tsv 文件（subtree_design_summary.tsv、paml_subtree_summary.tsv 等）
+#   - 运行日志：split_tree.log、split_precompute.log、split_validation_report.tsv
+#
+# 错误与退出：
+#   - 当缺少配置文件、必要工具不可用或任一步骤失败时脚本会以非 0 状态退出（set -euo pipefail）。
+#
+# 备注：
+#   - 默认使用 python3；可在配置中通过 tools.python 指定不同的 python 可执行文件或路径。
+#   - 所有相对路径会基于配置中的 projectpath 解析为绝对路径。
+#   - 若需调试，调整 config 中 runtime.log_level 或观察生成的日志/TSV 文件。
+
 set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
