@@ -1,5 +1,7 @@
 # 18-phylogenetic
 
+![phylo.png|550](https://picturerealm.oss-cn-chengdu.aliyuncs.com/obsidian/20260318181321893.png)
+
 mtDNA 系统发育分析流程集合，涵盖系统发育树构建、分子钟估算与定年等核心任务。
 
 ## 目录结构
