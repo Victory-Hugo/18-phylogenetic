@@ -70,6 +70,9 @@ set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROJECT_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
+source "$PROJECT_ROOT/script/console_ui.sh"
+ui_init
+ui_logo
 PATH_ROOT="$PROJECT_ROOT"
 DEFAULT_CONFIG_PATH="$PROJECT_ROOT/conf/3-merge.yaml"
 CONFIG_PATH="$DEFAULT_CONFIG_PATH"
@@ -82,7 +85,7 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         *)
-            echo "[ERROR] Unknown argument: $1" >&2
+            ui_error "参数错误 | Unknown argument: $1"
             exit 1
             ;;
     esac
@@ -111,7 +114,7 @@ resolve_command_or_path() {
 }
 
 if [[ ! -f "$CONFIG_PATH" ]]; then
-    echo "[ERROR] Config file not found: $CONFIG_PATH" >&2
+    ui_error "配置缺失 | Config file not found: $CONFIG_PATH"
     exit 1
 fi
 
@@ -167,10 +170,17 @@ for required in \
     "$SPLIT_OUTPUT_DIR/paml_tree_manifest.tsv" \
     "$BACKBONE_TREE"; do
     if [[ ! -f "$required" ]]; then
-        echo "[ERROR] Required split output not found: $required" >&2
+        ui_error "输入缺失 | Required split output not found: $required"
         exit 1
     fi
 done
+
+ui_section "Merge pipeline" "Step 3/5 | 合并 PAML 子树并验证结果"
+ui_kv "Config" "$CONFIG_PATH"
+ui_kv "Source" "$ANALYSIS_TREE_SOURCE"
+ui_kv "Split dir" "$SPLIT_OUTPUT_DIR"
+ui_kv "PAML dir" "$PAML_OUTPUT_DIR"
+ui_kv "Output dir" "$MERGE_OUTPUT_DIR"
 
 mkdir -p "$MERGE_OUTPUT_DIR" "$MERGE_OUTPUT_DIR/intermediate" "$MERGE_OUTPUT_DIR/simulated_baseml_subtrees"
 
@@ -188,6 +198,7 @@ if [[ "$CLEAN_OUTPUT_DIR" == "True" || "$CLEAN_OUTPUT_DIR" == "true" ]]; then
 fi
 
 if [[ "$ANALYSIS_TREE_SOURCE" == "simulated" ]]; then
+    ui_stage_start "Stage 1/3" "simulate_baseml_results | 生成模拟分析树"
     SIMULATE_ARGS=(
         --paml-summary-tsv "$SPLIT_OUTPUT_DIR/paml_subtree_summary.tsv"
         --paml-tree-dir "$SPLIT_OUTPUT_DIR/paml_subtrees"
@@ -202,6 +213,9 @@ if [[ "$ANALYSIS_TREE_SOURCE" == "simulated" ]]; then
         SIMULATE_ARGS+=(--outgroup-tip-name "$OUTGROUP_TIP_NAME")
     fi
     "$PYTHON_BIN" "$PROJECT_ROOT/python/simulate_baseml_results.py" "${SIMULATE_ARGS[@]}"
+    ui_stage_end "Stage 1/3" "simulate_baseml_results | 生成模拟分析树"
+else
+    ui_info "Stage 1/3 | skip simulated results because analysis_tree_source=$ANALYSIS_TREE_SOURCE"
 fi
 
 MERGE_ARGS=(
@@ -218,7 +232,9 @@ if [[ -n "$EXTERNAL_RESULT_DIR_ABS" ]]; then
     MERGE_ARGS+=(--external-result-dir "$EXTERNAL_RESULT_DIR_ABS")
 fi
 
+ui_stage_start "Stage 2/3" "merge_baseml_subtrees_redline | 合并子树"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/merge_baseml_subtrees_redline.py" "${MERGE_ARGS[@]}"
+ui_stage_end "Stage 2/3" "merge_baseml_subtrees_redline | 合并子树"
 
 VALIDATE_ARGS=(
     --split-output-dir "$SPLIT_OUTPUT_DIR"
@@ -231,6 +247,8 @@ if [[ -n "$OUTGROUP_TIP_NAME" ]]; then
     VALIDATE_ARGS+=(--outgroup-tip-name "$OUTGROUP_TIP_NAME")
 fi
 
+ui_stage_start "Stage 3/3" "validate_merged_tree | 校验合并树"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/validate_merged_tree.py" "${VALIDATE_ARGS[@]}"
+ui_stage_end "Stage 3/3" "validate_merged_tree | 校验合并树"
 
-echo "[OK] Merge pipeline finished."
+ui_ok "Completed | Merge pipeline finished"

@@ -59,6 +59,9 @@ set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROJECT_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
+source "$PROJECT_ROOT/script/console_ui.sh"
+ui_init
+ui_logo
 PATH_ROOT="$PROJECT_ROOT"
 DEFAULT_CONFIG_PATH="$PROJECT_ROOT/conf/4-ultrastandard.yaml"
 CONFIG_PATH="$DEFAULT_CONFIG_PATH"
@@ -71,7 +74,7 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         *)
-            echo "[ERROR] Unknown argument: $1" >&2
+            ui_error "参数错误 | Unknown argument: $1"
             exit 1
             ;;
     esac
@@ -100,7 +103,7 @@ resolve_command_or_path() {
 }
 
 if [[ ! -f "$CONFIG_PATH" ]]; then
-    echo "[ERROR] Config file not found: $CONFIG_PATH" >&2
+    ui_error "配置缺失 | Config file not found: $CONFIG_PATH"
     exit 1
 fi
 
@@ -136,10 +139,17 @@ for required in \
     "$SPLIT_OUTPUT_DIR/paml_subtree_summary.tsv" \
     "$MERGE_OUTPUT_DIR/merged_ml_tree.nwk"; do
     if [[ ! -f "$required" ]]; then
-        echo "[ERROR] Required ultrastandard input not found: $required" >&2
+        ui_error "输入缺失 | Required ultrastandard input not found: $required"
         exit 1
     fi
 done
+
+ui_section "Ultrastandard pipeline" "Step 4/5 | 合并与验证超度量树"
+ui_kv "Config" "$CONFIG_PATH"
+ui_kv "Split dir" "$SPLIT_OUTPUT_DIR"
+ui_kv "Merge dir" "$MERGE_OUTPUT_DIR"
+ui_kv "Output dir" "$ULTRA_OUTPUT_DIR"
+ui_kv "Projection" "$PROJECTION_MODE"
 
 mkdir -p "$ULTRA_OUTPUT_DIR"
 
@@ -173,8 +183,9 @@ if [[ "$PRIMARY_TREE_INPUT" != "null" && -n "$PRIMARY_TREE_INPUT" ]]; then
     MERGE_ARGS+=(--primary-tree-input "$(resolve_path "$PRIMARY_TREE_INPUT")")
 fi
 
-echo "[INFO] Stage 1/3: merge_ultrastandard_tree"
+ui_stage_start "Stage 1/3" "merge_ultrastandard_tree | 构建超度量树"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/merge_ultrastandard_tree.py" "${MERGE_ARGS[@]}"
+ui_stage_end "Stage 1/3" "merge_ultrastandard_tree | 构建超度量树"
 
 VALIDATE_ARGS=(
     --split-output-dir "$SPLIT_OUTPUT_DIR"
@@ -183,22 +194,24 @@ VALIDATE_ARGS=(
     --log-level "$LOG_LEVEL"
 )
 
-echo "[INFO] Stage 2/3: validate_ultrastandard_tree"
+ui_stage_start "Stage 2/3" "validate_ultrastandard_tree | 校验超度量树"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/validate_ultrastandard_tree.py" "${VALIDATE_ARGS[@]}"
+ui_stage_end "Stage 2/3" "validate_ultrastandard_tree | 校验超度量树"
 
-echo "[INFO] Stage 3/3: compare_final_topology"
+ui_stage_start "Stage 3/3" "compare_final_topology | 比较最终拓扑"
 if "$PYTHON_BIN" "$PROJECT_ROOT/python/check_tree_topology_match.py" \
     --reference-tree "$SPLIT_OUTPUT_DIR/intermediate/rooted.tree" \
     --query-tree "$ULTRA_OUTPUT_DIR/merged_ultrametric_tree.nwk" \
     --log-level "$LOG_LEVEL"; then
-    echo "[OK] Ultrastandard merged tree topology matches the original rooted tree."
+    ui_ok "Topology matched | Ultrastandard merged tree topology matches the original rooted tree"
 else
     compare_status=$?
     if [[ "$compare_status" -eq 2 ]]; then
-        echo "[WARN] Ultrastandard merged tree topology does not match the original rooted tree."
+        ui_warn "拓扑不一致 | Ultrastandard merged tree topology does not match the original rooted tree"
     else
         exit "$compare_status"
     fi
 fi
+ui_stage_end "Stage 3/3" "compare_final_topology | 比较最终拓扑"
 
-echo "[OK] Ultrastandard pipeline finished."
+ui_ok "Completed | Ultrastandard pipeline finished"

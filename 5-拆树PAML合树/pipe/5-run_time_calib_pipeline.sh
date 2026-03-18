@@ -56,6 +56,9 @@ set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROJECT_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
+source "$PROJECT_ROOT/script/console_ui.sh"
+ui_init
+ui_logo
 PATH_ROOT="$PROJECT_ROOT"
 DEFAULT_CONFIG_PATH="$PROJECT_ROOT/conf/5-time_calib.yaml"
 CONFIG_PATH="$DEFAULT_CONFIG_PATH"
@@ -68,7 +71,7 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         *)
-            echo "[ERROR] Unknown argument: $1" >&2
+            ui_error "参数错误 | Unknown argument: $1"
             exit 1
             ;;
     esac
@@ -97,7 +100,7 @@ resolve_command_or_path() {
 }
 
 if [[ ! -f "$CONFIG_PATH" ]]; then
-    echo "[ERROR] Config file not found: $CONFIG_PATH" >&2
+    ui_error "配置缺失 | Config file not found: $CONFIG_PATH"
     exit 1
 fi
 
@@ -138,9 +141,16 @@ else
 fi
 
 if [[ ! -f "$INPUT_TREE" ]]; then
-    echo "[ERROR] Required time calibration input not found: $INPUT_TREE" >&2
+    ui_error "输入缺失 | Required time calibration input not found: $INPUT_TREE"
     exit 1
 fi
+
+ui_section "Time calibration pipeline" "Step 5/5 | 分子钟校准与年代尺度输出"
+ui_kv "Config" "$CONFIG_PATH"
+ui_kv "Input tree" "$INPUT_TREE"
+ui_kv "Output dir" "$TIME_CALIB_OUTPUT_DIR"
+ui_kv "Method" "$TIME_CALIB_METHOD"
+ui_kv "Output tree" "$OUTPUT_TREE_NAME"
 
 mkdir -p "$TIME_CALIB_OUTPUT_DIR"
 
@@ -151,7 +161,7 @@ if [[ "$CLEAN_OUTPUT_DIR" == "True" || "$CLEAN_OUTPUT_DIR" == "true" ]]; then
     rm -f "$TIME_CALIB_OUTPUT_DIR"/"$OUTPUT_TREE_NAME"
 fi
 
-echo "[INFO] Stage 1/1: time_calibrate_tree"
+ui_stage_start "Stage 1/1" "time_calibrate_tree | 时间校准"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/time_calibrate_tree.py" \
     --input-tree "$INPUT_TREE" \
     --output-dir "$TIME_CALIB_OUTPUT_DIR" \
@@ -163,5 +173,6 @@ echo "[INFO] Stage 1/1: time_calibrate_tree"
     --node-calibration-tip-name "$NODE_CALIBRATION_TIP_NAME" \
     --node-calibration-divergence-years "$NODE_CALIBRATION_DIVERGENCE_YEARS" \
     --log-level "$LOG_LEVEL"
+ui_stage_end "Stage 1/1" "time_calibrate_tree | 时间校准"
 
-echo "[OK] Time calibration pipeline finished."
+ui_ok "Completed | Time calibration pipeline finished"

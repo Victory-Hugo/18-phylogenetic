@@ -64,6 +64,9 @@ set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROJECT_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
+source "$PROJECT_ROOT/script/console_ui.sh"
+ui_init
+ui_logo
 PATH_ROOT="$PROJECT_ROOT"
 DEFAULT_CONFIG_PATH="$PROJECT_ROOT/conf/1-split.yaml"
 CONFIG_PATH="$DEFAULT_CONFIG_PATH"
@@ -76,7 +79,7 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         *)
-            echo "[ERROR] Unknown argument: $1" >&2
+            ui_error "参数错误 | Unknown argument: $1"
             exit 1
             ;;
     esac
@@ -105,7 +108,7 @@ resolve_command_or_path() {
 }
 
 if [[ ! -f "$CONFIG_PATH" ]]; then
-    echo "[ERROR] Config file not found: $CONFIG_PATH" >&2
+    ui_error "配置缺失 | Config file not found: $CONFIG_PATH"
     exit 1
 fi
 
@@ -150,6 +153,13 @@ BENCHMARK_TREE_TIPS=$(config_get_optional runtime.benchmark_tree_tips 300)
 PRE_BINARIZE_ROOTED_TREE=$(config_get_optional runtime.pre_binarize_rooted_tree true)
 VALIDATION_MODE=$(config_get_optional runtime.validation_mode fast)
 
+ui_section "Split pipeline" "Step 1/5 | 拆树、上下文预计算与校验"
+ui_kv "Config" "$CONFIG_PATH"
+ui_kv "Input tree" "$INPUT_TREE"
+ui_kv "Output dir" "$OUTPUT_DIR"
+ui_kv "Threads" "$THREADS"
+ui_kv "Max tips" "$MAX_TIPS"
+
 mkdir -p "$OUTPUT_DIR" "$OUTPUT_DIR/target_subtrees" "$OUTPUT_DIR/paml_subtrees" "$OUTPUT_DIR/intermediate"
 
 if [[ "$CLEAN_SPLIT_OUTPUT_DIR" == "True" || "$CLEAN_SPLIT_OUTPUT_DIR" == "true" ]]; then
@@ -187,8 +197,9 @@ if [[ -n "$OUTGROUP_TIP_NAME" ]]; then
     PRECOMPUTE_ARGS+=(--outgroup-tip-name "$OUTGROUP_TIP_NAME")
 fi
 
-echo "[INFO] Stage 0/2: precompute_split_context"
+ui_stage_start "Stage 1/3" "precompute_split_context | 预计算拆树上下文"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/precompute_split_context.py" "${PRECOMPUTE_ARGS[@]}"
+ui_stage_end "Stage 1/3" "precompute_split_context | 预计算拆树上下文"
 
 SPLIT_ARGS=(
     --input-tree "$INPUT_TREE"
@@ -221,7 +232,9 @@ if [[ "$BACKBONE_TIP_ID_FILE" != "null" && -n "$BACKBONE_TIP_ID_FILE" ]]; then
     SPLIT_ARGS+=(--backbone-tip-id-file "$(resolve_path "$BACKBONE_TIP_ID_FILE")")
 fi
 
+ui_stage_start "Stage 2/3" "split_phylo_tree | 生成 target/paml 子树"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/split_phylo_tree.py" "${SPLIT_ARGS[@]}"
+ui_stage_end "Stage 2/3" "split_phylo_tree | 生成 target/paml 子树"
 
 VALIDATE_ARGS=(
     --input-tree "$INPUT_TREE"
@@ -255,6 +268,8 @@ if [[ "$BACKBONE_TIP_ID_FILE" != "null" && -n "$BACKBONE_TIP_ID_FILE" ]]; then
     VALIDATE_ARGS+=(--backbone-tip-id-file "$(resolve_path "$BACKBONE_TIP_ID_FILE")")
 fi
 
+ui_stage_start "Stage 3/3" "validate_phylo_split | 校验拆树结果"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/validate_phylo_split.py" "${VALIDATE_ARGS[@]}"
+ui_stage_end "Stage 3/3" "validate_phylo_split | 校验拆树结果"
 
-echo "[OK] Split pipeline finished."
+ui_ok "Completed | Split pipeline finished"

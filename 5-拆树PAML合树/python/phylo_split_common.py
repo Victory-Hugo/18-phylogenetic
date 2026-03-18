@@ -8,6 +8,7 @@ import csv
 import hashlib
 import json
 import logging
+import os
 import shlex
 import shutil
 import subprocess
@@ -221,6 +222,54 @@ def format_float(value: float) -> str:
     return f"{float(value):.12g}"
 
 
+def _console_supports_color(stream: object) -> bool:
+    if os.environ.get("NO_COLOR"):
+        return False
+    if os.environ.get("TERM") == "dumb":
+        return False
+    if not hasattr(stream, "isatty") or not stream.isatty():
+        return False
+    return True
+
+
+class ConsoleFormatter(logging.Formatter):
+    """TTY-aware formatter for concise pipeline console logs."""
+
+    LEVEL_LABELS = {
+        logging.DEBUG: "DEBUG",
+        logging.INFO: "INFO ",
+        logging.WARNING: "WARN ",
+        logging.ERROR: "ERROR",
+        logging.CRITICAL: "FATAL",
+    }
+    LEVEL_COLORS = {
+        logging.DEBUG: "\033[38;5;141m",
+        logging.INFO: "\033[38;5;45m",
+        logging.WARNING: "\033[38;5;220m",
+        logging.ERROR: "\033[38;5;196m",
+        logging.CRITICAL: "\033[1;38;5;196m",
+    }
+    RESET = "\033[0m"
+
+    def __init__(self, use_color: bool) -> None:
+        super().__init__()
+        self.use_color = use_color
+
+    def format(self, record: logging.LogRecord) -> str:
+        label = self.LEVEL_LABELS.get(record.levelno, record.levelname[:5].upper())
+        message = record.getMessage()
+        formatted = f"[{label}] {record.name} | {message}"
+        exception_text = ""
+        if record.exc_info:
+            exception_text = f"\n{self.formatException(record.exc_info)}"
+            formatted = f"{formatted}{exception_text}"
+        if self.use_color:
+            color = self.LEVEL_COLORS.get(record.levelno, "")
+            if color:
+                return f"{color}[{label}]{self.RESET} {record.name} | {message}{exception_text}"
+        return formatted
+
+
 def setup_logger(name: str, log_path: Optional[Path], level: str) -> logging.Logger:
     logger = logging.getLogger(name)
     logger.setLevel(getattr(logging, str(level).upper(), logging.INFO))
@@ -229,15 +278,14 @@ def setup_logger(name: str, log_path: Optional[Path], level: str) -> logging.Log
         handler = logger.handlers.pop()
         handler.close()
 
-    formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
     stream_handler = logging.StreamHandler(sys.stderr)
-    stream_handler.setFormatter(formatter)
+    stream_handler.setFormatter(ConsoleFormatter(use_color=_console_supports_color(sys.stderr)))
     logger.addHandler(stream_handler)
 
     if log_path is not None:
         log_path.parent.mkdir(parents=True, exist_ok=True)
         file_handler = logging.FileHandler(log_path, mode="w", encoding="utf-8")
-        file_handler.setFormatter(formatter)
+        file_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(name)s | %(message)s"))
         logger.addHandler(file_handler)
     return logger
 

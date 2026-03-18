@@ -59,6 +59,9 @@ set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROJECT_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
+source "$PROJECT_ROOT/script/console_ui.sh"
+ui_init
+ui_logo
 
 SPLIT_CONFIG="$PROJECT_ROOT/conf/1-split.yaml"
 PAML_CONFIG="$PROJECT_ROOT/conf/2-paml.yaml"
@@ -109,7 +112,7 @@ while [[ $# -gt 0 ]]; do
             exit 0
             ;;
         *)
-            echo "[ERROR] Unknown argument: $1" >&2
+            ui_error "参数错误 | Unknown argument: $1"
             usage >&2
             exit 1
             ;;
@@ -123,37 +126,47 @@ for config_path in \
     "$ULTRASTANDARD_CONFIG" \
     "$TIME_CALIB_CONFIG"; do
     if [[ ! -f "$config_path" ]]; then
-        echo "[ERROR] Config file not found: $config_path" >&2
+        ui_error "配置缺失 | Config file not found: $config_path"
         exit 1
     fi
 done
 
 run_stage() {
-    local stage_label="$1"
+    local stage_step="$1"
+    local stage_title="$2"
     shift
-    echo "[INFO] ===== $stage_label ====="
+    shift
+    ui_stage_start "$stage_step" "$stage_title"
     "$@"
-    echo "[OK] ===== $stage_label ====="
+    ui_stage_end "$stage_step" "$stage_title"
 }
 
-run_stage "Step 1/5: split" \
+ui_section "Phylogenetic Pipeline Console UI" "Full workflow | split -> paml -> merge -> ultrastandard -> time calibration"
+ui_kv "Split config" "$SPLIT_CONFIG"
+ui_kv "PAML config" "$PAML_CONFIG"
+ui_kv "Merge config" "$MERGE_CONFIG"
+ui_kv "Ultra config" "$ULTRASTANDARD_CONFIG"
+ui_kv "Time config" "$TIME_CALIB_CONFIG"
+
+run_stage "Step 1/5" "split | 拆树与校验" \
     bash "$PROJECT_ROOT/pipe/1-run_split_pipeline.sh" \
     --config "$SPLIT_CONFIG"
 
-run_stage "Step 2/5: paml" \
+run_stage "Step 2/5" "paml | 准备与运行 baseml" \
     bash "$PROJECT_ROOT/pipe/2-run_paml_pipeline.sh" \
     --config "$PAML_CONFIG"
 
-run_stage "Step 3/5: merge" \
+run_stage "Step 3/5" "merge | 合并子树结果" \
     bash "$PROJECT_ROOT/pipe/3-run_merge_pipeline.sh" \
     --config "$MERGE_CONFIG"
 
-run_stage "Step 4/5: ultrastandard" \
+run_stage "Step 4/5" "ultrastandard | 构建超度量树" \
     bash "$PROJECT_ROOT/pipe/4-run_ultrastandard_pipeline.sh" \
     --config "$ULTRASTANDARD_CONFIG"
 
-run_stage "Step 5/5: time calibration" \
+run_stage "Step 5/5" "time calibration | 时间校准" \
     bash "$PROJECT_ROOT/pipe/5-run_time_calib_pipeline.sh" \
     --config "$TIME_CALIB_CONFIG"
 
-echo "[OK] Full pipeline finished."
+ui_section "Workflow completed" "All configured stages finished successfully."
+ui_summary_line "Result" "Full pipeline finished"

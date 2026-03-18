@@ -50,6 +50,9 @@ set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROJECT_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
+source "$PROJECT_ROOT/script/console_ui.sh"
+ui_init
+ui_logo
 PATH_ROOT="$PROJECT_ROOT"
 DEFAULT_CONFIG_PATH="$PROJECT_ROOT/conf/2-paml.yaml"
 CONFIG_PATH="$DEFAULT_CONFIG_PATH"
@@ -62,7 +65,7 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         *)
-            echo "[ERROR] Unknown argument: $1" >&2
+            ui_error "参数错误 | Unknown argument: $1"
             exit 1
             ;;
     esac
@@ -91,7 +94,7 @@ resolve_command_or_path() {
 }
 
 if [[ ! -f "$CONFIG_PATH" ]]; then
-    echo "[ERROR] Config file not found: $CONFIG_PATH" >&2
+    ui_error "配置缺失 | Config file not found: $CONFIG_PATH"
     exit 1
 fi
 
@@ -154,7 +157,7 @@ BACKBONE_TREE="$SPLIT_OUTPUT_DIR/backbone_tree.nwk"
 BACKBONE_SUMMARY_TSV="$SPLIT_OUTPUT_DIR/backbone_summary.tsv"
 
 if ! [[ "$PAML_THREADS_PER_JOB" =~ ^[1-9][0-9]*$ ]]; then
-    echo "[ERROR] paml.threads_per_job must be a positive integer: $PAML_THREADS_PER_JOB" >&2
+    ui_error "参数错误 | paml.threads_per_job must be a positive integer: $PAML_THREADS_PER_JOB"
     exit 1
 fi
 
@@ -171,7 +174,7 @@ for required in \
     "$BACKBONE_TREE" \
     "$BACKBONE_SUMMARY_TSV"; do
     if [[ ! -f "$required" ]]; then
-        echo "[ERROR] Required paml input not found: $required" >&2
+        ui_error "输入缺失 | Required paml input not found: $required"
         exit 1
     fi
 done
@@ -179,22 +182,29 @@ done
 if [[ "$PAML_EXECUTION_MODE" != "fake" ]]; then
     for required in "$INPUT_FASTA" "$CTL_TEMPLATE"; do
         if [[ ! -f "$required" ]]; then
-            echo "[ERROR] Required paml input not found: $required" >&2
+            ui_error "输入缺失 | Required paml input not found: $required"
             exit 1
         fi
     done
 fi
 
 if [[ ! -d "$PAML_TREE_DIR" ]]; then
-    echo "[ERROR] PAML subtree directory not found: $PAML_TREE_DIR" >&2
+    ui_error "输入缺失 | PAML subtree directory not found: $PAML_TREE_DIR"
     exit 1
 fi
+
+ui_section "PAML pipeline" "Step 2/5 | 准备、运行并解析 baseml 作业"
+ui_kv "Config" "$CONFIG_PATH"
+ui_kv "Mode" "$PAML_EXECUTION_MODE"
+ui_kv "Split dir" "$SPLIT_OUTPUT_DIR"
+ui_kv "Output dir" "$PAML_OUTPUT_DIR"
+ui_kv "Threads/job" "$PAML_THREADS_PER_JOB"
 
 mkdir -p "$PAML_OUTPUT_DIR" "$TMP_DIR"
 
 if [[ "$PAML_CLEAN_OUTPUT_DIR" == "True" || "$PAML_CLEAN_OUTPUT_DIR" == "true" ]]; then
     if [[ -s "$PAML_RESUME_SUCCESS_LOG" ]]; then
-        echo "[INFO] Resume logs detected at $PAML_RESUME_SUCCESS_LOG; skip destructive cleanup even though paml.clean_output_dir=true."
+        ui_warn "检测到断点续跑日志 | Resume logs detected at $PAML_RESUME_SUCCESS_LOG; skip destructive cleanup."
     else
         rm -rf "$PAML_OUTPUT_DIR/jobs"
         rm -rf "$PAML_OUTPUT_DIR/analysis_trees"
@@ -215,7 +225,7 @@ if [[ "$PAML_CLEAN_OUTPUT_DIR" == "True" || "$PAML_CLEAN_OUTPUT_DIR" == "true" ]
 fi
 
 if [[ "$PAML_EXECUTION_MODE" == "fake" ]]; then
-    echo "[INFO] Stage 1/1: fake_paml_outputs"
+    ui_stage_start "Stage 1/1" "fake_paml_outputs | 生成模拟 baseml 输出"
     "$PYTHON_BIN" "$PROJECT_ROOT/python/fake_paml_outputs.py" \
         --paml-summary-tsv "$PAML_SUBTREE_SUMMARY_TSV" \
         --paml-tree-dir "$PAML_TREE_DIR" \
@@ -229,7 +239,8 @@ if [[ "$PAML_EXECUTION_MODE" == "fake" ]]; then
         --ultrametric-tolerance "$ULTRAMETRIC_TOLERANCE" \
         --backbone-only-enabled "$BACKBONE_ONLY_ENABLED" \
         --log-level "$LOG_LEVEL"
-    echo "[OK] PAML pipeline finished in fake mode."
+    ui_stage_end "Stage 1/1" "fake_paml_outputs | 生成模拟 baseml 输出"
+    ui_ok "Completed | PAML pipeline finished in fake mode"
     exit 0
 fi
 
@@ -249,7 +260,7 @@ if [[ "$PAML_BIND_CPU_AFFINITY" == "True" || "$PAML_BIND_CPU_AFFINITY" == "true"
     RUN_ARGS+=(--bind-cpu-affinity)
 fi
 
-echo "[INFO] Stage 1/6: prepare_paml_inputs"
+ui_stage_start "Stage 1/6" "prepare_paml_inputs | 生成 PAML 作业输入"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/prepare_paml_inputs.py" \
     --paml-summary-tsv "$PAML_SUBTREE_SUMMARY_TSV" \
     --paml-tree-dir "$PAML_TREE_DIR" \
@@ -258,22 +269,25 @@ echo "[INFO] Stage 1/6: prepare_paml_inputs"
     --output-dir "$PAML_OUTPUT_DIR" \
     --seq-id-strategy "$SEQ_ID_STRATEGY" \
     --log-level "$LOG_LEVEL"
+ui_stage_end "Stage 1/6" "prepare_paml_inputs | 生成 PAML 作业输入"
 
-echo "[INFO] Stage 2/6: run_paml_jobs"
+ui_stage_start "Stage 2/6" "run_paml_jobs | 执行 baseml 作业"
 env "${PAML_RUNTIME_ENV[@]}" \
     "$PYTHON_BIN" "$PROJECT_ROOT/python/run_paml_jobs.py" "${RUN_ARGS[@]}"
+ui_stage_end "Stage 2/6" "run_paml_jobs | 执行 baseml 作业"
 
-echo "[INFO] Stage 3/6: parse_paml_outputs"
+ui_stage_start "Stage 3/6" "parse_paml_outputs | 解析 baseml 输出"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/parse_paml_outputs.py" \
     --paml-summary-tsv "$PAML_SUBTREE_SUMMARY_TSV" \
     --manifest "$MANIFEST_PATH" \
     --output-dir "$PAML_OUTPUT_DIR" \
     --tmp-dir "$TMP_DIR" \
     --log-level "$LOG_LEVEL"
+ui_stage_end "Stage 3/6" "parse_paml_outputs | 解析 baseml 输出"
 
 if [[ "$BACKBONE_ONLY_ENABLED" == "True" || "$BACKBONE_ONLY_ENABLED" == "true" ]]; then
     if [[ "$ULTRAMETRIC_NORMALIZATION" != "extend_terminal_to_max_depth" ]]; then
-        echo "[ERROR] Unsupported paml.ultrametric_normalization: $ULTRAMETRIC_NORMALIZATION" >&2
+        ui_error "参数错误 | Unsupported paml.ultrametric_normalization: $ULTRAMETRIC_NORMALIZATION"
         exit 1
     fi
 
@@ -290,7 +304,7 @@ if [[ "$BACKBONE_ONLY_ENABLED" == "True" || "$BACKBONE_ONLY_ENABLED" == "true" ]
         BACKBONE_RUN_ARGS+=(--bind-cpu-affinity)
     fi
 
-    echo "[INFO] Stage 4/6: prepare_backbone_paml_input"
+    ui_stage_start "Stage 4/6" "prepare_backbone_paml_input | 准备 backbone 输入"
     "$PYTHON_BIN" "$PROJECT_ROOT/python/prepare_backbone_paml_input.py" \
         --backbone-tree "$BACKBONE_TREE" \
         --backbone-summary-tsv "$BACKBONE_SUMMARY_TSV" \
@@ -301,12 +315,14 @@ if [[ "$BACKBONE_ONLY_ENABLED" == "True" || "$BACKBONE_ONLY_ENABLED" == "true" ]
         --analysis-dir "$BACKBONE_ANALYSIS_DIR" \
         --seq-id-strategy "$SEQ_ID_STRATEGY" \
         --log-level "$LOG_LEVEL"
+    ui_stage_end "Stage 4/6" "prepare_backbone_paml_input | 准备 backbone 输入"
 
-    echo "[INFO] Stage 5/6: run_backbone_paml_job"
+    ui_stage_start "Stage 5/6" "run_backbone_paml_job | 执行 backbone baseml"
     env "${PAML_RUNTIME_ENV[@]}" \
         "$PYTHON_BIN" "$PROJECT_ROOT/python/run_backbone_paml_job.py" "${BACKBONE_RUN_ARGS[@]}"
+    ui_stage_end "Stage 5/6" "run_backbone_paml_job | 执行 backbone baseml"
 
-    echo "[INFO] Stage 6/6: parse_backbone_paml_output"
+    ui_stage_start "Stage 6/6" "parse_backbone_paml_output | 解析 backbone 输出"
     "$PYTHON_BIN" "$PROJECT_ROOT/python/parse_backbone_paml_output.py" \
         --backbone-tree "$BACKBONE_TREE" \
         --paml-summary-tsv "$PAML_SUBTREE_SUMMARY_TSV" \
@@ -315,8 +331,9 @@ if [[ "$BACKBONE_ONLY_ENABLED" == "True" || "$BACKBONE_ONLY_ENABLED" == "true" ]
         --min-branch-length 1e-8 \
         --ultrametric-tolerance "$ULTRAMETRIC_TOLERANCE" \
         --log-level "$LOG_LEVEL"
+    ui_stage_end "Stage 6/6" "parse_backbone_paml_output | 解析 backbone 输出"
 fi
 
-echo "[OK] PAML pipeline finished."
-echo "[INFO] Cleaning up temporary files..."
+ui_ok "Completed | PAML pipeline finished"
+ui_info "收尾清理 | Cleaning up temporary files"
 rm -f ./rst ./rst1 ./rub
