@@ -1,0 +1,19 @@
+projectpath: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树"
+
+paths:
+  ultrastandard_output_dir: "output/ultrastandard"
+runtime:
+  log_level: "INFO"
+tools:
+  python: "python3"
+time_calib:
+  method: "node_calibration" #? 可选项：molecular_clock（分子钟速率整体缩放）、node_calibration（节点标记整体缩放）
+  input_tree: null
+  output_dir: "output/time_calib"
+  clean_output_dir: true
+  substitution_rate_per_site_per_year: 2.67e-8
+  sequence_length: 16569
+  branch_length_unit: "substitutions_per_site"
+  node_calibration_tip_name: "RSRS"
+  node_calibration_divergence_years: 180000
+  output_tree_name: "merged_ultrametric_tree_years.nwk"

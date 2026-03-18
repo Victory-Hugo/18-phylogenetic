@@ -54,6 +54,32 @@ TARGET_MANIFEST_COLUMNS = [
     "source_node_id",
 ]
 
+SUBTREE_DESIGN_COLUMNS = [
+    "target_subtree_id",
+    "target_root_node_id",
+    "parent_node_id",
+    "core_target_n_tips",
+    "local_anchor_n_tips",
+    "global_backbone_n_tips",
+    "total_n_tips",
+    "core_target_tip_names",
+    "local_anchor_tip_names",
+    "global_backbone_tip_names",
+    "outgroup_tip",
+    "anchor_selection_strategy",
+    "tip_hash",
+    "paml_tree_file",
+]
+
+ANCHOR_MANIFEST_COLUMNS = [
+    "target_subtree_id",
+    "tip_name",
+    "tip_role",
+    "selection_rank",
+    "selection_source",
+    "source_node_id",
+]
+
 PAML_SUMMARY_COLUMNS = [
     "paml_subtree_id",
     "target_subtree_id",
@@ -64,6 +90,13 @@ PAML_SUMMARY_COLUMNS = [
     "total_n_tips",
     "backbone_tip_names",
     "target_nonbackbone_tip_names",
+    "global_backbone_n_tips",
+    "global_backbone_tip_names",
+    "core_target_n_tips",
+    "core_target_tip_names",
+    "local_anchor_n_tips",
+    "local_anchor_tip_names",
+    "anchor_selection_strategy",
     "total_tip_names",
     "tip_hash",
     "paml_tree_file",
@@ -134,6 +167,13 @@ class PamlSubtreeRecord:
     total_n_tips: int
     backbone_tip_names: List[str]
     target_nonbackbone_tip_names: List[str]
+    global_backbone_n_tips: int
+    global_backbone_tip_names: List[str]
+    core_target_n_tips: int
+    core_target_tip_names: List[str]
+    local_anchor_n_tips: int
+    local_anchor_tip_names: List[str]
+    anchor_selection_strategy: str
     total_tip_names: List[str]
     tip_hash: str
     paml_tree_file: str
@@ -157,10 +197,24 @@ class PamlSubtreeRecord:
             "total_n_tips": self.total_n_tips,
             "backbone_tip_names": encode_json_list(self.backbone_tip_names),
             "target_nonbackbone_tip_names": encode_json_list(self.target_nonbackbone_tip_names),
+            "global_backbone_n_tips": self.global_backbone_n_tips,
+            "global_backbone_tip_names": encode_json_list(self.global_backbone_tip_names),
+            "core_target_n_tips": self.core_target_n_tips,
+            "core_target_tip_names": encode_json_list(self.core_target_tip_names),
+            "local_anchor_n_tips": self.local_anchor_n_tips,
+            "local_anchor_tip_names": encode_json_list(self.local_anchor_tip_names),
+            "anchor_selection_strategy": self.anchor_selection_strategy,
             "total_tip_names": encode_json_list(self.total_tip_names),
             "tip_hash": self.tip_hash,
             "paml_tree_file": self.paml_tree_file,
         }
+
+
+@dataclass
+class TargetPartitionProfiles:
+    nonbackbone_counts: Dict[Clade, int]
+    backbone_counts: Dict[Clade, int]
+    ordered_nonbackbone_tips: Dict[Clade, List[str]]
 
 
 def format_float(value: float) -> str:
@@ -510,6 +564,25 @@ def compute_tip_hash(tip_names: Sequence[str]) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def compute_file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def write_json(payload: Dict[str, object], destination: Path) -> None:
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def load_json(path: Path) -> Dict[str, object]:
+    if not path.exists():
+        raise PipelineError(f"Required JSON file not found: {path}")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def write_table(rows: Sequence[Dict[str, object]], fieldnames: Sequence[str], destination: Path) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     with destination.open("w", encoding="utf-8", newline="") as handle:
@@ -547,12 +620,16 @@ def clean_generated_outputs(output_dir: Path) -> None:
         "backbone_summary.tsv",
         "target_subtree_summary.tsv",
         "target_tree_manifest.tsv",
+        "subtree_design_summary.tsv",
+        "anchor_manifest.tsv",
         "paml_subtree_summary.tsv",
         "paml_tree_manifest.tsv",
         "split_validation_report.tsv",
         "split_tree.log",
+        "split_precompute.log",
         "intermediate/rooted.tree",
         "intermediate/rooted.validation.tree",
+        "intermediate/split_context.json",
     ]:
         (output_dir / relative_path).unlink(missing_ok=True)
 
@@ -727,12 +804,22 @@ def resolve_backbone_selection(
     tree_tip_names = get_tip_names_from_tree(rooted_tree)
     if outgroup_tip_name not in tree_tip_names:
         raise PipelineError(f"Required outgroup tip {outgroup_tip_name} is missing from rooted tree.")
+    _, ingroup_child = get_root_children_for_outgroup(rooted_tree, outgroup_tip_name)
+    ingroup_tip_names = sorted(set(get_tip_names_from_clade(ingroup_child)) - {outgroup_tip_name})
     if backbone_tip_id_file is not None:
         if backbone_tree is not None and logger is not None:
             logger.info("Using backbone_tip_id_file as backbone source; backbone_tree ignored.")
-        backbone_tips = load_backbone_tip_ids_from_file(backbone_tip_id_file, tree_tip_names)
-        if outgroup_tip_name in backbone_tips:
+        user_backbone_tips = load_backbone_tip_ids_from_file(backbone_tip_id_file, tree_tip_names)
+        if outgroup_tip_name in user_backbone_tips:
             raise PipelineError("backbone_tip_id_file must not include the singleton outgroup tip.")
+        if len(user_backbone_tips) > backbone_size:
+            message = (
+                f"backbone_tip_id_file contains {len(user_backbone_tips)} tips, exceeding "
+                f"runtime.backbone_size={backbone_size}. Reduce the file size or increase backbone_size."
+            )
+            if logger is not None:
+                logger.warning(message)
+            raise PipelineError(message)
         records = [
             BackboneTipRecord(
                 backbone_tip_name=tip_name,
@@ -741,9 +828,38 @@ def resolve_backbone_selection(
                 is_user_supplied=True,
                 patristic_seed_distance=None,
             )
-            for index, tip_name in enumerate(backbone_tips, start=1)
+            for index, tip_name in enumerate(user_backbone_tips, start=1)
         ]
-        return backbone_tips, records, "tip_id_file"
+        if len(user_backbone_tips) == backbone_size:
+            return user_backbone_tips, records, "tip_id_file"
+
+        missing_count = backbone_size - len(user_backbone_tips)
+        user_backbone_tip_set = set(user_backbone_tips)
+        if logger is not None:
+            logger.info(
+                "backbone_tip_id_file provides %d/%d tips; auto-sampling %d additional backbone tips.",
+                len(user_backbone_tips),
+                backbone_size,
+                missing_count,
+            )
+        auto_steps = greedy_farthest_patristic_sampling(rooted_tree, ingroup_tip_names, backbone_size)
+        supplement_steps = [step for step in auto_steps if step.tip_name not in user_backbone_tip_set][:missing_count]
+        if len(supplement_steps) != missing_count:
+            raise PipelineError(
+                "Could not supplement backbone_tip_id_file to runtime.backbone_size using automatic sampling."
+            )
+        for offset, step in enumerate(supplement_steps, start=1):
+            records.append(
+                BackboneTipRecord(
+                    backbone_tip_name=step.tip_name,
+                    selection_source=step.selection_source,
+                    selection_rank=len(user_backbone_tips) + offset,
+                    is_user_supplied=False,
+                    patristic_seed_distance=step.patristic_seed_distance,
+                )
+            )
+        backbone_tips = list(user_backbone_tips) + [step.tip_name for step in supplement_steps]
+        return backbone_tips, records, "tip_id_file_plus_auto"
     if backbone_tree is not None:
         backbone_tips = load_backbone_tips_from_tree(backbone_tree, tree_tip_names)
         if outgroup_tip_name in backbone_tips:
@@ -760,8 +876,6 @@ def resolve_backbone_selection(
         ]
         return backbone_tips, records, "backbone_tree"
 
-    _, ingroup_child = get_root_children_for_outgroup(rooted_tree, outgroup_tip_name)
-    ingroup_tip_names = sorted(set(get_tip_names_from_clade(ingroup_child)) - {outgroup_tip_name})
     steps = greedy_farthest_patristic_sampling(rooted_tree, ingroup_tip_names, backbone_size)
     records = [
         BackboneTipRecord(
@@ -789,7 +903,7 @@ def compute_target_partition_profiles(
     tree: Tree,
     backbone_tip_set: set[str],
     outgroup_tip: str,
-) -> Tuple[Dict[Clade, int], Dict[Clade, int], Dict[Clade, List[str]]]:
+) -> TargetPartitionProfiles:
     nonbackbone_counts: Dict[Clade, int] = {}
     backbone_counts: Dict[Clade, int] = {}
     ordered_nonbackbone_tips: Dict[Clade, List[str]] = {}
@@ -815,7 +929,81 @@ def compute_target_partition_profiles(
         for child in clade.clades:
             tip_names.extend(ordered_nonbackbone_tips[child])
         ordered_nonbackbone_tips[clade] = tip_names
-    return nonbackbone_counts, backbone_counts, ordered_nonbackbone_tips
+    return TargetPartitionProfiles(
+        nonbackbone_counts=nonbackbone_counts,
+        backbone_counts=backbone_counts,
+        ordered_nonbackbone_tips=ordered_nonbackbone_tips,
+    )
+
+
+def compute_root_distance_maps(
+    tree: Tree,
+    node_id_map: Dict[Clade, str],
+) -> Tuple[Dict[Clade, float], Dict[str, float], Dict[str, float]]:
+    root_distance_by_clade: Dict[Clade, float] = {tree.root: 0.0}
+    stack: List[Clade] = [tree.root]
+    while stack:
+        parent = stack.pop()
+        parent_distance = root_distance_by_clade[parent]
+        for child in parent.clades:
+            branch_length = 0.0 if child.branch_length is None else float(child.branch_length)
+            root_distance_by_clade[child] = parent_distance + branch_length
+            stack.append(child)
+    root_distance_by_node_id = {
+        node_id_map[clade]: root_distance
+        for clade, root_distance in root_distance_by_clade.items()
+    }
+    tip_root_distance_by_name = {
+        str(tip.name): root_distance_by_clade[tip]
+        for tip in tree.get_terminals()
+    }
+    return root_distance_by_clade, root_distance_by_node_id, tip_root_distance_by_name
+
+
+def build_split_precompute_payload(
+    input_tree: Path,
+    rooted_tree: Path,
+    tree: Tree,
+    node_id_map: Dict[Clade, str],
+    outgroup_tip_name: str,
+) -> Dict[str, object]:
+    _, root_distance_by_node_id, _ = compute_root_distance_maps(tree, node_id_map)
+    tip_order = get_tip_names_from_tree(tree)
+    return {
+        "version": 1,
+        "input_tree_sha256": compute_file_sha256(input_tree),
+        "rooted_tree_sha256": compute_file_sha256(rooted_tree),
+        "outgroup_tip_name": outgroup_tip_name,
+        "rooted_tree_file": rooted_tree.as_posix(),
+        "tip_order": tip_order,
+        "tip_order_index": {tip_name: index for index, tip_name in enumerate(tip_order)},
+        "root_distance_by_node_id": root_distance_by_node_id,
+    }
+
+
+def resolve_root_distance_by_clade(
+    tree: Tree,
+    node_id_map: Dict[Clade, str],
+    precomputed_context: Optional[Dict[str, object]] = None,
+) -> Tuple[Dict[Clade, float], Dict[str, float]]:
+    if precomputed_context is None:
+        root_distance_by_clade, _, tip_root_distance_by_name = compute_root_distance_maps(tree, node_id_map)
+        return root_distance_by_clade, tip_root_distance_by_name
+
+    raw_root_distances = precomputed_context.get("root_distance_by_node_id")
+    if not isinstance(raw_root_distances, dict):
+        raise PipelineError("split precompute context is missing root_distance_by_node_id")
+
+    root_distance_by_clade: Dict[Clade, float] = {}
+    for clade, node_id in node_id_map.items():
+        if node_id not in raw_root_distances:
+            raise PipelineError(f"split precompute context is missing node id {node_id}")
+        root_distance_by_clade[clade] = float(raw_root_distances[node_id])
+    tip_root_distance_by_name = {
+        str(tip.name): root_distance_by_clade[tip]
+        for tip in tree.get_terminals()
+    }
+    return root_distance_by_clade, tip_root_distance_by_name
 
 
 def build_target_partition(
@@ -826,16 +1014,20 @@ def build_target_partition(
     outgroup_tip: str,
     target_capacity: int,
     logger: logging.Logger,
+    partition_profiles: Optional[TargetPartitionProfiles] = None,
 ) -> List[TargetSubtreeRecord]:
     if target_capacity < 1:
         raise PipelineError("runtime.max_tips - runtime.backbone_size - 1 leaves no room for target tips.")
 
     _, ingroup_child = get_root_children_for_outgroup(tree, outgroup_tip)
-    nonbackbone_counts, backbone_counts, ordered_nonbackbone_tips = compute_target_partition_profiles(
+    partition_profiles = partition_profiles or compute_target_partition_profiles(
         tree,
         backbone_tip_set,
         outgroup_tip,
     )
+    nonbackbone_counts = partition_profiles.nonbackbone_counts
+    backbone_counts = partition_profiles.backbone_counts
+    ordered_nonbackbone_tips = partition_profiles.ordered_nonbackbone_tips
     selected: List[Clade] = []
 
     def recurse(clade: Clade) -> None:
@@ -912,12 +1104,129 @@ def build_target_manifest_rows(records: Sequence[TargetSubtreeRecord]) -> List[D
     return rows
 
 
+def _iter_local_anchor_candidates(
+    target_clade: Clade,
+    parent_map: Dict[Clade, Optional[Clade]],
+    ordered_nonbackbone_tips: Dict[Clade, List[str]],
+    core_target_tip_set: set[str],
+    backbone_tip_set: set[str],
+    outgroup_tip: str,
+    tip_order_index: Dict[str, int],
+    root_distance_by_clade: Dict[Clade, float],
+    tip_root_distance_by_name: Dict[str, float],
+) -> List[Tuple[int, float, int, str]]:
+    candidates: List[Tuple[int, float, int, str]] = []
+    seen_tip_names: set[str] = set()
+    current = target_clade
+    boundary_level = 0
+    while True:
+        parent = parent_map.get(current)
+        if parent is None:
+            break
+        parent_root_distance = root_distance_by_clade[parent]
+        sibling_clades = [child for child in parent.clades if child is not current]
+        for sibling in sibling_clades:
+            for tip_name in ordered_nonbackbone_tips.get(sibling, []):
+                if (
+                    tip_name == outgroup_tip
+                    or tip_name in backbone_tip_set
+                    or tip_name in core_target_tip_set
+                    or tip_name in seen_tip_names
+                ):
+                    continue
+                branch_distance = tip_root_distance_by_name[tip_name] - parent_root_distance
+                candidates.append((boundary_level, branch_distance, tip_order_index[tip_name], tip_name))
+                seen_tip_names.add(tip_name)
+        current = parent
+        boundary_level += 1
+    return candidates
+
+
+def select_local_overlap_anchors(
+    target_record: TargetSubtreeRecord,
+    parent_map: Dict[Clade, Optional[Clade]],
+    ordered_nonbackbone_tips: Dict[Clade, List[str]],
+    backbone_tip_set: set[str],
+    outgroup_tip: str,
+    tip_order_index: Dict[str, int],
+    root_distance_by_clade: Dict[Clade, float],
+    tip_root_distance_by_name: Dict[str, float],
+    max_anchor_count: int,
+    anchor_selection_strategy: str,
+) -> List[str]:
+    if max_anchor_count <= 0:
+        return []
+    if anchor_selection_strategy != "nearest_boundary_patristic":
+        raise PipelineError(f"Unsupported runtime.anchor_selection_strategy: {anchor_selection_strategy}")
+    candidates = _iter_local_anchor_candidates(
+        target_clade=target_record.clade,
+        parent_map=parent_map,
+        ordered_nonbackbone_tips=ordered_nonbackbone_tips,
+        core_target_tip_set=set(target_record.target_nonbackbone_tip_names),
+        backbone_tip_set=backbone_tip_set,
+        outgroup_tip=outgroup_tip,
+        tip_order_index=tip_order_index,
+        root_distance_by_clade=root_distance_by_clade,
+        tip_root_distance_by_name=tip_root_distance_by_name,
+    )
+    candidates.sort()
+    return [tip_name for _, _, _, tip_name in candidates[:max_anchor_count]]
+
+
+def build_subtree_design_rows(records: Sequence[PamlSubtreeRecord], target_records: Sequence[TargetSubtreeRecord]) -> List[Dict[str, object]]:
+    parent_by_target_id = {record.target_subtree_id: record.parent_node_id for record in target_records}
+    rows: List[Dict[str, object]] = []
+    for record in records:
+        rows.append(
+            {
+                "target_subtree_id": record.target_subtree_id,
+                "target_root_node_id": record.target_root_node_id,
+                "parent_node_id": parent_by_target_id.get(record.target_subtree_id, ""),
+                "core_target_n_tips": record.core_target_n_tips,
+                "local_anchor_n_tips": record.local_anchor_n_tips,
+                "global_backbone_n_tips": record.global_backbone_n_tips,
+                "total_n_tips": record.total_n_tips,
+                "core_target_tip_names": encode_json_list(record.core_target_tip_names),
+                "local_anchor_tip_names": encode_json_list(record.local_anchor_tip_names),
+                "global_backbone_tip_names": encode_json_list(record.global_backbone_tip_names),
+                "outgroup_tip": record.outgroup_tip,
+                "anchor_selection_strategy": record.anchor_selection_strategy,
+                "tip_hash": record.tip_hash,
+                "paml_tree_file": record.paml_tree_file,
+            }
+        )
+    return rows
+
+
+def build_anchor_manifest_rows(records: Sequence[PamlSubtreeRecord]) -> List[Dict[str, object]]:
+    rows: List[Dict[str, object]] = []
+    for record in records:
+        for index, tip_name in enumerate(record.local_anchor_tip_names, start=1):
+            rows.append(
+                {
+                    "target_subtree_id": record.target_subtree_id,
+                    "tip_name": tip_name,
+                    "tip_role": "anchor",
+                    "selection_rank": index,
+                    "selection_source": record.anchor_selection_strategy,
+                    "source_node_id": record.target_root_node_id,
+                }
+            )
+    return rows
+
+
 def build_paml_subtrees(
     tree: Tree,
     backbone_tip_names: Sequence[str],
     target_records: Sequence[TargetSubtreeRecord],
+    parent_map: Dict[Clade, Optional[Clade]],
+    ordered_nonbackbone_tips: Dict[Clade, List[str]],
+    root_distance_by_clade: Dict[Clade, float],
+    tip_root_distance_by_name: Dict[str, float],
     outgroup_tip: str,
     max_tips: int,
+    local_anchor_count: int,
+    anchor_selection_strategy: str,
     logger: logging.Logger,
 ) -> Tuple[List[PamlSubtreeRecord], List[Dict[str, object]]]:
     master_tip_order = get_tip_names_from_tree(tree)
@@ -929,6 +1238,20 @@ def build_paml_subtrees(
         selected_tip_set = set(backbone_tip_set)
         selected_tip_set.update(target_record.target_nonbackbone_tip_names)
         selected_tip_set.add(outgroup_tip)
+        available_anchor_slots = max(0, int(max_tips) - len(selected_tip_set))
+        local_anchor_tip_names = select_local_overlap_anchors(
+            target_record=target_record,
+            parent_map=parent_map,
+            ordered_nonbackbone_tips=ordered_nonbackbone_tips,
+            backbone_tip_set=backbone_tip_set,
+            outgroup_tip=outgroup_tip,
+            tip_order_index=tip_order_index,
+            root_distance_by_clade=root_distance_by_clade,
+            tip_root_distance_by_name=tip_root_distance_by_name,
+            max_anchor_count=min(int(local_anchor_count), available_anchor_slots),
+            anchor_selection_strategy=anchor_selection_strategy,
+        )
+        selected_tip_set.update(local_anchor_tip_names)
         ordered_tip_names = build_ordered_tip_list(tip_order_index, selected_tip_set)
         if len(ordered_tip_names) > max_tips:
             raise PipelineError(
@@ -944,6 +1267,13 @@ def build_paml_subtrees(
             total_n_tips=len(ordered_tip_names),
             backbone_tip_names=list(backbone_tip_names),
             target_nonbackbone_tip_names=list(target_record.target_nonbackbone_tip_names),
+            global_backbone_n_tips=len(backbone_tip_names),
+            global_backbone_tip_names=list(backbone_tip_names),
+            core_target_n_tips=target_record.target_nonbackbone_n_tips,
+            core_target_tip_names=list(target_record.target_nonbackbone_tip_names),
+            local_anchor_n_tips=len(local_anchor_tip_names),
+            local_anchor_tip_names=list(local_anchor_tip_names),
+            anchor_selection_strategy=anchor_selection_strategy,
             total_tip_names=ordered_tip_names,
             tip_hash=compute_tip_hash(ordered_tip_names),
             paml_tree_file=Path("paml_subtrees", f"paml_subtree_{index:04d}.nwk").as_posix(),
@@ -969,6 +1299,16 @@ def build_paml_subtrees(
                     "source_node_id": record.target_root_node_id,
                 }
             )
+        for tip_name in record.local_anchor_tip_names:
+            manifest_rows.append(
+                {
+                    "paml_subtree_id": record.paml_subtree_id,
+                    "tip_name": tip_name,
+                    "tip_role": "anchor",
+                    "target_subtree_id": record.target_subtree_id,
+                    "source_node_id": record.target_root_node_id,
+                }
+            )
         manifest_rows.append(
             {
                 "paml_subtree_id": record.paml_subtree_id,
@@ -979,10 +1319,11 @@ def build_paml_subtrees(
             }
         )
         logger.info(
-            "%s backbone=%d target=%d total=%d",
+            "%s backbone=%d core_target=%d local_anchor=%d total=%d",
             record.paml_subtree_id,
             record.backbone_n_tips,
-            record.target_nonbackbone_n_tips,
+            record.core_target_n_tips,
+            record.local_anchor_n_tips,
             record.total_n_tips,
         )
     return records, manifest_rows

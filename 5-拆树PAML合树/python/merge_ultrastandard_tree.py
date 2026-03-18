@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Merge subtree PAML outputs under a backbone ultrametric time framework."""
+"""Project merged_ml_tree onto an ultrametric tree without changing topology."""
 
 from __future__ import annotations
 
@@ -7,271 +7,168 @@ import argparse
 import sys
 from pathlib import Path
 
-from Bio.Phylo.BaseTree import Tree
-
 from phylo_merge_common import (
-    build_analysis_tree_path,
-    build_scaffold_tree,
-    extract_monophyletic_target_clade,
-    load_backbone_summary,
-    load_paml_summary,
-    load_target_summary,
     validate_branch_lengths_complete,
     validate_rooted_tree_with_outgroup,
     validate_tree_against_expected_tip_set,
+    write_rows,
 )
-from phylo_split_common import PipelineError, assign_node_ids, clone_clade, get_tip_names_from_tree, setup_logger
+from phylo_split_common import PipelineError, assign_node_ids, get_tip_names_from_tree, setup_logger
 from phylo_ultrastandard_common import (
-    BACKBONE_EDGE_ASSIGNMENT_COLUMNS,
-    GRAFT_REPORT_COLUMNS,
-    TARGET_SCALING_REPORT_COLUMNS,
-    assign_backbone_lengths_to_scaffold,
     build_root_to_tip_row,
-    collapse_tree,
-    count_backbone_descendants,
-    extend_terminal_branches_to_height,
     infer_unique_outgroup,
-    normalize_relative_ultrametric_tree,
-    replace_placeholder_with_scaled_tree,
-    resolve_backbone_ultrametric_tree_path,
-    scale_tree_nonroot,
-    tree_height,
+    project_tree_to_ultrametric,
+    read_tree,
     validate_ultrametric,
     write_root_to_tip_report,
     write_simple_tree,
 )
-from phylo_merge_common import ensure_positive_branch_length, write_rows
+
+
+ULTRAMETRIC_PROJECTION_REPORT_COLUMNS = [
+    "node_id",
+    "edge_role",
+    "tip_name",
+    "old_branch_length",
+    "projected_branch_length",
+    "delta",
+    "changed",
+    "details",
+]
+
+
+def resolve_primary_tree_input(merge_output_dir: Path, configured_path: str | None) -> Path:
+    if configured_path not in (None, "", "null"):
+        path = Path(configured_path)
+        return path if path.is_absolute() else path.resolve()
+    default_path = merge_output_dir / "merged_ml_tree.nwk"
+    if default_path.exists():
+        return default_path
+    legacy_path = merge_output_dir / "merged_tree.nwk"
+    return legacy_path
+
+
+def build_projection_rows(input_tree, projected_tree, projection_mode: str):
+    input_node_id_map, _, _ = assign_node_ids(input_tree)
+    _, projected_reverse_map, _ = assign_node_ids(projected_tree)
+    rows = []
+    for clade, node_id in input_node_id_map.items():
+        if clade is input_tree.root:
+            continue
+        projected_clade = projected_reverse_map.get(node_id)
+        if projected_clade is None:
+            raise PipelineError(f"Projected tree is missing node id {node_id}")
+        old_branch_length = 0.0 if clade.branch_length is None else float(clade.branch_length)
+        new_branch_length = 0.0 if projected_clade.branch_length is None else float(projected_clade.branch_length)
+        rows.append(
+            {
+                "node_id": node_id,
+                "edge_role": "terminal" if clade.is_terminal() else "internal",
+                "tip_name": "" if not clade.is_terminal() else str(clade.name),
+                "old_branch_length": f"{old_branch_length:.12g}",
+                "projected_branch_length": f"{new_branch_length:.12g}",
+                "delta": f"{(new_branch_length - old_branch_length):.12g}",
+                "changed": "true" if abs(new_branch_length - old_branch_length) > 0 else "false",
+                "details": (
+                    "Terminal-extension ultrametric projection."
+                    if projection_mode == "extend_terminal_to_max_depth" and clade.is_terminal()
+                    else (
+                        "Internal branch preserved."
+                        if projection_mode == "extend_terminal_to_max_depth"
+                        else "Constrained-height ultrametric projection."
+                    )
+                ),
+            }
+        )
+    return rows
 
 
 def run(
     split_output_dir,
-    paml_output_dir,
+    merge_output_dir,
     ultrastandard_output_dir,
     min_branch_length=1e-8,
     ultrametric_tolerance=1e-8,
-    relative_ultrametric_method="extend_terminal_to_max_depth",
-    require_backbone_descendant_anchor=True,
-    allow_multifurcation=True,
-    backbone_ultrametric_tree=None,
+    projection_mode="extend_terminal_to_max_depth",
+    primary_tree_input=None,
     log_level="INFO",
 ):
-    if relative_ultrametric_method != "extend_terminal_to_max_depth":
-        raise PipelineError(f"Unsupported ultrastandard.relative_ultrametric_method: {relative_ultrametric_method}")
-    del allow_multifurcation
+    if projection_mode not in {"extend_terminal_to_max_depth", "constrained_height_fit"}:
+        raise PipelineError(f"Unsupported ultrastandard.projection_mode: {projection_mode}")
 
     split_output_dir = Path(split_output_dir).resolve()
-    paml_output_dir = Path(paml_output_dir).resolve()
+    merge_output_dir = Path(merge_output_dir).resolve()
     ultrastandard_output_dir = Path(ultrastandard_output_dir).resolve()
     min_branch_length = float(min_branch_length)
     ultrametric_tolerance = float(ultrametric_tolerance)
+    ultrastandard_output_dir.mkdir(parents=True, exist_ok=True)
 
     logger = setup_logger("merge_ultrastandard_tree", ultrastandard_output_dir / "ultrastandard.log", log_level)
-    logger.info("Starting ultrastandard backbone-anchored merge.")
+    logger.info("Starting ultrametric projection from merged_ml_tree.")
 
-    master_tree_path = split_output_dir / "intermediate" / "rooted.tree"
     paml_summary_tsv = split_output_dir / "paml_subtree_summary.tsv"
     outgroup_tip_name = infer_unique_outgroup(paml_summary_tsv)
+    master_tree = read_tree(split_output_dir / "intermediate" / "rooted.tree")
+    input_tree_path = resolve_primary_tree_input(merge_output_dir, primary_tree_input)
+    if not input_tree_path.exists():
+        raise PipelineError(f"Primary tree input not found: {input_tree_path}")
+    merged_ml_tree = read_tree(input_tree_path)
 
-    master_tree = read_tree(master_tree_path)
     validate_rooted_tree_with_outgroup(master_tree, outgroup_tip_name)
-
-    backbone_records = load_backbone_summary(split_output_dir / "backbone_summary.tsv")
-    target_records = load_target_summary(split_output_dir / "target_subtree_summary.tsv")
-    paml_records = load_paml_summary(paml_summary_tsv)
-    paml_by_target_id = {record.target_subtree_id: record for record in paml_records}
-    backbone_tip_names = [record.backbone_tip_name for record in sorted(backbone_records, key=lambda item: item.selection_rank)]
-    backbone_tip_set = set(backbone_tip_names)
-
-    backbone_ultrametric_tree_path = resolve_backbone_ultrametric_tree_path(paml_output_dir, backbone_ultrametric_tree)
-    backbone_tree = read_tree(backbone_ultrametric_tree_path)
-    validate_rooted_tree_with_outgroup(backbone_tree, outgroup_tip_name)
+    validate_rooted_tree_with_outgroup(merged_ml_tree, outgroup_tip_name)
+    validate_branch_lengths_complete(merged_ml_tree)
     validate_tree_against_expected_tip_set(
-        backbone_tree,
-        backbone_tip_names + [outgroup_tip_name],
-        "backbone_ultrametric_tree",
+        merged_ml_tree,
+        get_tip_names_from_tree(master_tree),
+        "merged_ml_tree",
         outgroup_tip_name,
     )
-    validate_ultrametric(backbone_tree, ultrametric_tolerance, "backbone_ultrametric_tree")
 
-    for target_record in target_records:
-        target_tree = read_tree(split_output_dir / target_record.target_tree_file)
-        backbone_descendants = count_backbone_descendants(target_tree, backbone_tip_set)
-        if require_backbone_descendant_anchor and backbone_descendants < 1:
-            raise PipelineError(
-                f"{target_record.target_subtree_id} has no backbone descendants in its target subtree and cannot be anchored."
-            )
+    write_simple_tree(ultrastandard_output_dir / "projection_input_tree.nwk", merged_ml_tree)
+    root_to_tip_rows = [build_root_to_tip_row("merged_ml_tree", merged_ml_tree, ultrametric_tolerance)]
 
-    scaffold_tree, placeholder_to_target_id = build_scaffold_tree(
-        master_tree=master_tree,
-        target_records=target_records,
-        backbone_tip_names=backbone_tip_names,
-        outgroup_tip_name=outgroup_tip_name,
-    )
-    ultrastandard_output_dir.mkdir(parents=True, exist_ok=True)
-    relative_target_dir = ultrastandard_output_dir / "relative_target_trees"
-    relative_target_dir.mkdir(parents=True, exist_ok=True)
-    write_simple_tree(ultrastandard_output_dir / "assembly_scaffold.nwk", scaffold_tree)
-
-    node_id_map, _, _ = assign_node_ids(scaffold_tree)
-    backbone_assignment_rows = assign_backbone_lengths_to_scaffold(
-        scaffold_tree=scaffold_tree,
-        backbone_tree=backbone_tree,
-        backbone_tip_set=backbone_tip_set,
-        outgroup_tip_name=outgroup_tip_name,
-        min_branch_length=min_branch_length,
-        node_id_map=node_id_map,
-    )
-    write_rows(
-        backbone_assignment_rows,
-        BACKBONE_EDGE_ASSIGNMENT_COLUMNS,
-        ultrastandard_output_dir / "backbone_edge_assignment_report.tsv",
-    )
-
-    backbone_terminals = [
-        tip for tip in scaffold_tree.get_terminals() if str(tip.name) in backbone_tip_set or str(tip.name) == outgroup_tip_name
-    ]
-    H = max(float(scaffold_tree.distance(scaffold_tree.root, tip)) for tip in backbone_terminals)
-    for tip in backbone_terminals:
-        current_depth = float(scaffold_tree.distance(scaffold_tree.root, tip))
-        deficit = H - current_depth
-        tip.branch_length = ensure_positive_branch_length(tip.branch_length, min_branch_length) + max(0.0, deficit)
-
-    write_simple_tree(ultrastandard_output_dir / "backbone_assigned_scaffold.nwk", scaffold_tree)
-
-    H = max(
-        float(scaffold_tree.distance(scaffold_tree.root, tip))
-        for tip in scaffold_tree.get_terminals()
-        if str(tip.name) in backbone_tip_set or str(tip.name) == outgroup_tip_name
-    )
-    scaling_rows = []
-    graft_rows = []
-    root_to_tip_rows = [build_root_to_tip_row("backbone_ultrametric_tree", backbone_tree, ultrametric_tolerance)]
-
-    for placeholder_name, target_id in sorted(placeholder_to_target_id.items()):
-        target_record = next(record for record in target_records if record.target_subtree_id == target_id)
-        paml_record = paml_by_target_id[target_id]
-        analysis_tree_path = build_analysis_tree_path(
-            merge_output_dir=ultrastandard_output_dir,
-            paml_subtree_id=paml_record.paml_subtree_id,
-            analysis_tree_source="external",
-            external_result_dir=paml_output_dir / "analysis_trees",
-        )
-        analysis_tree = read_tree(analysis_tree_path)
-        validate_tree_against_expected_tip_set(
-            analysis_tree,
-            paml_record.total_tip_names,
-            paml_record.paml_subtree_id,
-            outgroup_tip_name,
-        )
-
-        extracted_clade = extract_monophyletic_target_clade(analysis_tree, target_record.target_nonbackbone_tip_names)
-        target_tree = collapse_tree(Tree(root=clone_clade(extracted_clade), rooted=True))
-        relative_tree, relative_height, _ = normalize_relative_ultrametric_tree(
-            target_tree,
-            min_branch_length=min_branch_length,
-            tolerance=ultrametric_tolerance,
-        )
-        validate_ultrametric(relative_tree, ultrametric_tolerance, f"{target_id}.relative_tree")
-        relative_target_path = relative_target_dir / f"{target_record.target_subtree_id}.relative_ultrametric.nwk"
-        write_simple_tree(relative_target_path, relative_tree)
-        root_to_tip_rows.append(build_root_to_tip_row(f"{target_id}.relative_ultrametric", relative_tree, ultrametric_tolerance))
-
-        parent_clade, _ = find_placeholder_parent(scaffold_tree, placeholder_name)
-        anchor_height = float(scaffold_tree.distance(scaffold_tree.root, parent_clade))
-        available_depth = H - anchor_height
-        if available_depth <= 0 and abs(available_depth) <= ultrametric_tolerance:
-            available_depth = min_branch_length
-        if available_depth <= 0:
-            raise PipelineError(
-                f"{target_id} anchor height is not below the tree height: anchor={anchor_height:.12g}, H={H:.12g}"
-            )
-        scaled_tree = scale_tree_nonroot(relative_tree, available_depth, min_branch_length=min_branch_length)
-        scaled_root = clone_clade(scaled_tree.root)
-        scaled_root.branch_length = 0.0
-        replace_placeholder_with_scaled_tree(scaffold_tree, placeholder_name, scaled_root)
-
-        scaling_rows.append(
-            {
-                "target_subtree_id": target_id,
-                "paml_subtree_id": paml_record.paml_subtree_id,
-                "attachment_placeholder": placeholder_name,
-                "anchor_node_id": target_record.target_root_node_id,
-                "anchor_height": f"{anchor_height:.12g}",
-                "tree_height": f"{H:.12g}",
-                "available_depth": f"{available_depth:.12g}",
-                "relative_target_height": f"{relative_height:.12g}",
-                "scaling_factor": f"{available_depth:.12g}",
-                "status": "scaled",
-                "details": "Relative ultrametric target tree scaled to anchor depth.",
-            }
-        )
-        graft_rows.append(
-            {
-                "target_subtree_id": target_id,
-                "paml_subtree_id": paml_record.paml_subtree_id,
-                "attachment_placeholder": placeholder_name,
-                "anchor_node_id": target_record.target_root_node_id,
-                "graft_status": "success",
-                "details": "Scaled relative ultrametric target grafted onto backbone scaffold.",
-            }
-        )
-        root_to_tip_rows.append(build_root_to_tip_row(f"{target_id}.scaled_tree", scaled_tree, ultrametric_tolerance))
-        logger.info(
-            "Grafted %s at anchor=%s available_depth=%.12g",
-            target_id,
-            target_record.target_root_node_id,
-            available_depth,
-        )
-
-    scaffold_tree = collapse_tree(scaffold_tree)
-    validate_rooted_tree_with_outgroup(scaffold_tree, outgroup_tip_name)
-    validate_branch_lengths_complete(scaffold_tree)
-
-    master_tip_set = set(get_tip_names_from_tree(master_tree))
-    merged_tip_set = set(get_tip_names_from_tree(scaffold_tree))
-    if merged_tip_set != master_tip_set:
-        missing = sorted(master_tip_set - merged_tip_set)
-        extra = sorted(merged_tip_set - master_tip_set)
-        raise PipelineError(f"Ultrastandard merged tip set mismatch. missing={missing[:10]} extra={extra[:10]}")
-
-    scaffold_tree, _, _ = extend_terminal_branches_to_height(
-        scaffold_tree,
+    projected_tree, target_height, normalization_rows = project_tree_to_ultrametric(
+        merged_ml_tree,
+        projection_mode=projection_mode,
         min_branch_length=min_branch_length,
         tolerance=ultrametric_tolerance,
     )
-    validate_ultrametric(scaffold_tree, ultrametric_tolerance, "ultrastandard_merged_tree")
-    write_rows(scaling_rows, TARGET_SCALING_REPORT_COLUMNS, ultrastandard_output_dir / "target_scaling_report.tsv")
-    write_rows(graft_rows, GRAFT_REPORT_COLUMNS, ultrastandard_output_dir / "graft_report.tsv")
-    root_to_tip_rows.append(build_root_to_tip_row("final_merged_tree", scaffold_tree, ultrametric_tolerance))
+    validate_rooted_tree_with_outgroup(projected_tree, outgroup_tip_name)
+    validate_branch_lengths_complete(projected_tree)
+    validate_ultrametric(projected_tree, ultrametric_tolerance, "merged_ultrametric_tree")
+
+    projection_rows = build_projection_rows(merged_ml_tree, projected_tree, projection_mode=projection_mode)
+    write_rows(
+        projection_rows,
+        ULTRAMETRIC_PROJECTION_REPORT_COLUMNS,
+        ultrastandard_output_dir / "ultrametric_projection_report.tsv",
+    )
+
+    root_to_tip_rows.append(normalization_rows["pre"])
+    root_to_tip_rows.append(normalization_rows["post"])
+    root_to_tip_rows.append(build_root_to_tip_row("merged_ultrametric_tree", projected_tree, ultrametric_tolerance))
     write_root_to_tip_report(root_to_tip_rows, ultrastandard_output_dir / "root_to_tip_report.tsv")
-    write_simple_tree(ultrastandard_output_dir / "merged_tree.nwk", scaffold_tree)
-    logger.info("Ultrastandard merge finished with %d grafted target clades.", len(graft_rows))
+
+    write_simple_tree(ultrastandard_output_dir / "merged_ultrametric_tree.nwk", projected_tree)
+    write_simple_tree(ultrastandard_output_dir / "merged_tree.nwk", projected_tree)
+    logger.info(
+        "Ultrametric projection finished: input=%s target_height=%.12g changed_edges=%d",
+        input_tree_path,
+        target_height,
+        sum(1 for row in projection_rows if row["changed"] == "true"),
+    )
     return 0
 
 
-def read_tree(path: Path):
-    from phylo_ultrastandard_common import read_tree as _read_tree
-
-    return _read_tree(path)
-
-
-def find_placeholder_parent(tree, placeholder_name):
-    from phylo_ultrastandard_common import find_placeholder_parent as _find_placeholder_parent
-
-    return _find_placeholder_parent(tree, placeholder_name)
-
-
 def build_parser():
-    parser = argparse.ArgumentParser(description="Merge subtree PAML outputs under a backbone ultrametric framework.")
+    parser = argparse.ArgumentParser(description="Project merged_ml_tree onto an ultrametric tree.")
     parser.add_argument("--split-output-dir", required=True, help="Output directory from split pipeline.")
-    parser.add_argument("--paml-output-dir", required=True, help="Output directory from paml pipeline.")
+    parser.add_argument("--merge-output-dir", required=True, help="Output directory from merge pipeline.")
     parser.add_argument("--ultrastandard-output-dir", required=True, help="Ultrastandard output directory.")
     parser.add_argument("--min-branch-length", default=1e-8, type=float, help="Minimum positive branch length.")
     parser.add_argument("--ultrametric-tolerance", default=1e-8, type=float, help="Ultrametric tolerance.")
-    parser.add_argument("--relative-ultrametric-method", default="extend_terminal_to_max_depth", help="Relative ultrametric method.")
-    parser.add_argument("--require-backbone-descendant-anchor", default="true", help="Require at least one backbone descendant in each target subtree.")
-    parser.add_argument("--allow-multifurcation", default="true", help="Allow multifurcations in the final tree.")
-    parser.add_argument("--backbone-ultrametric-tree", default=None, help="Optional path to an existing backbone ultrametric tree.")
+    parser.add_argument("--projection-mode", default="extend_terminal_to_max_depth", help="Ultrametric projection mode.")
+    parser.add_argument("--primary-tree-input", default=None, help="Optional path to merged_ml_tree input.")
     parser.add_argument("--log-level", default="INFO", help="Logging level.")
     return parser
 
@@ -282,14 +179,12 @@ def main(argv=None):
     try:
         return run(
             split_output_dir=args.split_output_dir,
-            paml_output_dir=args.paml_output_dir,
+            merge_output_dir=args.merge_output_dir,
             ultrastandard_output_dir=args.ultrastandard_output_dir,
             min_branch_length=args.min_branch_length,
             ultrametric_tolerance=args.ultrametric_tolerance,
-            relative_ultrametric_method=args.relative_ultrametric_method,
-            require_backbone_descendant_anchor=str(args.require_backbone_descendant_anchor).lower() == "true",
-            allow_multifurcation=str(args.allow_multifurcation).lower() == "true",
-            backbone_ultrametric_tree=args.backbone_ultrametric_tree,
+            projection_mode=args.projection_mode,
+            primary_tree_input=args.primary_tree_input,
             log_level=args.log_level,
         )
     except PipelineError as exc:

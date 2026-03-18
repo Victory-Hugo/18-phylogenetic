@@ -154,6 +154,89 @@ def extend_terminal_branches_to_height(
     return tree, target_height, {"pre": pre_row, "post": post_row}
 
 
+def project_tree_by_constrained_height_fit(
+    tree: Tree,
+    min_branch_length: float,
+    tolerance: float,
+) -> Tuple[Tree, float, Dict[str, str]]:
+    projected_tree = clone_tree(tree)
+    for clade in projected_tree.find_clades(order="preorder"):
+        if clade is projected_tree.root:
+            clade.branch_length = None
+            continue
+        clade.branch_length = ensure_positive_branch_length(clade.branch_length, min_branch_length)
+
+    root_depths: Dict[Clade, float] = {projected_tree.root: 0.0}
+    parent_map: Dict[Clade, Optional[Clade]] = {projected_tree.root: None}
+    stack: List[Clade] = [projected_tree.root]
+    while stack:
+        parent = stack.pop()
+        parent_depth = root_depths[parent]
+        for child in parent.clades:
+            branch_length = ensure_positive_branch_length(child.branch_length, min_branch_length)
+            root_depths[child] = parent_depth + branch_length
+            parent_map[child] = parent
+            stack.append(child)
+
+    pre_row = build_root_to_tip_row("pre_normalization", projected_tree, tolerance)
+    node_heights: Dict[Clade, float] = {}
+
+    def postorder_height(clade: Clade) -> Tuple[int, float]:
+        if clade.is_terminal():
+            node_heights[clade] = 0.0
+            return 1, root_depths[clade]
+
+        total_tips = 0
+        total_tip_depth = 0.0
+        child_min_height = 0.0
+        for child in clade.clades:
+            child_tip_count, child_depth_sum = postorder_height(child)
+            total_tips += child_tip_count
+            total_tip_depth += child_depth_sum
+            child_min_height = max(child_min_height, node_heights[child] + min_branch_length)
+
+        mean_tip_depth = total_tip_depth / float(total_tips)
+        raw_height = max(0.0, mean_tip_depth - root_depths[clade])
+        node_heights[clade] = max(raw_height, child_min_height)
+        return total_tips, total_tip_depth
+
+    postorder_height(projected_tree.root)
+
+    for clade in projected_tree.find_clades(order="preorder"):
+        if clade is projected_tree.root:
+            clade.branch_length = None
+            continue
+        parent = parent_map.get(clade)
+        if parent is None:
+            raise PipelineError("Failed to determine parent while projecting ultrametric heights.")
+        projected_length = max(min_branch_length, node_heights[parent] - node_heights[clade])
+        clade.branch_length = projected_length
+
+    post_row = build_root_to_tip_row("post_normalization", projected_tree, tolerance)
+    return projected_tree, node_heights[projected_tree.root], {"pre": pre_row, "post": post_row}
+
+
+def project_tree_to_ultrametric(
+    tree: Tree,
+    projection_mode: str,
+    min_branch_length: float,
+    tolerance: float,
+) -> Tuple[Tree, float, Dict[str, str]]:
+    if projection_mode == "extend_terminal_to_max_depth":
+        return extend_terminal_branches_to_height(
+            tree,
+            min_branch_length=min_branch_length,
+            tolerance=tolerance,
+        )
+    if projection_mode == "constrained_height_fit":
+        return project_tree_by_constrained_height_fit(
+            tree,
+            min_branch_length=min_branch_length,
+            tolerance=tolerance,
+        )
+    raise PipelineError(f"Unsupported ultrametric projection mode: {projection_mode}")
+
+
 def normalize_relative_ultrametric_tree(
     tree: Tree,
     min_branch_length: float,

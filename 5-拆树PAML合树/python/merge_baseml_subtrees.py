@@ -12,11 +12,15 @@ from phylo_merge_common import (
     BACKBONE_EDGE_ESTIMATE_COLUMNS,
     EDGE_UPDATE_COLUMNS,
     GRAFT_REPORT_COLUMNS,
+    SUBTREE_SCALE_REPORT_COLUMNS,
     build_analysis_tree_path,
     build_backbone_signature_key,
     build_edge_update_row,
+    build_scale_reference_tip_names,
     build_scaffold_tree,
+    build_tip_distance_context,
     compute_branch_by_signature,
+    estimate_scale_factor_from_reference_tips,
     ensure_positive_branch_length,
     extract_monophyletic_target_clade,
     get_tip_names_from_clade,
@@ -26,6 +30,7 @@ from phylo_merge_common import (
     load_target_summary,
     read_newick_tree,
     replace_placeholder_with_clade,
+    scale_tree_branch_lengths,
     validate_rooted_tree_with_outgroup,
     validate_rooted_binary_tree,
     validate_tree_against_expected_tip_set,
@@ -48,6 +53,7 @@ def run(
     analysis_tree_source,
     external_result_dir,
     merge_mode="backbone_graft",
+    subtree_scale_method="median_log_path_ratio",
     backbone_edge_aggregation="weighted_geometric_mean",
     min_branch_length=1e-8,
     log_level="INFO",
@@ -60,6 +66,8 @@ def run(
 
     if merge_mode != "backbone_graft":
         raise PipelineError(f"Unsupported merge.mode: {merge_mode}")
+    if subtree_scale_method not in {"identity_graft", "median_log_path_ratio"}:
+        raise PipelineError(f"Unsupported merge.subtree_scale_method: {subtree_scale_method}")
     if backbone_edge_aggregation != "weighted_geometric_mean":
         raise PipelineError(f"Unsupported merge.backbone_edge_aggregation: {backbone_edge_aggregation}")
 
@@ -86,6 +94,7 @@ def run(
 
     backbone_tips = [record.backbone_tip_name for record in sorted(backbone_records, key=lambda item: item.selection_rank)]
     backbone_tip_set = set(backbone_tips)
+    master_distance_context = build_tip_distance_context(master_tree)
     target_by_id = {record.target_subtree_id: record for record in target_records}
     paml_by_target_id = {record.target_subtree_id: record for record in paml_records}
     if set(target_by_id) != set(paml_by_target_id):
@@ -99,6 +108,7 @@ def run(
     graft_report_rows = []
     backbone_edge_rows = []
     edge_update_rows = []
+    subtree_scale_rows = []
     extracted_grafts = {}
 
     for target_id, paml_record in sorted(paml_by_target_id.items()):
@@ -119,8 +129,43 @@ def run(
         )
         validate_rooted_binary_tree(analysis_tree, outgroup_tip_name)
 
+        scale_summary = {
+            "scale_factor": 1.0,
+            "shared_paths_n": 0,
+            "median_log_ratio": 0.0,
+            "residual_mad": 0.0,
+            "status": "identity_graft",
+            "details": "Current merge stage preserves direct subtree branch lengths.",
+        }
+        scaled_analysis_tree = analysis_tree
+        if subtree_scale_method == "median_log_path_ratio":
+            reference_tip_names = build_scale_reference_tip_names(paml_record)
+            scale_summary = estimate_scale_factor_from_reference_tips(
+                reference_tree=master_tree,
+                analysis_tree=analysis_tree,
+                reference_tip_names=reference_tip_names,
+                reference_context=master_distance_context,
+            )
+            if scale_summary["status"] == "scaled_by_reference_paths":
+                scaled_analysis_tree = scale_tree_branch_lengths(
+                    analysis_tree,
+                    factor=float(scale_summary["scale_factor"]),
+                    min_branch_length=min_branch_length,
+                )
+            else:
+                scale_summary["details"] = (
+                    f"{scale_summary['details']} Falling back to identity graft for {paml_record.paml_subtree_id}."
+                )
+        logger.info(
+            "%s scale_factor=%.12g shared_paths=%s status=%s",
+            paml_record.paml_subtree_id,
+            float(scale_summary["scale_factor"]),
+            scale_summary["shared_paths_n"],
+            scale_summary["status"],
+        )
+
         signature_map = compute_branch_by_signature(
-            analysis_tree,
+            scaled_analysis_tree,
             backbone_tip_set=backbone_tip_set,
             outgroup_tip_name=outgroup_tip_name,
             min_branch_length=min_branch_length,
@@ -132,7 +177,7 @@ def run(
 
         target_record = target_by_id[target_id]
         try:
-            target_clade = extract_monophyletic_target_clade(analysis_tree, target_record.target_nonbackbone_tip_names)
+            target_clade = extract_monophyletic_target_clade(scaled_analysis_tree, target_record.target_nonbackbone_tip_names)
             extracted_grafts[target_id] = clone_clade(target_clade)
             graft_report_rows.append(
                 {
@@ -162,6 +207,26 @@ def run(
                 }
             )
             raise
+        subtree_scale_rows.append(
+            {
+                "target_subtree_id": target_record.target_subtree_id,
+                "paml_subtree_id": paml_record.paml_subtree_id,
+                "scale_factor": f"{float(scale_summary['scale_factor']):.12g}",
+                "shared_paths_n": str(scale_summary["shared_paths_n"]),
+                "median_log_ratio": (
+                    f"{float(scale_summary['median_log_ratio']):.12g}"
+                    if scale_summary["shared_paths_n"]
+                    else ""
+                ),
+                "residual_mad": (
+                    f"{float(scale_summary['residual_mad']):.12g}"
+                    if scale_summary["shared_paths_n"]
+                    else ""
+                ),
+                "status": str(scale_summary["status"]),
+                "details": str(scale_summary["details"]),
+            }
+        )
 
     aggregated_backbone = {}
     for signature_key, values in sorted(backbone_estimates.items()):
@@ -235,6 +300,8 @@ def run(
     write_rows(backbone_edge_rows, BACKBONE_EDGE_ESTIMATE_COLUMNS, merge_output_dir / "backbone_edge_estimates.tsv")
     write_rows(graft_report_rows, GRAFT_REPORT_COLUMNS, merge_output_dir / "graft_report.tsv")
     write_rows(edge_update_rows, EDGE_UPDATE_COLUMNS, merge_output_dir / "edge_update_report.tsv")
+    write_rows(subtree_scale_rows, SUBTREE_SCALE_REPORT_COLUMNS, merge_output_dir / "subtree_scale_report.tsv")
+    write_tree_file(scaffold_tree, merge_output_dir / "merged_ml_tree.nwk")
     write_tree_file(scaffold_tree, merge_output_dir / "merged_tree.nwk")
     logger.info("Merged %d graft targets onto scaffold.", len(target_records))
     return 0
@@ -247,6 +314,7 @@ def build_parser():
     parser.add_argument("--analysis-tree-source", required=True, help="external or simulated")
     parser.add_argument("--external-result-dir", default=None, help="Directory containing parsed analysis trees.")
     parser.add_argument("--merge-mode", default="backbone_graft", help="Merge mode.")
+    parser.add_argument("--subtree-scale-method", default="median_log_path_ratio", help="Subtree scale unification strategy.")
     parser.add_argument("--backbone-edge-aggregation", default="weighted_geometric_mean", help="Backbone edge aggregation strategy.")
     parser.add_argument("--min-branch-length", default=1e-8, type=float, help="Minimum positive branch length.")
     parser.add_argument("--log-level", default="INFO", help="Logging level.")
@@ -264,6 +332,7 @@ def main(argv=None):
             analysis_tree_source=args.analysis_tree_source,
             external_result_dir=args.external_result_dir,
             merge_mode=args.merge_mode,
+            subtree_scale_method=args.subtree_scale_method,
             backbone_edge_aggregation=args.backbone_edge_aggregation,
             min_branch_length=args.min_branch_length,
             log_level=args.log_level,

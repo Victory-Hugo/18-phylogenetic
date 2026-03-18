@@ -1,5 +1,5 @@
 library(ggtree)
 
-tree <- read.tree("/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/script/tmp.tree")
+tree <- read.tree("/mnt/l/22-WHALE/8-优化PAML大于ML进行校正方案/output/ultrastandard/merged_ultrametric_tree.nwk")
 
 tree  |> ggtree()

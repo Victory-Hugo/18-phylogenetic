@@ -40,7 +40,8 @@ def run(
 
     master_tree_path = split_output_dir / "intermediate" / "rooted.tree"
     scaffold_tree_path = merge_output_dir / "assembly_scaffold.nwk"
-    merged_tree_path = merge_output_dir / "merged_tree.nwk"
+    merged_ml_tree_path = merge_output_dir / "merged_ml_tree.nwk"
+    merged_tree_path = merged_ml_tree_path if merged_ml_tree_path.exists() else (merge_output_dir / "merged_tree.nwk")
     if not master_tree_path.exists():
         raise PipelineError(f"Required rooted master tree not found: {master_tree_path}")
     if not scaffold_tree_path.exists():
@@ -69,6 +70,7 @@ def run(
     graft_report_rows = load_table(merge_output_dir / "graft_report.tsv")
     edge_update_rows = load_table(merge_output_dir / "edge_update_report.tsv")
     backbone_edge_rows = load_table(merge_output_dir / "backbone_edge_estimates.tsv")
+    subtree_scale_rows = load_table(merge_output_dir / "subtree_scale_report.tsv")
 
     report_rows = []
     master_tip_names = get_tip_names_from_tree(master_tree)
@@ -113,6 +115,11 @@ def run(
         report_rows.append(("backbone_edge_estimates", "FAIL", "backbone_edge_estimates.tsv is empty"))
     else:
         report_rows.append(("backbone_edge_estimates", "PASS", f"{len(backbone_edge_rows)} backbone signatures aggregated"))
+
+    if len(subtree_scale_rows) != len(target_records):
+        report_rows.append(("subtree_scale_report", "FAIL", "subtree_scale_report.tsv does not cover every target subtree"))
+    else:
+        report_rows.append(("subtree_scale_report", "PASS", f"{len(subtree_scale_rows)} subtree scale rows recorded"))
 
     if not any(row["edge_role"] == "target_graft" for row in edge_update_rows):
         report_rows.append(("edge_updates_have_grafts", "FAIL", "edge_update_report.tsv does not record target_graft rows"))

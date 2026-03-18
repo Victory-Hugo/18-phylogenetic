@@ -1,7 +1,7 @@
-projectpath: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树"
+projectpath: "/mnt/l/22-WHALE/8-优化PAML大于ML进行校正方案"
 
 paths:
-  input_fasta: "data/filtered_sequences.aln.fasta"
+  input_fasta: "data/iqtree_rooted.fasta"
   split_output_dir: "output/split"
   tmp_dir: "output/tmp"
 runtime:
@@ -10,10 +10,11 @@ tools:
   python: "python3"
   baseml: "bin/baseml"
 paml:
+  execution_mode: "real" #? 可选项：real（实际运行 PAML）、fake（运行代码生成伪 PAML结果树文件用于迅速测试）
   ctl_template: "conf/baseml_mtDNA.ctl"
   output_dir: "output/paml"
   clean_output_dir: true
-  parallel_jobs: 16
+  parallel_jobs: 20
   threads_per_job: 1
   enable_par3: true
   bind_cpu_affinity: true
@@ -25,3 +26,7 @@ paml:
   backbone_skip_existing: true
   ultrametric_normalization: "extend_terminal_to_max_depth"
   ultrametric_tolerance: 1e-8
+  fake_branch_length_model: "lognormal_then_extend_terminal"
+  fake_branch_length_sigma: 0.25
+  fake_random_seed: 42
+  fake_min_branch_length: 1e-8

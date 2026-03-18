@@ -1,0 +1,72 @@
+\usepackage[UTF8,scheme=plain]{ctex}
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{marginfix}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\usepackage{xurl}
+\usepackage{lineno}
+\usepackage{orcidlink}
+
+\setmainfont{Times New Roman}
+\definecolor{darkColour}{HTML}{0E4B92}
+\definecolor{lightColour}{HTML}{357ABF}
+\definecolor{MediumGrey}{HTML}{6D6E70}
+\definecolor{LightGrey}{HTML}{929497}
+\colorlet{titleblue}{darkColour}
+\colorlet{accentblue}{lightColour}
+\colorlet{rulegray}{MediumGrey}
+
+\linespread{1.2}
+\setlength{\parskip}{0.35em}
+\setlength{\marginparpush}{0.8em}
+\reversemarginpar
+\raggedbottom
+
+\ctexset{
+  section = {
+    format = {\Large\bfseries\color{accentblue}},
+    beforeskip = 2.6ex plus 3pt minus 2pt,
+    afterskip = 0.8ex
+  }
+}
+
+\newcommand{\dividerline}{\noindent\textcolor{darkColour}{\rule{\linewidth}{1.1pt}}}
+\newcommand{\leftnote}[1]{\marginpar{\raggedright\footnotesize\setlength{\parskip}{0.55em}\sloppy #1}}
+
+% Convert all footnotes to left margin notes.
+\makeatletter
+\let\old@footnotemark\@footnotemark
+\renewcommand{\footnote}[1]{%
+  \refstepcounter{footnote}%
+  \protected@xdef\@thefnmark{\thefootnote}%
+  \old@footnotemark%
+  \marginpar{\raggedright\footnotesize\textsuperscript{\thefootnote}\,#1}%
+}
+\makeatother
+
+\renewcommand\linenumberfont{\normalfont\tiny\color{accentblue}}
+\setlength\linenumbersep{8pt}
+\modulolinenumbers[1]
+\AtBeginDocument{
+  \reversemarginpar
+  \linenumbers
+  \hypersetup{
+    colorlinks=true,
+    linkcolor=darkColour,
+    citecolor=darkColour,
+    urlcolor=darkColour
+  }
+}
+\urlstyle{sf}
+
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0.35pt}
+  \fancyfoot[R]{\footnotesize\hspace{7pt}模板\textcolor{red}{文}档\hspace{7pt}|\hspace{7pt}\today\hspace{7pt}|\hspace{7pt}\thepage--\pageref*{LastPage}}
+}
+\pagestyle{plain}

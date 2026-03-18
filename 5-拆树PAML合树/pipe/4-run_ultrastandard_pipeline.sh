@@ -65,65 +65,56 @@ PYTHON_BIN=$(resolve_command_or_path "$(config_get tools.python)")
 bash "$PROJECT_ROOT/script/check_env.sh" --python "$PYTHON_BIN"
 
 SPLIT_OUTPUT_DIR=$(resolve_path "$(config_get paths.split_output_dir)")
-PAML_OUTPUT_DIR=$(resolve_path "$(config_get paths.paml_output_dir)")
+MERGE_OUTPUT_DIR=$(resolve_path "$(config_get paths.merge_output_dir)")
 LOG_LEVEL=$(config_get runtime.log_level)
 
 ULTRA_OUTPUT_DIR=$(resolve_path "$(config_get ultrastandard.output_dir)")
 CLEAN_OUTPUT_DIR=$(config_get ultrastandard.clean_output_dir)
 MIN_BRANCH_LENGTH=$(config_get ultrastandard.min_branch_length)
 ULTRAMETRIC_TOLERANCE=$(config_get ultrastandard.ultrametric_tolerance)
-RELATIVE_ULTRA_METHOD=$(config_get ultrastandard.relative_ultrametric_method)
-REQUIRE_BACKBONE_DESCENDANT_ANCHOR=$(config_get ultrastandard.require_backbone_descendant_anchor)
-ALLOW_MULTIFURCATION=$(config_get ultrastandard.allow_multifurcation)
-BACKBONE_ULTRA_TREE=$(config_get_optional ultrastandard.backbone_ultrametric_tree)
+PROJECTION_MODE=$(config_get ultrastandard.projection_mode)
+PRIMARY_TREE_INPUT=$(config_get_optional ultrastandard.primary_tree_input)
 
 for required in \
     "$SPLIT_OUTPUT_DIR/intermediate/rooted.tree" \
-    "$SPLIT_OUTPUT_DIR/backbone_summary.tsv" \
-    "$SPLIT_OUTPUT_DIR/target_subtree_summary.tsv" \
     "$SPLIT_OUTPUT_DIR/paml_subtree_summary.tsv" \
-    "$PAML_OUTPUT_DIR/backbone_analysis/backbone_ultrametric_tree.nwk"; do
+    "$MERGE_OUTPUT_DIR/merged_ml_tree.nwk"; do
     if [[ ! -f "$required" ]]; then
         echo "[ERROR] Required ultrastandard input not found: $required" >&2
         exit 1
     fi
 done
 
-if [[ ! -d "$PAML_OUTPUT_DIR/analysis_trees" ]]; then
-    echo "[ERROR] Required analysis tree directory not found: $PAML_OUTPUT_DIR/analysis_trees" >&2
-    exit 1
-fi
-
-mkdir -p "$ULTRA_OUTPUT_DIR" "$ULTRA_OUTPUT_DIR/relative_target_trees"
+mkdir -p "$ULTRA_OUTPUT_DIR"
 
 if [[ "$CLEAN_OUTPUT_DIR" == "True" || "$CLEAN_OUTPUT_DIR" == "true" ]]; then
     rm -f "$ULTRA_OUTPUT_DIR"/assembly_scaffold.nwk
     rm -f "$ULTRA_OUTPUT_DIR"/backbone_assigned_scaffold.nwk
-    rm -f "$ULTRA_OUTPUT_DIR"/target_scaling_report.tsv
-    rm -f "$ULTRA_OUTPUT_DIR"/graft_report.tsv
     rm -f "$ULTRA_OUTPUT_DIR"/backbone_edge_assignment_report.tsv
+    rm -f "$ULTRA_OUTPUT_DIR"/graft_report.tsv
+    rm -f "$ULTRA_OUTPUT_DIR"/projection_input_tree.nwk
+    rm -f "$ULTRA_OUTPUT_DIR"/target_scaling_report.tsv
+    rm -f "$ULTRA_OUTPUT_DIR"/ultrametric_projection_report.tsv
     rm -f "$ULTRA_OUTPUT_DIR"/root_to_tip_report.tsv
+    rm -f "$ULTRA_OUTPUT_DIR"/merged_ultrametric_tree.nwk
     rm -f "$ULTRA_OUTPUT_DIR"/merged_tree.nwk
     rm -f "$ULTRA_OUTPUT_DIR"/ultrastandard_validation_report.tsv
     rm -f "$ULTRA_OUTPUT_DIR"/ultrastandard.log
     rm -rf "$ULTRA_OUTPUT_DIR/relative_target_trees"
-    mkdir -p "$ULTRA_OUTPUT_DIR/relative_target_trees"
 fi
 
 MERGE_ARGS=(
     --split-output-dir "$SPLIT_OUTPUT_DIR"
-    --paml-output-dir "$PAML_OUTPUT_DIR"
+    --merge-output-dir "$MERGE_OUTPUT_DIR"
     --ultrastandard-output-dir "$ULTRA_OUTPUT_DIR"
     --min-branch-length "$MIN_BRANCH_LENGTH"
     --ultrametric-tolerance "$ULTRAMETRIC_TOLERANCE"
-    --relative-ultrametric-method "$RELATIVE_ULTRA_METHOD"
-    --require-backbone-descendant-anchor "$REQUIRE_BACKBONE_DESCENDANT_ANCHOR"
-    --allow-multifurcation "$ALLOW_MULTIFURCATION"
+    --projection-mode "$PROJECTION_MODE"
     --log-level "$LOG_LEVEL"
 )
 
-if [[ "$BACKBONE_ULTRA_TREE" != "null" && -n "$BACKBONE_ULTRA_TREE" ]]; then
-    MERGE_ARGS+=(--backbone-ultrametric-tree "$(resolve_path "$BACKBONE_ULTRA_TREE")")
+if [[ "$PRIMARY_TREE_INPUT" != "null" && -n "$PRIMARY_TREE_INPUT" ]]; then
+    MERGE_ARGS+=(--primary-tree-input "$(resolve_path "$PRIMARY_TREE_INPUT")")
 fi
 
 echo "[INFO] Stage 1/3: merge_ultrastandard_tree"
@@ -131,15 +122,10 @@ echo "[INFO] Stage 1/3: merge_ultrastandard_tree"
 
 VALIDATE_ARGS=(
     --split-output-dir "$SPLIT_OUTPUT_DIR"
-    --paml-output-dir "$PAML_OUTPUT_DIR"
     --ultrastandard-output-dir "$ULTRA_OUTPUT_DIR"
     --ultrametric-tolerance "$ULTRAMETRIC_TOLERANCE"
     --log-level "$LOG_LEVEL"
 )
-
-if [[ "$BACKBONE_ULTRA_TREE" != "null" && -n "$BACKBONE_ULTRA_TREE" ]]; then
-    VALIDATE_ARGS+=(--backbone-ultrametric-tree "$(resolve_path "$BACKBONE_ULTRA_TREE")")
-fi
 
 echo "[INFO] Stage 2/3: validate_ultrastandard_tree"
 "$PYTHON_BIN" "$PROJECT_ROOT/python/validate_ultrastandard_tree.py" "${VALIDATE_ARGS[@]}"
@@ -147,7 +133,7 @@ echo "[INFO] Stage 2/3: validate_ultrastandard_tree"
 echo "[INFO] Stage 3/3: compare_final_topology"
 if "$PYTHON_BIN" "$PROJECT_ROOT/python/check_tree_topology_match.py" \
     --reference-tree "$SPLIT_OUTPUT_DIR/intermediate/rooted.tree" \
-    --query-tree "$ULTRA_OUTPUT_DIR/merged_tree.nwk" \
+    --query-tree "$ULTRA_OUTPUT_DIR/merged_ultrametric_tree.nwk" \
     --log-level "$LOG_LEVEL"; then
     echo "[OK] Ultrastandard merged tree topology matches the original rooted tree."
 else

@@ -75,6 +75,7 @@ ANALYSIS_TREE_SOURCE=$(config_get merge.analysis_tree_source)
 EXTERNAL_RESULT_DIR=$(config_get_optional merge.external_result_dir)
 CLEAN_OUTPUT_DIR=$(config_get merge.clean_output_dir)
 MERGE_MODE=$(config_get merge.mode)
+SUBTREE_SCALE_METHOD=$(config_get_optional merge.subtree_scale_method "median_log_path_ratio")
 BACKBONE_EDGE_AGGREGATION=$(config_get merge.backbone_edge_aggregation)
 RANDOMIZATION_MODEL=$(config_get merge.randomization_model)
 RANDOMIZATION_SIGMA=$(config_get merge.randomization_sigma)
@@ -110,7 +111,9 @@ if [[ "$CLEAN_OUTPUT_DIR" == "True" || "$CLEAN_OUTPUT_DIR" == "true" ]]; then
     rm -f "$MERGE_OUTPUT_DIR"/backbone_edge_estimates.tsv
     rm -f "$MERGE_OUTPUT_DIR"/graft_report.tsv
     rm -f "$MERGE_OUTPUT_DIR"/edge_update_report.tsv
+    rm -f "$MERGE_OUTPUT_DIR"/subtree_scale_report.tsv
     rm -f "$MERGE_OUTPUT_DIR"/merge_validation_report.tsv
+    rm -f "$MERGE_OUTPUT_DIR"/merged_ml_tree.nwk
     rm -f "$MERGE_OUTPUT_DIR"/merged_tree.nwk
     rm -f "$MERGE_OUTPUT_DIR"/merge.log
     rm -f "$MERGE_OUTPUT_DIR"/simulated_baseml_subtrees/*.nwk
@@ -138,6 +141,7 @@ MERGE_ARGS=(
     --merge-output-dir "$MERGE_OUTPUT_DIR"
     --analysis-tree-source "$ANALYSIS_TREE_SOURCE"
     --merge-mode "$MERGE_MODE"
+    --subtree-scale-method "$SUBTREE_SCALE_METHOD"
     --backbone-edge-aggregation "$BACKBONE_EDGE_AGGREGATION"
     --min-branch-length "$MIN_BRANCH_LENGTH"
     --log-level "$LOG_LEVEL"

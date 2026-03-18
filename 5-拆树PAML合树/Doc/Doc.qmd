@@ -1,0 +1,68 @@
+---
+format:
+  pdf:
+    pdf-engine: xelatex
+    documentclass: ctexart
+    classoption:
+      - 11pt
+      - oneside
+    colorlinks: true
+    link-citations: true
+    link-bibliography: true
+    geometry:
+      - left=50mm
+      - right=13mm
+      - top=20mm
+      - bottom=25mm
+      - marginparwidth=35mm
+      - marginparsep=10mm
+      - headheight=21pt
+      - headsep=2\baselineskip
+    include-in-header: _extensions/Victory-Hugo/ctexart_1/preamble.tex
+bibliography: ./data/参考文献.bib
+csl: ./data/中文作者日期引用格式.csl     # 引用样式文件,放在与本文件同一目录下(这里下载：https://www.zotero.org/styles/)
+---
+<!-- 若需要行号则将下列内容删除 -->
+```{=latex}
+\nolinenumbers
+```
+<!-- 在这里替换标题、作者和单位 -->
+
+```{=latex}
+\begin{flushleft}
+
+  {\fontsize{35}{39}\selectfont\bfseries\color{titleblue}使用嫁接法并行加速baseml}\\[0.40em]
+
+  {\Large\bfseries Lintao Luo\,\orcidlink{0009-0001-5790-4866}$^{1\ast}$}\\[0.72em]
+
+  {\large $^{1}$重庆医科大学基础医学院，重庆市渝中区石油路，400016，中国}\\[0.72em]
+
+\end{flushleft}
+
+\dividerline
+
+\leftnote{
+  \textbf{联系方式:}\\
+  \href{mailto:giantlinlinlin@gmail.com}{giantlinlinlin@gmail.com}
+
+  $^{\ast}$第一作者
+
+  \textbf{现地址:} 重庆市渝中区石油路，400016，中国
+
+  \textbf{数据可用性:} 数据和可用代码详见\href{https://github.com/Victory-Hugo}{GitHub}
+
+}
+```
+
+# 摘要
+
+本文档介绍一个基于嫁接法的baseml并行加速方案，旨在提升PAML软件进行大规模样本最大似然推断的效率。
+
+
+
+```{=latex}
+\vspace{0.35em}
+\dividerline
+```
+
+{{< include ./markdown/SCI方法部分-代码实现逻辑.md >}}

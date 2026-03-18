@@ -1,0 +1,23 @@
+title: ctexart_1（中文预印本 PDF）
+author: 梧声
+version: 0.1.0
+quarto-required: ">=1.4.0"
+contributes:
+  formats:
+    ctexart_1-pdf:
+      pdf-engine: xelatex
+      documentclass: ctexart
+      classoption:
+        - 11pt
+        - oneside
+      colorlinks: true
+      geometry:
+        - left=60mm
+        - right=13mm
+        - top=20mm
+        - bottom=25mm
+        - marginparwidth=35mm
+        - marginparsep=10mm
+        - headheight=21pt
+        - headsep=2\baselineskip
+      include-in-header: preamble.tex

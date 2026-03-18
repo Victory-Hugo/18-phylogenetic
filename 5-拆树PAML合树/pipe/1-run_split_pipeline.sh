@@ -83,7 +83,11 @@ CLEAN_SPLIT_OUTPUT_DIR=$(config_get runtime.clean_output_dir)
 LOG_LEVEL=$(config_get runtime.log_level)
 BACKBONE_SAMPLING_STRATEGY=$(config_get runtime.backbone_sampling_strategy)
 TARGET_PARTITION_MODE=$(config_get runtime.target_partition_mode)
+LOCAL_ANCHOR_COUNT=$(config_get_optional runtime.local_anchor_count 16)
+ANCHOR_SELECTION_STRATEGY=$(config_get_optional runtime.anchor_selection_strategy nearest_boundary_patristic)
+BENCHMARK_TREE_TIPS=$(config_get_optional runtime.benchmark_tree_tips 300)
 PRE_BINARIZE_ROOTED_TREE=$(config_get_optional runtime.pre_binarize_rooted_tree true)
+VALIDATION_MODE=$(config_get_optional runtime.validation_mode fast)
 
 mkdir -p "$OUTPUT_DIR" "$OUTPUT_DIR/target_subtrees" "$OUTPUT_DIR/paml_subtrees" "$OUTPUT_DIR/intermediate"
 
@@ -95,13 +99,35 @@ if [[ "$CLEAN_SPLIT_OUTPUT_DIR" == "True" || "$CLEAN_SPLIT_OUTPUT_DIR" == "true"
     rm -f "$OUTPUT_DIR"/backbone_summary.tsv
     rm -f "$OUTPUT_DIR"/target_subtree_summary.tsv
     rm -f "$OUTPUT_DIR"/target_tree_manifest.tsv
+    rm -f "$OUTPUT_DIR"/subtree_design_summary.tsv
+    rm -f "$OUTPUT_DIR"/anchor_manifest.tsv
     rm -f "$OUTPUT_DIR"/paml_subtree_summary.tsv
     rm -f "$OUTPUT_DIR"/paml_tree_manifest.tsv
     rm -f "$OUTPUT_DIR"/split_tree.log
+    rm -f "$OUTPUT_DIR"/split_precompute.log
     rm -f "$OUTPUT_DIR"/split_validation_report.tsv
     rm -f "$OUTPUT_DIR"/intermediate/rooted.tree
     rm -f "$OUTPUT_DIR"/intermediate/rooted.validation.tree
+    rm -f "$OUTPUT_DIR"/intermediate/split_context.json
 fi
+
+PRECOMPUTE_ARGS=(
+    --input-tree "$INPUT_TREE"
+    --outgroup-tip-file "$OUTGROUP_TIP_FILE"
+    --output-dir "$OUTPUT_DIR"
+    --threads "$THREADS"
+    --conda-env "$CONDA_ENV"
+    --gotree-bin "$GOTREE_BIN"
+    --pre-binarize-rooted-tree "$PRE_BINARIZE_ROOTED_TREE"
+    --log-level "$LOG_LEVEL"
+)
+
+if [[ -n "$OUTGROUP_TIP_NAME" ]]; then
+    PRECOMPUTE_ARGS+=(--outgroup-tip-name "$OUTGROUP_TIP_NAME")
+fi
+
+echo "[INFO] Stage 0/2: precompute_split_context"
+"$PYTHON_BIN" "$PROJECT_ROOT/python/precompute_split_context.py" "${PRECOMPUTE_ARGS[@]}"
 
 SPLIT_ARGS=(
     --input-tree "$INPUT_TREE"
@@ -114,16 +140,16 @@ SPLIT_ARGS=(
     --gotree-bin "$GOTREE_BIN"
     --backbone-sampling-strategy "$BACKBONE_SAMPLING_STRATEGY"
     --target-partition-mode "$TARGET_PARTITION_MODE"
+    --local-anchor-count "$LOCAL_ANCHOR_COUNT"
+    --anchor-selection-strategy "$ANCHOR_SELECTION_STRATEGY"
+    --benchmark-tree-tips "$BENCHMARK_TREE_TIPS"
     --pre-binarize-rooted-tree "$PRE_BINARIZE_ROOTED_TREE"
+    --precomputed-context-json "$OUTPUT_DIR/intermediate/split_context.json"
     --log-level "$LOG_LEVEL"
 )
 
 if [[ -n "$OUTGROUP_TIP_NAME" ]]; then
     SPLIT_ARGS+=(--outgroup-tip-name "$OUTGROUP_TIP_NAME")
-fi
-
-if [[ "$CLEAN_SPLIT_OUTPUT_DIR" == "True" || "$CLEAN_SPLIT_OUTPUT_DIR" == "true" ]]; then
-    SPLIT_ARGS+=(--clean-split-output-dir)
 fi
 
 if [[ "$BACKBONE_TREE" != "null" && -n "$BACKBONE_TREE" ]]; then
@@ -147,6 +173,11 @@ VALIDATE_ARGS=(
     --gotree-bin "$GOTREE_BIN"
     --backbone-sampling-strategy "$BACKBONE_SAMPLING_STRATEGY"
     --target-partition-mode "$TARGET_PARTITION_MODE"
+    --local-anchor-count "$LOCAL_ANCHOR_COUNT"
+    --anchor-selection-strategy "$ANCHOR_SELECTION_STRATEGY"
+    --benchmark-tree-tips "$BENCHMARK_TREE_TIPS"
+    --validation-mode "$VALIDATION_MODE"
+    --precomputed-context-json "$OUTPUT_DIR/intermediate/split_context.json"
     --pre-binarize-rooted-tree "$PRE_BINARIZE_ROOTED_TREE"
     --log-level "$LOG_LEVEL"
 )

@@ -63,10 +63,15 @@ PATH_ROOT=$(resolve_path "$CONFIG_PROJECT_ROOT")
 
 PYTHON_BIN=$(resolve_command_or_path "$(config_get tools.python)")
 BASEML_BIN=$(resolve_command_or_path "$(config_get tools.baseml)")
+PAML_EXECUTION_MODE=$(config_get_default paml.execution_mode real)
 
-bash "$PROJECT_ROOT/script/check_env.sh" \
-    --python "$PYTHON_BIN" \
-    --baseml "$BASEML_BIN"
+if [[ "$PAML_EXECUTION_MODE" == "fake" ]]; then
+    bash "$PROJECT_ROOT/script/check_env.sh" --python "$PYTHON_BIN"
+else
+    bash "$PROJECT_ROOT/script/check_env.sh" \
+        --python "$PYTHON_BIN" \
+        --baseml "$BASEML_BIN"
+fi
 
 SPLIT_OUTPUT_DIR=$(resolve_path "$(config_get paths.split_output_dir)")
 INPUT_FASTA=$(resolve_path "$(config_get paths.input_fasta)")
@@ -88,6 +93,10 @@ BACKBONE_ANALYSIS_DIR=$(resolve_path "$(config_get paml.backbone_analysis_dir)")
 BACKBONE_SKIP_EXISTING=$(config_get paml.backbone_skip_existing)
 ULTRAMETRIC_NORMALIZATION=$(config_get paml.ultrametric_normalization)
 ULTRAMETRIC_TOLERANCE=$(config_get paml.ultrametric_tolerance)
+FAKE_BRANCH_LENGTH_MODEL=$(config_get_default paml.fake_branch_length_model lognormal_then_extend_terminal)
+FAKE_BRANCH_LENGTH_SIGMA=$(config_get_default paml.fake_branch_length_sigma 0.25)
+FAKE_RANDOM_SEED=$(config_get_default paml.fake_random_seed 42)
+FAKE_MIN_BRANCH_LENGTH=$(config_get_default paml.fake_min_branch_length 1e-8)
 
 PAML_SUBTREE_SUMMARY_TSV="$SPLIT_OUTPUT_DIR/paml_subtree_summary.tsv"
 PAML_TREE_DIR="$SPLIT_OUTPUT_DIR/paml_subtrees"
@@ -112,8 +121,6 @@ fi
 
 for required in \
     "$PAML_SUBTREE_SUMMARY_TSV" \
-    "$INPUT_FASTA" \
-    "$CTL_TEMPLATE" \
     "$BACKBONE_TREE" \
     "$BACKBONE_SUMMARY_TSV"; do
     if [[ ! -f "$required" ]]; then
@@ -121,6 +128,15 @@ for required in \
         exit 1
     fi
 done
+
+if [[ "$PAML_EXECUTION_MODE" != "fake" ]]; then
+    for required in "$INPUT_FASTA" "$CTL_TEMPLATE"; do
+        if [[ ! -f "$required" ]]; then
+            echo "[ERROR] Required paml input not found: $required" >&2
+            exit 1
+        fi
+    done
+fi
 
 if [[ ! -d "$PAML_TREE_DIR" ]]; then
     echo "[ERROR] PAML subtree directory not found: $PAML_TREE_DIR" >&2
@@ -142,11 +158,32 @@ if [[ "$PAML_CLEAN_OUTPUT_DIR" == "True" || "$PAML_CLEAN_OUTPUT_DIR" == "true" ]
         rm -f "$PAML_OUTPUT_DIR/paml_job_manifest.tsv"
         rm -f "$PAML_OUTPUT_DIR/paml_run_status.tsv"
         rm -f "$PAML_OUTPUT_DIR/paml_parse_status.tsv"
+        rm -f "$PAML_OUTPUT_DIR/fake_paml_manifest.tsv"
         rm -f "$PAML_OUTPUT_DIR/prepare_paml_inputs.log"
         rm -f "$PAML_OUTPUT_DIR/run_paml_jobs.log"
         rm -f "$PAML_OUTPUT_DIR/parse_paml_outputs.log"
+        rm -f "$PAML_OUTPUT_DIR/fake_paml_outputs.log"
         rm -rf "$TMP_DIR/paml_parse"
     fi
+fi
+
+if [[ "$PAML_EXECUTION_MODE" == "fake" ]]; then
+    echo "[INFO] Stage 1/1: fake_paml_outputs"
+    "$PYTHON_BIN" "$PROJECT_ROOT/python/fake_paml_outputs.py" \
+        --paml-summary-tsv "$PAML_SUBTREE_SUMMARY_TSV" \
+        --paml-tree-dir "$PAML_TREE_DIR" \
+        --backbone-tree "$BACKBONE_TREE" \
+        --output-dir "$PAML_OUTPUT_DIR" \
+        --backbone-analysis-dir "$BACKBONE_ANALYSIS_DIR" \
+        --branch-length-model "$FAKE_BRANCH_LENGTH_MODEL" \
+        --branch-length-sigma "$FAKE_BRANCH_LENGTH_SIGMA" \
+        --random-seed "$FAKE_RANDOM_SEED" \
+        --min-branch-length "$FAKE_MIN_BRANCH_LENGTH" \
+        --ultrametric-tolerance "$ULTRAMETRIC_TOLERANCE" \
+        --backbone-only-enabled "$BACKBONE_ONLY_ENABLED" \
+        --log-level "$LOG_LEVEL"
+    echo "[OK] PAML pipeline finished in fake mode."
+    exit 0
 fi
 
 RUN_ARGS=(

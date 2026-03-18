@@ -7,6 +7,7 @@ import hashlib
 import json
 import math
 import random
+import statistics
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
@@ -78,6 +79,17 @@ EDGE_UPDATE_COLUMNS = [
     "changed",
 ]
 
+SUBTREE_SCALE_REPORT_COLUMNS = [
+    "target_subtree_id",
+    "paml_subtree_id",
+    "scale_factor",
+    "shared_paths_n",
+    "median_log_ratio",
+    "residual_mad",
+    "status",
+    "details",
+]
+
 
 @dataclass
 class BackboneSummaryRecord:
@@ -113,6 +125,13 @@ class PamlSummaryRecord:
     total_tip_names: List[str]
     tip_hash: str
     paml_tree_file: str
+    global_backbone_n_tips: int
+    global_backbone_tip_names: List[str]
+    core_target_n_tips: int
+    core_target_tip_names: List[str]
+    local_anchor_n_tips: int
+    local_anchor_tip_names: List[str]
+    anchor_selection_strategy: str
 
     @property
     def baseml_subtree_id(self) -> str:
@@ -121,6 +140,14 @@ class PamlSummaryRecord:
     @property
     def baseml_tree_file(self) -> str:
         return self.paml_tree_file
+
+
+@dataclass
+class TipDistanceContext:
+    tip_lookup: Dict[str, Clade]
+    parent_map: Dict[Clade, Optional[Clade]]
+    root_distances: Dict[Clade, float]
+    tip_ancestor_chains: Dict[str, List[Clade]]
 
 
 def load_backbone_summary(path: Path) -> List[BackboneSummaryRecord]:
@@ -175,6 +202,13 @@ def load_paml_summary(path: Path) -> List[PamlSummaryRecord]:
                 total_tip_names=decode_json_list(row["total_tip_names"]),
                 tip_hash=row["tip_hash"],
                 paml_tree_file=row["paml_tree_file"],
+                global_backbone_n_tips=int(row.get("global_backbone_n_tips", row["backbone_n_tips"])),
+                global_backbone_tip_names=decode_json_list(row.get("global_backbone_tip_names", row["backbone_tip_names"])),
+                core_target_n_tips=int(row.get("core_target_n_tips", row["target_nonbackbone_n_tips"])),
+                core_target_tip_names=decode_json_list(row.get("core_target_tip_names", row["target_nonbackbone_tip_names"])),
+                local_anchor_n_tips=int(row.get("local_anchor_n_tips", "0") or 0),
+                local_anchor_tip_names=decode_json_list(row.get("local_anchor_tip_names", "[]")),
+                anchor_selection_strategy=row.get("anchor_selection_strategy", "legacy_no_overlap_anchor"),
             )
         )
     return records
@@ -232,6 +266,67 @@ def get_tip_lookup(tree: Tree) -> Dict[str, Clade]:
             raise PipelineError(f"Duplicate tip name found in tree: {tip_name}")
         lookup[tip_name] = tip
     return lookup
+
+
+def build_tip_distance_context(tree: Tree, required_tip_names: Optional[Sequence[str]] = None) -> TipDistanceContext:
+    tip_lookup = get_tip_lookup(tree)
+    _, _, parent_map = assign_node_ids(tree)
+    root_distances: Dict[Clade, float] = {tree.root: 0.0}
+    stack: List[Clade] = [tree.root]
+    while stack:
+        parent = stack.pop()
+        parent_distance = root_distances[parent]
+        for child in parent.clades:
+            branch_length = 0.0 if child.branch_length is None else float(child.branch_length)
+            root_distances[child] = parent_distance + branch_length
+            stack.append(child)
+
+    if required_tip_names is None:
+        selected_tip_names = sorted(tip_lookup)
+    else:
+        selected_tip_names = sorted({str(tip_name) for tip_name in required_tip_names})
+        missing = [tip_name for tip_name in selected_tip_names if tip_name not in tip_lookup]
+        if missing:
+            raise PipelineError(f"Tree is missing required tip(s): {missing[:5]}")
+
+    tip_ancestor_chains: Dict[str, List[Clade]] = {}
+    for tip_name in selected_tip_names:
+        chain: List[Clade] = []
+        current: Optional[Clade] = tip_lookup[tip_name]
+        while current is not None:
+            chain.append(current)
+            current = parent_map.get(current)
+        tip_ancestor_chains[tip_name] = chain
+
+    return TipDistanceContext(
+        tip_lookup=tip_lookup,
+        parent_map=parent_map,
+        root_distances=root_distances,
+        tip_ancestor_chains=tip_ancestor_chains,
+    )
+
+
+def compute_tip_pair_distance(
+    context: TipDistanceContext,
+    left_tip_name: str,
+    right_tip_name: str,
+) -> float:
+    left_chain = context.tip_ancestor_chains[left_tip_name]
+    right_ancestors = set(context.tip_ancestor_chains[right_tip_name])
+    lca: Optional[Clade] = None
+    for ancestor in left_chain:
+        if ancestor in right_ancestors:
+            lca = ancestor
+            break
+    if lca is None:
+        raise PipelineError(f"Could not determine LCA for tips {left_tip_name} and {right_tip_name}")
+    left_tip = context.tip_lookup[left_tip_name]
+    right_tip = context.tip_lookup[right_tip_name]
+    return (
+        context.root_distances[left_tip]
+        + context.root_distances[right_tip]
+        - 2.0 * context.root_distances[lca]
+    )
 
 
 def build_clade_signature_maps(root_clade: Clade, allowed_tip_set: Optional[set[str]] = None) -> Tuple[Dict[str, Clade], Dict[str, int]]:
@@ -497,3 +592,75 @@ def build_edge_update_row(
 
 def copy_tree(tree: Tree) -> Tree:
     return clone_tree(tree)
+
+
+def scale_tree_branch_lengths(tree: Tree, factor: float, min_branch_length: float) -> Tree:
+    if factor <= 0:
+        raise PipelineError(f"Scale factor must be positive, got {factor}")
+    scaled_tree = clone_tree(tree)
+    for clade in iter_nonroot_clades(scaled_tree):
+        clade.branch_length = max(
+            float(min_branch_length),
+            ensure_positive_branch_length(clade.branch_length, min_branch_length) * float(factor),
+        )
+    return scaled_tree
+
+
+def build_scale_reference_tip_names(paml_record: PamlSummaryRecord) -> List[str]:
+    ordered: List[str] = []
+    for tip_name in list(paml_record.global_backbone_tip_names) + list(paml_record.local_anchor_tip_names) + [paml_record.outgroup_tip]:
+        if tip_name not in ordered:
+            ordered.append(tip_name)
+    return ordered
+
+
+def estimate_scale_factor_from_reference_tips(
+    reference_tree: Tree,
+    analysis_tree: Tree,
+    reference_tip_names: Sequence[str],
+    reference_context: Optional[TipDistanceContext] = None,
+    min_pair_distance: float = 1e-12,
+) -> Dict[str, float | int | str]:
+    unique_tip_names = sorted({str(tip_name) for tip_name in reference_tip_names})
+    if len(unique_tip_names) < 2:
+        return {
+            "scale_factor": 1.0,
+            "shared_paths_n": 0,
+            "median_log_ratio": 0.0,
+            "residual_mad": 0.0,
+            "status": "insufficient_reference_tips",
+            "details": "Fewer than two reference tips are available for subtree scaling.",
+        }
+
+    active_reference_context = reference_context or build_tip_distance_context(reference_tree, unique_tip_names)
+    analysis_context = build_tip_distance_context(analysis_tree, unique_tip_names)
+
+    log_ratios: List[float] = []
+    for idx, left_tip in enumerate(unique_tip_names):
+        for right_tip in unique_tip_names[idx + 1 :]:
+            reference_distance = compute_tip_pair_distance(active_reference_context, left_tip, right_tip)
+            analysis_distance = compute_tip_pair_distance(analysis_context, left_tip, right_tip)
+            if reference_distance <= min_pair_distance or analysis_distance <= min_pair_distance:
+                continue
+            log_ratios.append(math.log(analysis_distance / reference_distance))
+
+    if not log_ratios:
+        return {
+            "scale_factor": 1.0,
+            "shared_paths_n": 0,
+            "median_log_ratio": 0.0,
+            "residual_mad": 0.0,
+            "status": "no_usable_reference_paths",
+            "details": "No positive shared reference-tip path distances were available for subtree scaling.",
+        }
+
+    median_log_ratio = float(statistics.median(log_ratios))
+    residual_mad = float(statistics.median(abs(value - median_log_ratio) for value in log_ratios))
+    return {
+        "scale_factor": math.exp(-median_log_ratio),
+        "shared_paths_n": len(log_ratios),
+        "median_log_ratio": median_log_ratio,
+        "residual_mad": residual_mad,
+        "status": "scaled_by_reference_paths",
+        "details": "Scale factor estimated from shared reference-tip path ratios against the master tree.",
+    }

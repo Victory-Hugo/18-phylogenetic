@@ -9,23 +9,31 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 from phylo_split_common import (
+    ANCHOR_MANIFEST_COLUMNS,
     BACKBONE_SUMMARY_COLUMNS,
     PAML_MANIFEST_COLUMNS,
     PAML_SUMMARY_COLUMNS,
+    SUBTREE_DESIGN_COLUMNS,
     TARGET_MANIFEST_COLUMNS,
     TARGET_SUMMARY_COLUMNS,
     PipelineError,
     assign_node_ids,
+    compute_root_distance_maps,
+    compute_target_partition_profiles,
     build_induced_tree_file,
+    build_anchor_manifest_rows,
     build_paml_subtrees,
+    build_subtree_design_rows,
     build_target_manifest_rows,
     build_target_partition,
     clean_generated_outputs,
     detect_tree_rooted_status,
     get_tip_names_from_tree,
+    load_json,
     parse_tip_file,
     prepare_rooted_tree,
     read_newick_tree,
+    resolve_root_distance_by_clade,
     resolve_backbone_selection,
     resolve_outgroup_tip_name,
     setup_logger,
@@ -60,8 +68,12 @@ def run(
     backbone_tip_id_file=None,
     backbone_sampling_strategy="greedy_farthest_patristic",
     target_partition_mode="recursive_monophyletic",
+    local_anchor_count=16,
+    anchor_selection_strategy="nearest_boundary_patristic",
+    benchmark_tree_tips=300,
     pre_binarize_rooted_tree=True,
     clean_split_output_dir=True,
+    precomputed_context_json=None,
     log_level="INFO",
     outgroup_tip_name=None,
 ):
@@ -70,14 +82,19 @@ def run(
     output_dir = Path(output_dir).resolve()
     backbone_tree = Path(backbone_tree).resolve() if backbone_tree else None
     backbone_tip_id_file = Path(backbone_tip_id_file).resolve() if backbone_tip_id_file else None
+    precomputed_context_json = Path(precomputed_context_json).resolve() if precomputed_context_json else None
     outgroup_tip_name = resolve_outgroup_tip_name(outgroup_tip_file, outgroup_tip_name)
     max_tips = int(max_tips)
     backbone_size = int(backbone_size)
+    local_anchor_count = int(local_anchor_count)
+    benchmark_tree_tips = int(benchmark_tree_tips)
 
     if backbone_sampling_strategy != "greedy_farthest_patristic":
         raise PipelineError(f"Unsupported runtime.backbone_sampling_strategy: {backbone_sampling_strategy}")
     if target_partition_mode != "recursive_monophyletic":
         raise PipelineError(f"Unsupported runtime.target_partition_mode: {target_partition_mode}")
+    if anchor_selection_strategy != "nearest_boundary_patristic":
+        raise PipelineError(f"Unsupported runtime.anchor_selection_strategy: {anchor_selection_strategy}")
 
     if clean_split_output_dir:
         clean_generated_outputs(output_dir)
@@ -89,34 +106,44 @@ def run(
     logger.info("Starting backbone-target split workflow.")
     logger.info("Input tree: %s", input_tree)
     logger.info("max_tips=%d backbone_size=%d", max_tips, backbone_size)
+    logger.info(
+        "Reserved local anchors per subtree=%d anchor_selection_strategy=%s benchmark_tree_tips=%d",
+        local_anchor_count,
+        anchor_selection_strategy,
+        benchmark_tree_tips,
+    )
 
     original_tree = read_newick_tree(input_tree)
     original_tip_names = get_tip_names_from_tree(original_tree)
     if outgroup_tip_name not in original_tip_names:
         raise PipelineError(f"Required global outgroup tip {outgroup_tip_name} is missing from input tree.")
 
-    rooted_status, _ = detect_tree_rooted_status(input_tree, conda_env, gotree_bin, threads, logger)
-    if rooted_status == "unrooted":
-        if not outgroup_tip_file:
-            raise PipelineError("Input tree is unrooted and --outgroup-tip-file is required.")
-        outgroup_tips = parse_tip_file(outgroup_tip_file)
-        validate_outgroup_tips(outgroup_tips, original_tip_names)
-        if outgroup_tip_name not in outgroup_tips:
-            raise PipelineError(f"Outgroup tip file must contain {outgroup_tip_name}.")
-
     rooted_tree_path = output_dir / "intermediate" / "rooted.tree"
-    prepare_rooted_tree(
-        input_tree=input_tree,
-        rooted_tree=rooted_tree_path,
-        conda_env=conda_env,
-        gotree_bin=gotree_bin,
-        threads=threads,
-        logger=logger,
-        outgroup_tip_file=outgroup_tip_file,
-        rooted_status=rooted_status,
-        outgroup_tip_name=outgroup_tip_name,
-        pre_binarize_rooted_tree=pre_binarize_rooted_tree,
-    )
+    precomputed_context = None
+    if precomputed_context_json is not None and precomputed_context_json.exists():
+        precomputed_context = load_json(precomputed_context_json)
+        logger.info("Using precomputed split context: %s", precomputed_context_json)
+    else:
+        rooted_status, _ = detect_tree_rooted_status(input_tree, conda_env, gotree_bin, threads, logger)
+        if rooted_status == "unrooted":
+            if not outgroup_tip_file:
+                raise PipelineError("Input tree is unrooted and --outgroup-tip-file is required.")
+            outgroup_tips = parse_tip_file(outgroup_tip_file)
+            validate_outgroup_tips(outgroup_tips, original_tip_names)
+            if outgroup_tip_name not in outgroup_tips:
+                raise PipelineError(f"Outgroup tip file must contain {outgroup_tip_name}.")
+        prepare_rooted_tree(
+            input_tree=input_tree,
+            rooted_tree=rooted_tree_path,
+            conda_env=conda_env,
+            gotree_bin=gotree_bin,
+            threads=threads,
+            logger=logger,
+            outgroup_tip_file=outgroup_tip_file,
+            rooted_status=rooted_status,
+            outgroup_tip_name=outgroup_tip_name,
+            pre_binarize_rooted_tree=pre_binarize_rooted_tree,
+        )
 
     rooted_tree = read_newick_tree(rooted_tree_path)
     node_id_map, _, parent_map = assign_node_ids(rooted_tree)
@@ -137,8 +164,17 @@ def run(
     if outgroup_tip_name in backbone_tips:
         raise PipelineError("Backbone tips must not contain the singleton outgroup tip.")
 
-    target_capacity = max_tips - len(backbone_tips) - 1
-    logger.info("Target capacity per subtree: %d non-backbone tips", target_capacity)
+    target_capacity = max_tips - len(backbone_tips) - 1 - local_anchor_count
+    logger.info(
+        "Target capacity per subtree: %d core non-backbone tips (%d slots reserved for local anchors)",
+        target_capacity,
+        local_anchor_count,
+    )
+    partition_profiles = compute_target_partition_profiles(
+        rooted_tree,
+        set(backbone_tips),
+        outgroup_tip_name,
+    )
     target_records = build_target_partition(
         tree=rooted_tree,
         node_id_map=node_id_map,
@@ -147,21 +183,37 @@ def run(
         outgroup_tip=outgroup_tip_name,
         target_capacity=target_capacity,
         logger=logger,
+        partition_profiles=partition_profiles,
+    )
+    root_distance_by_clade, tip_root_distance_by_name = resolve_root_distance_by_clade(
+        rooted_tree,
+        node_id_map,
+        precomputed_context=precomputed_context,
     )
     target_manifest_rows = build_target_manifest_rows(target_records)
     paml_records, paml_manifest_rows = build_paml_subtrees(
         tree=rooted_tree,
         backbone_tip_names=backbone_tips,
         target_records=target_records,
+        parent_map=parent_map,
+        ordered_nonbackbone_tips=partition_profiles.ordered_nonbackbone_tips,
+        root_distance_by_clade=root_distance_by_clade,
+        tip_root_distance_by_name=tip_root_distance_by_name,
         outgroup_tip=outgroup_tip_name,
         max_tips=max_tips,
+        local_anchor_count=local_anchor_count,
+        anchor_selection_strategy=anchor_selection_strategy,
         logger=logger,
     )
+    subtree_design_rows = build_subtree_design_rows(paml_records, target_records)
+    anchor_manifest_rows = build_anchor_manifest_rows(paml_records)
 
     write_tip_list(backbone_tips, output_dir / "backbone_tips.txt")
     write_table([record.to_row() for record in backbone_records], BACKBONE_SUMMARY_COLUMNS, output_dir / "backbone_summary.tsv")
     write_table([record.to_row() for record in target_records], TARGET_SUMMARY_COLUMNS, output_dir / "target_subtree_summary.tsv")
     write_table(target_manifest_rows, TARGET_MANIFEST_COLUMNS, output_dir / "target_tree_manifest.tsv")
+    write_table(subtree_design_rows, SUBTREE_DESIGN_COLUMNS, output_dir / "subtree_design_summary.tsv")
+    write_table(anchor_manifest_rows, ANCHOR_MANIFEST_COLUMNS, output_dir / "anchor_manifest.tsv")
     write_table([record.to_row() for record in paml_records], PAML_SUMMARY_COLUMNS, output_dir / "paml_subtree_summary.tsv")
     write_table(paml_manifest_rows, PAML_MANIFEST_COLUMNS, output_dir / "paml_tree_manifest.tsv")
 
@@ -242,11 +294,15 @@ def build_parser():
     parser.add_argument("--backbone-tip-id-file", default=None, help="Optional user-provided backbone tip text file.")
     parser.add_argument("--backbone-sampling-strategy", default="greedy_farthest_patristic", help="Backbone sampling strategy.")
     parser.add_argument("--target-partition-mode", default="recursive_monophyletic", help="Target partition mode.")
+    parser.add_argument("--local-anchor-count", default=16, type=int, help="Reserved overlap anchors per subtree.")
+    parser.add_argument("--anchor-selection-strategy", default="nearest_boundary_patristic", help="Local anchor selection strategy.")
+    parser.add_argument("--benchmark-tree-tips", default=300, type=int, help="Reserved benchmark tree size metadata for future full-tree comparisons.")
     parser.add_argument(
         "--pre-binarize-rooted-tree",
         default="true",
         help="Normalize intermediate rooted.tree into a rooted binary tree before split logic.",
     )
+    parser.add_argument("--precomputed-context-json", default=None, help="Optional rooted tree precompute context JSON.")
     parser.add_argument("--clean-split-output-dir", action="store_true", help="Clean generated outputs before running.")
     parser.add_argument("--log-level", default="INFO", help="Logging level.")
     parser.add_argument("--outgroup-tip-name", default=None, help="Singleton outgroup tip retained at the root.")
@@ -270,8 +326,12 @@ def main(argv=None):
             backbone_tip_id_file=args.backbone_tip_id_file,
             backbone_sampling_strategy=args.backbone_sampling_strategy,
             target_partition_mode=args.target_partition_mode,
+            local_anchor_count=args.local_anchor_count,
+            anchor_selection_strategy=args.anchor_selection_strategy,
+            benchmark_tree_tips=args.benchmark_tree_tips,
             pre_binarize_rooted_tree=str(args.pre_binarize_rooted_tree).lower() == "true",
             clean_split_output_dir=args.clean_split_output_dir,
+            precomputed_context_json=args.precomputed_context_json,
             log_level=args.log_level,
             outgroup_tip_name=args.outgroup_tip_name,
         )
