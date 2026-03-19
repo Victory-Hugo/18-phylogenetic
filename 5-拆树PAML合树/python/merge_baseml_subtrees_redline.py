@@ -12,6 +12,8 @@ from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 from typing import Dict, Optional
 
+from Bio.Phylo.BaseTree import Tree
+
 from phylo_merge_common import (
     build_analysis_tree_path,
     build_scaffold_tree,
@@ -287,13 +289,17 @@ def compute_subtree_replacement(task):
     replacement = clone_clade(replacement)
     replacement.branch_length = ensure_positive_branch_length(replacement.branch_length, task["min_branch_length"])
     repl_min, repl_median, repl_max = compute_clade_height(replacement, task["min_branch_length"])
+    del repl_min, repl_median
+
+    replacement_clade_path = Path(task["replacement_clade_path"])
+    write_tree_file(Tree(root=clone_clade(replacement), rooted=True), replacement_clade_path)
 
     final_scale_factor = float(initial_scale["scale_factor"]) * float(redline_factor)
     return {
         "target_subtree_id": task["target_subtree_id"],
         "paml_subtree_id": task["paml_subtree_id"],
         "placeholder": task["placeholder"],
-        "replacement_clade": replacement,
+        "replacement_clade_path": replacement_clade_path.as_posix(),
         "subtree_scale_row": {
             "target_subtree_id": task["target_subtree_id"],
             "paml_subtree_id": task["paml_subtree_id"],
@@ -405,6 +411,7 @@ def run(
     edge_update_rows = []
     ordered_pairs = sorted(paml_by_target_id.items())
     tasks = []
+    replacement_clade_dir = merge_output_dir / "intermediate" / "replacement_clades"
     for target_id, paml_record in ordered_pairs:
         target_record = target_by_id[target_id]
         placeholder = target_to_placeholder[target_id]
@@ -436,16 +443,12 @@ def run(
                 "redline_height": float(redline_height),
                 "min_branch_length": float(min_branch_length),
                 "placeholder": placeholder,
+                "replacement_clade_path": (replacement_clade_dir / f"{target_id}.nwk").as_posix(),
             }
         )
 
     if int(parallel_jobs) <= 1:
         result_iter = map(compute_subtree_replacement, tasks)
-    else:
-        executor = ProcessPoolExecutor(max_workers=int(parallel_jobs))
-        result_iter = executor.map(compute_subtree_replacement, tasks)
-
-    try:
         for index, result in enumerate(result_iter, start=1):
             if index == 1 or index % 5 == 0 or index == total_subtrees:
                 print(
@@ -453,7 +456,10 @@ def run(
                     f"{result['target_subtree_id']} ({result['paml_subtree_id']})",
                     flush=True,
                 )
-            replacement = result["replacement_clade"]
+            replacement_path = Path(result["replacement_clade_path"])
+            replacement = read_newick_tree(replacement_path).root
+            replacement_path.unlink(missing_ok=True)
+            replacement.branch_length = ensure_positive_branch_length(replacement.branch_length, min_branch_length)
             if not replace_placeholder_with_clade(scaffold_tree, result["placeholder"], replacement):
                 raise PipelineError(
                     f"Failed to replace placeholder {result['placeholder']} for {result['target_subtree_id']}"
@@ -461,9 +467,27 @@ def run(
             subtree_scale_rows.append(result["subtree_scale_row"])
             graft_rows.append(result["graft_row"])
             edge_update_rows.append(result["edge_update_row"])
-    finally:
-        if int(parallel_jobs) > 1:
-            executor.shutdown(wait=True)
+    else:
+        with ProcessPoolExecutor(max_workers=int(parallel_jobs)) as executor:
+            result_iter = executor.map(compute_subtree_replacement, tasks)
+            for index, result in enumerate(result_iter, start=1):
+                if index == 1 or index % 5 == 0 or index == total_subtrees:
+                    print(
+                        f"[INFO] Redline merge progress: subtree {index}/{total_subtrees} "
+                        f"{result['target_subtree_id']} ({result['paml_subtree_id']})",
+                        flush=True,
+                    )
+                replacement_path = Path(result["replacement_clade_path"])
+                replacement = read_newick_tree(replacement_path).root
+                replacement_path.unlink(missing_ok=True)
+                replacement.branch_length = ensure_positive_branch_length(replacement.branch_length, min_branch_length)
+                if not replace_placeholder_with_clade(scaffold_tree, result["placeholder"], replacement):
+                    raise PipelineError(
+                        f"Failed to replace placeholder {result['placeholder']} for {result['target_subtree_id']}"
+                    )
+                subtree_scale_rows.append(result["subtree_scale_row"])
+                graft_rows.append(result["graft_row"])
+                edge_update_rows.append(result["edge_update_row"])
 
     validate_rooted_tree_with_outgroup(scaffold_tree, outgroup_tip_name)
     merged_tip_set = set(get_tip_names_from_tree(scaffold_tree))

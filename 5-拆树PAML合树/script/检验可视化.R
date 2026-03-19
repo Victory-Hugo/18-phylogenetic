@@ -2,7 +2,7 @@ library(tidyverse)
 library(ggtree)
 library(treeio)
 
-tree_path <- "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树/output/merge/merged_ml_tree.nwk"
+tree_path <- "/mnt/l/6_起源地混合地/8-第一轮修稿/5-拆树PAML合树/data/VFT_rooted.tree"
 tree <- read.tree(tree_path)
 tree  |> ggtree()
 
@@ -11,7 +11,7 @@ setwd("/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆�
 # 加载树文件
 WGS_tree <- read.tree(tree_path)                                              #* 读取树文件，路径可按需修改
 # 文件路径可按需修改
-group_file      <- "./conf/group.txt"                                #! 第一列是label(ID)，第二列是group(单倍群)，不包含表头
+group_file      <- "./conf/haplogrep_group.txt"                                #! 第一列是label(ID)，第二列是group(单倍群)，不包含表头
 color_file      <- "./conf/color.txt"                                #! 第一列是group(单倍群)，第二列是color，不包含表头
 
 ##* =========================分支着色(如果没有分组请删除下列的aes(color = group))=========================
