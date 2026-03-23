@@ -1,0 +1,28 @@
+paths:
+  msa_file: "data/mtCDNApri123.fasta"
+  rooted_calibrated_tree: "data/mtCDNApri.calibrated.rooted.nwk"
+  partition_file: ""
+  output_dir: "output/benchmark_mtCDNApri123"
+
+tools:
+  conda_bin: "/home/luolintao/miniconda3/condabin/conda"
+  iqtree3_bin: "bin/iqtree3"
+  mcmctree_bin: "Linux/bin/mcmctree"
+
+runtime:
+  threads: 8
+  create_env_if_missing: true
+  run_step1: false
+  run_step2: true
+  run_step3: true
+
+modeling:
+  substitution_model: "GTR+G4"
+  partition_mode: "Q"
+  clock_model: "IND"
+  mcmc_iter: "2000,20,2000"
+  mcmc_bds: "1,1,0.5"
+
+mcmctree:
+  checkpoint: 1
+  resume: false

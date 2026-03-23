@@ -1,0 +1,28 @@
+paths:
+  msa_file: "data/example.phy"
+  rooted_calibrated_tree: "data/example_calibrated_rooted.nwk"
+  partition_file: ""
+  output_dir: "output/default_run"
+
+tools:
+  conda_bin: "/home/luolintao/miniconda3/condabin/conda"
+  iqtree3_bin: "bin/iqtree3"
+  mcmctree_bin: "Linux/bin/mcmctree"
+
+runtime:
+  threads: 4
+  create_env_if_missing: true
+  run_step1: false
+  run_step2: true
+  run_step3: true
+
+modeling:
+  substitution_model: "MFP"
+  partition_mode: "Q"
+  clock_model: "IND"
+  mcmc_iter: "20000,200,50000"
+  mcmc_bds: "1,1,0.5"
+
+mcmctree:
+  checkpoint: 1
+  resume: false
