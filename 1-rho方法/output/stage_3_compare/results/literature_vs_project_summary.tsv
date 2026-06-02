@@ -1,0 +1,10 @@
+source_file	reference	literature_method	n_literature_records	n_matched_project	match_rate_pct	mean_abs_diff_vs_rho_kya	median_abs_diff_vs_rho_kya	mean_abs_diff_vs_ml_kya	median_abs_diff_vs_ml_kya	n_interval_evaluable	n_interval_reasonable	pct_interval_reasonable	n_interval_non_overlap	n_large_difference	pct_large_difference	nearest_rho_count	nearest_ml_count
+以往研究-1.tsv	"Evolutionary history of continental southeast Asians: ""early train"" hypothesis based on genetic analysis of mitochondrial and autosomal DNA data"	ML_range_midpoint	31	28	90.32	8.2516	7.2527	8.5941	6.5764	28	9	32.14	19	20	71.43	26	2
+以往研究-2.tsv	River Valleys Shaped the Maternal Genetic Landscape of Han Chinese	average	427	427	100.0	4.0676	3.2036	4.2244	3.4014	0	0		0	229	53.63	398	29
+以往研究-2.tsv	River Valleys Shaped the Maternal Genetic Landscape of Han Chinese	bayesian	423	423	100.0	5.8039	3.8975	5.8931	4.1136	422	376	89.1	46	274	64.78	385	38
+以往研究-2.tsv	River Valleys Shaped the Maternal Genetic Landscape of Han Chinese	coding_region_rho	427	427	100.0	6.1018	5.7504	6.2329	5.9478	426	303	71.13	123	337	78.92	393	34
+以往研究-2.tsv	River Valleys Shaped the Maternal Genetic Landscape of Han Chinese	complete_genome_rho	427	427	100.0	3.906	3.2176	4.1084	3.462	426	383	89.91	43	221	51.76	400	27
+以往研究-2.tsv	River Valleys Shaped the Maternal Genetic Landscape of Han Chinese	synonymous_positions_rho	427	427	100.0	5.3412	4.2132	5.3862	4.1951	426	350	82.16	76	278	65.11	389	38
+以往研究-3.tsv	MtDNA genomes reveal relaxed purifying selection during human population expansion after the Last Glacial Maximum	ML	5088	1474	28.97	4.667	3.5131	4.7673	3.5611	1453	1257	86.51	196	866	58.75	1349	125
+以往研究-3.tsv	MtDNA genomes reveal relaxed purifying selection during human population expansion after the Last Glacial Maximum	rho_based	5089	1475	28.98	4.3365	3.1467	4.5462	3.3706	1454	1292	88.86	162	780	52.88	1365	110
+以往研究-4.tsv	Correcting for Purifying Selection: An Improved Human Mitochondrial Molecular Clock	purifying_selection_corrected	2841	2698	94.97	3.5479	2.1736	3.7263	2.311	2655	2506	94.39	149	1416	52.48	2439	259

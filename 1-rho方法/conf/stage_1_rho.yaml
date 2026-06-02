@@ -1,0 +1,38 @@
+# =====================================================================
+# Stage 1: mtDNA 单倍群年龄估计（rho 统计量 + Soares 2009）配置文件
+# 所有相对路径均相对于 project.base_dir
+# =====================================================================
+
+project:
+  base_dir: "/mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计"  # 项目根目录
+
+# --------------------------------------------------------------------- #
+# 输入数据路径                                                           #
+# --------------------------------------------------------------------- #
+paths:
+  vcf: "data/17.3/merged_clean.vcf.gz"                      # 合并VCF（祖先+现代）
+  phylotree_json: "data/17.3/phylotree_build_17.3.json"  # PhyloTree Build 17
+  back_mutation_tsv: "META/1-回复突变.tsv"             # 位点注释（synonymous/nonsynonymous）
+  haplogrep_tsv: "META/2-单倍群信息.tsv"               # Haplogrep3分型结果
+  python_dir: "python"                                 # Python模块目录
+  script_dir: "script"                                 # shell辅助脚本目录
+  intermediate_dir: "output/stage_1/intermediate"      # Stage 1中间产物目录
+  results_dir: "output/stage_1/results"                # Stage 1结果目录
+  log_dir: "output/stage_1/log"                        # Stage 1日志目录
+
+# --------------------------------------------------------------------- #
+# 工具路径                                                               #
+# --------------------------------------------------------------------- #
+tools:
+  conda_bin: "/home/luolintao/miniconda3/bin/conda"                    # conda可执行文件
+  python_env_prefix: "/home/luolintao/miniconda3/envs/BigLin"          # BigLin环境前缀
+  bcftools_bin: "/home/luolintao/miniconda3/envs/BigLin/bin/bcftools"  # bcftools
+
+# --------------------------------------------------------------------- #
+# 运行参数                                                               #
+# --------------------------------------------------------------------- #
+runtime:
+  jobs: 8                         # 并行线程数
+  overwrite: "false"              # 是否覆盖已有中间产物（true/false）
+  haplogrep_quality_min: 0.8      # Haplogrep3 Quality最低阈值
+  validate_nodes: "L3,M,N,R,H,D4,U"  # rho方法验证节点（逗号分隔）

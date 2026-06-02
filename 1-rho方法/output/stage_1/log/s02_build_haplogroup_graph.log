@@ -1,0 +1,6 @@
+08:44:51 [INFO] 读取PhyloTree JSON: /mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/data/17.3/phylotree_build_17.3.json
+08:44:51 [INFO]   使用顶层 'haplogroups' 键（含 6234 个节点）
+08:44:51 [INFO]   共解析 6234 个单倍群节点
+08:44:51 [INFO]   内部节点（有子节点）: 2593
+08:44:51 [INFO]   叶节点（无子节点）: 3641
+08:44:51 [INFO] 单倍群图已写出至: /mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_1/intermediate/haplogroup_graph.json

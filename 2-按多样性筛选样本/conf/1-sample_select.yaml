@@ -1,0 +1,23 @@
+# 1-sample_select — 样本筛选配置
+# 对应 pipe/1-sample_select.sh
+
+project:
+  base_dir: "."
+
+paths:
+  tsv:           "meta/总表.tsv"             # 总表：分型结果 + QC 信息
+  vcf:           "data/merged_clean.vcf.gz"  # 全样本 VCF（未记录位点为参考态）
+  output_table:  "output/1-sample_select/1-table"
+  output_report: "output/1-sample_select/3-report"
+  temp:          "temp/1-sample_select"
+
+tools:
+  python_bin:   "/home/luolintao/miniconda3/envs/BigLin/bin/python3"
+  bcftools_bin: "/home/luolintao/miniconda3/envs/BigLin/bin/bcftools"
+
+runtime:
+  qc_min:    "0.85"   # QC_Haplogrep 最低阈值（含）
+  min_dist:  "1"     # FPS 停止条件：未选样本与已选集合最近距离 <= 此值时停止
+  max_tips:  "0"     # 每块最大 tip 数（0 = 不限，由 min_dist 自适应决定）
+  jobs:      "4"     # 并行线程数（当前 bcftools 提取阶段使用）
+  overwrite: "false" # 是否覆盖已有输出（false = 已完成的块跳过，支持断点续跑）
