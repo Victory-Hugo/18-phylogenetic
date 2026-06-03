@@ -1,0 +1,226 @@
+<?xml version="1.0" standalone="yes"?>
+<!--
+  BEAST 1.x (v10.5.0) 骨架(backbone)专用校准模板 | 增量验证
+  ============================================================
+    * 分子钟：UCLD 不相关对数正态宽松钟（每枝速率独立抽自 lognormal）。
+    * 树先验：常数大小溯祖 → 贝叶斯天际线（generalizedSkyLineLikelihood，分段常数 BSP，10 段）+
+      exponentialMarkovLikelihood 平滑先验；不再假设恒定 Ne，种群历史随时间分段独立估计。
+    * 单位：substitutions → years（起始树由准备脚本线性预缩放到年；root≈180000）。
+    * 校准点：root(mt-MRCA)/M/N 三处 normalPrior 软约束（见 <prior>）。
+      M/N 的 <taxa> 子集 + tmrcaStatistic 由准备脚本注入 {{CALIBRATION_BLOCK}}。
+    * 固定拓扑：仍只含高度/速率/模型参数算子，剔除一切拓扑算子；M/N 单系自动保持。
+  占位符（由 prepare_calibrated_backbone.py 注入）：
+    TAXA ALIGNMENT STARTING_TREE FILE_PREFIX CHAIN_LENGTH LOG_EVERY
+    CALIBRATION_BLOCK（M/N taxa + tmrcaStatistic）UCLD_MEAN（自洽起始速率）POPSIZE（年尺度起始）
+-->
+<beast version="1.10.4">
+
+	<taxa id="taxa">
+{{TAXA}}
+	</taxa>
+
+	<alignment id="alignment" dataType="nucleotide">
+{{ALIGNMENT}}
+	</alignment>
+
+	<patterns id="patterns" from="1" strip="false">
+		<alignment idref="alignment"/>
+	</patterns>
+
+	<!-- 固定拓扑起始树（已预缩放到 years） -->
+	<newick id="startingTree" units="years">
+		{{STARTING_TREE}}
+	</newick>
+
+	<treeModel id="treeModel">
+		<tree idref="startingTree"/>
+		<rootHeight>
+			<parameter id="treeModel.rootHeight"/>
+		</rootHeight>
+		<nodeHeights internalNodes="true">
+			<parameter id="treeModel.internalNodeHeights"/>
+		</nodeHeights>
+		<nodeHeights internalNodes="true" rootNode="true">
+			<parameter id="treeModel.allInternalNodeHeights"/>
+		</nodeHeights>
+	</treeModel>
+
+	<!-- 贝叶斯天际线树先验（分段常数 BSP，10 段；years 尺度） -->
+	<generalizedSkyLineLikelihood id="skyline" linear="false">
+		<populationSizes>
+			<!-- skyline.popSize：各时间段的有效种群大小（起始值复用 {{POPSIZE}}） -->
+			<parameter id="skyline.popSize" dimension="10" value="{{POPSIZE}}" lower="0.0"/>
+		</populationSizes>
+		<groupSizes>
+			<!-- skyline.groupSize：每段包含的溯祖事件数（之和由 BEAST 自动配平） -->
+			<parameter id="skyline.groupSize" dimension="10"/>
+		</groupSizes>
+		<populationTree>
+			<treeModel idref="treeModel"/>
+		</populationTree>
+	</generalizedSkyLineLikelihood>
+
+	<!-- 相邻段 popSize 的平滑先验（指数马尔可夫链） -->
+	<exponentialMarkovLikelihood id="eml1" jeffreys="true">
+		<chainParameter>
+			<parameter idref="skyline.popSize"/>
+		</chainParameter>
+	</exponentialMarkovLikelihood>
+
+	<!-- ===== 校准节点统计量（M/N taxa + tmrcaStatistic，由脚本注入） ===== -->
+{{CALIBRATION_BLOCK}}
+
+	<!-- ===== UCLD 不相关对数正态宽松钟 ===== -->
+	<discretizedBranchRates id="branchRates">
+		<treeModel idref="treeModel"/>
+		<distribution>
+			<logNormalDistributionModel meanInRealSpace="true">
+				<mean>
+					<parameter id="ucld.mean" value="{{UCLD_MEAN}}" lower="0.0"/>
+				</mean>
+				<stdev>
+					<parameter id="ucld.stdev" value="0.1" lower="0.0"/>
+				</stdev>
+			</logNormalDistributionModel>
+		</distribution>
+		<rateCategories>
+			<parameter id="branchRates.categories"/>
+		</rateCategories>
+	</discretizedBranchRates>
+
+	<rateStatistic id="meanRate" name="meanRate" mode="mean" internal="true" external="true">
+		<treeModel idref="treeModel"/>
+		<discretizedBranchRates idref="branchRates"/>
+	</rateStatistic>
+	<rateStatistic id="coefficientOfVariation" name="coefficientOfVariation" mode="coefficientOfVariation" internal="true" external="true">
+		<treeModel idref="treeModel"/>
+		<discretizedBranchRates idref="branchRates"/>
+	</rateStatistic>
+
+	<!-- ===== GTR + Gamma(4) ===== -->
+	<gtrModel id="gtr">
+		<frequencies>
+			<frequencyModel dataType="nucleotide">
+				<frequencies>
+					<parameter id="frequencies" value="0.25 0.25 0.25 0.25"/>
+				</frequencies>
+			</frequencyModel>
+		</frequencies>
+		<rateAC><parameter id="ac" value="1.0" lower="0.0"/></rateAC>
+		<rateAG><parameter id="ag" value="1.0" lower="0.0"/></rateAG>
+		<rateAT><parameter id="at" value="1.0" lower="0.0"/></rateAT>
+		<rateCG><parameter id="cg" value="1.0" lower="0.0"/></rateCG>
+		<rateGT><parameter id="gt" value="1.0" lower="0.0"/></rateGT>
+	</gtrModel>
+
+	<siteModel id="siteModel">
+		<substitutionModel>
+			<gtrModel idref="gtr"/>
+		</substitutionModel>
+		<gammaShape gammaCategories="4">
+			<parameter id="alpha" value="0.5" lower="0.0"/>
+		</gammaShape>
+	</siteModel>
+
+	<treeDataLikelihood id="treeLikelihood" useAmbiguities="false">
+		<partition>
+			<patterns idref="patterns"/>
+			<siteModel idref="siteModel"/>
+		</partition>
+		<treeModel idref="treeModel"/>
+		<discretizedBranchRates idref="branchRates"/>
+	</treeDataLikelihood>
+
+	<!-- ===== 算子（高度 + UCLD 速率 + 模型参数；无拓扑算子） ===== -->
+	<operators id="operators" optimizationSchedule="default">
+		<scaleOperator scaleFactor="0.75" weight="0.1"><parameter idref="ac"/></scaleOperator>
+		<scaleOperator scaleFactor="0.75" weight="0.1"><parameter idref="ag"/></scaleOperator>
+		<scaleOperator scaleFactor="0.75" weight="0.1"><parameter idref="at"/></scaleOperator>
+		<scaleOperator scaleFactor="0.75" weight="0.1"><parameter idref="cg"/></scaleOperator>
+		<scaleOperator scaleFactor="0.75" weight="0.1"><parameter idref="gt"/></scaleOperator>
+		<deltaExchange delta="0.01" weight="0.1"><parameter idref="frequencies"/></deltaExchange>
+		<scaleOperator scaleFactor="0.75" weight="0.1"><parameter idref="alpha"/></scaleOperator>
+
+		<scaleOperator scaleFactor="0.75" weight="3"><parameter idref="ucld.mean"/></scaleOperator>
+		<scaleOperator scaleFactor="0.75" weight="3"><parameter idref="ucld.stdev"/></scaleOperator>
+		<swapOperator size="1" weight="10" autoOptimize="false"><parameter idref="branchRates.categories"/></swapOperator>
+		<uniformIntegerOperator weight="10"><parameter idref="branchRates.categories"/></uniformIntegerOperator>
+
+		<scaleOperator scaleFactor="0.75" weight="3"><parameter idref="treeModel.rootHeight"/></scaleOperator>
+		<uniformOperator weight="30"><parameter idref="treeModel.internalNodeHeights"/></uniformOperator>
+
+		<!-- 贝叶斯天际线种群参数算子（替代原 constant.popSize scale） -->
+		<scaleOperator scaleFactor="0.75" weight="15" scaleAllIndependently="true"><parameter idref="skyline.popSize"/></scaleOperator>
+		<deltaExchange delta="1" integer="true" weight="6" autoOptimize="false"><parameter idref="skyline.groupSize"/></deltaExchange>
+	</operators>
+
+	<mcmc id="mcmc" chainLength="{{CHAIN_LENGTH}}" autoOptimize="true" operatorAnalysis="{{FILE_PREFIX}}.ops">
+		<joint id="joint">
+			<prior id="prior">
+				<gammaPrior shape="0.05" scale="10.0" offset="0.0"><parameter idref="ac"/></gammaPrior>
+				<gammaPrior shape="0.05" scale="20.0" offset="0.0"><parameter idref="ag"/></gammaPrior>
+				<gammaPrior shape="0.05" scale="10.0" offset="0.0"><parameter idref="at"/></gammaPrior>
+				<gammaPrior shape="0.05" scale="10.0" offset="0.0"><parameter idref="cg"/></gammaPrior>
+				<gammaPrior shape="0.05" scale="10.0" offset="0.0"><parameter idref="gt"/></gammaPrior>
+				<exponentialPrior mean="0.5" offset="0.0"><parameter idref="alpha"/></exponentialPrior>
+
+				<!-- UCLD 速率先验 -->
+				<ctmcScalePrior>
+					<ctmcScale><parameter idref="ucld.mean"/></ctmcScale>
+					<treeModel idref="treeModel"/>
+				</ctmcScalePrior>
+				<exponentialPrior mean="0.3333333333333333" offset="0.0"><parameter idref="ucld.stdev"/></exponentialPrior>
+
+				<!-- ===== 三点节点年龄校准（normalPrior 软约束，年龄/标准差由 2-beast.yaml 注入） ===== -->
+				<normalPrior mean="{{ROOT_AGE}}" stdev="{{ROOT_SD}}"><parameter idref="treeModel.rootHeight"/></normalPrior>
+				<normalPrior mean="{{M_AGE}}" stdev="{{M_SD}}"><statistic idref="tmrca_M"/></normalPrior>
+				<normalPrior mean="{{N_AGE}}" stdev="{{N_SD}}"><statistic idref="tmrca_N"/></normalPrior>
+
+				<!-- 贝叶斯天际线：平滑先验 + 溯祖似然（替代原 oneOnXPrior(constant.popSize) + coalescent） -->
+				<exponentialMarkovLikelihood idref="eml1"/>
+				<generalizedSkyLineLikelihood idref="skyline"/>
+			</prior>
+			<likelihood id="likelihood">
+				<treeDataLikelihood idref="treeLikelihood"/>
+			</likelihood>
+		</joint>
+
+		<operators idref="operators"/>
+
+		<log id="screenLog" logEvery="{{LOG_EVERY}}">
+			<column label="Joint" dp="4" width="12"><joint idref="joint"/></column>
+			<column label="Prior" dp="4" width="12"><prior idref="prior"/></column>
+			<column label="Likelihood" dp="4" width="12"><likelihood idref="likelihood"/></column>
+			<column label="rootHeight" sf="6" width="12"><parameter idref="treeModel.rootHeight"/></column>
+			<column label="tmrca_M" sf="6" width="12"><statistic idref="tmrca_M"/></column>
+			<column label="tmrca_N" sf="6" width="12"><statistic idref="tmrca_N"/></column>
+		</log>
+
+		<log id="fileLog" logEvery="{{LOG_EVERY}}" fileName="{{FILE_PREFIX}}.log" overwrite="false">
+			<joint idref="joint"/>
+			<prior idref="prior"/>
+			<likelihood idref="likelihood"/>
+			<parameter idref="treeModel.rootHeight"/>
+			<statistic idref="tmrca_M"/>
+			<statistic idref="tmrca_N"/>
+			<parameter idref="ucld.mean"/>
+			<parameter idref="ucld.stdev"/>
+			<rateStatistic idref="meanRate"/>
+			<rateStatistic idref="coefficientOfVariation"/>
+			<parameter idref="skyline.popSize"/>
+			<parameter idref="skyline.groupSize"/>
+			<parameter idref="alpha"/>
+			<generalizedSkyLineLikelihood idref="skyline"/>
+		</log>
+
+		<logTree id="treeFileLog" logEvery="{{LOG_EVERY}}" nexusFormat="true" fileName="{{FILE_PREFIX}}.trees" sortTranslationTable="true">
+			<treeModel idref="treeModel"/>
+			<joint idref="joint"/>
+		</logTree>
+	</mcmc>
+
+	<report>
+		<property name="timer"><mcmc idref="mcmc"/></property>
+	</report>
+
+</beast>

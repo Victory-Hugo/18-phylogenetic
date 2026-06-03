@@ -1,0 +1,82 @@
+projectpath: "."
+
+paths:
+  input_fasta: "data/mtDNA.fasta"
+  split_output_dir: "output/split"
+  tmp_dir: "output/tmp"
+runtime:
+  log_level: "INFO"
+tools:
+  python: "python3"
+  beast: "beast"                 #? BEAST v10.5.0 可执行程序（BigLin PATH 可用）
+  treeannotator: "treeannotator" #? 配套的 TreeAnnotator
+beast:
+  execution_mode: "real" #? 可选项：real（真实运行 BEAST MCMC）、fake（生成伪超度量结果树用于快速测试）
+  xml_template: "conf/beast_template.xml"
+  output_dir: "output/beast"
+  clean_output_dir: true
+  #? 序列 ID 映射策略：exact（树 tip 名与 FASTA header 完全一致）/ prefix_before_first_underscore
+  seq_id_strategy: "exact"
+  #? ---- 分子钟速率（strict clock 模板使用；calibration.enabled=true 时改用 UCLD 模板）----
+  #? 默认 1.0 => 枝长单位为「期望替换数/位点」（与下游合并约定一致，最稳）。
+  #? 可设为人类 mtDNA 速率（如 2.53e-8 subst/site/year）让 BEAST 直接以「年」为单位输出；
+  #? 起始树以保证 MCMC 收敛（详见 3-重要决定.md DEC-009）。
+  clock_rate: 2.53e-8
+  #? ---- MCMC 与 TreeAnnotator 参数（子树 + backbone 共用；每棵树生成 1 个 XML）----
+  #? 链长：实测（IQTREE 7852-tip 拆出的 1000~1936-tip 子树）固定拓扑定年分析在
+  #? ~1.5-2M states 达到平台，点估计/HPD 稳定；ESS 偏低是大树单节点算子的固有限制，
+  #? 加长链或加 scaleAll 算子均不可行（详见 DEC-010）。8M + 40% burn-in 性价比最佳。
+  chain_length: 4000000      #? MCMC 链长（固定拓扑定年）
+  log_every: 4000            #? 采样间隔
+  burnin_percent: 40         #? TreeAnnotator 丢弃前 N% 的树（实测 burn-in 约 1.5-2M，需丢约 40%）
+  mcc_heights: "median"        #? MCC 节点高度取值：mean / median / ca / keep
+  seed: 42                   #? BEAST 随机种子（各作业以 子树 hash 偏移，保证可复现且互不相同）
+  #? ---- 并行调度 ----
+  #? 每作业用 threads_per_job 个核（=> -beagle_instances），同时跑 parallel_jobs 个。
+  parallel_jobs: 8
+  threads_per_job: 8
+  bind_cpu_affinity: true
+  skip_existing: false
+  #? ---- backbone 单独作业线 ----
+  backbone_only_enabled: true
+  backbone_job_dir: "output/beast/backbone_job"
+  backbone_analysis_dir: "output/beast/backbone_analysis"
+  backbone_skip_existing: true
+  #? ---- 超度量收敛 ----
+  ultrametric_normalization: "extend_terminal_to_max_depth"
+  ultrametric_tolerance: 1e-8
+  min_branch_length: 1e-8
+  #? ---- fake 模式参数（execution_mode=fake 时使用）----
+  fake_branch_length_model: "lognormal_then_extend_terminal"
+  fake_branch_length_sigma: 0.25
+  fake_random_seed: 42
+  fake_min_branch_length: 1e-8
+  #? ================= 子树 + 骨架(backbone)节点校准 + UCLD 宽松钟 =================
+  #? enabled=true 时，prepare_beast_inputs.py 与 prepare_backbone_beast_input.py 都使用
+  #? conf/beast_template_calibrated.xml 生成校准一致热启动 XML。
+  #? 每棵树（每个子树、backbone）只生成 1 个 XML；不再为 backbone 生成多条独立链 XML。
+
+  calibration:
+    enabled: true
+    clock_model: "ucld"          #? UCLD 不相关对数正态宽松钟（枝速率独立抽自 lognormal）
+    warm_start: true             #? 必须 true：用"校准一致起始树"(M/N/root 预置到目标年龄)热启动
+    template: "conf/beast_template_calibrated.xml"
+    backbone_tree: "output/split/backbone_tree.nwk"
+    id_hap_tsv: "data/1-ID-Hap.tsv"          #? 样本 ID → 单倍群
+    phylotree_json: "data/2-phylotree_index_v17.2.json"  #? 单倍群 → lineage（判定 M/N 归属）
+    #? ---- 三个校准节点的年龄（单位：年）与 normalPrior 软约束标准差 ----
+    nodes:
+      #? mt-MRCA = RSRS 与全体 ingroup 的分歧（=树根）
+      root:
+        age: 180000
+        stdev: 20000
+      #? 单倍群 M 单系 TMRCA
+      M:
+        age: 49000
+        stdev: 5000
+      #? 单倍群 N 单系 TMRCA
+      N:
+        age: 59000
+        stdev: 5000
+    #? ---- UCLD 起始值 ----
+    popsize_start: 100000.0      #? constant.popSize 年尺度起始值（会被估计，起始不敏感）

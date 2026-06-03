@@ -1,0 +1,249 @@
+<?xml version="1.0" standalone="yes"?>
+<!--
+  BEAST 1.x (v10.5.0) 作业模板 | 拆树 BEAST 合树 stage2
+  ============================================================
+  说明（修改 BEAST 参数请直接改本模板）：
+    * 替换模型：GTR（6 速率，CT 为参照）+ 离散 Gamma(4 类) 位点异质性，等价于 baseml 的 REV+Γ。
+    * 分子钟：strict clock，速率由 {{CLOCK_RATE}} 注入（conf/2-beast.yaml 的 beast.clock_rate，默认 1.0；
+      不给 clock.rate 加算子 / 不加先验，即固定该速率）。默认 1.0 → 枝长单位为「期望替换数/位点」，与
+      baseml clock=1 的命名树一致，可直接供下游合并。如需让 BEAST 直接以「年」为单位输出，可设为人类 mtDNA
+      速率（如 2.53e-8 subst/site/year），但请注意最终年代仍由 stage5 的 node_calibration(RSRS=180000y)
+      决定，且非 1.0 速率需相应重标定起始树以保证 MCMC 收敛（参见 3-重要决定.md DEC-009）。
+    * 树先验：常数大小溯祖（Constant-size Coalescent），时间单位为 substitutions。
+    * 固定拓扑：起始树由 stage1 子树超度量化后注入（<newick>），<operators> 中**只含节点高度/根高度/
+      种群大小/替换模型参数算子，剔除一切改变拓扑的算子**（subtreeSlide/narrowExchange/wideExchange/
+      wilsonBalding），因此 MCMC 只重估分歧时间与模型参数，拓扑保持不变。
+
+  占位符（双花括号包裹，由 python/beast_common.render_beast_xml 注入；此处不列字面记号以免被替换）：
+    TAXA          taxa 列表
+    ALIGNMENT     序列比对
+    STARTING_TREE 超度量固定拓扑起始树（Newick）
+    FILE_PREFIX   日志/树文件名前缀
+    CHAIN_LENGTH  MCMC 链长
+    LOG_EVERY     采样间隔
+    CLOCK_RATE    strict clock 速率（固定，不加算子）
+-->
+<beast version="1.10.4">
+
+	<!-- ===== 类群 ===== -->
+	<taxa id="taxa">
+{{TAXA}}
+	</taxa>
+
+	<!-- ===== 序列比对 ===== -->
+	<alignment id="alignment" dataType="nucleotide">
+{{ALIGNMENT}}
+	</alignment>
+
+	<!-- ===== 位点模式 ===== -->
+	<patterns id="patterns" from="1" strip="false">
+		<alignment idref="alignment"/>
+	</patterns>
+
+	<!-- ===== 固定拓扑起始树（超度量） ===== -->
+	<newick id="startingTree" units="substitutions">
+		{{STARTING_TREE}}
+	</newick>
+
+	<!-- ===== 常数大小溯祖树先验 ===== -->
+	<constantSize id="constant" units="substitutions">
+		<populationSize>
+			<parameter id="constant.popSize" value="0.1" lower="0.0"/>
+		</populationSize>
+	</constantSize>
+
+	<!-- ===== 树模型 ===== -->
+	<treeModel id="treeModel">
+		<tree idref="startingTree"/>
+		<rootHeight>
+			<parameter id="treeModel.rootHeight"/>
+		</rootHeight>
+		<nodeHeights internalNodes="true">
+			<parameter id="treeModel.internalNodeHeights"/>
+		</nodeHeights>
+		<nodeHeights internalNodes="true" rootNode="true">
+			<parameter id="treeModel.allInternalNodeHeights"/>
+		</nodeHeights>
+	</treeModel>
+
+	<coalescentLikelihood id="coalescent">
+		<model>
+			<constantSize idref="constant"/>
+		</model>
+		<populationTree>
+			<treeModel idref="treeModel"/>
+		</populationTree>
+	</coalescentLikelihood>
+
+	<!-- ===== 严格分子钟：速率固定 1.0 ===== -->
+	<strictClockBranchRates id="branchRates">
+		<rate>
+			<parameter id="clock.rate" value="{{CLOCK_RATE}}"/>
+		</rate>
+	</strictClockBranchRates>
+
+	<!-- ===== GTR 替换模型 ===== -->
+	<gtrModel id="gtr">
+		<frequencies>
+			<frequencyModel dataType="nucleotide">
+				<frequencies>
+					<parameter id="frequencies" value="0.25 0.25 0.25 0.25"/>
+				</frequencies>
+			</frequencyModel>
+		</frequencies>
+		<rateAC>
+			<parameter id="ac" value="1.0" lower="0.0"/>
+		</rateAC>
+		<rateAG>
+			<parameter id="ag" value="1.0" lower="0.0"/>
+		</rateAG>
+		<rateAT>
+			<parameter id="at" value="1.0" lower="0.0"/>
+		</rateAT>
+		<rateCG>
+			<parameter id="cg" value="1.0" lower="0.0"/>
+		</rateCG>
+		<rateGT>
+			<parameter id="gt" value="1.0" lower="0.0"/>
+		</rateGT>
+	</gtrModel>
+
+	<!-- ===== 位点模型：GTR + Gamma(4) ===== -->
+	<siteModel id="siteModel">
+		<substitutionModel>
+			<gtrModel idref="gtr"/>
+		</substitutionModel>
+		<gammaShape gammaCategories="4">
+			<parameter id="alpha" value="0.5" lower="0.0"/>
+		</gammaShape>
+	</siteModel>
+
+	<!-- ===== 树似然 ===== -->
+	<treeDataLikelihood id="treeLikelihood" useAmbiguities="false">
+		<partition>
+			<patterns idref="patterns"/>
+			<siteModel idref="siteModel"/>
+		</partition>
+		<treeModel idref="treeModel"/>
+		<strictClockBranchRates idref="branchRates"/>
+	</treeDataLikelihood>
+
+	<!-- ===== 算子（仅高度与模型参数；无拓扑算子 → 固定拓扑） ===== -->
+	<operators id="operators" optimizationSchedule="default">
+		<scaleOperator scaleFactor="0.75" weight="0.1">
+			<parameter idref="ac"/>
+		</scaleOperator>
+		<scaleOperator scaleFactor="0.75" weight="0.1">
+			<parameter idref="ag"/>
+		</scaleOperator>
+		<scaleOperator scaleFactor="0.75" weight="0.1">
+			<parameter idref="at"/>
+		</scaleOperator>
+		<scaleOperator scaleFactor="0.75" weight="0.1">
+			<parameter idref="cg"/>
+		</scaleOperator>
+		<scaleOperator scaleFactor="0.75" weight="0.1">
+			<parameter idref="gt"/>
+		</scaleOperator>
+		<deltaExchange delta="0.01" weight="0.1">
+			<parameter idref="frequencies"/>
+		</deltaExchange>
+		<scaleOperator scaleFactor="0.75" weight="0.1">
+			<parameter idref="alpha"/>
+		</scaleOperator>
+		<scaleOperator scaleFactor="0.75" weight="3">
+			<parameter idref="treeModel.rootHeight"/>
+		</scaleOperator>
+		<!-- 注：曾尝试加 scaleOperator(scaleAll) 作用于 allInternalNodeHeights 以提升 ESS，
+		     但在本数据的大子树（1000~1936 tips、16569 bp）上会触发 BEAGLE 似然下溢→状态存取不一致
+		     而致命崩溃；加 -beagle_scaling always 虽可避免崩溃但吞吐降约 10 倍（最大子树需 1 周+），
+		     不可行。故回退为仅 uniform + rootHeight scale 的稳定算子集（见 DEC-010 修订）。 -->
+		<uniformOperator weight="30">
+			<parameter idref="treeModel.internalNodeHeights"/>
+		</uniformOperator>
+		<scaleOperator scaleFactor="0.75" weight="3">
+			<parameter idref="constant.popSize"/>
+		</scaleOperator>
+	</operators>
+
+	<!-- ===== MCMC ===== -->
+	<mcmc id="mcmc" chainLength="{{CHAIN_LENGTH}}" autoOptimize="true" operatorAnalysis="{{FILE_PREFIX}}.ops">
+		<joint id="joint">
+			<prior id="prior">
+				<gammaPrior shape="0.05" scale="10.0" offset="0.0">
+					<parameter idref="ac"/>
+				</gammaPrior>
+				<gammaPrior shape="0.05" scale="20.0" offset="0.0">
+					<parameter idref="ag"/>
+				</gammaPrior>
+				<gammaPrior shape="0.05" scale="10.0" offset="0.0">
+					<parameter idref="at"/>
+				</gammaPrior>
+				<gammaPrior shape="0.05" scale="10.0" offset="0.0">
+					<parameter idref="cg"/>
+				</gammaPrior>
+				<gammaPrior shape="0.05" scale="10.0" offset="0.0">
+					<parameter idref="gt"/>
+				</gammaPrior>
+				<exponentialPrior mean="0.5" offset="0.0">
+					<parameter idref="alpha"/>
+				</exponentialPrior>
+				<oneOnXPrior>
+					<parameter idref="constant.popSize"/>
+				</oneOnXPrior>
+				<coalescentLikelihood idref="coalescent"/>
+			</prior>
+			<likelihood id="likelihood">
+				<treeDataLikelihood idref="treeLikelihood"/>
+			</likelihood>
+		</joint>
+
+		<operators idref="operators"/>
+
+		<!-- 屏幕日志 -->
+		<log id="screenLog" logEvery="{{LOG_EVERY}}">
+			<column label="Joint" dp="4" width="12">
+				<joint idref="joint"/>
+			</column>
+			<column label="Prior" dp="4" width="12">
+				<prior idref="prior"/>
+			</column>
+			<column label="Likelihood" dp="4" width="12">
+				<likelihood idref="likelihood"/>
+			</column>
+			<column label="rootHeight" sf="6" width="12">
+				<parameter idref="treeModel.rootHeight"/>
+			</column>
+		</log>
+
+		<!-- 参数日志 -->
+		<log id="fileLog" logEvery="{{LOG_EVERY}}" fileName="{{FILE_PREFIX}}.log" overwrite="false">
+			<joint idref="joint"/>
+			<prior idref="prior"/>
+			<likelihood idref="likelihood"/>
+			<parameter idref="treeModel.rootHeight"/>
+			<parameter idref="constant.popSize"/>
+			<parameter idref="ac"/>
+			<parameter idref="ag"/>
+			<parameter idref="at"/>
+			<parameter idref="cg"/>
+			<parameter idref="gt"/>
+			<parameter idref="frequencies"/>
+			<parameter idref="alpha"/>
+			<coalescentLikelihood idref="coalescent"/>
+		</log>
+
+		<!-- 树日志 -->
+		<logTree id="treeFileLog" logEvery="{{LOG_EVERY}}" nexusFormat="true" fileName="{{FILE_PREFIX}}.trees" sortTranslationTable="true">
+			<treeModel idref="treeModel"/>
+			<joint idref="joint"/>
+		</logTree>
+	</mcmc>
+
+	<report>
+		<property name="timer">
+			<mcmc idref="mcmc"/>
+		</property>
+	</report>
+
+</beast>

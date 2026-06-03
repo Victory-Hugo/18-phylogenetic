@@ -12,7 +12,7 @@
 #     读取 meta/总表.tsv，应用三项硬过滤（QC_Other、QC_Haplogrep、Sequence_method），
 #     输出通过硬过滤的样本列表到 temp/。
 #   Stage 2 — 1-2-vcf_fps_select.py
-#     按主单倍群分块，从 VCF 提取基因型（bcftools），计算成对差异，
+#     用 cyvcf2 一次读取过滤样本后，按主单倍群分块并行计算成对差异，
 #     折叠相同单倍型后执行自适应 FPS 降采样，输出带理由的最终样本列表。
 #
 # 主要输出：
@@ -62,26 +62,28 @@ require_var CFG_PATHS_VCF
 require_var CFG_PATHS_OUTPUT_TABLE
 require_var CFG_PATHS_OUTPUT_REPORT
 require_var CFG_PATHS_TEMP
+require_var CFG_PATHS_LOG
 require_var CFG_TOOLS_PYTHON_BIN
-require_var CFG_TOOLS_BCFTOOLS_BIN
 require_var CFG_RUNTIME_QC_MIN
 require_var CFG_RUNTIME_MIN_DIST
 require_var CFG_RUNTIME_MAX_TIPS
+require_var CFG_RUNTIME_JOBS
 
 PYTHON_BIN=$(resolve_path   "$CFG_TOOLS_PYTHON_BIN")
-BCFTOOLS_BIN=$(resolve_path "$CFG_TOOLS_BCFTOOLS_BIN")
 TSV=$(resolve_path          "$CFG_PATHS_TSV")
 VCF=$(resolve_path          "$CFG_PATHS_VCF")
 OUTPUT_TABLE=$(resolve_path  "$CFG_PATHS_OUTPUT_TABLE")
 OUTPUT_REPORT=$(resolve_path "$CFG_PATHS_OUTPUT_REPORT")
 TEMP_DIR=$(resolve_path      "$CFG_PATHS_TEMP")
+LOG_DIR=$(resolve_path       "$CFG_PATHS_LOG")
 
 QC_MIN="$CFG_RUNTIME_QC_MIN"
 MIN_DIST="$CFG_RUNTIME_MIN_DIST"
 MAX_TIPS="$CFG_RUNTIME_MAX_TIPS"
+JOBS="$CFG_RUNTIME_JOBS"
 OVERWRITE="${CFG_RUNTIME_OVERWRITE:-false}"
 
-mkdir -p "$OUTPUT_TABLE" "$OUTPUT_REPORT" "$TEMP_DIR"
+mkdir -p "$OUTPUT_TABLE" "$OUTPUT_REPORT" "$TEMP_DIR" "$LOG_DIR"
 
 TSV_FILTERED="$TEMP_DIR/tsv_filtered.tsv"
 SELECTED_OUT="$OUTPUT_TABLE/selected_samples.tsv"
@@ -102,9 +104,10 @@ echo "[Stage 2/2] VCF 成对差异 + FPS 降采样..."
     --output        "$SELECTED_OUT" \
     --summary       "$SUMMARY_OUT" \
     --temp          "$TEMP_DIR" \
-    --bcftools      "$BCFTOOLS_BIN" \
+    --log-dir       "$LOG_DIR" \
     --min-dist      "$MIN_DIST" \
     --max-tips      "$MAX_TIPS" \
+    --jobs          "$JOBS" \
     --overwrite     "$OVERWRITE"
 
 echo "[OK] 1-sample_select 完成。结果: $SELECTED_OUT"

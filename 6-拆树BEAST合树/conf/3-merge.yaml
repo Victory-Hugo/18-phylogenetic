@@ -1,0 +1,23 @@
+projectpath: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/6-拆树BEAST合树"
+
+paths:
+  split_output_dir: "output/split"
+  #? stage2 BEAST 输出目录（替换原 PAML 输出目录）；其下 analysis_trees/ 与 backbone_analysis/ 供合并使用
+  beast_output_dir: "output/beast"
+runtime:
+  log_level: "INFO"
+tools:
+  python: "python3"
+merge:
+  output_dir: "output/merge"
+  analysis_tree_source: "external"
+  external_result_dir: null
+  clean_output_dir: true
+  mode: "backbone_graft"
+  backbone_tree: "output/beast/backbone_analysis/backbone_ultrametric_tree.nwk"
+  redline_tolerance: 1e-6
+  parallel_jobs: 8
+  randomization_model: "lognormal_multiplicative"
+  randomization_sigma: 0.25
+  randomization_seed: 42
+  min_branch_length: 1e-8

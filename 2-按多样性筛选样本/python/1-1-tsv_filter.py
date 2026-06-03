@@ -2,10 +2,10 @@
 """
 1-1-tsv_filter.py — 第一层：TSV 硬过滤（双模块）
 ==================================================
-从 meta/总表.tsv 中筛选同时满足以下三项的样本：
+从输入 TSV 中筛选样本：
   1. QC_Other  == "YES"
-  2. QC_Haplogrep >= qc_min（默认 0.9）
-  3. Sequence_method == "WHOLE"（排除 CHIP/CONTROL）
+  2. QC_Haplogrep >= qc_min（默认 0.85）
+  3. 若存在 Sequence_method 列，则要求 == "WHOLE"（排除 CHIP/CONTROL）
 
 输出：过滤后的样本列表 TSV，保留全部原始列，并追加 major_haplogroup 列。
 """
@@ -21,17 +21,15 @@ import pandas as pd
 # ─────────────────────────────────────────────────────────────────────────────
 
 def load_and_filter(tsv_path: str, qc_min: float) -> pd.DataFrame:
-    """读取总表，应用三项硬过滤，返回过滤后的 DataFrame。"""
+    """读取输入 TSV，应用文件中可验证的硬过滤条件。"""
     df = pd.read_csv(tsv_path, sep='\t', low_memory=False)
 
     # QC_Haplogrep 列转数值（非数值条目置为 NaN，直接被 >= 过滤掉）
     df['QC_Haplogrep'] = pd.to_numeric(df['QC_Haplogrep'], errors='coerce')
 
-    mask = (
-        (df['QC_Other'] == 'YES') &
-        (df['QC_Haplogrep'] >= qc_min) &
-        (df['Sequence_method'] == 'WHOLE')
-    )
+    mask = (df['QC_Other'] == 'YES') & (df['QC_Haplogrep'] >= qc_min)
+    if 'Sequence_method' in df.columns:
+        mask &= df['Sequence_method'] == 'WHOLE'
     filtered = df[mask].copy()
 
     # 追加主单倍群标签（Haplogroup_17.2 首字母大写）
@@ -49,12 +47,16 @@ def load_and_filter(tsv_path: str, qc_min: float) -> pd.DataFrame:
 def run(tsv_path: str, output_path: str, qc_min: float) -> int:
     """执行过滤并写出结果，返回 0 表示成功。"""
     print(f"[1-1] 读取 TSV: {tsv_path}")
+    columns = pd.read_csv(tsv_path, sep='\t', nrows=0).columns
+    if 'Sequence_method' not in columns:
+        print("[1-1] 提示：输入无 Sequence_method 列，跳过 WHOLE 条件。")
     filtered = load_and_filter(tsv_path, qc_min)
 
     n_total = sum(1 for _ in open(tsv_path)) - 1   # 减去表头
     n_pass  = len(filtered)
+    method_rule = ", WHOLE" if 'Sequence_method' in columns else ""
     print(f"[1-1] 原始样本: {n_total:,}  →  硬过滤后: {n_pass:,}"
-          f"  (QC_Haplogrep≥{qc_min}, WHOLE, QC_Other=YES)")
+          f"  (QC_Haplogrep≥{qc_min}{method_rule}, QC_Other=YES)")
 
     # 按主单倍群打印分布（前 15 个）
     top = filtered['major_haplogroup'].value_counts().head(15)
@@ -83,7 +85,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p.add_argument('--tsv',     required=True, help='总表.tsv 路径')
     p.add_argument('--output',  required=True, help='输出 TSV 路径')
-    p.add_argument('--qc-min',  type=float, default=0.9,
+    p.add_argument('--qc-min',  type=float, default=0.85,
                    help='QC_Haplogrep 最低阈值（含）')
     return p
 

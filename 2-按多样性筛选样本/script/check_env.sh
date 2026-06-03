@@ -37,4 +37,11 @@ else
     require_cmd "$CFG_TOOLS_PYTHON_BIN"
 fi
 
+"$CFG_TOOLS_PYTHON_BIN" -c \
+    "import cyvcf2, joblib, numba, numpy, pandas" \
+    || {
+        echo "[ERROR] BigLin 环境缺少 Python 依赖: cyvcf2/joblib/numba/numpy/pandas" >&2
+        exit 1
+    }
+
 echo "[OK] Environment check passed."

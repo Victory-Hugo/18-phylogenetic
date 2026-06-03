@@ -3,417 +3,474 @@
 1-2-vcf_fps_select.py — 第二层：VCF 成对差异 + FPS 降采样（双模块）
 ====================================================================
 输入：第一层硬过滤后的样本列表（含 major_haplogroup 列）。
-流程（按主单倍群分块）：
-  1. 用 bcftools 从 VCF 提取块内样本基因型
-  2. 计算块内成对差异矩阵（忽略缺失位点，WHOLE 样本缺失率 ≈ 0%）
-  3. 并查集折叠差异=0 的相同单倍型，每组保留一个代表
-  4. 自适应 FPS：直到所有未选样本与已选集合最近距离 <= min_dist 时停止
-
-输出 selected_samples.tsv 列说明：
-  ID                  ← 样本 ID
-  major_haplogroup    ← 主单倍群（首字母）
-  haplogroup          ← 原始 Haplogroup_17.2
-  QC_Haplogrep        ← 质量分
-  cluster_size        ← 该样本所代表的相同单倍型数量（1 = 唯一型）
-  fps_rank            ← FPS 选取顺序（1 = 起始种子点）
-  fps_dist_to_nearest ← 被选中时与最近已选样本的成对差异（种子点为 -1）
-  reason              ← fps_seed | fps_diverse
+流程：
+  1. 用 cyvcf2 一次读取全部过滤样本的基因型
+  2. 按主单倍群分块并行计算成对差异矩阵
+  3. 严格折叠基因型向量完全一致的单倍型
+  4. 自适应 FPS 降采样
+  5. 用块级日志支持断点续跑
 """
 
 import argparse
+import fcntl
+import hashlib
+import json
+import logging
 import os
-import subprocess
-import sys
-import tempfile
+import traceback
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from cyvcf2 import VCF
+from joblib import Parallel, delayed
+from numba import njit, prange, set_num_threads
+
+
+LOG = logging.getLogger(__name__)
+CACHE_COLUMNS = ["ID", "Haplogroup_17.2", "QC_Haplogrep", "Reason"]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# VCF 基因型提取
+# VCF 基因型读取
 # ─────────────────────────────────────────────────────────────────────────────
 
-def extract_gt_matrix(vcf_path: str, sample_ids: list,
-                      bcftools: str) -> tuple:
+def load_gt_matrix(vcf_path: str, sample_ids: list[str]) -> tuple[np.ndarray, list[str]]:
     """
-    用 bcftools 提取指定样本的基因型矩阵。
+    一次读取指定样本的 mtDNA 基因型。
 
     返回：
       G           : ndarray, shape (n_sites, n_samples), dtype int8
-                    0=参考态, k=alt等位序号, -1=缺失
-      vcf_samples : 与 G 列对应的样本 ID 列表（只含 VCF 中实际存在的样本）
+                    0=参考态, k=ALT 等位序号, -1=缺失
+      vcf_samples : 与 G 列一一对应的样本 ID
+
+    mtDNA 共识序列应使用同型二倍体形式记录。杂合位点无法可靠转换为
+    单倍型，因此直接报错。
     """
-    with tempfile.NamedTemporaryFile('w', suffix='.txt', delete=False) as f:
-        f.write('\n'.join(sample_ids) + '\n')
-        tmp = f.name
+    vcf = VCF(vcf_path)
+    available = set(vcf.samples)
+    vcf_samples = [sample_id for sample_id in sample_ids if sample_id in available]
+    if not vcf_samples:
+        return np.empty((0, 0), dtype=np.int8), []
 
-    try:
-        # 获取 VCF 中实际存在的样本顺序
-        vcf_samples = subprocess.run(
-            [bcftools, 'query', '-S', tmp, '-l', vcf_path],
-            capture_output=True, text=True, check=True
-        ).stdout.strip().split('\n')
-        vcf_samples = [s for s in vcf_samples if s]
+    vcf.set_samples(vcf_samples)
+    rows = []
+    for variant in vcf:
+        alleles = variant.genotype.array()[:, :2]
+        missing = np.any(alleles < 0, axis=1)
+        heterozygous = (~missing) & (alleles[:, 0] != alleles[:, 1])
+        if np.any(heterozygous):
+            sample = vcf_samples[int(np.flatnonzero(heterozygous)[0])]
+            raise ValueError(
+                f"检测到 mtDNA 杂合基因型: {variant.CHROM}:{variant.POS}, sample={sample}"
+            )
+        first_allele = alleles[:, 0]
+        if np.any(first_allele > np.iinfo(np.int8).max):
+            raise ValueError(f"ALT 等位序号超出 int8 范围: {variant.CHROM}:{variant.POS}")
+        rows.append(first_allele.astype(np.int8, copy=True))
 
-        if not vcf_samples:
-            return np.empty((0, 0), dtype=np.int8), []
-
-        # 提取基因型（每行一个位点，tab 分隔 GT 字段）
-        gt_text = subprocess.run(
-            [bcftools, 'query', '-S', tmp, '-f', '[%GT\t]\n', vcf_path],
-            capture_output=True, text=True, check=True
-        ).stdout
-
-        n = len(vcf_samples)
-        rows = []
-        for line in gt_text.splitlines():
-            parts = line.rstrip('\t').split('\t')
-            row = np.empty(n, dtype=np.int8)
-            for i, gt in enumerate(parts[:n]):
-                a = gt.split('/')[0]
-                row[i] = -1 if a == '.' else int(a)
-            rows.append(row)
-
-        if not rows:
-            return np.empty((0, n), dtype=np.int8), vcf_samples
-
-        return np.array(rows, dtype=np.int8), vcf_samples
-
-    finally:
-        os.unlink(tmp)
+    if not rows:
+        return np.empty((0, len(vcf_samples)), dtype=np.int8), vcf_samples
+    return np.stack(rows), vcf_samples
 
 
 def get_segregating_mask(G: np.ndarray) -> np.ndarray:
-    """返回在当前块内有变异的位点布尔掩码（行索引）。"""
-    return np.array(
-        [len(np.unique(G[i][G[i] >= 0])) > 1 for i in range(G.shape[0])]
+    """返回块内分离位点掩码；缺失值 -1 不参与最小值和最大值计算。"""
+    if G.shape[0] == 0:
+        return np.zeros(0, dtype=bool)
+    valid = G >= 0
+    row_max = np.where(valid, G, -1).max(axis=1)
+    row_min = np.where(valid, G, np.iinfo(np.int8).max).min(axis=1)
+    return valid.any(axis=1) & (row_max > row_min)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 成对差异与严格折叠
+# ─────────────────────────────────────────────────────────────────────────────
+
+@njit(cache=False, nogil=True, parallel=True)
+def _pairwise_diff_numba(Gt: np.ndarray) -> np.ndarray:
+    """Numba 内核：任一侧缺失时不计该位点差异。"""
+    n_samples, n_sites = Gt.shape
+    D = np.zeros((n_samples, n_samples), dtype=np.int16)
+    for i in prange(n_samples):
+        for j in range(i + 1, n_samples):
+            diff = 0
+            for site in range(n_sites):
+                left = Gt[i, site]
+                right = Gt[j, site]
+                if left >= 0 and right >= 0 and left != right:
+                    diff += 1
+            D[i, j] = diff
+            D[j, i] = diff
+    return D
+
+
+def pairwise_diff(Gt: np.ndarray) -> np.ndarray:
+    """
+    计算成对差异矩阵。
+
+    参数 Gt shape: (n_samples, n_var_sites), dtype int8, -1=缺失。
+    返回 shape: (n_samples, n_samples), dtype int16。
+    """
+    return _pairwise_diff_numba(np.ascontiguousarray(Gt, dtype=np.int8))
+
+
+def collapse_identical(Gt: np.ndarray) -> tuple[np.ndarray, dict[int, int]]:
+    """
+    严格折叠基因型向量完全一致的样本。
+
+    缺失模式也必须一致，避免把“忽略缺失后距离为 0”误当成等价关系。
+    返回代表索引，以及代表索引到簇大小的映射。
+    """
+    if Gt.shape[0] == 0:
+        return np.empty(0, dtype=int), {}
+    _, first_indices, counts = np.unique(
+        Gt, axis=0, return_index=True, return_counts=True
     )
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# 成对差异矩阵
-# ─────────────────────────────────────────────────────────────────────────────
-
-def pairwise_diff(Gt: np.ndarray, chunk: int = 2000) -> np.ndarray:
-    """
-    计算成对差异矩阵。Gt shape: (n_samples, n_var_sites), dtype int8, -1=缺失。
-    返回 D: shape (n, n), dtype int16，对称。
-    分块计算以控制内存峰值。
-    """
-    n = Gt.shape[0]
-    D = np.zeros((n, n), dtype=np.int16)
-
-    for start in range(0, n, chunk):
-        end = min(start + chunk, n)
-        Gi = Gt[start:end]          # (chunk, S)
-        valid_i = Gi >= 0           # (chunk, S)
-        for j in range(n):
-            gj = Gt[j]
-            both = valid_i & (gj >= 0)
-            D[start:end, j] = ((Gi != gj) & both).sum(axis=1)
-
-    return np.minimum(D, D.T)      # 对称化（消除缺失引起的微小不对称）
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# 相同单倍型折叠（并查集）
-# ─────────────────────────────────────────────────────────────────────────────
-
-def collapse_identical(D: np.ndarray) -> tuple:
-    """
-    将成对差异=0 的样本归为同一单倍型组，返回：
-      reps     : 各组代表索引 ndarray
-      clusters : {代表索引: [所有成员索引]}
-    """
-    n = D.shape[0]
-    parent = list(range(n))
-
-    def find(x):
-        while parent[x] != x:
-            parent[x] = parent[parent[x]]
-            x = parent[x]
-        return x
-
-    zi, zj = np.where(np.triu(D == 0, k=1))
-    for a, b in zip(zi, zj):
-        ra, rb = find(int(a)), find(int(b))
-        if ra != rb:
-            parent[ra] = rb
-
-    clusters: dict = {}
-    for i in range(n):
-        clusters.setdefault(find(i), []).append(i)
-
-    reps = np.array(list(clusters.keys()))
-    return reps, clusters
+    order = np.argsort(first_indices)
+    reps = first_indices[order]
+    cluster_sizes = {
+        int(rep): int(count) for rep, count in zip(reps, counts[order])
+    }
+    return reps, cluster_sizes
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 自适应 FPS
 # ─────────────────────────────────────────────────────────────────────────────
 
-def fps_adaptive(D_reps: np.ndarray, min_dist: int,
-                 max_tips: int) -> list:
-    """
-    自适应最远点采样，返回 (sel_indices, dist_when_selected) 两个列表。
-
-    sel_indices         : 选中点在 D_reps 中的行索引（按选入顺序）
-    dist_when_selected  : 各点被选中时与已选集合的最近距离
-                          （种子点记为 -1）
-
-    停止条件（满足任一）：
-      A. 所有未选样本与已选集合最近距离 <= min_dist
-      B. 已选数量达到 max_tips（0 = 不限）
-    """
-    m = D_reps.shape[0]
-    if m == 0:
+def fps_adaptive(D_reps: np.ndarray, min_dist: int, max_tips: int) -> tuple[list, list]:
+    """执行自适应最远点采样，返回代表索引和选中时的最近距离。"""
+    n_reps = D_reps.shape[0]
+    if n_reps == 0:
         return [], []
-    if m == 1:
+    if n_reps == 1:
         return [0], [-1]
 
-    sel_indices = [0]
-    dist_record = [-1]                       # 种子点距离记为 -1
-
-    mind = D_reps[0].astype(np.int32).copy()
-    mind[0] = 0
+    selected = [0]
+    distances = [-1]
+    nearest = D_reps[0].astype(np.int32).copy()
+    nearest[0] = 0
 
     while True:
-        best_dist = int(mind.max())
+        best_dist = int(nearest.max())
         if best_dist <= min_dist:
             break
-        if max_tips > 0 and len(sel_indices) >= max_tips:
+        if max_tips > 0 and len(selected) >= max_tips:
             break
+        next_index = int(np.argmax(nearest))
+        selected.append(next_index)
+        distances.append(best_dist)
+        nearest = np.minimum(nearest, D_reps[next_index].astype(np.int32))
+        nearest[next_index] = 0
+    return selected, distances
 
-        nxt = int(np.argmax(mind))
-        dist_record.append(best_dist)
-        sel_indices.append(nxt)
-        mind = np.minimum(mind, D_reps[nxt].astype(np.int32))
-        mind[nxt] = 0
 
-    return sel_indices, dist_record
+# ─────────────────────────────────────────────────────────────────────────────
+# 日志驱动断点续跑
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _write_json_atomic(path: Path, data: dict) -> None:
+    """原子写 JSON，避免中断后留下半截文件。"""
+    temp_path = path.with_suffix(f"{path.suffix}.tmp.{os.getpid()}")
+    temp_path.write_text(
+        json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    os.replace(temp_path, path)
+
+
+def _append_locked(log_dir: Path, filename: str, text: str) -> None:
+    """在 flock 保护下追加日志。"""
+    lock_path = log_dir / ".resume.lock"
+    with lock_path.open("a", encoding="utf-8") as lock_handle:
+        fcntl.flock(lock_handle, fcntl.LOCK_EX)
+        with (log_dir / filename).open("a", encoding="utf-8") as log_handle:
+            log_handle.write(text)
+        fcntl.flock(lock_handle, fcntl.LOCK_UN)
+
+
+def prepare_resume(log_dir: Path, temp_dir: Path, fingerprint: dict,
+                   overwrite: bool) -> set[str]:
+    """
+    初始化日志并读取成功块集合。
+
+    完成状态只来自 success.log 第一列。运行指纹变化时必须显式覆盖，
+    防止不同参数的块缓存静默混用。
+    """
+    log_dir.mkdir(parents=True, exist_ok=True)
+    temp_dir.mkdir(parents=True, exist_ok=True)
+    success_log = log_dir / "success.log"
+    fail_log = log_dir / "fail.log"
+    fingerprint_path = log_dir / "run_fingerprint.json"
+
+    if overwrite:
+        success_log.write_text("", encoding="utf-8")
+        fail_log.write_text("", encoding="utf-8")
+        for cache in temp_dir.glob("block_*_selected.tsv"):
+            cache.unlink()
+        for cache in temp_dir.glob("block_*_summary.json"):
+            cache.unlink()
+        _write_json_atomic(fingerprint_path, fingerprint)
+        return set()
+
+    if fingerprint_path.exists():
+        previous = json.loads(fingerprint_path.read_text(encoding="utf-8"))
+        if previous != fingerprint:
+            raise RuntimeError(
+                "运行指纹与现有断点状态不一致；请确认参数后使用 overwrite=true 重算。"
+            )
+    else:
+        _write_json_atomic(fingerprint_path, fingerprint)
+
+    success_log.touch()
+    fail_log.touch()
+    return {
+        line.split("\t", 1)[0]
+        for line in success_log.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    }
+
+
+def _file_sha256(path: str) -> str:
+    """计算小型输入文件哈希，用于识别第一层筛选结果变化。"""
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def build_fingerprint(filtered_list: str, vcf_path: str,
+                      min_dist: int, max_tips: int) -> dict:
+    """生成影响块结果的运行指纹。"""
+    vcf = Path(vcf_path).resolve()
+    stat = vcf.stat()
+    return {
+        "filtered_list_sha256": _file_sha256(filtered_list),
+        "vcf_path": str(vcf),
+        "vcf_size": stat.st_size,
+        "vcf_mtime_ns": stat.st_mtime_ns,
+        "min_dist": min_dist,
+        "max_tips": max_tips,
+    }
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 单块处理
 # ─────────────────────────────────────────────────────────────────────────────
 
+def _write_tsv_atomic(data: pd.DataFrame, path: Path) -> None:
+    """原子写块 TSV。"""
+    temp_path = path.with_suffix(f"{path.suffix}.tmp.{os.getpid()}")
+    data.to_csv(temp_path, sep="\t", index=False)
+    os.replace(temp_path, path)
+
+
 def process_block(block_name: str, block_df: pd.DataFrame,
-                  vcf_path: str, bcftools: str,
+                  G: np.ndarray, sample_indices: np.ndarray,
                   min_dist: int, max_tips: int,
-                  temp_dir: str, overwrite: bool) -> pd.DataFrame:
-    """
-    处理单个主单倍群块，返回筛选结果 DataFrame（含 reason 等列）。
-    若 overwrite=False 且已有缓存，直接读取缓存文件。
-    """
+                  temp_dir: str, numba_threads: int) -> tuple[str, pd.DataFrame, dict]:
+    """处理一个主单倍群块，并原子写入块缓存。"""
     cache = Path(temp_dir) / f"block_{block_name}_selected.tsv"
-    if (not overwrite) and cache.exists():
-        print(f"  [块 {block_name}] 使用缓存: {cache}")
-        return pd.read_csv(cache, sep='\t')
+    summary_cache = Path(temp_dir) / f"block_{block_name}_summary.json"
+    n_input = len(block_df)
+    set_num_threads(numba_threads)
+    LOG.info("[块 %s] 输入样本: %s", block_name, f"{n_input:,}")
 
-    sample_ids = block_df['ID'].tolist()
-    n_input = len(sample_ids)
-    print(f"\n  [块 {block_name}] 输入样本: {n_input:,}")
-
-    # ── VCF 基因型提取 ──────────────────────────────────────────────────────
-    G, vcf_samples = extract_gt_matrix(vcf_path, sample_ids, bcftools)
-    if not vcf_samples:
-        print(f"  [块 {block_name}] 警告：VCF 中无匹配样本，跳过。")
-        return pd.DataFrame()
-
-    n_vcf = len(vcf_samples)
-    if n_vcf < n_input:
-        print(f"  [块 {block_name}] {n_input - n_vcf} 个样本不在 VCF 中，已排除。")
-
-    # 将 DataFrame 对齐到 VCF 实际样本顺序
-    vcf_set = set(vcf_samples)
-    block_df = (block_df[block_df['ID'].isin(vcf_set)]
-                .set_index('ID')
-                .loc[vcf_samples]
-                .reset_index())
-
-    # ── 块内分离位点 ────────────────────────────────────────────────────────
-    seg_mask = get_segregating_mask(G)
+    block_G = G[:, sample_indices]
+    seg_mask = get_segregating_mask(block_G)
     n_seg = int(seg_mask.sum())
-    print(f"  [块 {block_name}] 块内分离位点: {n_seg:,}")
+    LOG.info("[块 %s] 块内分离位点: %s", block_name, f"{n_seg:,}")
+
+    Gt = np.ascontiguousarray(block_G[seg_mask].T)
+    reps, cluster_sizes = collapse_identical(np.ascontiguousarray(block_G.T))
+    n_unique = len(reps)
 
     if n_seg == 0:
-        # 所有样本完全相同，取第 1 个作为唯一代表
-        result = block_df.iloc[[0]].copy()
-        result['cluster_size']        = n_vcf
-        result['fps_rank']            = 1
-        result['fps_dist_to_nearest'] = -1
-        result['reason']              = 'fps_seed'
-        result.to_csv(cache, sep='\t', index=False)
-        return result
+        selected_global = np.array([reps[0]])
+        selected_local = [0]
+        distances = [-1]
+    else:
+        LOG.info("[块 %s] 计算成对差异矩阵 (%s x %s)",
+                 block_name, f"{n_input:,}", f"{n_input:,}")
+        D = pairwise_diff(Gt)
+        Dr = D[np.ix_(reps, reps)]
+        selected_local, distances = fps_adaptive(Dr, min_dist, max_tips)
+        selected_global = reps[selected_local]
 
-    Gt = G[seg_mask].T.copy()   # (n_samples, n_var_sites)
-
-    # ── 成对差异矩阵 ────────────────────────────────────────────────────────
-    print(f"  [块 {block_name}] 计算成对差异矩阵 ({n_vcf} × {n_vcf})...")
-    D = pairwise_diff(Gt)
-
-    # ── 折叠相同单倍型 ──────────────────────────────────────────────────────
-    reps, clusters = collapse_identical(D)
-    n_unique = len(reps)
-    # 每个代表对应的簇大小（相同单倍型数）
-    cluster_size_map = {rep: len(members) for rep, members in clusters.items()}
-    print(f"  [块 {block_name}] 唯一单倍型: {n_unique:,}  "
-          f"（折叠 {n_vcf - n_unique:,} 个重复）")
-
-    Dr = D[np.ix_(reps, reps)]
-
-    # ── 自适应 FPS ──────────────────────────────────────────────────────────
-    sel_local, dist_record = fps_adaptive(Dr, min_dist=min_dist, max_tips=max_tips)
-    sel_global = reps[sel_local]   # 在 vcf_samples 数组中的原始索引
-    n_sel = len(sel_global)
-    print(f"  [块 {block_name}] FPS 选中: {n_sel:,}  (min_dist={min_dist})")
-
-    # ── 组装结果 ────────────────────────────────────────────────────────────
-    rows = block_df.iloc[sel_global].copy()
-
+    rows = block_df.iloc[selected_global].copy()
     reasons = []
-    for rank, (loc_i, dist) in enumerate(zip(sel_local, dist_record), start=1):
-        csize = cluster_size_map[reps[loc_i]]
+    for rank, (local_index, distance) in enumerate(
+            zip(selected_local, distances), start=1):
+        rep = int(reps[local_index])
+        cluster_size = cluster_sizes[rep]
         if rank == 1:
-            reasons.append(f'fps_seed;block={block_name};cluster={csize}')
+            reasons.append(f"fps_seed;block={block_name};cluster={cluster_size}")
         else:
             reasons.append(
-                f'fps_diverse;block={block_name};rank={rank};dist={dist};cluster={csize}'
+                f"fps_diverse;block={block_name};rank={rank};"
+                f"dist={distance};cluster={cluster_size}"
             )
-    rows['Reason'] = reasons
+    rows["Reason"] = reasons
+    rows = rows[CACHE_COLUMNS]
+    _write_tsv_atomic(rows, cache)
 
-    rows.to_csv(cache, sep='\t', index=False)
-    return rows
+    summary = {
+        "major_haplogroup": block_name,
+        "n_layer1_input": n_input,
+        "n_unique_haplotypes": n_unique,
+        "n_fps_selected": len(rows),
+        "n_segregating_sites": n_seg,
+    }
+    _write_json_atomic(summary_cache, summary)
+    LOG.info("[块 %s] 唯一单倍型: %s; FPS 选中: %s",
+             block_name, f"{n_unique:,}", f"{len(rows):,}")
+    return block_name, rows, summary
+
+
+def _process_block_safe(*args, **kwargs) -> tuple:
+    """捕获单块异常，让其他块继续运行。"""
+    block_name = args[0]
+    try:
+        return True, process_block(*args, **kwargs), ""
+    except Exception:
+        return False, block_name, traceback.format_exc()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 主流程
+# 主流程与 CLI
 # ─────────────────────────────────────────────────────────────────────────────
 
 def run(filtered_list: str, vcf_path: str, output_path: str,
-        summary_path: str, temp_dir: str, bcftools: str,
-        min_dist: int, max_tips: int, overwrite: bool) -> int:
-    """完整第二层流程，返回 0 表示成功。"""
-    print(f"[1-2] 读取硬过滤结果: {filtered_list}")
-    df = pd.read_csv(filtered_list, sep='\t', low_memory=False)
-
-    if 'major_haplogroup' not in df.columns:
-        df['major_haplogroup'] = (
-            df['Haplogroup_17.2'].astype(str).str[0].str.upper().fillna('Unknown')
+        summary_path: str, temp_dir: str, log_dir: str,
+        min_dist: int, max_tips: int, jobs: int, overwrite: bool) -> int:
+    """执行第二层流程，返回 0 表示成功。"""
+    LOG.info("[1-2] 读取硬过滤结果: %s", filtered_list)
+    df = pd.read_csv(filtered_list, sep="\t", low_memory=False)
+    if "major_haplogroup" not in df.columns:
+        df["major_haplogroup"] = (
+            df["Haplogroup_17.2"].astype(str).str[0].str.upper().fillna("Unknown")
         )
 
-    Path(temp_dir).mkdir(parents=True, exist_ok=True)
+    temp_path = Path(temp_dir)
+    log_path = Path(log_dir)
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     Path(summary_path).parent.mkdir(parents=True, exist_ok=True)
+    fingerprint = build_fingerprint(filtered_list, vcf_path, min_dist, max_tips)
+    completed = prepare_resume(log_path, temp_path, fingerprint, overwrite)
 
-    blocks = sorted(df['major_haplogroup'].unique())
-    print(f"[1-2] 主单倍群块: {blocks}")
+    sample_ids = df["ID"].astype(str).tolist()
+    LOG.info("[1-2] 用 cyvcf2 一次读取 %s 个过滤样本", f"{len(sample_ids):,}")
+    G, vcf_samples = load_gt_matrix(vcf_path, sample_ids)
+    if len(vcf_samples) != len(sample_ids):
+        missing = sorted(set(sample_ids) - set(vcf_samples))
+        raise RuntimeError(f"{len(missing)} 个过滤样本不在 VCF 中，例如: {missing[:3]}")
+    index_by_sample = {sample_id: index for index, sample_id in enumerate(vcf_samples)}
 
-    all_results = []
-    summary_rows = []
-
+    blocks = sorted(df["major_haplogroup"].unique())
+    results = []
+    summaries = []
+    pending = []
+    numba_threads = max(1, (os.cpu_count() or jobs) // jobs)
     for block_name in blocks:
-        block_df = df[df['major_haplogroup'] == block_name].copy()
-        n_input = len(block_df)
-
-        result = process_block(
-            block_name=block_name,
-            block_df=block_df,
-            vcf_path=vcf_path,
-            bcftools=bcftools,
-            min_dist=min_dist,
-            max_tips=max_tips,
-            temp_dir=temp_dir,
-            overwrite=overwrite,
-        )
-        if len(result) == 0:
+        cache = temp_path / f"block_{block_name}_selected.tsv"
+        summary_cache = temp_path / f"block_{block_name}_summary.json"
+        block_df = df[df["major_haplogroup"] == block_name].copy()
+        if block_name in completed:
+            if not cache.exists():
+                raise RuntimeError(f"成功日志存在但块缓存缺失: {cache}")
+            if not summary_cache.exists():
+                raise RuntimeError(f"成功日志存在但块摘要缺失: {summary_cache}")
+            LOG.info("[块 %s] 使用成功日志确认的缓存", block_name)
+            cached = pd.read_csv(cache, sep="\t")
+            results.append(cached)
+            summaries.append(json.loads(summary_cache.read_text(encoding="utf-8")))
             continue
+        indices = np.array(
+            [index_by_sample[str(sample_id)] for sample_id in block_df["ID"]],
+            dtype=np.int64,
+        )
+        pending.append(
+            (block_name, block_df, G, indices, min_dist, max_tips, temp_dir, numba_threads)
+        )
 
-        all_results.append(result)
+    LOG.info("[1-2] 待计算块: %s; 并行 jobs=%s; 每块 numba_threads=%s",
+             len(pending), jobs, numba_threads)
+    outcomes = Parallel(n_jobs=jobs, backend="threading")(
+        delayed(_process_block_safe)(*args) for args in pending
+    )
+    failed = []
+    for success, payload, details in outcomes:
+        if success:
+            block_name, rows, summary = payload
+            results.append(rows)
+            summaries.append(summary)
+            _append_locked(log_path, "success.log",
+                           f"{block_name}\t{datetime.now().astimezone().isoformat()}\n")
+        else:
+            block_name = payload
+            failed.append(block_name)
+            _append_locked(log_path, "fail.log", f"{block_name}\n")
+            LOG.error("[块 %s] 失败:\n%s", block_name, details)
 
-        # 汇总行（取第一行的统计列，它们对整块相同）
-        first = result.iloc[0]
-        summary_rows.append({
-            'major_haplogroup': block_name,
-            'n_layer1_input':   n_input,
-            'n_fps_selected':   len(result),
-        })
-
-    if not all_results:
-        print("[ERROR] 所有块均为空，无输出。")
+    if failed:
+        LOG.error("[1-2] %s 个块失败: %s", len(failed), ", ".join(failed))
+        return 1
+    if not results:
+        LOG.error("[1-2] 所有块均为空，无输出")
         return 1
 
-    # ── 输出合并结果 ────────────────────────────────────────────────────────
-    combined = pd.concat(all_results, ignore_index=True)
-
-    # 最终输出仅保留 4 列
-    out_cols = ['ID', 'Haplogroup_17.2', 'QC_Haplogrep', 'Reason']
-    combined[out_cols].to_csv(output_path, sep='\t', index=False)
-    print(f"[1-2] 最终选中样本: {len(combined):,}  →  {output_path}")
-
-    # ── 汇总报告 ─────────────────────────────────────────────────────────────
-    summary_df = pd.DataFrame(summary_rows)
-    summary_df.to_csv(summary_path, sep='\t', index=False)
-    print(f"[1-2] 汇总报告: {summary_path}")
-
-    # 终端打印摘要
-    print("\n─── 各块筛选摘要 ────────────────────────────────────────────────")
-    print(f"  {'块':>4}  {'Layer1输入':>10}  {'FPS选中':>8}")
-    for _, row in summary_df.iterrows():
-        print(f"  {row['major_haplogroup']:>4}  "
-              f"{int(row['n_layer1_input']):>10,}  "
-              f"{int(row['n_fps_selected']):>8,}")
-    print(f"\n  合计: {summary_df['n_fps_selected'].sum():,} 个样本")
+    combined = pd.concat(results, ignore_index=True)
+    combined[CACHE_COLUMNS].to_csv(output_path, sep="\t", index=False)
+    summary_df = pd.DataFrame(summaries).sort_values("major_haplogroup")
+    summary_df.to_csv(summary_path, sep="\t", index=False)
+    LOG.info("[1-2] 最终选中样本: %s -> %s", f"{len(combined):,}", output_path)
+    LOG.info("[1-2] 汇总报告: %s", summary_path)
     return 0
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# CLI 入口
-# ─────────────────────────────────────────────────────────────────────────────
-
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(
-        description='Step 1-2: VCF 成对差异 + FPS 降采样',
+    """构建 CLI 参数解析器。"""
+    parser = argparse.ArgumentParser(
+        description="Step 1-2: VCF 成对差异 + FPS 降采样",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    p.add_argument('--filtered-list', required=True,
-                   help='第一层过滤结果 TSV（含 major_haplogroup 列）')
-    p.add_argument('--vcf',           required=True,
-                   help='merged_clean.vcf.gz 路径')
-    p.add_argument('--output',        required=True,
-                   help='最终输出 TSV 路径（selected_samples.tsv）')
-    p.add_argument('--summary',       required=True,
-                   help='汇总报告 TSV 路径（selection_summary.tsv）')
-    p.add_argument('--temp',          required=True,
-                   help='临时目录（各块缓存存放于此）')
-    p.add_argument('--bcftools',      required=True,
-                   help='bcftools 可执行路径')
-    p.add_argument('--min-dist',      type=int, default=1,
-                   help='FPS 停止阈值（未选样本最近距离 <= 此值时停止）')
-    p.add_argument('--max-tips',      type=int, default=0,
-                   help='每块最大 tip 数（0 = 不限）')
-    p.add_argument('--overwrite',     default='false',
-                   help='是否覆盖块缓存（true/false）')
-    return p
+    parser.add_argument("--filtered-list", required=True)
+    parser.add_argument("--vcf", required=True)
+    parser.add_argument("--output", required=True)
+    parser.add_argument("--summary", required=True)
+    parser.add_argument("--temp", required=True)
+    parser.add_argument("--log-dir", required=True)
+    parser.add_argument("--min-dist", type=int, default=1)
+    parser.add_argument("--max-tips", type=int, default=0)
+    parser.add_argument("--jobs", type=int, default=1)
+    parser.add_argument("--overwrite", default="false")
+    return parser
 
 
 def main(argv=None) -> int:
+    """CLI 入口。"""
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     args = build_parser().parse_args(argv)
-    overwrite = args.overwrite.lower() in ('true', '1', 'yes')
+    if args.jobs < 1:
+        raise ValueError("--jobs 必须大于等于 1")
+    overwrite = args.overwrite.lower() in ("true", "1", "yes")
     return run(
         filtered_list=args.filtered_list,
         vcf_path=args.vcf,
         output_path=args.output,
         summary_path=args.summary,
         temp_dir=args.temp,
-        bcftools=args.bcftools,
+        log_dir=args.log_dir,
         min_dist=args.min_dist,
         max_tips=args.max_tips,
+        jobs=args.jobs,
         overwrite=overwrite,
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raise SystemExit(main())

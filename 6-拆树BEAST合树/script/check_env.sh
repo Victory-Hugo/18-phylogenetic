@@ -8,7 +8,8 @@ ui_init
 PYTHON_BIN=""
 CONDA_ENV=""
 GOTREE_BIN=""
-BASEML_BIN=""
+BEAST_BIN=""
+TREEANNOTATOR_BIN=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -24,8 +25,12 @@ while [[ $# -gt 0 ]]; do
             GOTREE_BIN="$2"
             shift 2
             ;;
-        --baseml)
-            BASEML_BIN="$2"
+        --beast)
+            BEAST_BIN="$2"
+            shift 2
+            ;;
+        --treeannotator)
+            TREEANNOTATOR_BIN="$2"
             shift 2
             ;;
         *)
@@ -61,7 +66,7 @@ require_executable() {
     ui_ok "Command ready | $path_or_cmd"
 }
 
-ui_section "Checking environment" "Python / conda / gotree / baseml"
+ui_section "Checking environment" "Python / conda / gotree / beast / treeannotator"
 
 require_cmd bash
 ui_ok "Command ready | bash"
@@ -83,7 +88,9 @@ if [[ -n "$CONDA_ENV" || -n "$GOTREE_BIN" ]]; then
         exit 1
     fi
 
-    if ! conda run -n "$CONDA_ENV" "$GOTREE_BIN" --help >/dev/null 2>&1; then
+    # 用非登录 shell（bash -c）探测：部分服务器的登录 shell（bash -lc）会在 profile 中
+    # 重置 PATH，丢掉 conda 环境的 bin 目录，导致已安装的 gotree 误判为缺失。
+    if ! conda run -n "$CONDA_ENV" bash -c "command -v '$GOTREE_BIN' >/dev/null 2>&1"; then
         ui_error "环境缺失 | gotree is not available in conda environment: $CONDA_ENV"
         exit 1
     fi
@@ -96,17 +103,30 @@ if [[ -n "$CONDA_ENV" || -n "$GOTREE_BIN" ]]; then
     ui_ok "Probe passed | gotree stats --help"
 fi
 
-if [[ -n "$BASEML_BIN" && "$BASEML_BIN" != "null" ]]; then
-    require_executable "$BASEML_BIN"
+if [[ -n "$BEAST_BIN" && "$BEAST_BIN" != "null" ]]; then
+    require_executable "$BEAST_BIN"
     set +e
-    "$BASEML_BIN" </dev/null >/dev/null 2>&1
+    "$BEAST_BIN" -version </dev/null >/dev/null 2>&1
     status=$?
     set -e
     if [[ "$status" -ne 0 && "$status" -ne 1 && "$status" -ne 255 ]]; then
-        ui_error "环境探测失败 | baseml probe exited unexpectedly with status $status"
+        ui_error "环境探测失败 | beast probe exited unexpectedly with status $status"
         exit 1
     fi
-    ui_ok "Probe passed | baseml exited with accepted status $status"
+    ui_ok "Probe passed | beast -version exited with accepted status $status"
+fi
+
+if [[ -n "$TREEANNOTATOR_BIN" && "$TREEANNOTATOR_BIN" != "null" ]]; then
+    require_executable "$TREEANNOTATOR_BIN"
+    set +e
+    "$TREEANNOTATOR_BIN" -version </dev/null >/dev/null 2>&1
+    status=$?
+    set -e
+    if [[ "$status" -ne 0 && "$status" -ne 1 && "$status" -ne 255 ]]; then
+        ui_error "环境探测失败 | treeannotator probe exited unexpectedly with status $status"
+        exit 1
+    fi
+    ui_ok "Probe passed | treeannotator -version exited with accepted status $status"
 fi
 
 ui_ok "Completed | Environment check passed"

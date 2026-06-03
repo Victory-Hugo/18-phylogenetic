@@ -1,12 +1,14 @@
 # VCF files
 *.vcf
 *.vcf.gz
+*.fasta
 *.vcf.gz.tbi
 *总表.tsv
 *1-项目状态.md
 *2-任务板.md
 *3-重要决定.md
 *AGENTS.md
+*skill.md
 # Project temporary and output files
 /2-Rho/temp/
 2-Rho/data/
@@ -14,6 +16,9 @@
 /5-拆树PAML合树/output/
 /5-拆树PAML合树/data/iqtree_rooted.fasta
 /5-拆树PAML合树/data/filtered_sequences.aln.fasta
+/6-拆树BEAST合树/python/__pycache__/
+/6-拆树BEAST合树/output/
 1-rho方法/data/17.2/ancestral_sequences.fasta
 1-rho方法/data/17.3/ancestral_sequences_17.3.fasta
 1-rho方法/META/2-单倍群信息.tsv
+*temp/

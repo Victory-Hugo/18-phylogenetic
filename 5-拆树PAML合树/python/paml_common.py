@@ -136,7 +136,11 @@ def write_subtree_fasta(
     SeqIO.write(records, str(destination), "fasta")
 
 
-def write_paml_treefile(source_tree_path: Path, expected_tip_count: int, destination: Path) -> None:
+def write_paml_treefile(
+    source_tree_path: Path,
+    expected_tip_count: int,
+    destination: Path,
+) -> None:
     tree = read_newick_tree(source_tree_path)
     actual_tip_count = len(tree.get_terminals())
     if actual_tip_count != int(expected_tip_count):
@@ -205,6 +209,91 @@ def collect_nonempty_lines(
 ) -> List[str]:
     stop_index = len(lines) if end_index is None else min(len(lines), end_index)
     return [line.strip() for line in lines[start_index:stop_index] if line.strip()]
+
+
+def _parse_calibrated_rate(lines: Sequence[str]) -> Optional[float]:
+    for idx, line in enumerate(lines):
+        if "Substitution rate is per time unit" not in line:
+            continue
+        for next_line in lines[idx + 1 :]:
+            stripped = next_line.strip()
+            if not stripped:
+                continue
+            try:
+                return float(stripped.split()[0])
+            except (ValueError, IndexError):
+                return None
+    return None
+
+
+def _parse_calibrated_node_times(text: str) -> Dict[int, float]:
+    return {
+        int(node_id): float(time_value)
+        for node_id, time_value in re.findall(r"Node\s+(\d+)\s+Time\s+([0-9eE.+-]+)", text)
+    }
+
+
+def _clade_node_id(clade) -> Optional[int]:
+    if clade.is_terminal() and clade.name:
+        match = re.match(r"^(\d+)_", str(clade.name))
+        if match:
+            return int(match.group(1))
+    if clade.confidence is not None:
+        return int(clade.confidence)
+    if clade.name and str(clade.name).isdigit():
+        return int(str(clade.name))
+    return None
+
+
+def _strip_indexed_tip_name(name: str) -> str:
+    match = re.match(r"^\d+_(.+)$", str(name))
+    return match.group(1) if match else str(name)
+
+
+def reconstruct_calibrated_named_tree(
+    indexed_tree_line: str,
+    node_times: Dict[int, float],
+    substitution_rate: float,
+    result_file: Path,
+) -> str:
+    """将 calibrated baseml 的节点年龄树重建为 substitutions/site 分支长度树。"""
+    if substitution_rate <= 0:
+        raise PipelineError(f"Invalid calibrated baseml substitution rate in {result_file}: {substitution_rate}")
+    if not node_times:
+        raise PipelineError(f"Could not parse calibrated baseml node times from {result_file}")
+
+    tree = Phylo.read(io.StringIO(indexed_tree_line + "\n"), "newick")
+
+    def assign_lengths(clade, parent_id: Optional[int], parent_time: Optional[float]) -> None:
+        clade_id = _clade_node_id(clade)
+        if clade.is_terminal():
+            clade_time = 0.0
+            clade.name = _strip_indexed_tip_name(clade.name)
+        else:
+            if clade_id not in node_times:
+                raise PipelineError(f"Calibrated baseml node {clade_id} lacks time in {result_file}")
+            clade_time = node_times[clade_id]
+            clade.name = None
+            clade.confidence = None
+
+        if parent_id is None or parent_time is None:
+            clade.branch_length = 0.0
+        else:
+            delta_time = parent_time - clade_time
+            if delta_time < -1e-10:
+                raise PipelineError(
+                    f"Calibrated baseml has child time greater than parent time in {result_file}: "
+                    f"parent={parent_id} child={clade_id}"
+                )
+            clade.branch_length = max(0.0, delta_time) * substitution_rate
+
+        for child in clade.clades:
+            assign_lengths(child, clade_id, clade_time)
+
+    assign_lengths(tree.root, None, None)
+    buffer = io.StringIO()
+    Phylo.write(tree, buffer, "newick", format_branch_length="%1.12g")
+    return normalize_newick_text(buffer.getvalue())
 
 
 def parse_baseml_output(result_file: Path) -> ParsedBasemlOutput:
@@ -277,6 +366,18 @@ def parse_baseml_output(result_file: Path) -> ParsedBasemlOutput:
 
     if named_tree_line is None or indexed_tree_line is None:
         raise PipelineError(f"Could not extract named/indexed trees from baseml result: {result_file}")
+
+    if any("Tree has ages" in line for line in lines):
+        substitution_rate = _parse_calibrated_rate(lines)
+        if substitution_rate is None:
+            raise PipelineError(f"Could not parse calibrated baseml substitution rate from {result_file}")
+        node_times = _parse_calibrated_node_times("\n".join(lines))
+        named_tree_line = reconstruct_calibrated_named_tree(
+            indexed_tree_line=indexed_tree_line,
+            node_times=node_times,
+            substitution_rate=substitution_rate,
+            result_file=result_file,
+        )
 
     return ParsedBasemlOutput(
         branch_tags_line=branch_tags_line,

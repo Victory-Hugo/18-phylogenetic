@@ -1,19 +1,19 @@
-projectpath: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/5-拆树PAML合树"
+projectpath: "/mnt/f/onedrive/文档（科研）/脚本/Download/18-phylogenetic/6-拆树BEAST合树"
 
 paths:
   input_tree: "data/mtDNA.reroot.IQTREE.tree"
-  outgroup_tip_file: "meta/outgroup_tips.tsv"
+  outgroup_tip_file: "META/outgroup_tips.tsv"
   output_dir: "output/split"
   #? 可以不提供，将由算法自动生成；若提供且数量少于 backbone_size，则自动补齐；若数量多于 backbone_size，则报警并终止
-  backbone_tip_id_file: ""
+  backbone_tip_id_file: null
 runtime:
   #? [注意该数字包括了全局 backbone tips、局部 anchors 和单个 outgroup]每个子树的最大 tip 数量，超过该数量的子树将继续被拆分
-  max_tips: 500        
+  max_tips: 1000        
   #? 全局 backbone tips + 该 target 分区负责的 non-backbone tips + 局部重叠 anchors + 单个 outgroup tip
   #? 全局 backbone 的目标 tip 数量；若使用 backbone_tip_id_file，则该值也会作为最少需要补齐到的 backbone 数
-  backbone_size: 200  
+  backbone_size: 500  
   #? 每个 PAML 子树为局部重叠锚点预留的 tip 数量，用于后续全局尺度统一
-  local_anchor_count: 16
+  local_anchor_count: 50
   #? 当前仅实现 nearest_boundary_patristic，优先选择拓扑边界附近的非骨架邻近样本作为重叠锚点
   anchor_selection_strategy: "nearest_boundary_patristic"
   # #? 后续 full-tree PAML benchmark 默认先以 300 tips 为准；本轮仅保留配置接口，不实际运行 benchmark
