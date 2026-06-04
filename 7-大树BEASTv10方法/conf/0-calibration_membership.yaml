@@ -1,0 +1,38 @@
+# 0-calibration_membership — 从 ID-Hap + phylotree JSON 生成校准成员表
+# 独立预处理步骤：把"哪些样本属于哪个校准 clade"一次性物化为 tsv，
+#! 供下游 1-lsd2 / 2-beast_xml 使用。
+#! 其它遗传标记可用自己的方式产出同格式 tsv，
+#! 跳过本步骤即可。
+
+project:
+  base_dir: "."
+
+paths:
+  id_hap: "input/1-ID-Hap.tsv"
+  phylotree_json: "input/2-phylotree_index_v17.2.json"
+  output_table: "output/0-calibration_membership/1-table"
+  output_report: "output/0-calibration_membership/3-report"
+  temp: "temp/0-calibration_membership"
+  log: "log/0-calibration_membership"
+
+tools:
+  python_bin: "/home/luolintao/miniconda3/envs/BigLin/bin/python"
+
+runtime:
+  overwrite: true
+
+# 校准节点列表（顺序无关，支持任意数量与嵌套）。本步骤只用到 name 与 is_root；
+# age/stdev 在 1-lsd2 / 2-beast_xml 使用，但为三步配置一致仍在此完整列出。
+# is_root 节点不展开成员（它是全树根，用 --date-root 锁定）。
+calibration:
+  nodes:
+    - name: root
+      is_root: true
+      age: 180000
+      stdev: 20000
+    - name: M
+      age: 49000
+      stdev: 5000
+    - name: N
+      age: 59000
+      stdev: 5000

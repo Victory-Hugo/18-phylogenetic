@@ -1,0 +1,117 @@
+
+                  BEAST v10.5.0, 2002-2025
+       Bayesian Evolutionary Analysis Sampling Trees
+                 Designed and developed by
+   Alexei J. Drummond, Andrew Rambaut and Marc A. Suchard
+                              
+               Department of Computer Science
+                   University of Auckland
+                  alexei@cs.auckland.ac.nz
+                              
+             Institute of Ecology and Evolution
+                  University of Edinburgh
+                     a.rambaut@ed.ac.uk
+                              
+              David Geffen School of Medicine
+           University of California, Los Angeles
+                     msuchard@ucla.edu
+                              
+                Downloads, Help & Resources:
+                  	http://beast.community
+                              
+Source code distributed under the GNU Lesser General Public License:
+          	http://github.com/beast-dev/beast-mcmc
+                              
+                     BEAST developers:
+	Alex Alekseyenko, Daniel Ayres, Guy Baele, Trevor Bedford, Filip Bielejec, Erik Bloomquist, 
+	Luiz Max Carvalho, Gabriela Cybis, Mandev Gill, Matthew Hall, Gabe Hassler, Joseph Heled, 
+	Sebastian Hoehna, Xiang Ji, Michael Karcher, Denise Kuehnert, Philippe Lemey, Wai Lok Sibon Li, 
+	Gerton Lunter, Andy Magee, Sidney Markowitz, JT McCrone, Volodymyr Minin, Julia Palacios, 
+	Michael Defoin Platel, Oliver Pybus, Yucai Shao, Max Tolkoff, Chieh-Hsi Wu, Walter Xie and Zhenyu Zhang
+                              
+                         Thanks to:
+    	Roald Forsberg, Beth Shapiro and Korbinian Strimmer
+
+Using BEAGLE library v4.0.1 (PRE-RELEASE) for accelerated, parallel likelihood evaluation
+2009-, BEAGLE Working Group - https://beagle-dev.github.io/
+Citation: Ayres et al (2019) Systematic Biology 68: 1052-1061 | doi:10.1093/sysbio/syz020
+
+
+Random number seed: 1
+
+
+
+Loading additional development parsers from development_parsers.properties, which is additional set of parsers only available for development version ...
+
+
+Parsing XML file: mtDNA.beast.v10.thorney.bayesian_skyline.validate.xml
+  File encoding: UTF8
+Looking for plugins in /home/luolintao/opt/BEASTv10.5.0/plugins
+Looking for plugins in temp/2-beast_xml_bayesian_skyline/beast_validate/plugins
+
+Taxon list 'taxa' created with 7852 taxa.
+    most recent taxon date = null
+
+Taxon list 'M' created with 3940 taxa.
+    most recent taxon date = null
+
+Taxon list 'N' created with 3733 taxa.
+    most recent taxon date = null
+Using node heights.
+
+Creating the constrained tree model based on big fast tree model, 'treeModel'
+  taxon count = 7852
+  tree height = 180043.6288987918
+Bayesian skyline plot: 20 stepwise control points
+Exponential markov model on parameter skyline.popSize (jeffreys=true, reverse=false)
+
+Using strict molecular clock model.
+
+Creating TreeDataLikelihood
+  Branch rate model: strictClockBranchRates
+
+Creating operator scheduler
+  Optimization schedule: default
+
+Likelihood computation is using an auto sizing thread pool.
+
+Creating the MCMC chain:
+  chain length = 200
+  operator adaption = true
+  adaptation delayed for 2 steps
+WARNING: Likelihood component, branchRates, created but not used in the MCMC
+
+Citations for this analysis: 
+
+FRAMEWORK
+BEAST primary citation:
+	Baele G, Ji X, Hassler GW, McCrone JT, Shao Y, Zhang Z, Holbrook AJ, Lemey P, Drummond AJ, Rambaut A, Suchard MA (2025) BEAST X for Bayesian phylogenetic, phylogeographic and phylodynamic inference. Nature Methods. . DOI:10.1038/s41592-025-02751-x
+
+HIGH-PERFORMANCE COMPUTING
+BEAGLE citation:
+	Ayres DL, Cummings MP, Baele G, Darling AE, Lewis PO, Swofford DL, Huelsenbeck JP, Lemey P, Rambaut A, Suchard MA (2019) BEAGLE 3: Improved performance, scaling and usability for a high-performance computing library for statistical phylogenetics. Systematic Biology. 68, 1052-1061
+
+TREE DENSITY MODELS
+Bayesian Skyline Coalescent:
+	Drummond AJ, Rambaut A, Shapiro B, Pybus OG (2005) Bayesian coalescent inference of past population dynamics from molecular sequences. Mol Biol Evol. 22, 1185-1192
+
+
+# BEAST v10.5.0
+# Generated Thu Jun 04 16:00:22 CST 2026 [seed=1]
+# -overwrite -seed 1 -working temp/2-beast_xml_bayesian_skyline/beast_validate/mtDNA.beast.v10.thorney.bayesian_skyline.validate.xml
+# keywords: skyline
+state	Joint       	Prior       	Likelihood  	age(root)   	clock.rate  
+0	-1026104183.4492	-1026082361.5313	-21821.9180 	1.80044E5   	2.53E-8     	-
+100	-1024241701.0323	-1024219828.2712	-21872.7610 	1.80057E5   	2.53E-8     	-
+200	-1023287469.1558	-1023265564.6858	-21904.4700 	1.80286E5   	2.53E-8     	-
+
+Operator analysis
+Operator                                          Tuning   Count      Time     Time/Op  Pr(accept) Smoothed_Pr(accept)
+scale(clock.rate)                                 0.75    0          0        �        �           �           
+uniform(treeModel internal nodes)                         163        354      2.17     0.4417      0.48        
+scale(treeModel root height)                      0.157   32         70       2.19     0.3125      0.3125      
+scale(skyline.popSize)                            0.75    0          0        �        �           �           
+deltaExchange(skyline.groupSize)                          3          6        2.0      1.0         1.0         
+
+5.637 seconds
+

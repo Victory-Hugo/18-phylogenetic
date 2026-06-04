@@ -1,0 +1,2 @@
+2026-06-04 11:02:40,004 INFO 运行 IQ-TREE LSD2: bin/iqtree3 -s temp/1-build_beast_xml/lsd2_input/mtDNA.tree_tips.fasta -te input/mtDNA.reroot.IQTREE.tree --tree-fix --date temp/1-build_beast_xml/lsd2/dates.txt --date-tip 0 --date-root -180000 -m GTR+G -T AUTO --prefix temp/1-build_beast_xml/lsd2/lsd -redo -o RSRS --date-options -l 0
+2026-06-04 11:09:06,969 INFO XML 已生成: output/1-build_beast_xml/1-table/mtDNA.beast.v10.thorney.xml

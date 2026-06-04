@@ -1,0 +1,46 @@
+# 1-lsd2 — IQ-TREE 内置 LSD2 生成时间尺度 startingTree
+
+project:
+  base_dir: "."
+
+paths:
+  fasta: "input/mtDNA.fasta"
+  ml_tree: "input/mtDNA.reroot.IQTREE.tree"
+  # 校准成员表由 step 0（0-calibration_membership）生成；本步骤不再读 phylotree JSON。
+  calibration_membership: "output/0-calibration_membership/1-table/calibration_membership.tsv"
+  output_table: "output/1-lsd2/1-table"
+  output_report: "output/1-lsd2/3-report"
+  temp: "temp/1-lsd2"
+  log: "log/1-lsd2"
+
+tools:
+  python_bin: "/home/luolintao/miniconda3/envs/BigLin/bin/python"
+  # IQ-TREE 3.x 内置 LSD2（--date），项目自带，无需额外安装。
+  iqtree_bin: "bin/iqtree3"
+
+runtime:
+  overwrite: true
+
+dating:
+  model: "GTR+G"
+  threads: 16
+  # 以外群固定生根，避免 LSD 全分支搜根重排内群拓扑。
+  outgroup: "RSRS"
+  # -l 0：禁用 LSD2 对近零内部分支的折叠，保持与全解析 ML 拓扑兼容。
+  date_options: "-l 0"
+
+# 校准节点列表（顺序无关，支持任意数量与嵌套）。本步骤用 age 做 LSD2 约束：
+# is_root 节点用 --date-root 锁定根年龄，其余节点对其 MRCA 施加 date 约束。
+# stdev 本步骤不使用（XML 步骤才用），保留以与 2-beast_xml 配置一致。
+calibration:
+  nodes:
+    - name: root
+      is_root: true
+      age: 180000
+      stdev: 20000
+    - name: M
+      age: 49000
+      stdev: 5000
+    - name: N
+      age: 59000
+      stdev: 5000

@@ -1,0 +1,11 @@
+item	value	status
+fasta_count	9261	PASS
+tree_tip_count	7852	PASS
+id_hap_rows	7852	PASS
+fasta_not_in_tree	1409	WARN
+sequence_lengths	17590:9261	PASS
+M_monophyletic_tip_count	3940	PASS
+N_monophyletic_tip_count	3733	PASS
+starting_tree_root_height	180000.480000	PASS
+starting_tree_topology	compatible	PASS
+lsd2_threads	16	PASS

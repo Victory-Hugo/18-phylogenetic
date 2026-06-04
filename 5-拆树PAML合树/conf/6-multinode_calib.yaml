@@ -1,0 +1,26 @@
+projectpath: "."
+
+paths:
+  ultrastandard_output_dir: "output/ultrastandard"
+  merge_output_dir: "output/merge"
+  split_output_dir: "output/split"
+runtime:
+  log_level: "INFO"
+tools:
+  python: "/home/luolintao/miniconda3/envs/BigLin/bin/python"
+multinode_calib:
+  #? input_tree 缺省(null)时使用 output/ultrastandard/merged_ultrametric_tree.nwk
+  input_tree: null
+  id_hap_tsv: "data/1-ID-Hap.tsv"
+  phylotree_json: "data/2-phylotree_index_v17.2.json"
+  output_dir: "output/multinode_calib"
+  clean_output_dir: true
+  calibrations: "N=59000,M=49000,L3=70000"  #? 单系 crown 目标 TMRCA（年），逗号分隔；支持嵌套(root⊃L3⊃{N,M})
+  root_age: 180000                        #? mt-MRCA(RSRS) 与全体 ingroup 分歧 = 树根
+  replicates: 1000                        #? Monte-Carlo 重复数
+  seed: 42
+  use_systematic_offset: false            #? 是否叠加每子树系统尺度偏移 median_log_ratio
+  ci_lower: 2.5
+  ci_upper: 97.5
+  chunk_size: 250                         #? MC 分块大小（控制内存峰值）
+  output_tree_name: "merged_multinode_tree_years.nwk"

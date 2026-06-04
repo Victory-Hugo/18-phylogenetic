@@ -1,0 +1,2 @@
+2026-06-04 11:24:35,837 INFO 运行 IQ-TREE LSD2: bin/iqtree3 -s temp/1-lsd2/lsd2_input/mtDNA.tree_tips.fasta -te input/mtDNA.reroot.IQTREE.tree --tree-fix --date output/1-lsd2/1-table/lsd2_dates.txt --date-tip 0 --date-root -180000 -m GTR+G -T 16 --prefix temp/1-lsd2/lsd2/lsd -redo -o RSRS --date-options -l 0
+2026-06-04 11:28:50,109 INFO LSD2 startingTree 已生成: output/1-lsd2/1-table/startingTree.lsd2.nwk

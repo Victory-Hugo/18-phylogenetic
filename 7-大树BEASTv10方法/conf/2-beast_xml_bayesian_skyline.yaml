@@ -1,0 +1,51 @@
+# 2-beast_xml_bayesian_skyline — 使用 Bayesian Skyline 树先验生成 BEAST v10 Thorney XML
+
+project:
+  base_dir: "."
+
+paths:
+  ml_tree: "input/mtDNA.reroot.IQTREE.tree"
+  starting_tree: "output/1-lsd2/1-table/startingTree.lsd2.nwk"
+  calibration_membership: "output/0-calibration_membership/1-table/calibration_membership.tsv"
+  input_validation: "output/1-lsd2/1-table/input_validation.tsv"
+  template_xml: "conf/beast_v10_thorney_bayesian_skyline.template.xml"
+  output_table: "output/2-beast_xml_bayesian_skyline/1-table"
+  output_report: "output/2-beast_xml_bayesian_skyline/3-report"
+  temp: "temp/2-beast_xml_bayesian_skyline"
+  log: "log/2-beast_xml_bayesian_skyline"
+
+tools:
+  python_bin: "/home/luolintao/miniconda3/envs/BigLin/bin/python"
+  beast_bin: "/home/luolintao/opt/BEASTv10.5.0/bin/beast"
+
+runtime:
+  overwrite: true
+
+beast:
+  output_prefix: "mtDNA.beast.v10.thorney.bayesian_skyline"
+  # 其他 BEAST 参数与 2-beast_xml.yaml 保持一致。
+  scale: 16569
+  chain_length: 100000000
+  log_every: 10000
+  tree_log_every: 100000
+  # clock_rate 必须与节点年龄先验自洽
+  clock_rate: 2.53e-8
+  # 对 Bayesian Skyline 模板，该值作为 skyline.popSize/groupSize 的维度使用。
+  skygrid_points: 20
+  # 对 Bayesian Skyline 模板，该值经 exp() 转为 skyline.popSize 初值。
+  skygrid_init_logpop: 5.0
+
+# 校准节点列表（顺序无关，支持任意数量与嵌套）。每个节点的 age/stdev 写成
+# BEAST XML 中该节点 TMRCA 的 normalPrior（root 用全树高度，其余用 MRCA）。
+calibration:
+  nodes:
+    - name: root
+      is_root: true
+      age: 180000
+      stdev: 20000
+    - name: M
+      age: 49000
+      stdev: 5000
+    - name: N
+      age: 59000
+      stdev: 5000

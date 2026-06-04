@@ -1,0 +1,140 @@
+<?xml version="1.0" standalone="yes"?>
+<beast>
+{taxa_xml}
+
+{calibration_taxa_xml}
+
+    <newick id="startingTree" usingDates="true">
+        {starting_tree}
+    </newick>
+
+    <newick id="dataTree" usingDates="false" usingHeights="true">
+        {data_tree}
+    </newick>
+
+    <constrainedTreeModel id="treeModel">
+        <tree idref="startingTree"/>
+        <constraintsTree>
+            <tree idref="dataTree"/>
+        </constraintsTree>
+    </constrainedTreeModel>
+
+    <simpleMutationBranchMap id="branchMutationCounts" scale="{scale}">
+        <constrainedTreeModel idref="treeModel"/>
+        <dataTree>
+            <tree idref="dataTree"/>
+        </dataTree>
+    </simpleMutationBranchMap>
+
+    <treeHeightStatistic id="treeModel.rootHeight">
+        <treeModel idref="treeModel"/>
+    </treeHeightStatistic>
+    <treeLengthStatistic id="treeLength">
+        <treeModel idref="treeModel"/>
+    </treeLengthStatistic>
+    {tmrca_stats}
+
+    <generalizedSkyLineLikelihood id="skyline" linear="false">
+        <populationSizes>
+            <parameter id="skyline.popSize" dimension="{skyline_dim}" value="{skyline_init_popsize}" lower="0.0" upper="Infinity"/>
+        </populationSizes>
+        <groupSizes>
+            <parameter id="skyline.groupSize" dimension="{skyline_dim}"/>
+        </groupSizes>
+        <populationTree>
+            <treeModel idref="treeModel"/>
+        </populationTree>
+    </generalizedSkyLineLikelihood>
+
+    <exponentialMarkovLikelihood id="skyline.popSize.prior" jeffreys="true">
+        <chainParameter>
+            <parameter idref="skyline.popSize"/>
+        </chainParameter>
+    </exponentialMarkovLikelihood>
+
+    <strictClockBranchRates id="branchRates">
+        <rate>
+            <parameter id="clock.rate" value="{clock_rate}" lower="0.0"/>
+        </rate>
+    </strictClockBranchRates>
+
+    <thorneyTreeLikelihood id="treeLikelihood">
+        <constrainedTreeModel idref="treeModel"/>
+        <simpleMutationBranchMap idref="branchMutationCounts"/>
+        <strictClockBranchRates idref="branchRates"/>
+        <poissonBranchLengthLikelihood id="branchMutationLikelihood" scale="{scale}"/>
+    </thorneyTreeLikelihood>
+
+    <operators id="operators" optimizationSchedule="default">
+        <scaleOperator scaleFactor="0.75" weight="3">
+            <parameter idref="clock.rate"/>
+        </scaleOperator>
+        <nodeHeightOperator type="uniform" weight="500">
+            <treeModel idref="treeModel"/>
+        </nodeHeightOperator>
+        <nodeHeightOperator type="scaleRoot" weight="100" scaleFactor="0.75">
+            <treeModel idref="treeModel"/>
+        </nodeHeightOperator>
+        <scaleOperator scaleFactor="0.75" weight="15">
+            <parameter idref="skyline.popSize"/>
+        </scaleOperator>
+        <deltaExchange delta="1" integer="true" weight="6" autoOptimize="false">
+            <parameter idref="skyline.groupSize"/>
+        </deltaExchange>
+    </operators>
+
+    <mcmc id="mcmc" chainLength="{chain_length}" autoOptimize="true" operatorAnalysis="{output_prefix}.ops">
+        <joint id="joint">
+            <prior id="prior">
+{normal_priors}
+                <!-- clock.rate 的 informative 先验：与节点年龄先验共同锚定绝对时间尺度。
+                     thorney 似然只约束 clock.rate×time 的乘积（似然脊平坦），
+                     无信息先验会让 coalescent 树先验把树拉年轻。clock_rate 须取与节点年龄自洽
+                     的速率（见 conf yaml 说明），否则钟先验与节点先验冲突、节点被拖年轻。
+                     mean={clock_rate}（实空间，subst/site/year），stdev 为对数空间标准差，
+                     0.25 ≈ 95%CI ±60%：足够防止树先验坍塌，又留出空间让节点先验微调速率。 -->
+                <logNormalPrior id="clock.prior" mean="{clock_rate}" stdev="0.25" offset="0.0" meanInRealSpace="true">
+                    <parameter idref="clock.rate"/>
+                </logNormalPrior>
+                <generalizedSkyLineLikelihood idref="skyline"/>
+                <exponentialMarkovLikelihood idref="skyline.popSize.prior"/>
+            </prior>
+            <likelihood id="likelihood">
+                <thorneyTreeLikelihood idref="treeLikelihood"/>
+            </likelihood>
+        </joint>
+        <operators idref="operators"/>
+        <log id="screenLog" logEvery="{log_every}">
+            <column label="Joint" dp="4" width="12"><joint idref="joint"/></column>
+            <column label="Prior" dp="4" width="12"><prior idref="prior"/></column>
+            <column label="Likelihood" dp="4" width="12"><likelihood idref="likelihood"/></column>
+            <column label="age(root)" sf="6" width="12"><tmrcaStatistic idref="age(root)"/></column>
+            <column label="clock.rate" sf="6" width="12"><parameter idref="clock.rate"/></column>
+        </log>
+        <log id="fileLog" logEvery="{log_every}" fileName="{output_prefix}.log" overwrite="false">
+            <joint idref="joint"/>
+            <prior idref="prior"/>
+            <likelihood idref="likelihood"/>
+            <treeHeightStatistic idref="treeModel.rootHeight"/>
+            <tmrcaStatistic idref="age(root)"/>
+            <tmrcaStatistic idref="age(M)"/>
+            <tmrcaStatistic idref="age(N)"/>
+            <treeLengthStatistic idref="treeLength"/>
+            <parameter idref="clock.rate"/>
+            <parameter idref="skyline.popSize"/>
+            <parameter idref="skyline.groupSize"/>
+            <generalizedSkyLineLikelihood idref="skyline"/>
+            <exponentialMarkovLikelihood idref="skyline.popSize.prior"/>
+        </log>
+        <logTree id="treeFileLog" logEvery="{tree_log_every}" nexusFormat="true" fileName="{output_prefix}.trees" sortTranslationTable="true">
+            <treeModel idref="treeModel"/>
+            <joint idref="joint"/>
+        </logTree>
+    </mcmc>
+
+    <report>
+        <property name="timer">
+            <mcmc idref="mcmc"/>
+        </property>
+    </report>
+</beast>
