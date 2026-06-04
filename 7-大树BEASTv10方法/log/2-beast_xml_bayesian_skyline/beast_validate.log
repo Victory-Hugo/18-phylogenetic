@@ -97,21 +97,21 @@ Bayesian Skyline Coalescent:
 
 
 # BEAST v10.5.0
-# Generated Thu Jun 04 16:00:22 CST 2026 [seed=1]
+# Generated Thu Jun 04 16:38:18 CST 2026 [seed=1]
 # -overwrite -seed 1 -working temp/2-beast_xml_bayesian_skyline/beast_validate/mtDNA.beast.v10.thorney.bayesian_skyline.validate.xml
 # keywords: skyline
 state	Joint       	Prior       	Likelihood  	age(root)   	clock.rate  
-0	-1026104183.4492	-1026082361.5313	-21821.9180 	1.80044E5   	2.53E-8     	-
-100	-1024241701.0323	-1024219828.2712	-21872.7610 	1.80057E5   	2.53E-8     	-
-200	-1023287469.1558	-1023265564.6858	-21904.4700 	1.80286E5   	2.53E-8     	-
+0	-1026101990.8486	-1026082449.8471	-19541.0015 	1.80044E5   	1.8E-8      	-
+100	-1024239518.9922	-1024219916.5916	-19602.4006 	1.80057E5   	1.8E-8      	-
+200	-1023285292.7860	-1023265653.0563	-19639.7297 	1.80294E5   	1.8E-8      	-
 
 Operator analysis
 Operator                                          Tuning   Count      Time     Time/Op  Pr(accept) Smoothed_Pr(accept)
 scale(clock.rate)                                 0.75    0          0        �        �           �           
-uniform(treeModel internal nodes)                         163        354      2.17     0.4417      0.48        
-scale(treeModel root height)                      0.157   32         70       2.19     0.3125      0.3125      
+uniform(treeModel internal nodes)                         163        355      2.18     0.4417      0.48        
+scale(treeModel root height)                      0.156   32         68       2.12     0.3125      0.3125      
 scale(skyline.popSize)                            0.75    0          0        �        �           �           
 deltaExchange(skyline.groupSize)                          3          6        2.0      1.0         1.0         
 
-5.637 seconds
+4.807 seconds
 

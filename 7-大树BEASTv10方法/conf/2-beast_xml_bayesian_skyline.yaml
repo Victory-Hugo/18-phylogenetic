@@ -29,7 +29,7 @@ beast:
   log_every: 10000
   tree_log_every: 100000
   # clock_rate 必须与节点年龄先验自洽
-  clock_rate: 2.53e-8
+  clock_rate: 1.8e-8
   # 对 Bayesian Skyline 模板，该值作为 skyline.popSize/groupSize 的维度使用。
   skygrid_points: 20
   # 对 Bayesian Skyline 模板，该值经 exp() 转为 skyline.popSize 初值。

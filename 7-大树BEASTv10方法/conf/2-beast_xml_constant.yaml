@@ -1,0 +1,55 @@
+# 2-beast_xml_constant — 定年专用：Thorney + constant-size coalescent
+# 这是发表用 TMRCA 的主分析。树先验用 constant-size（尺度等变、不抢时标），
+# 让节点校准 + clock 先验干净地决定绝对时间。人口史曲线另用 skygrid/skyline 步骤。
+
+project:
+  base_dir: "."
+
+paths:
+  ml_tree: "input/mtDNA.reroot.IQTREE.tree"
+  starting_tree: "output/1-lsd2/1-table/startingTree.lsd2.nwk"
+  calibration_membership: "output/0-calibration_membership/1-table/calibration_membership.tsv"
+  input_validation: "output/1-lsd2/1-table/input_validation.tsv"
+  template_xml: "conf/beast_v10_thorney_constant.template.xml"
+  output_table: "output/2-beast_constant_xml/1-table"
+  output_report: "output/2-beast_constant_xml/3-report"
+  temp: "temp/2-beast_constant_xml"
+  log: "log/2-beast_constant_xml"
+
+tools:
+  python_bin: "/home/luolintao/miniconda3/envs/BigLin/bin/python"
+  beast_bin: "/home/luolintao/opt/BEASTv10.5.0/bin/beast"
+
+runtime:
+  overwrite: true
+
+beast:
+  output_prefix: "mtDNA.beast.v10.thorney_constant"
+  # scale = 有效对齐位点数：data tree 分支长度是 subs/site，
+  # 乘以位点数才能换算成分支期望突变数。
+  scale: 17990
+  chain_length: 100000000
+  log_every: 10000
+  tree_log_every: 100000
+  # clock_rate 必须与节点年龄先验自洽（见 thorney-skygrid-clock-prior 记忆）。
+  clock_rate: 1.8e-8
+  # constant-size 模板不使用 skygrid 网格；下面两项仅用于计算 constant.popSize 初值
+  # （skyline_init_popsize = exp(skygrid_init_logpop)），与定年结果无关。
+  # 初值须与 coalescent 时标同量级：树以"年"为单位、TMRCA~18 万年，
+  # 故 popSize 初值取 exp(11)≈6 万年；过小会令 coalescent 似然爆负并在 burn-in 期把树拉年轻。
+  skygrid_points: 20
+  skygrid_init_logpop: 11.0
+
+# 校准节点列表（顺序无关，支持任意数量与嵌套）。
+calibration:
+  nodes:
+    - name: root
+      is_root: true
+      age: 180000
+      stdev: 20000
+    - name: M
+      age: 49000
+      stdev: 5000
+    - name: N
+      age: 59000
+      stdev: 5000

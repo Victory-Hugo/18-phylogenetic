@@ -1,4 +1,10 @@
 <?xml version="1.0" standalone="yes"?>
+<!-- 定年专用模板：Thorney + constant-size coalescent。
+     与 skygrid/skyline 模板的区别是树先验换成单参数 constant-size。
+     原因：skygrid 的 cutOff 把日历时标钉进了网格，会和节点校准抢绝对时间、把树拉年轻；
+     constant-size 只有一个自由估计的 popSize，是尺度等变的（同时缩放所有节点时间与 popSize，
+     coalescent 密度近似不变），因此不强加时标——绝对时间由节点校准 + clock 先验干净驱动。
+     本步骤产出的是发表用的 TMRCA；人口史曲线另用 skygrid/skyline 步骤重建。 -->
 <beast>
 {taxa_xml}
 
@@ -34,23 +40,20 @@
     </treeLengthStatistic>
     {tmrca_stats}
 
-    <generalizedSkyLineLikelihood id="skyline" linear="false">
-        <populationSizes>
-            <parameter id="skyline.popSize" dimension="{skyline_dim}" value="{skyline_init_popsize}" lower="0.0" upper="Infinity"/>
-        </populationSizes>
-        <groupSizes>
-            <parameter id="skyline.groupSize" dimension="{skyline_dim}"/>
-        </groupSizes>
+    <constantSize id="constant" units="years">
+        <populationSize>
+            <parameter id="constant.popSize" value="{skyline_init_popsize}" lower="0.0"/>
+        </populationSize>
+    </constantSize>
+
+    <coalescentLikelihood id="coalescent">
+        <model>
+            <constantSize idref="constant"/>
+        </model>
         <populationTree>
             <treeModel idref="treeModel"/>
         </populationTree>
-    </generalizedSkyLineLikelihood>
-
-    <exponentialMarkovLikelihood id="skyline.popSize.prior" jeffreys="true">
-        <chainParameter>
-            <parameter idref="skyline.popSize"/>
-        </chainParameter>
-    </exponentialMarkovLikelihood>
+    </coalescentLikelihood>
 
     <strictClockBranchRates id="branchRates">
         <rate>
@@ -75,24 +78,26 @@
         <nodeHeightOperator type="scaleRoot" weight="100" scaleFactor="0.75">
             <treeModel idref="treeModel"/>
         </nodeHeightOperator>
-        <scaleOperator scaleFactor="0.75" weight="15">
-            <parameter idref="skyline.popSize"/>
+        <scaleOperator scaleFactor="0.75" weight="3">
+            <parameter idref="constant.popSize"/>
         </scaleOperator>
-        <deltaExchange delta="1" integer="true" weight="6" autoOptimize="false">
-            <parameter idref="skyline.groupSize"/>
-        </deltaExchange>
     </operators>
 
     <mcmc id="mcmc" chainLength="{chain_length}" autoOptimize="true" operatorAnalysis="{output_prefix}.ops">
         <joint id="joint">
             <prior id="prior">
 {normal_priors}
-                <!-- clock.rate 的 informative 先验-->
+                <!-- clock.rate 的 informative 先验：必须与节点年龄先验自洽（见 conf yaml）。
+                     constant-size 不抢时标，故钟先验可适度放宽，让节点校准主导。 -->
                 <logNormalPrior id="clock.prior" mean="{clock_rate}" stdev="0.25" offset="0.0" meanInRealSpace="true">
                     <parameter idref="clock.rate"/>
                 </logNormalPrior>
-                <generalizedSkyLineLikelihood idref="skyline"/>
-                <exponentialMarkovLikelihood idref="skyline.popSize.prior"/>
+                <!-- popSize 的 Jeffreys (1/x) 无尺度先验：让 Ne 自由适配任意时标，
+                     从而不向绝对时间注入信息。 -->
+                <oneOnXPrior>
+                    <parameter idref="constant.popSize"/>
+                </oneOnXPrior>
+                <coalescentLikelihood idref="coalescent"/>
             </prior>
             <likelihood id="likelihood">
                 <thorneyTreeLikelihood idref="treeLikelihood"/>
@@ -116,10 +121,8 @@
             <tmrcaStatistic idref="age(N)"/>
             <treeLengthStatistic idref="treeLength"/>
             <parameter idref="clock.rate"/>
-            <parameter idref="skyline.popSize"/>
-            <parameter idref="skyline.groupSize"/>
-            <generalizedSkyLineLikelihood idref="skyline"/>
-            <exponentialMarkovLikelihood idref="skyline.popSize.prior"/>
+            <parameter idref="constant.popSize"/>
+            <coalescentLikelihood idref="coalescent"/>
         </log>
         <logTree id="treeFileLog" logEvery="{tree_log_every}" nexusFormat="true" fileName="{output_prefix}.trees" sortTranslationTable="true">
             <treeModel idref="treeModel"/>

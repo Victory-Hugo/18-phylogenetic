@@ -15597,7 +15597,7 @@
 
     <strictClockBranchRates id="branchRates">
         <rate>
-            <parameter id="clock.rate" value="2.53e-08" lower="0.0"/>
+            <parameter id="clock.rate" value="1.8e-08" lower="0.0"/>
         </rate>
     </strictClockBranchRates>
 
@@ -15642,9 +15642,9 @@
                      thorney 似然只约束 clock.rate×time 的乘积（似然脊平坦），
                      无信息先验会让 coalescent 树先验把树拉年轻。clock_rate 须取与节点年龄自洽
                      的速率（见 conf yaml 说明），否则钟先验与节点先验冲突、节点被拖年轻。
-                     mean=2.53e-08（实空间，subst/site/year），stdev 为对数空间标准差，
+                     mean=1.8e-08（实空间，subst/site/year），stdev 为对数空间标准差，
                      0.25 ≈ 95%CI ±60%：足够防止树先验坍塌，又留出空间让节点先验微调速率。 -->
-                <logNormalPrior id="clock.prior" mean="2.53e-08" stdev="0.25" offset="0.0" meanInRealSpace="true">
+                <logNormalPrior id="clock.prior" mean="1.8e-08" stdev="0.25" offset="0.0" meanInRealSpace="true">
                     <parameter idref="clock.rate"/>
                 </logNormalPrior>
                 <generalizedSkyLineLikelihood idref="skyline"/>

@@ -30,7 +30,7 @@ beast:
   log_every: 10000
   tree_log_every: 100000
   # clock_rate 必须与节点年龄先验自洽
-  clock_rate: 2.53e-8
+  clock_rate: 1.8e-8
   skygrid_points: 20
   # skygrid logPopSize 初值（自然对数）。
   skygrid_init_logpop: 5.0

@@ -1,4 +1,10 @@
 <?xml version="1.0" standalone="yes"?>
+<!-- 定年专用模板：Thorney + constant-size coalescent。
+     与 skygrid/skyline 模板的区别是树先验换成单参数 constant-size。
+     原因：skygrid 的 cutOff 把日历时标钉进了网格，会和节点校准抢绝对时间、把树拉年轻；
+     constant-size 只有一个自由估计的 popSize，是尺度等变的（同时缩放所有节点时间与 popSize，
+     coalescent 密度近似不变），因此不强加时标——绝对时间由节点校准 + clock 先验干净驱动。
+     本步骤产出的是发表用的 TMRCA；人口史曲线另用 skygrid/skyline 步骤重建。 -->
 <beast>
     <taxa id="taxa">
         <taxon id="PV695736"/>
@@ -15577,25 +15583,20 @@
         <treeModel idref="treeModel"/>
     </tmrcaStatistic>
 
-    <gmrfSkyGridLikelihood id="skygrid">
-        <populationSizes>
-            <parameter id="skygrid.logPopSize" dimension="20" value="5.0"/>
-        </populationSizes>
-        <precisionParameter>
-            <parameter id="skygrid.precision" value="0.1" lower="0.0"/>
-        </precisionParameter>
-        <numGridPoints>
-            <parameter id="skygrid.numGridPoints" value="19.0"/>
-        </numGridPoints>
-        <cutOff>
-            <parameter id="skygrid.cutOff" value="198000.00000000003"/>
-        </cutOff>
-        <intervals>
-            <bigFastTreeIntervals>
-                <treeModel idref="treeModel"/>
-            </bigFastTreeIntervals>
-        </intervals>
-    </gmrfSkyGridLikelihood>
+    <constantSize id="constant" units="years">
+        <populationSize>
+            <parameter id="constant.popSize" value="59874.14171519782" lower="0.0"/>
+        </populationSize>
+    </constantSize>
+
+    <coalescentLikelihood id="coalescent">
+        <model>
+            <constantSize idref="constant"/>
+        </model>
+        <populationTree>
+            <treeModel idref="treeModel"/>
+        </populationTree>
+    </coalescentLikelihood>
 
     <strictClockBranchRates id="branchRates">
         <rate>
@@ -15620,18 +15621,12 @@
         <nodeHeightOperator type="scaleRoot" weight="100" scaleFactor="0.75">
             <treeModel idref="treeModel"/>
         </nodeHeightOperator>
-        <gmrfSkygridBlockUpdateOperator scaleFactor="1.1" weight="10">
-            <gmrfSkygridLikelihood idref="skygrid"/>
-        </gmrfSkygridBlockUpdateOperator>
-        <scaleOperator scaleFactor="0.75" weight="1">
-            <parameter idref="skygrid.precision"/>
+        <scaleOperator scaleFactor="0.75" weight="3">
+            <parameter idref="constant.popSize"/>
         </scaleOperator>
-        <randomWalkOperator windowSize="1.0" weight="1">
-            <parameter idref="skygrid.logPopSize"/>
-        </randomWalkOperator>
     </operators>
 
-    <mcmc id="mcmc" chainLength="100000000" autoOptimize="true" operatorAnalysis="mtDNA.beast.v10.thorney_skygrid.ops">
+    <mcmc id="mcmc" chainLength="100000000" autoOptimize="true" operatorAnalysis="mtDNA.beast.v10.thorney_constant.ops">
         <joint id="joint">
             <prior id="prior">
                 <normalPrior id="root.prior" mean="180000.0" stdev="20000.0">
@@ -15643,14 +15638,17 @@
                 <normalPrior id="N.prior" mean="59000.0" stdev="5000.0">
                     <tmrcaStatistic idref="age(N)"/>
                 </normalPrior>
-                <!-- clock.rate 的 informative 先验-->
+                <!-- clock.rate 的 informative 先验：必须与节点年龄先验自洽（见 conf yaml）。
+                     constant-size 不抢时标，故钟先验可适度放宽，让节点校准主导。 -->
                 <logNormalPrior id="clock.prior" mean="1.8e-08" stdev="0.25" offset="0.0" meanInRealSpace="true">
                     <parameter idref="clock.rate"/>
                 </logNormalPrior>
-                <gammaPrior id="skygrid.precision.prior" shape="0.001" scale="1000" offset="0.0">
-                    <parameter idref="skygrid.precision"/>
-                </gammaPrior>
-                <gmrfSkyGridLikelihood idref="skygrid"/>
+                <!-- popSize 的 Jeffreys (1/x) 无尺度先验：让 Ne 自由适配任意时标，
+                     从而不向绝对时间注入信息。 -->
+                <oneOnXPrior>
+                    <parameter idref="constant.popSize"/>
+                </oneOnXPrior>
+                <coalescentLikelihood idref="coalescent"/>
             </prior>
             <likelihood id="likelihood">
                 <thorneyTreeLikelihood idref="treeLikelihood"/>
@@ -15664,7 +15662,7 @@
             <column label="age(root)" sf="6" width="12"><tmrcaStatistic idref="age(root)"/></column>
             <column label="clock.rate" sf="6" width="12"><parameter idref="clock.rate"/></column>
         </log>
-        <log id="fileLog" logEvery="10000" fileName="mtDNA.beast.v10.thorney_skygrid.log" overwrite="false">
+        <log id="fileLog" logEvery="10000" fileName="mtDNA.beast.v10.thorney_constant.log" overwrite="false">
             <joint idref="joint"/>
             <prior idref="prior"/>
             <likelihood idref="likelihood"/>
@@ -15674,12 +15672,10 @@
             <tmrcaStatistic idref="age(N)"/>
             <treeLengthStatistic idref="treeLength"/>
             <parameter idref="clock.rate"/>
-            <parameter idref="skygrid.precision"/>
-            <parameter idref="skygrid.logPopSize"/>
-            <parameter idref="skygrid.cutOff"/>
-            <gmrfSkyGridLikelihood idref="skygrid"/>
+            <parameter idref="constant.popSize"/>
+            <coalescentLikelihood idref="coalescent"/>
         </log>
-        <logTree id="treeFileLog" logEvery="100000" nexusFormat="true" fileName="mtDNA.beast.v10.thorney_skygrid.trees" sortTranslationTable="true">
+        <logTree id="treeFileLog" logEvery="100000" nexusFormat="true" fileName="mtDNA.beast.v10.thorney_constant.trees" sortTranslationTable="true">
             <treeModel idref="treeModel"/>
             <joint idref="joint"/>
         </logTree>

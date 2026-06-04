@@ -92,12 +92,7 @@
         <joint id="joint">
             <prior id="prior">
 {normal_priors}
-                <!-- clock.rate 的 informative 先验：与节点年龄先验共同锚定绝对时间尺度。
-                     thorney 似然只约束 clock.rate×time 的乘积（似然脊平坦），
-                     无信息先验会让 skygrid 把树拉年轻。clock_rate 须取与节点年龄自洽的速率
-                     （见 conf yaml 说明），否则钟先验与节点先验冲突、节点被拖年轻。
-                     mean={clock_rate}（实空间，subst/site/year），stdev 为对数空间标准差，
-                     0.25 ≈ 95%CI ±60%：足够防止 skygrid 坍塌，又留出空间让节点先验微调速率。 -->
+                <!-- clock.rate 的 informative 先验-->
                 <logNormalPrior id="clock.prior" mean="{clock_rate}" stdev="0.25" offset="0.0" meanInRealSpace="true">
                     <parameter idref="clock.rate"/>
                 </logNormalPrior>
