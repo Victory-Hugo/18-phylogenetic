@@ -91,7 +91,7 @@ BEAGLE citation:
 
 
 # BEAST v10.5.0
-# Generated Thu Jun 04 16:56:06 CST 2026 [seed=1]
+# Generated Thu Jun 04 17:53:56 CST 2026 [seed=1]
 # -overwrite -seed 1 -working temp/2-beast_constant_xml/beast_validate/mtDNA.beast.v10.thorney_constant.validate.xml
 state	Joint       	Prior       	Likelihood  	age(root)   	clock.rate  
 0	-2651777.1920	-2631848.4995	-19928.6925 	1.80044E5   	1.8E-8      	-
@@ -101,9 +101,9 @@ state	Joint       	Prior       	Likelihood  	age(root)   	clock.rate
 Operator analysis
 Operator                                          Tuning   Count      Time     Time/Op  Pr(accept) Smoothed_Pr(accept)
 scale(clock.rate)                                 0.75    0          0        �        �           �           
-uniform(treeModel internal nodes)                         158        133      0.84     0.4557      0.5         
-scale(treeModel root height)                      0.122   39         30       0.77     0.3333      0.3333      
-scale(constant.popSize)                           0.808   1          0        0.0      0.0         0.0         
+uniform(treeModel internal nodes)                         158        137      0.87     0.4557      0.5         
+scale(treeModel root height)                      0.122   39         34       0.87     0.3333      0.3333      
+scale(constant.popSize)                           0.808   1          1        1.0      0.0         0.0         
 
-2.883 seconds
+2.563 seconds
 

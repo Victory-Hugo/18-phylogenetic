@@ -28,9 +28,9 @@ beast:
   # scale = 有效对齐位点数：data tree 分支长度是 subs/site，
   # 乘以位点数才能换算成分支期望突变数。
   scale: 17990
-  chain_length: 100000000
-  log_every: 10000
-  tree_log_every: 100000
+  chain_length: 40000000
+  log_every: 4000
+  tree_log_every: 40000
   # clock_rate 必须与节点年龄先验自洽（见 thorney-skygrid-clock-prior 记忆）。
   clock_rate: 1.8e-8
   # constant-size 模板不使用 skygrid 网格；下面两项仅用于计算 constant.popSize 初值
