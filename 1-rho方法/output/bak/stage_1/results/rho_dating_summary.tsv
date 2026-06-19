@@ -1,0 +1,14 @@
+metric	value
+total_haplogroups	6234.0
+with_ancestor	6234.0
+with_descendants_n_ge_2	5928.0
+confidence_high	778.0
+confidence_medium	1030.0
+confidence_low	2927.0
+confidence_very_low	1193.0
+confidence_no_ci	306.0
+flag_no_ancestor	0.0
+flag_negative_lower_ci	866.0
+flag_exceeds_300kya	0.0
+median_age_kya	8.43
+mean_age_kya	11.42

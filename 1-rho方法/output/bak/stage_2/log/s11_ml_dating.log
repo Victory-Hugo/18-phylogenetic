@@ -1,0 +1,23 @@
+2026-04-29 09:40:14,286 INFO 单子节点总数：1085
+2026-04-29 09:40:14,582 INFO 校准锚点：2248 个（n ≥ 10 + 根节点）
+2026-04-29 09:40:14,628 INFO 树已重新定根（外群=L0，根=mt-MRCA_RSRS）
+2026-04-29 09:40:14,631 INFO 树节点总数（重定根后）：5149（叶 3641，内部 1508）
+2026-04-29 09:40:14,677 INFO ML 树节点年龄计算完成：5149 个
+2026-04-29 09:40:14,678 INFO 单子节点处理：1085 / 1085
+2026-04-29 09:40:14,722 INFO ML dating 写出：/mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_2/results/ml_dating.tsv（6234 行）
+2026-04-29 09:40:14,723 INFO 校准方法分布：
+calibration_method
+rho_fallback_no_desc          3351
+rho_direct                    1797
+single_child_interpolation    1085
+root_calibration                 1
+2026-04-29 09:40:14,762 INFO 比较表写出：/mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_2/results/ml_vs_rho_comparison.tsv（6234 行）
+2026-04-29 09:40:14,762 INFO ── 关键节点验证 ──
+2026-04-29 09:40:14,763 INFO   mt-MRCA(RSRS)              rho= 172.9 kya  ML= 172.9 kya  diff=-0.0 kya  n=71762    方法=root_calibration
+2026-04-29 09:40:14,763 INFO   L3                         rho=  68.2 kya  ML=  68.2 kya  diff=+0.0 kya  n=69866    方法=rho_direct
+2026-04-29 09:40:14,764 INFO   M                          rho=  52.8 kya  ML=  52.8 kya  diff=+0.0 kya  n=32133    方法=rho_direct
+2026-04-29 09:40:14,764 INFO   N                          rho=  56.2 kya  ML=  56.2 kya  diff=+0.0 kya  n=36323    方法=rho_direct
+2026-04-29 09:40:14,764 INFO   R                          rho=  51.7 kya  ML=  51.7 kya  diff=+0.0 kya  n=28975    方法=rho_direct
+2026-04-29 09:40:14,765 INFO   H                          rho=  14.8 kya  ML=  14.8 kya  diff=+0.0 kya  n=3565     方法=rho_direct
+2026-04-29 09:40:14,765 INFO   D4                         rho=  27.8 kya  ML=  27.8 kya  diff=+0.0 kya  n=8296     方法=rho_direct
+2026-04-29 09:40:14,765 INFO   U                          rho=  50.9 kya  ML=  50.9 kya  diff=+0.0 kya  n=3013     方法=rho_direct

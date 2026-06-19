@@ -1,0 +1,151 @@
+[19:56:05] ==========================================
+[19:56:05] Stage 1 rho 单倍群年龄估计 pipeline 启动
+[19:56:05] BASE_DIR:     /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法
+[19:56:05] INTERMEDIATE: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate
+[19:56:05] RESULTS:      /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/results
+[19:56:05] Haplogrep Quality >= 0.8
+[19:56:05] ==========================================
+[19:56:05] [Step 0] 跳过（已存在 /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/all_samples.txt）
+[19:56:05] [Step 1] 跳过（已存在 /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/site_masks.json）
+[19:56:05] [Step 2] 跳过（已存在 /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/haplogroup_graph.json）
+[19:56:05] [Step 3] 按Quality阈值筛选Haplogrep3结果...
+  Quality >= 0.8: 保留 71029/88344 条记录
+[19:56:18] [Step 3] 建立样本-单倍群-后代映射...
+19:56:20 [INFO] 读取VCF样本列表: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/all_samples.txt
+19:56:20 [INFO]   VCF总样本数: 59699
+19:56:20 [INFO]   祖先节点样本: 6234
+19:56:20 [INFO]   现代样本:     53465
+19:56:20 [INFO] 现代样本列表 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/modern_samples.txt
+19:56:20 [INFO] 祖先样本列表 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/ancestor_samples.txt
+19:56:20 [INFO] 读取单倍群图: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/haplogroup_graph.json
+19:56:20 [INFO] 读取Haplogrep3分型结果: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/haplogrep_quality_filtered.tsv
+/mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/python/s03_build_sample_mapping.py:52: ParserWarning: Length of header or names does not match length of data. This leads to a loss of data with index_col=False.
+  df = pd.read_csv(tsv, sep="\t", dtype=str, index_col=False)
+19:56:21 [INFO]   Haplogrep3映射: 49691 个现代样本有分型结果
+19:56:21 [INFO] 样本-单倍群映射 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/sample_to_haplogroup.tsv
+19:56:22 [INFO]   共建立 53708 个单倍群的后代样本映射
+19:56:22 [INFO]   有现代样本的单倍群: 18714
+19:56:22 [INFO] 单倍群后代映射 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/haplogroup_to_descendants.json
+[19:56:22] [Step 4] 从VCF提取基因型矩阵（需要数分钟）...
+19:56:23 [INFO] 读取位点掩码: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/site_masks.json
+19:56:23 [INFO]   目标SNP位点数: 12850
+19:56:23 [INFO] 从VCF提取基因型矩阵: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/data/merged_include.vcf.gz
+19:56:23 [INFO]   VCF样本数: 59699
+19:56:52 [INFO]   mtDNA染色体名: chrM
+19:56:52 [INFO] 运行bcftools query提取基因型矩阵...
+19:57:40 [INFO]   已处理 2000 个SNP位点...
+19:58:27 [INFO]   已处理 4000 个SNP位点...
+19:59:15 [INFO]   已处理 6000 个SNP位点...
+20:00:03 [INFO]   已处理 8000 个SNP位点...
+20:00:51 [INFO]   已处理 10000 个SNP位点...
+20:01:40 [INFO]   已处理 12000 个SNP位点...
+20:02:00 [INFO]   bcftools共输出 12850 个SNP位点
+20:02:05 [INFO]   矩阵 shape: (59699, 12850)，内存: 0.77 GB
+20:02:07 [INFO] 基因型矩阵 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/geno_matrix.npz
+20:02:07 [INFO] POS数组 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/geno_positions.npy
+20:02:07 [INFO] 样本列表 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/geno_samples.txt
+[20:02:07] [Step 5] 计算全树ρ dating...
+20:02:09 [INFO] 加载基因型矩阵...
+20:02:10 [INFO]   矩阵: 59699 样本 × 12850 SNP位点
+20:02:10 [INFO]   complete: 12846 个有效列
+20:02:10 [INFO]   synonymous: 1842 个有效列
+20:02:10 [INFO]   hvsi_full: 313 个有效列
+20:02:10 [INFO]   hvsi_trans: 236 个有效列
+20:02:10 [INFO]   hvsii: 175 个有效列
+20:02:10 [INFO]   control: 976 个有效列
+20:02:10 [INFO]   单倍群后代映射: 53708 个节点
+
+计算ρ dating:   0%|          | 0/53708 [00:00<?, ?it/s]
+计算ρ dating:   0%|          | 1/53708 [00:00<3:28:48,  4.29it/s]
+计算ρ dating:   3%|▎         | 1391/53708 [00:00<00:09, 5263.77it/s]
+计算ρ dating:   5%|▌         | 2702/53708 [00:00<00:06, 8012.81it/s]
+计算ρ dating:   7%|▋         | 3741/53708 [00:01<00:24, 2043.80it/s]
+计算ρ dating:   8%|▊         | 4407/53708 [00:01<00:22, 2239.41it/s]
+计算ρ dating:   9%|▉         | 4943/53708 [00:01<00:18, 2569.41it/s]
+计算ρ dating:  10%|█         | 5466/53708 [00:03<00:43, 1111.66it/s]
+计算ρ dating:  11%|█         | 5832/53708 [00:03<00:55, 867.23it/s] 
+计算ρ dating:  11%|█▏        | 6096/53708 [00:04<00:51, 923.90it/s]
+计算ρ dating:  12%|█▏        | 6389/53708 [00:04<00:43, 1079.45it/s]
+计算ρ dating:  12%|█▏        | 6634/53708 [00:04<00:47, 995.80it/s] 
+计算ρ dating:  13%|█▎        | 6827/53708 [00:05<01:26, 540.38it/s]
+计算ρ dating:  13%|█▎        | 7113/53708 [00:05<01:07, 688.33it/s]
+计算ρ dating:  14%|█▎        | 7304/53708 [00:05<01:00, 769.09it/s]
+计算ρ dating:  14%|█▍        | 7494/53708 [00:06<00:51, 891.38it/s]
+计算ρ dating:  14%|█▍        | 7662/53708 [00:06<01:01, 753.87it/s]
+计算ρ dating:  19%|█▉        | 10413/53708 [00:06<00:10, 4137.46it/s]
+计算ρ dating:  25%|██▌       | 13682/53708 [00:06<00:04, 8505.01it/s]
+计算ρ dating:  32%|███▏      | 17091/53708 [00:06<00:02, 13081.62it/s]
+计算ρ dating:  37%|███▋      | 19855/53708 [00:06<00:02, 16044.65it/s]
+计算ρ dating:  41%|████▏     | 22191/53708 [00:07<00:03, 9530.81it/s] 
+计算ρ dating:  45%|████▌     | 24231/53708 [00:07<00:02, 10824.06it/s]
+计算ρ dating:  48%|████▊     | 25990/53708 [00:07<00:02, 11697.00it/s]
+计算ρ dating:  52%|█████▏    | 27684/53708 [00:07<00:02, 9321.94it/s] 
+计算ρ dating:  56%|█████▌    | 30078/53708 [00:07<00:02, 11770.37it/s]
+计算ρ dating:  59%|█████▉    | 31749/53708 [00:08<00:02, 10816.08it/s]
+计算ρ dating:  62%|██████▏   | 33181/53708 [00:15<00:27, 733.14it/s]  
+计算ρ dating:  62%|██████▏   | 33181/53708 [00:29<00:27, 733.14it/s]
+计算ρ dating:  62%|██████▏   | 33514/53708 [00:30<01:29, 225.67it/s]
+计算ρ dating:  62%|██████▏   | 33517/53708 [00:37<02:15, 149.07it/s]
+计算ρ dating:  64%|██████▎   | 34223/53708 [00:37<01:40, 194.72it/s]
+计算ρ dating:  66%|██████▌   | 35382/53708 [00:37<01:00, 301.36it/s]
+计算ρ dating:  67%|██████▋   | 36215/53708 [00:41<01:01, 285.77it/s]
+计算ρ dating:  69%|██████▊   | 36806/53708 [00:41<00:47, 358.92it/s]
+计算ρ dating:  70%|██████▉   | 37473/53708 [00:41<00:34, 474.35it/s]
+计算ρ dating:  71%|███████   | 38080/53708 [00:42<00:30, 507.40it/s]
+计算ρ dating:  72%|███████▏  | 38524/53708 [00:46<00:55, 274.41it/s]
+计算ρ dating:  73%|███████▎  | 39052/53708 [00:46<00:40, 363.29it/s]
+计算ρ dating:  74%|███████▎  | 39530/53708 [00:46<00:30, 471.98it/s]
+计算ρ dating:  74%|███████▍  | 39904/53708 [00:50<00:49, 276.19it/s]
+计算ρ dating:  75%|███████▍  | 40231/53708 [00:50<00:39, 338.94it/s]
+计算ρ dating:  76%|███████▌  | 40638/53708 [00:51<00:34, 382.30it/s]
+计算ρ dating:  77%|███████▋  | 41609/53708 [00:51<00:16, 712.47it/s]
+计算ρ dating:  83%|████████▎ | 44360/53708 [00:51<00:04, 2010.39it/s]
+计算ρ dating:  85%|████████▍ | 45454/53708 [00:51<00:03, 2261.13it/s]
+计算ρ dating:  87%|████████▋ | 46871/53708 [00:51<00:02, 3125.07it/s]
+计算ρ dating:  91%|█████████▏| 49094/53708 [00:51<00:00, 4952.68it/s]
+计算ρ dating:  94%|█████████▍| 50452/53708 [00:52<00:00, 5965.54it/s]
+计算ρ dating:  97%|█████████▋| 51926/53708 [00:52<00:00, 7234.39it/s]
+计算ρ dating: 100%|█████████▉| 53547/53708 [00:52<00:00, 8781.84it/s]
+计算ρ dating: 100%|██████████| 53708/53708 [00:59<00:00, 899.57it/s] 
+20:03:10 [INFO] ρ dating结果 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/results/rho_dating.tsv (322248 行)
+[20:03:11] [Step 5b] CI 一致性检查（complete 区域 → 降级 confidence）...
+20:03:13 [INFO] [rho 模式] 共 4977 个单倍群有 complete CI，其中 1189 个 CI 超过祖先 → 降级为 low
+20:03:20 [INFO] 更新后 rho_dating → /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/results/rho_dating.tsv
+[20:03:20] [Step 6] 验证关键单倍群节点年龄...
+20:03:21 [INFO] 验证节点: ['L3', 'M', 'N', 'R', 'H', 'D4', 'U']
+20:03:22 [INFO]   L3: age=67.1kya CI=[66.9822,67.2769] n=46964 conf=high flag=nan → PASS
+20:03:22 [INFO]   M: age=50.3kya CI=[50.1013,50.477] n=20359 conf=high flag=nan → FAIL
+20:03:22 [INFO]   N: age=55.8kya CI=[55.555,55.9745] n=25246 conf=high flag=nan → PASS
+20:03:22 [INFO]   R: age=51.2kya CI=[50.9401,51.4114] n=20292 conf=high flag=nan → PASS
+20:03:22 [INFO]   H: age=16.3kya CI=[16.0006,16.5384] n=2773 conf=high flag=nan → PASS
+20:03:22 [INFO]   D4: age=24.6kya CI=[24.2985,24.8566] n=5190 conf=high flag=nan → FAIL
+20:03:22 [INFO]   U: age=50.5kya CI=[50.0382,50.9461] n=2801 conf=high flag=nan → PASS
+20:03:22 [INFO] 验证报告 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/results/validation_key_nodes.tsv
+20:03:22 [INFO] 验证结果：PASS=5，FAIL=2，其他=0
+20:03:22 [WARNING] 部分关键节点未通过验证，请检查结果！
+[20:03:22] [Step 7] 生成宽格式结果和汇总统计...
+20:03:23 [INFO] 读取ρ dating结果: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/results/rho_dating.tsv
+20:03:23 [INFO]   共 322248 行（53708 个单倍群 × 6 个区域）
+20:03:50 [INFO] 宽格式结果 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/results/rho_dating_wide.tsv (53708 行)
+20:03:50 [INFO] 汇总统计 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/results/rho_dating_summary.tsv
+20:03:50 [INFO]   total_haplogroups: 53708
+20:03:50 [INFO]   with_ancestor: 5482
+20:03:50 [INFO]   with_descendants_n_ge_2: 4977
+20:03:50 [INFO]   confidence_high: 587
+20:03:50 [INFO]   confidence_medium: 890
+20:03:50 [INFO]   confidence_low: 2269
+20:03:50 [INFO]   confidence_very_low: 1231
+20:03:50 [INFO]   confidence_no_ci: 48731
+20:03:50 [INFO]   flag_no_ancestor: 48226
+20:03:50 [INFO]   flag_negative_lower_ci: 736
+20:03:50 [INFO]   flag_exceeds_300kya: 0
+20:03:50 [INFO]   median_age_kya: 7.89
+20:03:50 [INFO]   mean_age_kya: 11.28
+[20:03:50] ==========================================
+[20:03:50] Stage 1 pipeline 完成！
+[20:03:50] 主要结果文件：
+[20:03:50]   ρ dating（长格式）: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/results/rho_dating.tsv
+[20:03:50]   ρ dating（宽格式）: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/results/rho_dating_wide.tsv
+[20:03:50]   汇总统计:           /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/results/rho_dating_summary.tsv
+[20:03:50]   关键节点验证:       /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/results/validation_key_nodes.tsv
+[20:03:50] ==========================================

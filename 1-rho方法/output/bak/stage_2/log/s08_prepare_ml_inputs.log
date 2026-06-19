@@ -1,0 +1,5 @@
+2026-04-29 09:04:46,417 INFO 图节点：6234（叶节点 3641，内部节点 2593）
+2026-04-29 09:04:48,633 INFO 读入序列：6234 条
+2026-04-29 09:04:48,636 INFO 净化名称：234 条需要修改
+2026-04-29 09:04:48,645 INFO 名称映射表写出：/mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_2/intermediate/ml/name_sanitize_map.tsv（6234 行）
+2026-04-29 09:04:49,773 INFO 叶节点 FASTA 写出：/mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_2/intermediate/ml/ancestors_sanitized_leaves.fasta（3641 条，跳过内部节点 2593 条）

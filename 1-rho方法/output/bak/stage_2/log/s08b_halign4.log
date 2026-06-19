@@ -1,0 +1,19 @@
+[  Input_name  ] : /mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_2/intermediate/ml/ancestors_sanitized_leaves.fasta
+[  Output_name ] : /mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_2/intermediate/ml/ancestors_aligned_leaves.fasta
+[   Reference  ] = [Longest]
+[    Threads   ] = 8
+[      SA      ] = 15
+2026-04-29 09:04:49 | Start: Read and data preprocessing: 1 files
+                    | Info : read consumes : 1477ms
+2026-04-29 09:04:51 | End  : 3641 sequences were discovered
+2026-04-29 09:04:51 | Start: build Suffix Array No.2169
+2026-04-29 09:04:51 | End  : build Suffix Array 0ms
+2026-04-29 09:04:51 | Start: pairwise sequence alignment
+2026-04-29 09:04:51 | End  : pairwise sequence alignment
+                    | Info : align time consumes : 269ms
+                    | Info : align memory peak   : 83742720 B
+                    | Info : write consumes: 1019ms
+                    | Info : Current pid   : 1005478
+                    | Info : Time consumes : 2772ms
+                    | Info : Memory usage  : 83742720 B
+                    | Info : HAlign4 END!

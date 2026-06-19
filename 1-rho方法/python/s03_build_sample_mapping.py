@@ -47,7 +47,9 @@ def _load_haplogrep(tsv: str, modern_set: set) -> dict[str, str]:
     若同一样本有多行，取Quality最高的Rank=1行。
     只保留在现代样本集合中的样本。
     """
-    df = pd.read_csv(tsv, sep="\t", dtype=str)
+    # index_col=False：防止数据行尾多余制表符（字段数比表头多1）时
+    # pandas 误将首列当索引，导致列整体左移、SampleID 错位。
+    df = pd.read_csv(tsv, sep="\t", dtype=str, index_col=False)
     df.columns = df.columns.str.strip()
 
     # 标准化列名（Haplogrep3输出列：SampleID, Haplogroup, Rank, Quality, ...）

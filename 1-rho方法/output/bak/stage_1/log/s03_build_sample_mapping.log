@@ -1,0 +1,13 @@
+09:00:27 [INFO] 读取VCF样本列表: /mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_1/intermediate/all_samples.txt
+09:00:27 [INFO]   VCF总样本数: 88345
+09:00:27 [INFO]   祖先节点样本: 6234
+09:00:27 [INFO]   现代样本:     82111
+09:00:27 [INFO] 现代样本列表 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_1/intermediate/modern_samples.txt
+09:00:27 [INFO] 祖先样本列表 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_1/intermediate/ancestor_samples.txt
+09:00:27 [INFO] 读取单倍群图: /mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_1/intermediate/haplogroup_graph.json
+09:00:27 [INFO] 读取Haplogrep3分型结果: /mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_1/intermediate/haplogrep_quality_filtered.tsv
+09:00:28 [INFO]   Haplogrep3映射: 71813 个现代样本有分型结果
+09:00:28 [INFO] 样本-单倍群映射 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_1/intermediate/sample_to_haplogroup.tsv
+09:00:28 [INFO]   共建立 6234 个单倍群的后代样本映射
+09:00:28 [INFO]   有现代样本的单倍群: 6125
+09:00:29 [INFO] 单倍群后代映射 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/10-mtDNA/12-单倍群年龄估计/output/stage_1/intermediate/haplogroup_to_descendants.json
