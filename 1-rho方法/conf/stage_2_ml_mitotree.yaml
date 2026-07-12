@@ -1,0 +1,38 @@
+# =====================================================================
+# Stage 2: mtDNA 单倍群年龄估计（IQ-TREE 3 ML + 严格分子钟校准）配置文件
+# Mitotree-20260601 全树版本
+# 所有相对路径均相对于 project.base_dir
+# =====================================================================
+
+project:
+  base_dir: "/mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法"
+
+# --------------------------------------------------------------------- #
+# 输入数据路径                                                           #
+# --------------------------------------------------------------------- #
+paths:
+  python_dir: "python"
+  script_dir: "script"
+  intermediate_dir: "output/stage_2/intermediate"
+  results_dir: "output/stage_2/results"
+  log_dir: "output/stage_2/log"
+  anc_fasta: "data/mitotree_ancestral_sequences.fasta"   # 53708 节点祖先序列（已剥 Haplogroup_ 前缀，记录名=graph节点名）
+  hap_graph: "output/stage_1/intermediate/haplogroup_graph.json"  # Stage 1 产物
+  rho_dating: "output/stage_1/results/rho_dating.tsv"             # Stage 1 产物
+  halign4_bin: "bin/halign4"
+
+# --------------------------------------------------------------------- #
+# 工具路径                                                               #
+# --------------------------------------------------------------------- #
+tools:
+  conda_bin: "/home/luolintao/miniconda3/bin/conda"
+  python_env_prefix: "/home/luolintao/miniconda3/envs/BigLin"
+  iqtree3_bin: "/home/luolintao/miniconda3/envs/BigLin/bin/iqtree3"
+
+# --------------------------------------------------------------------- #
+# 运行参数                                                               #
+# --------------------------------------------------------------------- #
+runtime:
+  threads: 8
+  root_age: "172902"  # mt-MRCA 的年龄，单位为年
+  root_node: "mt-MRCA(RSRS)"

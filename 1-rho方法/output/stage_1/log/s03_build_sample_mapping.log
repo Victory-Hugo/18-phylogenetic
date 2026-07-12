@@ -1,0 +1,15 @@
+11:41:51 [INFO] 读取VCF样本列表: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/all_samples.txt
+11:41:51 [INFO]   VCF总样本数: 109101
+11:41:51 [INFO]   祖先节点样本: 54460
+11:41:51 [INFO]   现代样本:     54641
+11:41:51 [INFO] 现代样本列表 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/modern_samples.txt
+11:41:51 [INFO] 祖先样本列表 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/ancestor_samples.txt
+11:41:51 [INFO] 读取单倍群图: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/haplogroup_graph.json
+11:41:51 [INFO] 读取Haplogrep3分型结果: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/haplogrep_quality_filtered.tsv
+/mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/python/s03_build_sample_mapping.py:52: ParserWarning: Length of header or names does not match length of data. This leads to a loss of data with index_col=False.
+  df = pd.read_csv(tsv, sep="\t", dtype=str, index_col=False)
+11:41:53 [INFO]   Haplogrep3映射: 49691 个现代样本有分型结果
+11:41:53 [INFO] 样本-单倍群映射 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/sample_to_haplogroup.tsv
+11:41:53 [INFO]   共建立 53708 个单倍群的后代样本映射
+11:41:53 [INFO]   有现代样本的单倍群: 18714
+11:41:53 [INFO] 单倍群后代映射 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/haplogroup_to_descendants.json

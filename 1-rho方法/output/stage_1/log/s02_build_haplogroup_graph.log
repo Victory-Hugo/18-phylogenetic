@@ -1,0 +1,6 @@
+11:41:34 [INFO] 读取PhyloTree JSON: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/data/tree/mitotree-rcrs/20260601/2-Mitotree-20260601.json
+11:41:34 [INFO]   使用顶层 'haplogroups' 键（含 53708 个节点）
+11:41:34 [INFO]   共解析 53708 个单倍群节点
+11:41:34 [INFO]   内部节点（有子节点）: 22385
+11:41:34 [INFO]   叶节点（无子节点）: 31323
+11:41:35 [INFO] 单倍群图已写出至: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/haplogroup_graph.json

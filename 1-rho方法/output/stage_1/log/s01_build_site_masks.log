@@ -1,0 +1,12 @@
+11:41:28 [INFO] 运行bcftools query提取位点信息...
+11:41:33 [INFO]   共读取 15212 个位点
+11:41:33 [INFO]   回复突变表共 3584 个位点注释
+11:41:33 [INFO]   all_snp_positions: 13053 个位点
+11:41:33 [INFO]   indel_positions: 2158 个位点
+11:41:33 [INFO]   complete: 13049 个位点
+11:41:33 [INFO]   synonymous: 1844 个位点
+11:41:33 [INFO]   hvsi_full: 316 个位点
+11:41:33 [INFO]   hvsi_trans: 240 个位点
+11:41:33 [INFO]   hvsii: 175 个位点
+11:41:33 [INFO]   control: 989 个位点
+11:41:33 [INFO] 位点掩码已写出至: /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/intermediate/site_masks.json

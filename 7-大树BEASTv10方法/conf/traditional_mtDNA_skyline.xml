@@ -1,0 +1,429 @@
+<?xml version="1.0" standalone="yes"?>
+<!-- ============================================================================
+     传统 BEAST X（v1.10.5）定年金标准 —— 参数设置模板
+     来源：本项目步7-B 实际跑通并产出后验的 `trad_rep1.xml`（n=1000 现代序列 ×
+     16,413 bp × 3 重复 × 10M 代）。**从跑出结果的那份 XML 里挖空数据得到**，
+     不是手写重构——任何重写都可能与实际跑的参数有偏差。
+
+     模型：严格钟 + GTR+I+G4 + Bayesian Skyline（10 段）；固定拓扑（operators 中
+     刻意不含 subtreeSlide / narrowExchange / wideExchange / wilsonBalding）。
+     时间单位 = 千年（kyr）；clock.rate 的量纲是 subst/site/kyr。
+     唯一时间校准点：age(root) ~ Normal(145.0, 15.0) kyr。其余单倍群均为自由预测量。
+
+     需要填的占位符（5 个）：
+       {taxa_xml}              <taxon id="样本ID"/> × N
+       {calibration_taxa_xml}  <taxa id="hg_X"> 标定成员块（每个目标单倍群一个）
+       {alignment_xml}         <sequence><taxon idref="X"/>ACGT...</sequence> × N
+       {starting_tree}         起始树 Newick（时间尺度，已 ultrametric 化到 root 先验均值）
+       {output_prefix}         日志/树文件名前缀
+
+     ⚠ 换数据集时必须同步改的初值（否则链要多烧很多代才收敛）：
+       clock.rate / frequencies / gtr.* / alpha / pInv 的 value=，以及
+       skyline.popSize 的 value=；alpha 与 pInv 的先验中心（logNormalPrior /
+       betaPrior）取自该数据集的 IQ-TREE 实测值，不是通用常数。
+     ============================================================================ -->
+<beast version="1.10.5">
+    <!-- 全部分类单元：<taxon id="样本ID"/> × N。等时样本，不写 date。 -->
+    <taxa id="taxa">
+        {taxa_xml}
+    </taxa>
+
+    <!-- 单倍群标定成员块：每个目标单倍群一个 <taxa id="hg_X">，成员为该单倍群的现代样本。下方为每个块配一个 tmrcaStatistic。 -->
+    {calibration_taxa_xml}
+
+    <!-- 比对：全长 16,413 bp，不做 snp-sites（避免 ascertainment bias）。 每条形如 <sequence><taxon idref="X"/>ACGT...</sequence> -->
+    <alignment id="alignment" dataType="nucleotide">
+        {alignment_xml}
+    </alignment>
+
+    <!-- strip="false"：保留不变位点，全长喂入（不做 snp-sites，避免 ascertainment bias） -->
+    <patterns id="patterns" from="1" strip="false">
+        <alignment idref="alignment"/>
+    </patterns>
+
+    <!-- 起始树 = 步5 时间树剪枝子树，已 ultrametric 化到 root 先验均值。
+         拓扑固定：下方 operators 里没有任何拓扑算子，此拓扑不会被改动。 -->
+    <!-- 起始树：固定拓扑，usingHeights 表示 Newick 的支长已是时间（kyr）。 下方 operators 无任何拓扑算子，此拓扑不会被改动。 -->
+    <newick id="startingTree" usingDates="false" usingHeights="true">
+        {starting_tree}
+    </newick>
+
+    <treeModel id="treeModel">
+        <tree idref="startingTree"/>
+        <rootHeight>
+            <parameter id="treeModel.rootHeight"/>
+        </rootHeight>
+        <nodeHeights internalNodes="true" rootNode="false">
+            <parameter id="treeModel.internalNodeHeights"/>
+        </nodeHeights>
+        <nodeHeights internalNodes="true" rootNode="true">
+            <parameter id="treeModel.allInternalNodeHeights"/>
+        </nodeHeights>
+    </treeModel>
+
+    <treeLengthStatistic id="treeLength"><treeModel idref="treeModel"/></treeLengthStatistic>
+
+    <!-- TMRCA 统计量：root 用于校准；37 个顶层单倍群均为自由预测量。 -->
+    <!-- 均不设 monophyly：拓扑固定，单系性恒真，约束纯属浪费（DEC-011）。 -->
+    <tmrcaStatistic id="age(root)" absolute="true">
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(A)" absolute="true">
+        <mrca><taxa idref="hg_A"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(B)" absolute="true">
+        <mrca><taxa idref="hg_B"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(C)" absolute="true">
+        <mrca><taxa idref="hg_C"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(D)" absolute="true">
+        <mrca><taxa idref="hg_D"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(E)" absolute="true">
+        <mrca><taxa idref="hg_E"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(F)" absolute="true">
+        <mrca><taxa idref="hg_F"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(G)" absolute="true">
+        <mrca><taxa idref="hg_G"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(H)" absolute="true">
+        <mrca><taxa idref="hg_H"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(I)" absolute="true">
+        <mrca><taxa idref="hg_I"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(J)" absolute="true">
+        <mrca><taxa idref="hg_J"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(K)" absolute="true">
+        <mrca><taxa idref="hg_K"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(L0a)" absolute="true">
+        <mrca><taxa idref="hg_L0a"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(L0b)" absolute="true">
+        <mrca><taxa idref="hg_L0b"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(L0d)" absolute="true">
+        <mrca><taxa idref="hg_L0d"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(L0f)" absolute="true">
+        <mrca><taxa idref="hg_L0f"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(L0k)" absolute="true">
+        <mrca><taxa idref="hg_L0k"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(L1)" absolute="true">
+        <mrca><taxa idref="hg_L1"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(L2)" absolute="true">
+        <mrca><taxa idref="hg_L2"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(L3)" absolute="true">
+        <mrca><taxa idref="hg_L3"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(L4)" absolute="true">
+        <mrca><taxa idref="hg_L4"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(L5)" absolute="true">
+        <mrca><taxa idref="hg_L5"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(L6)" absolute="true">
+        <mrca><taxa idref="hg_L6"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(L7)" absolute="true">
+        <mrca><taxa idref="hg_L7"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(M)" absolute="true">
+        <mrca><taxa idref="hg_M"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(N)" absolute="true">
+        <mrca><taxa idref="hg_N"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(O)" absolute="true">
+        <mrca><taxa idref="hg_O"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(P)" absolute="true">
+        <mrca><taxa idref="hg_P"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(Q)" absolute="true">
+        <mrca><taxa idref="hg_Q"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(R)" absolute="true">
+        <mrca><taxa idref="hg_R"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(S)" absolute="true">
+        <mrca><taxa idref="hg_S"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(T)" absolute="true">
+        <mrca><taxa idref="hg_T"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(U)" absolute="true">
+        <mrca><taxa idref="hg_U"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(V)" absolute="true">
+        <mrca><taxa idref="hg_V"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(W)" absolute="true">
+        <mrca><taxa idref="hg_W"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(X)" absolute="true">
+        <mrca><taxa idref="hg_X"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(Y)" absolute="true">
+        <mrca><taxa idref="hg_Y"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+    <tmrcaStatistic id="age(Z)" absolute="true">
+        <mrca><taxa idref="hg_Z"/></mrca>
+        <treeModel idref="treeModel"/>
+    </tmrcaStatistic>
+
+    <!-- 严格分子钟，与步6 thorney 一致（DEC-010）。初值 = 替换总树长 / 时间总树长。 -->
+    <strictClockBranchRates id="branchRates">
+        <rate><parameter id="clock.rate" value="4.144928e-05" lower="0.0"/></rate>
+    </strictClockBranchRates>
+
+    <!-- 替换模型：GTR + Γ4 + I。BEAST 无 FreeRate(+R)，用 +I 吸收大量不变位点。
+         速率与频率取自同一子集、同一固定拓扑上的 IQ-TREE GTR+F+I+G4 实测值。
+         IQ-TREE 按 G-T=1 归一，此处已整体除以 R(C-T) 换成 BEAST 的 rateCT=1 基准。 -->
+    <gtrModel id="gtr">
+        <frequencies>
+            <frequencyModel dataType="nucleotide">
+                <frequencies><parameter id="frequencies" value="0.309600 0.311677 0.131042 0.247681"/></frequencies>
+            </frequencyModel>
+        </frequencies>
+        <rateAC><parameter id="gtr.ac" value="0.02163011" lower="0.0"/></rateAC>
+        <rateAG><parameter id="gtr.ag" value="1.00257647" lower="0.0"/></rateAG>
+        <rateAT><parameter id="gtr.at" value="0.01681929" lower="0.0"/></rateAT>
+        <rateCG><parameter id="gtr.cg" value="0.01684183" lower="0.0"/></rateCG>
+        <rateGT><parameter id="gtr.gt" value="0.01326024" lower="0.0"/></rateGT>
+    </gtrModel>
+
+    <siteModel id="siteModel">
+        <substitutionModel><gtrModel idref="gtr"/></substitutionModel>
+        <gammaShape gammaCategories="4">
+            <parameter id="alpha" value="0.534400" lower="0.005"/>
+        </gammaShape>
+        <proportionInvariant>
+            <parameter id="pInv" value="0.721600" lower="0.0" upper="1.0"/>
+        </proportionInvariant>
+    </siteModel>
+
+    <treeDataLikelihood id="treeLikelihood" useAmbiguities="false">
+        <partition>
+            <patterns idref="patterns"/>
+            <siteModel idref="siteModel"/>
+        </partition>
+        <treeModel idref="treeModel"/>
+        <strictClockBranchRates idref="branchRates"/>
+    </treeDataLikelihood>
+
+    <!-- Bayesian Skyline 树先验。缺树先验时节点高度是非正常平坦先验，upDown 的
+         Jacobian s^(n-1) 无人对抗，实测把 age(root) 从 145 顶到 551 kyr。 -->
+    <generalizedSkyLineLikelihood id="skyline" linear="false">
+        <populationSizes>
+            <!-- lower=0：scaleOperator 拒绝作用在无正性约束的参数上 -->
+            <parameter id="skyline.popSize" dimension="10" value="5596.54" lower="0.0"/>
+        </populationSizes>
+        <groupSizes>
+            <parameter id="skyline.groupSize" dimension="10"/>
+        </groupSizes>
+        <populationTree>
+            <treeModel idref="treeModel"/>
+        </populationTree>
+    </generalizedSkyLineLikelihood>
+
+    <!-- popSize 链的先验必须尺度等变：每段 ~ Exp(均值 = 前一段)，首段 Jeffreys(1/x)。
+         换成固定尺度的先验（如 logNormal(mean=1e7)）会破坏等变性，Jacobian 重新失控。 -->
+    <exponentialMarkovLikelihood id="eml1" jeffreys="true">
+        <chainParameter>
+            <parameter idref="skyline.popSize"/>
+        </chainParameter>
+    </exponentialMarkovLikelihood>
+
+    <operators id="operators" optimizationSchedule="default">
+        <!-- 【固定拓扑】此处刻意不含 subtreeSlide / narrowExchange / wideExchange /
+             wilsonBalding。导师决策：拓扑沿用步5，不重新搜索。 -->
+        <scaleOperator scaleFactor="0.75" weight="1"><parameter idref="gtr.ac"/></scaleOperator>
+        <scaleOperator scaleFactor="0.75" weight="1"><parameter idref="gtr.ag"/></scaleOperator>
+        <scaleOperator scaleFactor="0.75" weight="1"><parameter idref="gtr.at"/></scaleOperator>
+        <scaleOperator scaleFactor="0.75" weight="1"><parameter idref="gtr.cg"/></scaleOperator>
+        <scaleOperator scaleFactor="0.75" weight="1"><parameter idref="gtr.gt"/></scaleOperator>
+        <deltaExchange delta="0.01" weight="1"><parameter idref="frequencies"/></deltaExchange>
+        <scaleOperator scaleFactor="0.75" weight="5"><parameter idref="alpha"/></scaleOperator>
+        <!-- pInv 上界为 1，scaleOperator 不适用，必须用 reflecting randomWalk -->
+        <randomWalkOperator windowSize="0.05" weight="5" boundaryCondition="reflecting">
+            <parameter idref="pInv"/>
+        </randomWalkOperator>
+        <scaleOperator scaleFactor="0.75" weight="3"><parameter idref="clock.rate"/></scaleOperator>
+        <scaleOperator scaleFactor="0.75" weight="6"><parameter idref="treeModel.rootHeight"/></scaleOperator>
+        <uniformOperator weight="60"><parameter idref="treeModel.internalNodeHeights"/></uniformOperator>
+        <!-- 整体缩放：时间 ↓ / 速率 ↑ / popSize ↓ 同步移动。popSize 一起缩放使该移动
+             近似保持后验不变（似然与 BSP 密度均不变），接受率高，尺度方向混合快。 -->
+        <upDownOperator scaleFactor="0.75" weight="6">
+            <up><parameter idref="clock.rate"/></up>
+            <down>
+                <parameter idref="treeModel.allInternalNodeHeights"/>
+                <parameter idref="skyline.popSize"/>
+            </down>
+        </upDownOperator>
+        <scaleOperator scaleFactor="0.75" weight="15" scaleAllIndependently="true">
+            <parameter idref="skyline.popSize"/>
+        </scaleOperator>
+        <deltaExchange delta="1" integer="true" weight="6" autoOptimize="false">
+            <parameter idref="skyline.groupSize"/>
+        </deltaExchange>
+    </operators>
+
+    <mcmc id="mcmc" chainLength="10000000" autoOptimize="true" operatorAnalysis="{output_prefix}.ops">
+        <joint id="joint">
+            <prior id="prior">
+                <!-- 唯一的时间校准点。Mitotree (Maier et al. 2026) mt-MRCA ≈ 145 kya。
+                     步6 ThorneyBEAST 重跑时必须用同一个先验，否则两边 HPD 不可能重叠。 -->
+                <normalPrior id="root.prior" mean="145.0" stdev="15.0">
+                    <tmrcaStatistic idref="age(root)"/>
+                </normalPrior>
+                <!-- 速率不给信息先验，只用 ctmcScalePrior（弱）。时间尺度由 root 先验锚定。 -->
+                <ctmcScalePrior>
+                    <ctmcScale><parameter idref="clock.rate"/></ctmcScale>
+                    <treeModel idref="treeModel"/>
+                </ctmcScalePrior>
+                <!-- pInv/alpha 是位点速率异质性参数，不是时间参数，给信息先验不损害定年独立性。
+                     放任时链会滑到 pInv→0.99 / alpha→0.17 的平坦脊上，使平均速率有偏。
+                     先验中心取自本子集的 IQ-TREE 实测值。 -->
+                <betaPrior shape="72.2" shapeB="27.8"><parameter idref="pInv"/></betaPrior>
+                <logNormalPrior mean="-0.626611" stdev="0.25" meanInRealSpace="false" offset="0.0">
+                    <parameter idref="alpha"/>
+                </logNormalPrior>
+                <gammaPrior shape="0.05" scale="10.0" offset="0.0"><parameter idref="gtr.ac"/></gammaPrior>
+                <gammaPrior shape="0.05" scale="10.0" offset="0.0"><parameter idref="gtr.ag"/></gammaPrior>
+                <gammaPrior shape="0.05" scale="10.0" offset="0.0"><parameter idref="gtr.at"/></gammaPrior>
+                <gammaPrior shape="0.05" scale="10.0" offset="0.0"><parameter idref="gtr.cg"/></gammaPrior>
+                <gammaPrior shape="0.05" scale="10.0" offset="0.0"><parameter idref="gtr.gt"/></gammaPrior>
+                <exponentialMarkovLikelihood idref="eml1"/>
+                <generalizedSkyLineLikelihood idref="skyline"/>
+            </prior>
+            <likelihood id="likelihood">
+                <treeDataLikelihood idref="treeLikelihood"/>
+            </likelihood>
+        </joint>
+        <operators idref="operators"/>
+
+        <log id="screenLog" logEvery="2000">
+            <column label="Joint" dp="4" width="12"><joint idref="joint"/></column>
+            <column label="Prior" dp="4" width="12"><prior idref="prior"/></column>
+            <column label="Likelihood" dp="4" width="12"><likelihood idref="likelihood"/></column>
+            <column label="age(root)" sf="6" width="12"><tmrcaStatistic idref="age(root)"/></column>
+            <column label="clock.rate" sf="6" width="12"><parameter idref="clock.rate"/></column>
+        </log>
+
+        <log id="fileLog" logEvery="2000" fileName="{output_prefix}.log" overwrite="false">
+            <joint idref="joint"/>
+            <prior idref="prior"/>
+            <likelihood idref="likelihood"/>
+            <parameter idref="treeModel.rootHeight"/>
+            <tmrcaStatistic idref="age(root)"/>
+            <tmrcaStatistic idref="age(A)"/>
+            <tmrcaStatistic idref="age(B)"/>
+            <tmrcaStatistic idref="age(C)"/>
+            <tmrcaStatistic idref="age(D)"/>
+            <tmrcaStatistic idref="age(E)"/>
+            <tmrcaStatistic idref="age(F)"/>
+            <tmrcaStatistic idref="age(G)"/>
+            <tmrcaStatistic idref="age(H)"/>
+            <tmrcaStatistic idref="age(I)"/>
+            <tmrcaStatistic idref="age(J)"/>
+            <tmrcaStatistic idref="age(K)"/>
+            <tmrcaStatistic idref="age(L0a)"/>
+            <tmrcaStatistic idref="age(L0b)"/>
+            <tmrcaStatistic idref="age(L0d)"/>
+            <tmrcaStatistic idref="age(L0f)"/>
+            <tmrcaStatistic idref="age(L0k)"/>
+            <tmrcaStatistic idref="age(L1)"/>
+            <tmrcaStatistic idref="age(L2)"/>
+            <tmrcaStatistic idref="age(L3)"/>
+            <tmrcaStatistic idref="age(L4)"/>
+            <tmrcaStatistic idref="age(L5)"/>
+            <tmrcaStatistic idref="age(L6)"/>
+            <tmrcaStatistic idref="age(L7)"/>
+            <tmrcaStatistic idref="age(M)"/>
+            <tmrcaStatistic idref="age(N)"/>
+            <tmrcaStatistic idref="age(O)"/>
+            <tmrcaStatistic idref="age(P)"/>
+            <tmrcaStatistic idref="age(Q)"/>
+            <tmrcaStatistic idref="age(R)"/>
+            <tmrcaStatistic idref="age(S)"/>
+            <tmrcaStatistic idref="age(T)"/>
+            <tmrcaStatistic idref="age(U)"/>
+            <tmrcaStatistic idref="age(V)"/>
+            <tmrcaStatistic idref="age(W)"/>
+            <tmrcaStatistic idref="age(X)"/>
+            <tmrcaStatistic idref="age(Y)"/>
+            <tmrcaStatistic idref="age(Z)"/>
+            <treeLengthStatistic idref="treeLength"/>
+            <parameter idref="clock.rate"/>
+            <parameter idref="skyline.popSize"/>
+            <parameter idref="skyline.groupSize"/>
+            <generalizedSkyLineLikelihood idref="skyline"/>
+            <parameter idref="alpha"/>
+            <parameter idref="pInv"/>
+            <parameter idref="frequencies"/>
+            <parameter idref="gtr.ac"/>
+            <parameter idref="gtr.ag"/>
+            <parameter idref="gtr.at"/>
+            <parameter idref="gtr.cg"/>
+            <parameter idref="gtr.gt"/>
+            <treeDataLikelihood idref="treeLikelihood"/>
+        </log>
+
+        <!-- 后验树：其余单倍群的 TMRCA 全部从这里解析。拓扑固定，各树同构，解析很快。 -->
+        <logTree id="treeFileLog" logEvery="20000" nexusFormat="true" fileName="{output_prefix}.trees" sortTranslationTable="true">
+            <treeModel idref="treeModel"/>
+            <strictClockBranchRates idref="branchRates"/>
+            <joint idref="joint"/>
+        </logTree>
+    </mcmc>
+
+    <report>
+        <property name="timer"><mcmc idref="mcmc"/></property>
+    </report>
+</beast>

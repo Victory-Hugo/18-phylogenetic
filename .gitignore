@@ -23,4 +23,5 @@
 1-rho方法/META/2-单倍群信息.tsv
 *temp/
 1-rho方法/META/1-mitotree分型.tsv
+1-rho方法/output/stage_1/intermediate/haplogrep_quality_filtered.tsv
 1-rho方法/data/tree

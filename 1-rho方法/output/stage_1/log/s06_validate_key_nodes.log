@@ -1,0 +1,11 @@
+11:52:33 [INFO] 验证节点: ['L3', 'M', 'N', 'R', 'H', 'D4', 'U']
+11:52:33 [INFO]   L3: age=67.1kya CI=[66.9311,67.2265] n=46964 conf=high flag=nan → PASS
+11:52:33 [INFO]   M: age=50.3kya CI=[50.1041,50.4799] n=20359 conf=high flag=nan → FAIL
+11:52:33 [INFO]   N: age=58.9kya CI=[58.6885,59.1136] n=25246 conf=high flag=nan → PASS
+11:52:33 [INFO]   R: age=51.0kya CI=[50.757,51.2305] n=20292 conf=high flag=nan → PASS
+11:52:33 [INFO]   H: age=16.3kya CI=[16.01,16.5474] n=2773 conf=high flag=nan → PASS
+11:52:33 [INFO]   D4: age=24.6kya CI=[24.3245,24.8826] n=5190 conf=high flag=nan → FAIL
+11:52:33 [INFO]   U: age=50.6kya CI=[50.1706,51.0674] n=2801 conf=high flag=nan → PASS
+11:52:33 [INFO] 验证报告 -> /mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_1/results/validation_key_nodes.tsv
+11:52:33 [INFO] 验证结果：PASS=5，FAIL=2，其他=0
+11:52:33 [WARNING] 部分关键节点未通过验证，请检查结果！
