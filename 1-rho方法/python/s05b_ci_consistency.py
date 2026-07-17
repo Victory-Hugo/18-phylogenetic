@@ -1,13 +1,12 @@
 """
 s05b_ci_consistency.py
-祖先-后代 CI 一致性检查：
-  若某下游单倍群（基于全基因组 complete 区域）的 CI 上限超过任何直接/间接
-  祖先单倍群的 CI 上限，或 CI 下限超过任何祖先的 CI 下限，则将该单倍群
-  所有区域行的 confidence 降级为 low，并在 flag 中追加 ci_exceeds_ancestor。
+祖先-后代年龄一致性检查：后代 TMRCA 不可能大于祖先。
+  若某下游单倍群（基于全基因组 complete 区域）的年龄超过任何直接/间接祖先，
+  则将该单倍群所有区域行的 confidence 降级为 low，并在 flag 中追加
+  age_exceeds_ancestor。节点予以保留，不剔除。
 
 支持两种输入格式：
-  --mode rho  : rho_dating.tsv（长格式，多区域行），使用 complete 区域的
-                ci95_upper_kya / ci95_lower_kya 做检查
+  --mode rho  : rho_dating.tsv（长格式，多区域行），使用 complete 区域的 age_kya
   --mode ml   : ml_dating.tsv（宽格式，每行一个单倍群），使用
                 ml_ci95_upper_kya / ml_ci95_lower_kya 做检查；
                 若无 confidence/flag 列则自动添加
@@ -17,11 +16,6 @@ s05b_ci_consistency.py
         --input  output/stage_1/results/rho_dating.tsv \
         --hap-graph output/stage_1/intermediate/haplogroup_graph.json \
         --output output/stage_1/results/rho_dating.tsv
-
-    python s05b_ci_consistency.py --mode ml \
-        --input  output/stage_2/results/ml_dating.tsv \
-        --hap-graph output/stage_1/intermediate/haplogroup_graph.json \
-        --output output/stage_2/results/ml_dating.tsv
 """
 
 import argparse
@@ -55,19 +49,15 @@ def _ancestors(graph: dict, hap: str) -> list[str]:
     return result
 
 
-def _flagged_haps(hap_ci: dict[str, tuple[float, float]], graph: dict) -> set[str]:
+def _flagged_haps(hap_age: dict[str, float], graph: dict) -> set[str]:
     """
-    找出 CI 与祖先不一致的单倍群集合。
-    hap_ci: {haplogroup: (ci_upper_kya, ci_lower_kya)}
-    规则：若 upper > 任意祖先 upper，或 lower > 任意祖先 lower → 标记。
+    找出年龄比祖先还老的单倍群集合——后代 TMRCA 不可能大于祖先。
+    规则：age > 任意直接/间接祖先的 age → 标记。
     """
     flagged: set[str] = set()
-    for hap, (upper, lower) in hap_ci.items():
+    for hap, age in hap_age.items():
         for anc in _ancestors(graph, hap):
-            if anc not in hap_ci:
-                continue
-            anc_upper, anc_lower = hap_ci[anc]
-            if upper > anc_upper or lower > anc_lower:
+            if anc in hap_age and age > hap_age[anc]:
                 flagged.add(hap)
                 break
     return flagged
@@ -96,32 +86,29 @@ def _run_rho(input_tsv: str, hap_graph: str, output: str) -> int:
     graph = _load_graph(hap_graph)
 
     df = pd.read_csv(input_tsv, sep="\t", dtype=str)
-    for col in ["ci95_upper_kya", "ci95_lower_kya"]:
-        df[col] = pd.to_numeric(df[col], errors="coerce")
+    df["age_kya"] = pd.to_numeric(df["age_kya"], errors="coerce")
 
-    # 仅用 complete 区域 CI 做判断
-    complete = df[df["region"] == "complete"].dropna(subset=["ci95_upper_kya", "ci95_lower_kya"])
-    hap_ci: dict[str, tuple[float, float]] = {
-        row["haplogroup"]: (row["ci95_upper_kya"], row["ci95_lower_kya"])
-        for _, row in complete.iterrows()
+    # 仅用 complete 区域年龄做判断
+    complete = df[df["region"] == "complete"].dropna(subset=["age_kya"])
+    hap_age: dict[str, float] = {
+        row["haplogroup"]: row["age_kya"] for _, row in complete.iterrows()
     }
 
-    flagged = _flagged_haps(hap_ci, graph)
-    log.info(f"[rho 模式] 共 {len(hap_ci)} 个单倍群有 complete CI，"
-             f"其中 {len(flagged)} 个 CI 超过祖先 → 降级为 low")
+    flagged = _flagged_haps(hap_age, graph)
+    log.info(f"[rho 模式] 共 {len(hap_age)} 个单倍群有 complete 年龄，"
+             f"其中 {len(flagged)} 个比祖先老 → 降级为 low")
 
     def fix_row(row):
         if row["haplogroup"] not in flagged:
             return row
         row = row.copy()
         row["confidence"] = _downgrade_conf(str(row["confidence"]))
-        row["flag"] = _append_flag(row["flag"], "ci_exceeds_ancestor")
+        row["flag"] = _append_flag(row["flag"], "age_exceeds_ancestor")
         return row
 
     df = df.apply(fix_row, axis=1)
-    # 恢复数值列格式
-    for col in ["ci95_upper_kya", "ci95_lower_kya"]:
-        df[col] = df[col].apply(lambda x: f"{x:.4f}" if pd.notna(x) else "NA")
+    # 恢复数值列格式（其余列 dtype=str 读入，原样保留）
+    df["age_kya"] = df["age_kya"].apply(lambda x: f"{x:.4f}" if pd.notna(x) else "NA")
 
     Path(output).parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output, sep="\t", index=False)

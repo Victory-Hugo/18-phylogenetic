@@ -1,5 +1,0 @@
-2026-06-19 12:13:12,592 INFO 图节点：53708（叶节点 31323，内部节点 22385）
-2026-06-19 12:13:31,341 INFO 读入序列：53708 条
-2026-06-19 12:13:31,371 INFO 净化名称：1863 条需要修改
-2026-06-19 12:13:31,395 INFO 名称映射表写出：/mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_2/intermediate/ml/name_sanitize_map.tsv（53708 行）
-2026-06-19 12:13:36,876 INFO 叶节点 FASTA 写出：/mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/1-rho方法/output/stage_2/intermediate/ml/ancestors_sanitized_leaves.fasta（31323 条，跳过内部节点 22385 条）

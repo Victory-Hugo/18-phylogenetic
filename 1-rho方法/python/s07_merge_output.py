@@ -21,6 +21,8 @@ import pandas as pd
 
 log = logging.getLogger(__name__)
 
+from s05_calc_rho_dating import CLOCK_SUFFIXES, GENERIC_CLOCK
+
 REGIONS = ["complete", "synonymous", "hvsi_full", "hvsi_trans", "hvsii", "control"]
 
 
@@ -51,8 +53,11 @@ def run(
     # 每行一个单倍群，每个区域的age_kya/ci95_lower_kya/ci95_upper_kya作为独立列
     numeric_cols = ["rho", "se", "age_years", "ci95_lower_years", "ci95_upper_years",
                     "age_kya", "ci95_lower_kya", "ci95_upper_kya"]
+    numeric_cols += [c for c in df.columns
+                     if c.endswith(tuple(f"_{s}" for s in CLOCK_SUFFIXES))]
     for col in numeric_cols:
-        df[col] = pd.to_numeric(df[col], errors="coerce")
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
     df["n_samples"] = pd.to_numeric(df["n_samples"], errors="coerce")
 
     wide_rows = []
@@ -70,24 +75,25 @@ def run(
             r_row = grp_dict.get(region)
             pfx = region  # 列名前缀
 
-            if r_row is None:
-                row[f"{pfx}_rho"]        = None
-                row[f"{pfx}_se"]         = None
-                row[f"{pfx}_age_kya"]    = None
-                row[f"{pfx}_ci_lo_kya"]  = None
-                row[f"{pfx}_ci_hi_kya"]  = None
-            else:
-                row[f"{pfx}_rho"]       = r_row["rho"]
-                row[f"{pfx}_se"]        = r_row["se"]
-                row[f"{pfx}_age_kya"]   = r_row["age_kya"]
-                row[f"{pfx}_ci_lo_kya"] = r_row["ci95_lower_kya"]
-                row[f"{pfx}_ci_hi_kya"] = r_row["ci95_upper_kya"]
+            row[f"{pfx}_rho"] = None if r_row is None else r_row["rho"]
+            row[f"{pfx}_se"]  = None if r_row is None else r_row["se"]
+
+            for suffix in CLOCK_SUFFIXES:
+                if region != "complete" and suffix != GENERIC_CLOCK:
+                    continue
+                for out_name, src in (("age_kya",   f"age_kya_{suffix}"),
+                                      ("ci_lo_kya", f"ci95_lower_kya_{suffix}"),
+                                      ("ci_hi_kya", f"ci95_upper_kya_{suffix}")):
+                    col = f"{pfx}_{out_name}_{suffix}"
+                    row[col] = None if r_row is None else r_row.get(src)
 
         wide_rows.append(row)
 
     wide_df = pd.DataFrame(wide_rows)
-    # 按complete_age_kya排序（大→小，NA最后）
-    wide_df = wide_df.sort_values("complete_age_kya", ascending=False, na_position="last")
+    # 按complete的Soares年龄排序（大→小，NA最后）
+    wide_df = wide_df.sort_values(
+        f"complete_age_kya_{GENERIC_CLOCK}", ascending=False, na_position="last"
+    )
     wide_df.to_csv(output_wide, sep="\t", index=False, float_format="%.4f")
     log.info(f"宽格式结果 -> {output_wide} ({len(wide_df)} 行)")
 

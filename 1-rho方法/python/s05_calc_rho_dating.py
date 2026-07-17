@@ -1,11 +1,14 @@
 """
 s05_calc_rho_dating.py
-对所有单倍群节点计算ρ统计量，并套用Soares 2009区域公式输出TMRCA估计。
+对所有单倍群节点计算ρ统计量，并输出TMRCA估计。
 
 方法：
     ρ = Haplogroup_H 到所有后代现代样本的平均有效突变距离
     SE = Saillard-style 标准误
-    age = Soares 2009 区域校正公式
+
+complete 区域给出两套时间：_Soares2009（非线性校正公式）和
+_Rieux_aDNA_2014（平坦速率 2.10e-8/位点/年，本项目 BEAST 后验）。
+其余区域只有 _Soares2009。无后缀的泛型列等同 _Soares2009，供下游沿用。
 
 用法（CLI）：
     python s05_calc_rho_dating.py \
@@ -45,35 +48,78 @@ LINEAR_RATES = {
     "control":    9058,
 }
 
+MT_LENGTH = 16569
+RIEUX_RATE = 2.10e-8   # /位点/年
 
-# ── Soares 2009 年龄公式 ─────────────────────────────────────────────────
+# 年龄列基础名与保留小数位
+_AGE_FIELDS = (
+    ("age_years",        1),
+    ("ci95_lower_years", 1),
+    ("ci95_upper_years", 1),
+    ("age_kya",          4),
+    ("ci95_lower_kya",   4),
+    ("ci95_upper_kya",   4),
+)
+
+CLOCK_SUFFIXES = ("Soares2009", "Rieux_aDNA_2014")
+GENERIC_CLOCK = "Soares2009"
+
+
+# ── 年龄换算公式 ─────────────────────────────────────────────────────────
 
 def _soares_complete(x: float) -> float:
     """Complete sequence 非线性校正公式（Soares 2009）。"""
     return 3624.0 * x * math.exp(-math.exp((x + 40.2789) * -0.0263))
 
 
-def _soares_age(rho: float, se: float, region: str) -> dict:
-    """
-    计算给定区域的年龄和95%CI。
-    CI计算：对ρ±1.96×SE代入公式（不截断负值）。
-    """
-    if region == "complete":
-        F = _soares_complete
-    else:
-        rate = LINEAR_RATES[region]
-        F = lambda x: x * rate
+def _rieux_complete(x: float) -> float:
+    """Complete sequence 平坦速率换算（2.10e-8/位点/年）。"""
+    return x / (RIEUX_RATE * MT_LENGTH)
 
-    lo = rho - 1.96 * se
+
+def _clock_funcs(region: str) -> dict:
+    """返回该区域可用的分子钟：{后缀: ρ→年数 的换算函数}。"""
+    if region == "complete":
+        return {
+            "Soares2009":      _soares_complete,
+            "Rieux_aDNA_2014": _rieux_complete,
+        }
+    rate = LINEAR_RATES[region]
+    return {"Soares2009": lambda x, r=rate: x * r}
+
+
+def _region_ages(rho: float, se: float, region: str) -> dict:
+    """
+    计算给定区域在各分子钟下的年龄和95%CI。
+    CI：对ρ±1.96×SE代入同一换算公式。ρ 不可能为负，故下限截断到 0。
+    """
+    out = {}
+    lo = max(rho - 1.96 * se, 0.0)
     hi = rho + 1.96 * se
-    return {
-        "age_years":       F(rho),
-        "ci95_lower_years": F(lo),
-        "ci95_upper_years": F(hi),
-        "age_kya":         F(rho) / 1000.0,
-        "ci95_lower_kya":  F(lo) / 1000.0,
-        "ci95_upper_kya":  F(hi) / 1000.0,
-    }
+
+    for suffix, F in _clock_funcs(region).items():
+        vals = {
+            "age_years":        F(rho),
+            "ci95_lower_years": F(lo) if not math.isnan(lo) else float("nan"),
+            "ci95_upper_years": F(hi) if not math.isnan(hi) else float("nan"),
+        }
+        vals["age_kya"]        = vals["age_years"] / 1000.0
+        vals["ci95_lower_kya"] = vals["ci95_lower_years"] / 1000.0
+        vals["ci95_upper_kya"] = vals["ci95_upper_years"] / 1000.0
+        for base, _nd in _AGE_FIELDS:
+            out[f"{base}_{suffix}"] = vals[base]
+
+    # 泛型列 = GENERIC_CLOCK 口径（向后兼容）
+    for base, _nd in _AGE_FIELDS:
+        out[base] = out[f"{base}_{GENERIC_CLOCK}"]
+    return out
+
+
+def _round_or_na(value, ndigits: int):
+    """NaN → 'NA'，否则四舍五入。"""
+    if value is None or (isinstance(value, float) and math.isnan(value)):
+        return "NA"
+    return round(value, ndigits)
 
 
 # ── 置信度和异常标记 ─────────────────────────────────────────────────────
@@ -90,11 +136,12 @@ def _confidence(n: int) -> str:
     return "high"
 
 
-def _flags(n: int, age_kya: float, ci_lo_kya: float, has_ancestor: bool) -> list[str]:
+def _flags(n: int, age_kya: float, lower_truncated: bool, has_ancestor: bool) -> list[str]:
+    """lower_truncated：ρ-1.96×SE 原本为负、CI 下限被截断到 0，即年龄与 0 无显著差异。"""
     flags = []
     if not has_ancestor:
         flags.append("no_ancestor")
-    if ci_lo_kya < 0:
+    if lower_truncated:
         flags.append("negative_lower_ci")
     if age_kya > 300:
         flags.append("exceeds_300kya")
@@ -217,42 +264,35 @@ def run(
                 se = float(np.sqrt(
                     np.sum((distances - rho) ** 2) / (n * (n - 1))
                 ))
-                ages = _soares_age(rho, se, region)
             else:
-                # n=1：计算年龄但无SE/CI
+                # n=1：仍给出点估计，但无SE/CI
                 se = float("nan")
-                ages = {
-                    "age_years":        _soares_complete(rho) if region == "complete" else rho * LINEAR_RATES.get(region, 0),
-                    "ci95_lower_years": float("nan"),
-                    "ci95_upper_years": float("nan"),
-                    "age_kya":          (_soares_complete(rho) if region == "complete" else rho * LINEAR_RATES.get(region, 0)) / 1000.0,
-                    "ci95_lower_kya":   float("nan"),
-                    "ci95_upper_kya":   float("nan"),
-                }
+            ages = _region_ages(rho, se, region)
 
             # 异常标记
             flag_list = _flags(
                 n=n,
                 age_kya=ages["age_kya"],
-                ci_lo_kya=ages["ci95_lower_kya"] if not math.isnan(ages["ci95_lower_kya"]) else 0.0,
+                lower_truncated=(not math.isnan(se)) and (rho - 1.96 * se) < 0,
                 has_ancestor=True,
             )
 
-            rows.append({
-                "haplogroup":       hap,
-                "region":           region,
-                "n_samples":        n,
-                "rho":              round(rho, 6),
-                "se":               round(se, 6) if not math.isnan(se) else "NA",
-                "age_years":        round(ages["age_years"], 1),
-                "ci95_lower_years": round(ages["ci95_lower_years"], 1) if not math.isnan(ages["ci95_lower_years"]) else "NA",
-                "ci95_upper_years": round(ages["ci95_upper_years"], 1) if not math.isnan(ages["ci95_upper_years"]) else "NA",
-                "age_kya":          round(ages["age_kya"], 4),
-                "ci95_lower_kya":   round(ages["ci95_lower_kya"], 4) if not math.isnan(ages["ci95_lower_kya"]) else "NA",
-                "ci95_upper_kya":   round(ages["ci95_upper_kya"], 4) if not math.isnan(ages["ci95_upper_kya"]) else "NA",
-                "confidence":       conf,
-                "flag":             ";".join(flag_list) if flag_list else "",
-            })
+            row = {
+                "haplogroup": hap,
+                "region":     region,
+                "n_samples":  n,
+                "rho":        round(rho, 6),
+                "se":         _round_or_na(se, 6),
+            }
+            for base, nd in _AGE_FIELDS:
+                row[base] = _round_or_na(ages[base], nd)
+            for suffix in CLOCK_SUFFIXES:
+                for base, nd in _AGE_FIELDS:
+                    key = f"{base}_{suffix}"
+                    row[key] = _round_or_na(ages.get(key), nd)
+            row["confidence"] = conf
+            row["flag"] = ";".join(flag_list) if flag_list else ""
+            rows.append(row)
 
     # ── 写出结果 ──────────────────────────────────────────────────────────
     df = pd.DataFrame(rows)
@@ -263,13 +303,17 @@ def run(
 
 def _na_row(hap: str, region: str, n: int, flag: str) -> dict:
     """生成全NA结果行。"""
-    return {
+    row = {
         "haplogroup": hap, "region": region, "n_samples": n,
         "rho": "NA", "se": "NA",
-        "age_years": "NA", "ci95_lower_years": "NA", "ci95_upper_years": "NA",
-        "age_kya": "NA", "ci95_lower_kya": "NA", "ci95_upper_kya": "NA",
-        "confidence": "no_ci", "flag": flag,
     }
+    for base, _nd in _AGE_FIELDS:
+        row[base] = "NA"
+        for suffix in CLOCK_SUFFIXES:
+            row[f"{base}_{suffix}"] = "NA"
+    row["confidence"] = "no_ci"
+    row["flag"] = flag
+    return row
 
 
 def build_parser() -> argparse.ArgumentParser:
