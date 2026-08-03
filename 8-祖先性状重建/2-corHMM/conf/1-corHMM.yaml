@@ -1,9 +1,17 @@
+#*##########################
+#* 配置文件说明
+#* 本分析用于祖先性状重建，使用R包corHMM进行分析
+#* 需要准备：
+#* 1. 系统发育树文件（.tree）【示例为最大似然树，也可以使用时间树】 
+#* 2. 性状数据文件（.tsv）【包含ID和性状数据】
+#*##########################
+
 project:
-  base_dir: "."
+  base_dir: "/mnt/f/OneDrive/文档（科研）/脚本/Download/18-phylogenetic/8-祖先性状重建/2-corHMM"
 
 paths:
-  input_tree: "input/1-example.tree"
-  input_traits: "input/2-traits.tsv"
+  input_tree: "input/1-example.tree"    #? 输入文件
+  input_traits: "input/2-traits.tsv"    #? 输入文件
   output_model: "output/result/1-model-compare"
   output_simmap: "output/result/2-simmap"
   output_trans: "output/result/3-trans"
@@ -11,8 +19,8 @@ paths:
   log: "log/1-corHMM.log"
 
 columns:
-  id: "species"
-  trait: "state"
+  id: "species"   #? 性状数据文件中物种ID列名
+  trait: "state"  #? 性状数据文件中性状列名
 
 tools:
   rscript_bin: "/usr/bin/Rscript"
