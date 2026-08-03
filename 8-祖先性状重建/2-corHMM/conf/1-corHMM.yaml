@@ -1,0 +1,41 @@
+project:
+  base_dir: "."
+
+paths:
+  input_tree: "input/1-example.tree"
+  input_traits: "input/2-traits.tsv"
+  output_model: "output/result/1-model-compare"
+  output_simmap: "output/result/2-simmap"
+  output_trans: "output/result/3-trans"
+  temp: "temp/1-corHMM"
+  log: "log/1-corHMM.log"
+
+columns:
+  id: "species"
+  trait: "state"
+
+tools:
+  rscript_bin: "/usr/bin/Rscript"
+
+models:
+  candidates: "ER,SYM,ARD"
+  selection_criterion: "AIC"
+  root_prior: "maddfitz"
+  rate_categories: 1
+  node_states: "marginal"
+  n_starts: 12
+  n_cores: 1
+
+simmap:
+  n_simulations: 200
+  n_cores: 1
+  max_attempt: 1000
+
+tree:
+  resolve_polytomies: true
+  branch_floor_ratio: 0.1
+  scale_branch_lengths: true
+
+runtime:
+  seed: 20260803
+  overwrite: true

@@ -1,0 +1,17 @@
+model	root_prior	from_state	to_state	rate
+ARD	maddfitz	GansuQinghai	GansuQinghai	-0.308511306258587
+ARD	maddfitz	Plateau	GansuQinghai	1e-09
+ARD	maddfitz	SouthWest	GansuQinghai	0.0180508458150794
+ARD	maddfitz	YellowRiver	GansuQinghai	0.107672449423151
+ARD	maddfitz	GansuQinghai	Plateau	0.293815409819086
+ARD	maddfitz	Plateau	Plateau	-0.225451012155023
+ARD	maddfitz	SouthWest	Plateau	1e-09
+ARD	maddfitz	YellowRiver	Plateau	1e-09
+ARD	maddfitz	GansuQinghai	SouthWest	0.014695895439501
+ARD	maddfitz	Plateau	SouthWest	0.209612815440359
+ARD	maddfitz	SouthWest	SouthWest	-0.0180508478150794
+ARD	maddfitz	YellowRiver	SouthWest	1e-09
+ARD	maddfitz	GansuQinghai	YellowRiver	1e-09
+ARD	maddfitz	Plateau	YellowRiver	0.0158381957146642
+ARD	maddfitz	SouthWest	YellowRiver	1e-09
+ARD	maddfitz	YellowRiver	YellowRiver	-0.107672451423151

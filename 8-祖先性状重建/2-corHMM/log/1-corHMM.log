@@ -1,0 +1,40 @@
+Loading required package: nloptr
+Loading required package: GenSA
+
+
+|species              |state        |
+|:--------------------|:------------|
+|LJM25_Y_rg.bam__     |GansuQinghai |
+|LJM2_Y_rg.bam__      |GansuQinghai |
+|L8067.Y.trim.bam__   |Plateau      |
+|L7053.Y.trim.bam__   |Plateau      |
+|HRR660152_Y_rg.bam__ |Plateau      |
+|HRR2680016.Y.bam__   |GansuQinghai |
+输入：207个末端，4个状态
+
+GansuQinghai      Plateau    SouthWest  YellowRiver 
+           6           93          106            2 
+拟合ER模型
+State distribution in data:
+States:	1	2	3	4	
+Counts:	6	93	106	2	
+Beginning thorough optimization search -- performing 12 random restarts 
+Finished. Inferring ancestral states using marginal reconstruction. 
+拟合SYM模型
+State distribution in data:
+States:	1	2	3	4	
+Counts:	6	93	106	2	
+Beginning thorough optimization search -- performing 12 random restarts 
+Finished. Inferring ancestral states using marginal reconstruction. 
+拟合ARD模型
+State distribution in data:
+States:	1	2	3	4	
+Counts:	6	93	106	2	
+Beginning thorough optimization search -- performing 12 random restarts 
+Finished. Inferring ancestral states using marginal reconstruction. 
+最优模型：ARD（AIC=194.355732）
+完成：3个模型，200次随机映射，10295个逐事件，269条逐枝方向记录
+  model root_prior n_tip n_state n_parameter log_likelihood      AIC      BIC
+3   ARD   maddfitz   207       4          12      -85.17787 194.3557 234.3484
+  delta_AIC delta_BIC selection_criterion selection_score rank selected
+3         0         0                 AIC        194.3557    1     TRUE

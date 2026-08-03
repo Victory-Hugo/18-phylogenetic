@@ -1,0 +1,2 @@
+model	root_prior	n_tip	n_state	n_parameter	log_likelihood	AIC	BIC	delta_AIC	delta_BIC	selection_criterion	selection_score	rank	selected
+ARD	maddfitz	207	4	12	-85.1778661251405	194.355732250281	234.348357769466	0	0	AIC	194.355732250281	1	TRUE

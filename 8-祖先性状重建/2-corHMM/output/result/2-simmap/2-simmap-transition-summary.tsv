@@ -1,0 +1,8 @@
+model	root_prior	from_state	to_state	mean_n_event	median_n_event	sd_n_event	lower_n_event	upper_n_event	proportion_nonzero	n_simulations
+ARD	maddfitz	GansuQinghai	Plateau	11.575	11	2.10392669494173	8	15.025	1	200
+ARD	maddfitz	GansuQinghai	SouthWest	0.615	0	0.761362835206822	0	2.02500000000001	0.47	200
+ARD	maddfitz	Plateau	SouthWest	31.675	32	2.61794637379768	27	37	1	200
+ARD	maddfitz	Plateau	YellowRiver	2.39	2	0.640273182902204	2	4	1	200
+ARD	maddfitz	SouthWest	GansuQinghai	3.86	4	1.60100470967515	1	7	1	200
+ARD	maddfitz	SouthWest	Plateau	0.03	0	0.171015295093097	0	1	0.03	200
+ARD	maddfitz	YellowRiver	GansuQinghai	1.33	2	1.17387816648439	0	4	0.635	200
