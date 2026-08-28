@@ -1,0 +1,507 @@
+from	to	value	link	Time Window
+Central Segment	North China	0.884	Between groups	0-500 Years
+Central Segment	Northern Segment	0.998	Corridor Segment	0-500 Years
+Central Segment	Panxi and Liangshan	0.998	Between groups	0-500 Years
+Central Segment	Qinghai-Tibet Plateau Core	1	Between groups	0-500 Years
+Central Segment	Western Highland	1	Between groups	0-500 Years
+North China	Northern Segment	0.882	Between groups	0-500 Years
+North China	Panxi and Liangshan	0.882	Between groups	0-500 Years
+North China	Qinghai-Tibet Plateau Core	0.884	Between groups	0-500 Years
+North China	Western Highland	0.884	Between groups	0-500 Years
+Northern Segment	Panxi and Liangshan	0.996	Between groups	0-500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.998	Between groups	0-500 Years
+Northern Segment	Western Highland	0.998	Between groups	0-500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.998	Between groups	0-500 Years
+Panxi and Liangshan	Western Highland	0.998	Between groups	0-500 Years
+Qinghai-Tibet Plateau Core	Western Highland	1	Highland	0-500 Years
+Sichuan Basin	Southern Segment	0.766	Between groups	0-500 Years
+Central Segment	North China	0.76	Between groups	500-1000 Years
+Central Segment	Northern Segment	0.686	Corridor Segment	500-1000 Years
+Central Segment	Panxi and Liangshan	0.944	Between groups	500-1000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.92	Between groups	500-1000 Years
+Central Segment	Southern Segment	0.546	Corridor Segment	500-1000 Years
+Central Segment	Western Highland	0.946	Between groups	500-1000 Years
+North China	Northern Segment	0.522	Between groups	500-1000 Years
+North China	Panxi and Liangshan	0.74	Between groups	500-1000 Years
+North China	Qinghai-Tibet Plateau Core	0.736	Between groups	500-1000 Years
+North China	Western Highland	0.75	Between groups	500-1000 Years
+Northern Segment	Panxi and Liangshan	0.674	Between groups	500-1000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.766	Between groups	500-1000 Years
+Northern Segment	Sichuan Basin	0.546	Between groups	500-1000 Years
+Northern Segment	Southern Segment	0.832	Corridor Segment	500-1000 Years
+Northern Segment	Western Highland	0.736	Between groups	500-1000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.908	Between groups	500-1000 Years
+Panxi and Liangshan	Southern Segment	0.534	Between groups	500-1000 Years
+Panxi and Liangshan	Western Highland	0.934	Between groups	500-1000 Years
+Qinghai-Tibet Plateau Core	Southern Segment	0.626	Between groups	500-1000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.938	Highland	500-1000 Years
+Sichuan Basin	Southern Segment	0.698	Between groups	500-1000 Years
+Southern Segment	Western Highland	0.596	Between groups	500-1000 Years
+Central Segment	North China	0.552	Between groups	1000-1500 Years
+Central Segment	Northern Segment	0.776	Corridor Segment	1000-1500 Years
+Central Segment	Panxi and Liangshan	0.792	Between groups	1000-1500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.802	Between groups	1000-1500 Years
+Central Segment	Southern Segment	0.676	Corridor Segment	1000-1500 Years
+Central Segment	Western Highland	0.8	Between groups	1000-1500 Years
+North China	Northern Segment	0.72	Between groups	1000-1500 Years
+North China	Panxi and Liangshan	0.684	Between groups	1000-1500 Years
+North China	Qinghai-Tibet Plateau Core	0.742	Between groups	1000-1500 Years
+North China	Western Highland	0.74	Between groups	1000-1500 Years
+Northern Segment	Panxi and Liangshan	0.916	Between groups	1000-1500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.974	Between groups	1000-1500 Years
+Northern Segment	Southern Segment	0.564	Corridor Segment	1000-1500 Years
+Northern Segment	Western Highland	0.972	Between groups	1000-1500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.942	Between groups	1000-1500 Years
+Panxi and Liangshan	Southern Segment	0.58	Between groups	1000-1500 Years
+Panxi and Liangshan	Western Highland	0.94	Between groups	1000-1500 Years
+Qinghai-Tibet Plateau Core	Southern Segment	0.59	Between groups	1000-1500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.998	Highland	1000-1500 Years
+Sichuan Basin	Southern Segment	0.752	Between groups	1000-1500 Years
+Southern Segment	Western Highland	0.588	Between groups	1000-1500 Years
+Central Segment	North China	0.992	Between groups	1500-2000 Years
+Central Segment	Northern Segment	0.992	Corridor Segment	1500-2000 Years
+Central Segment	Panxi and Liangshan	0.99	Between groups	1500-2000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.992	Between groups	1500-2000 Years
+Central Segment	Southern Segment	0.868	Corridor Segment	1500-2000 Years
+Central Segment	Western Highland	0.986	Between groups	1500-2000 Years
+North China	Northern Segment	0.984	Between groups	1500-2000 Years
+North China	Panxi and Liangshan	0.982	Between groups	1500-2000 Years
+North China	Qinghai-Tibet Plateau Core	0.984	Between groups	1500-2000 Years
+North China	Southern Segment	0.86	Between groups	1500-2000 Years
+North China	Western Highland	0.978	Between groups	1500-2000 Years
+Northern Segment	Panxi and Liangshan	0.982	Between groups	1500-2000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.996	Between groups	1500-2000 Years
+Northern Segment	Southern Segment	0.872	Corridor Segment	1500-2000 Years
+Northern Segment	Western Highland	0.99	Between groups	1500-2000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.982	Between groups	1500-2000 Years
+Panxi and Liangshan	Southern Segment	0.878	Between groups	1500-2000 Years
+Panxi and Liangshan	Western Highland	0.976	Between groups	1500-2000 Years
+Qinghai-Tibet Plateau Core	Southern Segment	0.868	Between groups	1500-2000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.99	Highland	1500-2000 Years
+Southern Segment	Western Highland	0.87	Between groups	1500-2000 Years
+Central Segment	Panxi and Liangshan	0.808	Between groups	2000-2500 Years
+North China	Northern Segment	0.626	Between groups	2000-2500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.574	Between groups	2000-2500 Years
+Northern Segment	Western Highland	0.618	Between groups	2000-2500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.638	Highland	2000-2500 Years
+Central Segment	Panxi and Liangshan	0.66	Between groups	2500-3000 Years
+North China	Sichuan Basin	0.63	Between groups	2500-3000 Years
+North China	Southern Segment	0.702	Between groups	2500-3000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.848	Between groups	2500-3000 Years
+Northern Segment	Western Highland	0.842	Between groups	2500-3000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.862	Highland	2500-3000 Years
+Sichuan Basin	Southern Segment	0.776	Between groups	2500-3000 Years
+Central Segment	Northern Segment	0.564	Corridor Segment	3000-3500 Years
+Central Segment	Panxi and Liangshan	0.584	Between groups	3000-3500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.614	Between groups	3000-3500 Years
+Central Segment	Western Highland	0.602	Between groups	3000-3500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.856	Between groups	3000-3500 Years
+Northern Segment	Sichuan Basin	0.624	Between groups	3000-3500 Years
+Northern Segment	Western Highland	0.876	Between groups	3000-3500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.504	Between groups	3000-3500 Years
+Qinghai-Tibet Plateau Core	Sichuan Basin	0.6	Between groups	3000-3500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.932	Highland	3000-3500 Years
+Sichuan Basin	Western Highland	0.626	Between groups	3000-3500 Years
+Central Segment	Panxi and Liangshan	0.78	Between groups	3500-4000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.624	Between groups	3500-4000 Years
+Northern Segment	Western Highland	0.632	Between groups	3500-4000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.844	Highland	3500-4000 Years
+Central Segment	Northern Segment	0.786	Corridor Segment	4000-4500 Years
+Central Segment	Panxi and Liangshan	0.908	Between groups	4000-4500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.74	Between groups	4000-4500 Years
+Central Segment	Western Highland	0.736	Between groups	4000-4500 Years
+Northern Segment	Panxi and Liangshan	0.788	Between groups	4000-4500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.686	Between groups	4000-4500 Years
+Northern Segment	Western Highland	0.66	Between groups	4000-4500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.76	Between groups	4000-4500 Years
+Panxi and Liangshan	Western Highland	0.766	Between groups	4000-4500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.704	Highland	4000-4500 Years
+Sichuan Basin	Southern Segment	0.744	Between groups	4000-4500 Years
+Central Segment	Northern Segment	0.862	Corridor Segment	4500-5000 Years
+Central Segment	Panxi and Liangshan	0.828	Between groups	4500-5000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.788	Between groups	4500-5000 Years
+Central Segment	Sichuan Basin	0.656	Between groups	4500-5000 Years
+Central Segment	Southern Segment	0.734	Corridor Segment	4500-5000 Years
+Central Segment	Western Highland	0.78	Between groups	4500-5000 Years
+North China	Northern Segment	0.542	Between groups	4500-5000 Years
+North China	Qinghai-Tibet Plateau Core	0.648	Between groups	4500-5000 Years
+North China	Western Highland	0.648	Between groups	4500-5000 Years
+Northern Segment	Panxi and Liangshan	0.834	Between groups	4500-5000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.866	Between groups	4500-5000 Years
+Northern Segment	Sichuan Basin	0.562	Between groups	4500-5000 Years
+Northern Segment	Southern Segment	0.732	Corridor Segment	4500-5000 Years
+Northern Segment	Western Highland	0.874	Between groups	4500-5000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.744	Between groups	4500-5000 Years
+Panxi and Liangshan	Sichuan Basin	0.624	Sichuan Region	4500-5000 Years
+Panxi and Liangshan	Southern Segment	0.714	Between groups	4500-5000 Years
+Panxi and Liangshan	Western Highland	0.752	Between groups	4500-5000 Years
+Qinghai-Tibet Plateau Core	Southern Segment	0.634	Between groups	4500-5000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.892	Highland	4500-5000 Years
+Sichuan Basin	Southern Segment	0.658	Between groups	4500-5000 Years
+Southern Segment	Western Highland	0.626	Between groups	4500-5000 Years
+Central Segment	North China	0.678	Between groups	5000-5500 Years
+Central Segment	Northern Segment	0.858	Corridor Segment	5000-5500 Years
+Central Segment	Panxi and Liangshan	0.804	Between groups	5000-5500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.82	Between groups	5000-5500 Years
+Central Segment	Sichuan Basin	0.51	Between groups	5000-5500 Years
+Central Segment	Western Highland	0.82	Between groups	5000-5500 Years
+North China	Northern Segment	0.764	Between groups	5000-5500 Years
+North China	Panxi and Liangshan	0.654	Between groups	5000-5500 Years
+North China	Qinghai-Tibet Plateau Core	0.842	Between groups	5000-5500 Years
+North China	Western Highland	0.85	Between groups	5000-5500 Years
+Northern Segment	Panxi and Liangshan	0.83	Between groups	5000-5500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.89	Between groups	5000-5500 Years
+Northern Segment	Western Highland	0.898	Between groups	5000-5500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.804	Between groups	5000-5500 Years
+Panxi and Liangshan	Sichuan Basin	0.522	Sichuan Region	5000-5500 Years
+Panxi and Liangshan	Western Highland	0.792	Between groups	5000-5500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.952	Highland	5000-5500 Years
+Sichuan Basin	Southern Segment	0.764	Between groups	5000-5500 Years
+Central Segment	Northern Segment	0.702	Corridor Segment	5500-6000 Years
+Central Segment	Panxi and Liangshan	0.702	Between groups	5500-6000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.692	Between groups	5500-6000 Years
+Central Segment	Southern Segment	0.65	Corridor Segment	5500-6000 Years
+Central Segment	Western Highland	0.718	Between groups	5500-6000 Years
+North China	Northern Segment	0.684	Between groups	5500-6000 Years
+North China	Panxi and Liangshan	0.724	Between groups	5500-6000 Years
+North China	Qinghai-Tibet Plateau Core	0.666	Between groups	5500-6000 Years
+North China	Sichuan Basin	0.65	Between groups	5500-6000 Years
+North China	Western Highland	0.612	Between groups	5500-6000 Years
+Northern Segment	Panxi and Liangshan	0.904	Between groups	5500-6000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.862	Between groups	5500-6000 Years
+Northern Segment	Sichuan Basin	0.718	Between groups	5500-6000 Years
+Northern Segment	Southern Segment	0.548	Corridor Segment	5500-6000 Years
+Northern Segment	Western Highland	0.816	Between groups	5500-6000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.91	Between groups	5500-6000 Years
+Panxi and Liangshan	Sichuan Basin	0.738	Sichuan Region	5500-6000 Years
+Panxi and Liangshan	Southern Segment	0.556	Between groups	5500-6000 Years
+Panxi and Liangshan	Western Highland	0.864	Between groups	5500-6000 Years
+Qinghai-Tibet Plateau Core	Sichuan Basin	0.696	Between groups	5500-6000 Years
+Qinghai-Tibet Plateau Core	Southern Segment	0.562	Between groups	5500-6000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.838	Highland	5500-6000 Years
+Sichuan Basin	Western Highland	0.642	Between groups	5500-6000 Years
+Southern Segment	Western Highland	0.552	Between groups	5500-6000 Years
+Central Segment	North China	0.63	Between groups	6000-6500 Years
+Central Segment	Northern Segment	0.702	Corridor Segment	6000-6500 Years
+Central Segment	Panxi and Liangshan	0.696	Between groups	6000-6500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.682	Between groups	6000-6500 Years
+Central Segment	Southern Segment	0.618	Corridor Segment	6000-6500 Years
+Central Segment	Western Highland	0.69	Between groups	6000-6500 Years
+North China	Northern Segment	0.88	Between groups	6000-6500 Years
+North China	Panxi and Liangshan	0.818	Between groups	6000-6500 Years
+North China	Qinghai-Tibet Plateau Core	0.9	Between groups	6000-6500 Years
+North China	Sichuan Basin	0.53	Between groups	6000-6500 Years
+North China	Southern Segment	0.724	Between groups	6000-6500 Years
+North China	Western Highland	0.84	Between groups	6000-6500 Years
+Northern Segment	Panxi and Liangshan	0.838	Between groups	6000-6500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.896	Between groups	6000-6500 Years
+Northern Segment	Southern Segment	0.756	Corridor Segment	6000-6500 Years
+Northern Segment	Western Highland	0.876	Between groups	6000-6500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.822	Between groups	6000-6500 Years
+Panxi and Liangshan	Southern Segment	0.674	Between groups	6000-6500 Years
+Panxi and Liangshan	Western Highland	0.79	Between groups	6000-6500 Years
+Qinghai-Tibet Plateau Core	Southern Segment	0.764	Between groups	6000-6500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.876	Highland	6000-6500 Years
+Southern Segment	Western Highland	0.7	Between groups	6000-6500 Years
+Central Segment	North China	0.628	Between groups	6500-7000 Years
+Central Segment	Northern Segment	0.916	Corridor Segment	6500-7000 Years
+Central Segment	Panxi and Liangshan	0.74	Between groups	6500-7000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.88	Between groups	6500-7000 Years
+Central Segment	Southern Segment	0.754	Corridor Segment	6500-7000 Years
+Central Segment	Western Highland	0.936	Between groups	6500-7000 Years
+North China	Northern Segment	0.664	Between groups	6500-7000 Years
+North China	Panxi and Liangshan	0.568	Between groups	6500-7000 Years
+North China	Qinghai-Tibet Plateau Core	0.648	Between groups	6500-7000 Years
+North China	Southern Segment	0.654	Between groups	6500-7000 Years
+North China	Western Highland	0.612	Between groups	6500-7000 Years
+Northern Segment	Panxi and Liangshan	0.716	Between groups	6500-7000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.852	Between groups	6500-7000 Years
+Northern Segment	Southern Segment	0.73	Corridor Segment	6500-7000 Years
+Northern Segment	Western Highland	0.884	Between groups	6500-7000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.684	Between groups	6500-7000 Years
+Panxi and Liangshan	Southern Segment	0.694	Between groups	6500-7000 Years
+Panxi and Liangshan	Western Highland	0.7	Between groups	6500-7000 Years
+Qinghai-Tibet Plateau Core	Southern Segment	0.702	Between groups	6500-7000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.868	Highland	6500-7000 Years
+Southern Segment	Western Highland	0.722	Between groups	6500-7000 Years
+Central Segment	North China	0.528	Between groups	7000-7500 Years
+Central Segment	Northern Segment	0.862	Corridor Segment	7000-7500 Years
+Central Segment	Panxi and Liangshan	0.818	Between groups	7000-7500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.86	Between groups	7000-7500 Years
+Central Segment	Southern Segment	0.8	Corridor Segment	7000-7500 Years
+Central Segment	Western Highland	0.87	Between groups	7000-7500 Years
+North China	Northern Segment	0.538	Between groups	7000-7500 Years
+North China	Panxi and Liangshan	0.542	Between groups	7000-7500 Years
+North China	Sichuan Basin	0.574	Between groups	7000-7500 Years
+Northern Segment	Panxi and Liangshan	0.784	Between groups	7000-7500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.85	Between groups	7000-7500 Years
+Northern Segment	Southern Segment	0.774	Corridor Segment	7000-7500 Years
+Northern Segment	Western Highland	0.852	Between groups	7000-7500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.786	Between groups	7000-7500 Years
+Panxi and Liangshan	Southern Segment	0.722	Between groups	7000-7500 Years
+Panxi and Liangshan	Western Highland	0.784	Between groups	7000-7500 Years
+Qinghai-Tibet Plateau Core	Southern Segment	0.76	Between groups	7000-7500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.862	Highland	7000-7500 Years
+Southern Segment	Western Highland	0.802	Between groups	7000-7500 Years
+Central Segment	North China	0.712	Between groups	7500-8000 Years
+Central Segment	Northern Segment	0.89	Corridor Segment	7500-8000 Years
+Central Segment	Panxi and Liangshan	0.942	Between groups	7500-8000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.91	Between groups	7500-8000 Years
+Central Segment	Sichuan Basin	0.668	Between groups	7500-8000 Years
+Central Segment	Western Highland	0.894	Between groups	7500-8000 Years
+North China	Northern Segment	0.75	Between groups	7500-8000 Years
+North China	Panxi and Liangshan	0.694	Between groups	7500-8000 Years
+North China	Qinghai-Tibet Plateau Core	0.674	Between groups	7500-8000 Years
+North China	Western Highland	0.626	Between groups	7500-8000 Years
+Northern Segment	Panxi and Liangshan	0.864	Between groups	7500-8000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.86	Between groups	7500-8000 Years
+Northern Segment	Sichuan Basin	0.606	Between groups	7500-8000 Years
+Northern Segment	Western Highland	0.828	Between groups	7500-8000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.896	Between groups	7500-8000 Years
+Panxi and Liangshan	Sichuan Basin	0.646	Sichuan Region	7500-8000 Years
+Panxi and Liangshan	Western Highland	0.864	Between groups	7500-8000 Years
+Qinghai-Tibet Plateau Core	Sichuan Basin	0.638	Between groups	7500-8000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.856	Highland	7500-8000 Years
+Sichuan Basin	Southern Segment	0.56	Between groups	7500-8000 Years
+Sichuan Basin	Western Highland	0.654	Between groups	7500-8000 Years
+Central Segment	North China	0.71	Between groups	8000-8500 Years
+Central Segment	Northern Segment	0.82	Corridor Segment	8000-8500 Years
+Central Segment	Panxi and Liangshan	0.706	Between groups	8000-8500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.838	Between groups	8000-8500 Years
+Central Segment	Southern Segment	0.592	Corridor Segment	8000-8500 Years
+Central Segment	Western Highland	0.806	Between groups	8000-8500 Years
+North China	Northern Segment	0.794	Between groups	8000-8500 Years
+North China	Panxi and Liangshan	0.612	Between groups	8000-8500 Years
+North China	Qinghai-Tibet Plateau Core	0.736	Between groups	8000-8500 Years
+North China	Sichuan Basin	0.526	Between groups	8000-8500 Years
+North China	Southern Segment	0.574	Between groups	8000-8500 Years
+North China	Western Highland	0.68	Between groups	8000-8500 Years
+Northern Segment	Panxi and Liangshan	0.694	Between groups	8000-8500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.854	Between groups	8000-8500 Years
+Northern Segment	Sichuan Basin	0.528	Between groups	8000-8500 Years
+Northern Segment	Southern Segment	0.6	Corridor Segment	8000-8500 Years
+Northern Segment	Western Highland	0.806	Between groups	8000-8500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.716	Between groups	8000-8500 Years
+Panxi and Liangshan	Western Highland	0.7	Between groups	8000-8500 Years
+Qinghai-Tibet Plateau Core	Southern Segment	0.578	Between groups	8000-8500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.836	Highland	8000-8500 Years
+Southern Segment	Western Highland	0.526	Between groups	8000-8500 Years
+Central Segment	North China	0.592	Between groups	8500-9000 Years
+Central Segment	Northern Segment	0.778	Corridor Segment	8500-9000 Years
+Central Segment	Panxi and Liangshan	0.836	Between groups	8500-9000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.82	Between groups	8500-9000 Years
+Central Segment	Sichuan Basin	0.604	Between groups	8500-9000 Years
+Central Segment	Southern Segment	0.564	Corridor Segment	8500-9000 Years
+Central Segment	Western Highland	0.786	Between groups	8500-9000 Years
+North China	Northern Segment	0.618	Between groups	8500-9000 Years
+North China	Panxi and Liangshan	0.596	Between groups	8500-9000 Years
+North China	Qinghai-Tibet Plateau Core	0.596	Between groups	8500-9000 Years
+North China	Western Highland	0.59	Between groups	8500-9000 Years
+Northern Segment	Panxi and Liangshan	0.79	Between groups	8500-9000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.782	Between groups	8500-9000 Years
+Northern Segment	Sichuan Basin	0.626	Between groups	8500-9000 Years
+Northern Segment	Southern Segment	0.586	Corridor Segment	8500-9000 Years
+Northern Segment	Western Highland	0.744	Between groups	8500-9000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.84	Between groups	8500-9000 Years
+Panxi and Liangshan	Sichuan Basin	0.624	Sichuan Region	8500-9000 Years
+Panxi and Liangshan	Southern Segment	0.552	Between groups	8500-9000 Years
+Panxi and Liangshan	Western Highland	0.786	Between groups	8500-9000 Years
+Qinghai-Tibet Plateau Core	Sichuan Basin	0.624	Between groups	8500-9000 Years
+Qinghai-Tibet Plateau Core	Southern Segment	0.568	Between groups	8500-9000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.782	Highland	8500-9000 Years
+Sichuan Basin	Southern Segment	0.5	Between groups	8500-9000 Years
+Sichuan Basin	Western Highland	0.594	Between groups	8500-9000 Years
+Southern Segment	Western Highland	0.518	Between groups	8500-9000 Years
+Central Segment	North China	0.942	Between groups	9000-9500 Years
+Central Segment	Northern Segment	0.936	Corridor Segment	9000-9500 Years
+Central Segment	Panxi and Liangshan	0.99	Between groups	9000-9500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.968	Between groups	9000-9500 Years
+Central Segment	Western Highland	0.97	Between groups	9000-9500 Years
+North China	Northern Segment	0.89	Between groups	9000-9500 Years
+North China	Panxi and Liangshan	0.936	Between groups	9000-9500 Years
+North China	Qinghai-Tibet Plateau Core	0.918	Between groups	9000-9500 Years
+North China	Western Highland	0.916	Between groups	9000-9500 Years
+Northern Segment	Panxi and Liangshan	0.934	Between groups	9000-9500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.924	Between groups	9000-9500 Years
+Northern Segment	Western Highland	0.914	Between groups	9000-9500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.962	Between groups	9000-9500 Years
+Panxi and Liangshan	Western Highland	0.964	Between groups	9000-9500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.942	Highland	9000-9500 Years
+Central Segment	North China	0.816	Between groups	10000-10500 Years
+Central Segment	Northern Segment	0.894	Corridor Segment	10000-10500 Years
+Central Segment	Panxi and Liangshan	0.91	Between groups	10000-10500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.924	Between groups	10000-10500 Years
+Central Segment	Western Highland	0.904	Between groups	10000-10500 Years
+North China	Northern Segment	0.75	Between groups	10000-10500 Years
+North China	Panxi and Liangshan	0.766	Between groups	10000-10500 Years
+North China	Qinghai-Tibet Plateau Core	0.788	Between groups	10000-10500 Years
+North China	Western Highland	0.768	Between groups	10000-10500 Years
+Northern Segment	Panxi and Liangshan	0.828	Between groups	10000-10500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.894	Between groups	10000-10500 Years
+Northern Segment	Western Highland	0.87	Between groups	10000-10500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.878	Between groups	10000-10500 Years
+Panxi and Liangshan	Western Highland	0.854	Between groups	10000-10500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.884	Highland	10000-10500 Years
+Central Segment	North China	0.638	Between groups	10500-11000 Years
+Central Segment	Northern Segment	0.74	Corridor Segment	10500-11000 Years
+Central Segment	Panxi and Liangshan	0.896	Between groups	10500-11000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.772	Between groups	10500-11000 Years
+Central Segment	Western Highland	0.78	Between groups	10500-11000 Years
+North China	Northern Segment	0.598	Between groups	10500-11000 Years
+North China	Panxi and Liangshan	0.662	Between groups	10500-11000 Years
+North China	Qinghai-Tibet Plateau Core	0.63	Between groups	10500-11000 Years
+North China	Western Highland	0.65	Between groups	10500-11000 Years
+Northern Segment	Panxi and Liangshan	0.776	Between groups	10500-11000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.728	Between groups	10500-11000 Years
+Northern Segment	Western Highland	0.712	Between groups	10500-11000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.812	Between groups	10500-11000 Years
+Panxi and Liangshan	Western Highland	0.808	Between groups	10500-11000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.74	Highland	10500-11000 Years
+Central Segment	North China	0.814	Between groups	11000-11500 Years
+Central Segment	Northern Segment	0.838	Corridor Segment	11000-11500 Years
+Central Segment	Panxi and Liangshan	0.834	Between groups	11000-11500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.866	Between groups	11000-11500 Years
+Central Segment	Western Highland	0.858	Between groups	11000-11500 Years
+North China	Northern Segment	0.784	Between groups	11000-11500 Years
+North China	Panxi and Liangshan	0.796	Between groups	11000-11500 Years
+North China	Qinghai-Tibet Plateau Core	0.848	Between groups	11000-11500 Years
+North China	Western Highland	0.824	Between groups	11000-11500 Years
+Northern Segment	Panxi and Liangshan	0.792	Between groups	11000-11500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.856	Between groups	11000-11500 Years
+Northern Segment	Western Highland	0.828	Between groups	11000-11500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.832	Between groups	11000-11500 Years
+Panxi and Liangshan	Western Highland	0.836	Between groups	11000-11500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.864	Highland	11000-11500 Years
+Central Segment	Northern Segment	0.662	Corridor Segment	11500-12000 Years
+Central Segment	Panxi and Liangshan	0.636	Between groups	11500-12000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.672	Between groups	11500-12000 Years
+Central Segment	Western Highland	0.694	Between groups	11500-12000 Years
+North China	Panxi and Liangshan	0.504	Between groups	11500-12000 Years
+Northern Segment	Panxi and Liangshan	0.53	Between groups	11500-12000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.626	Between groups	11500-12000 Years
+Northern Segment	Western Highland	0.592	Between groups	11500-12000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.616	Between groups	11500-12000 Years
+Panxi and Liangshan	Western Highland	0.606	Between groups	11500-12000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.638	Highland	11500-12000 Years
+Central Segment	Northern Segment	0.542	Corridor Segment	12000-12500 Years
+Central Segment	Panxi and Liangshan	0.678	Between groups	12000-12500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.576	Between groups	12000-12500 Years
+Central Segment	Western Highland	0.55	Between groups	12000-12500 Years
+North China	Northern Segment	0.504	Between groups	12000-12500 Years
+North China	Panxi and Liangshan	0.568	Between groups	12000-12500 Years
+North China	Western Highland	0.508	Between groups	12000-12500 Years
+Northern Segment	Panxi and Liangshan	0.708	Between groups	12000-12500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.59	Between groups	12000-12500 Years
+Northern Segment	Western Highland	0.608	Between groups	12000-12500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.714	Between groups	12000-12500 Years
+Panxi and Liangshan	Western Highland	0.756	Between groups	12000-12500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.626	Highland	12000-12500 Years
+Central Segment	North China	0.552	Between groups	12500-13000 Years
+Central Segment	Northern Segment	0.652	Corridor Segment	12500-13000 Years
+Central Segment	Panxi and Liangshan	0.726	Between groups	12500-13000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.642	Between groups	12500-13000 Years
+Central Segment	Western Highland	0.618	Between groups	12500-13000 Years
+North China	Northern Segment	0.544	Between groups	12500-13000 Years
+North China	Qinghai-Tibet Plateau Core	0.51	Between groups	12500-13000 Years
+North China	Western Highland	0.506	Between groups	12500-13000 Years
+Northern Segment	Panxi and Liangshan	0.57	Between groups	12500-13000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.546	Between groups	12500-13000 Years
+Northern Segment	Western Highland	0.598	Between groups	12500-13000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.584	Between groups	12500-13000 Years
+Panxi and Liangshan	Western Highland	0.564	Between groups	12500-13000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.556	Highland	12500-13000 Years
+Central Segment	North China	0.584	Between groups	13000-13500 Years
+Central Segment	Northern Segment	0.662	Corridor Segment	13000-13500 Years
+Central Segment	Panxi and Liangshan	0.5	Between groups	13000-13500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.678	Between groups	13000-13500 Years
+Central Segment	Western Highland	0.64	Between groups	13000-13500 Years
+North China	Northern Segment	0.594	Between groups	13000-13500 Years
+North China	Qinghai-Tibet Plateau Core	0.59	Between groups	13000-13500 Years
+North China	Western Highland	0.568	Between groups	13000-13500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.692	Between groups	13000-13500 Years
+Northern Segment	Western Highland	0.674	Between groups	13000-13500 Years
+Panxi and Liangshan	Western Highland	0.512	Between groups	13000-13500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.682	Highland	13000-13500 Years
+Central Segment	North China	0.502	Between groups	13500-14000 Years
+Central Segment	Northern Segment	0.604	Corridor Segment	13500-14000 Years
+Central Segment	Panxi and Liangshan	0.66	Between groups	13500-14000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.608	Between groups	13500-14000 Years
+Central Segment	Western Highland	0.628	Between groups	13500-14000 Years
+North China	Northern Segment	0.506	Between groups	13500-14000 Years
+North China	Panxi and Liangshan	0.502	Between groups	13500-14000 Years
+North China	Western Highland	0.538	Between groups	13500-14000 Years
+Northern Segment	Panxi and Liangshan	0.62	Between groups	13500-14000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.592	Between groups	13500-14000 Years
+Northern Segment	Western Highland	0.636	Between groups	13500-14000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.596	Between groups	13500-14000 Years
+Panxi and Liangshan	Western Highland	0.668	Between groups	13500-14000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.608	Highland	13500-14000 Years
+Central Segment	Northern Segment	0.638	Corridor Segment	14500-15000 Years
+Central Segment	Panxi and Liangshan	0.614	Between groups	14500-15000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.688	Between groups	14500-15000 Years
+Central Segment	Western Highland	0.702	Between groups	14500-15000 Years
+North China	Northern Segment	0.55	Between groups	14500-15000 Years
+Northern Segment	Panxi and Liangshan	0.54	Between groups	14500-15000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.706	Between groups	14500-15000 Years
+Northern Segment	Western Highland	0.688	Between groups	14500-15000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.602	Between groups	14500-15000 Years
+Panxi and Liangshan	Western Highland	0.604	Between groups	14500-15000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.694	Highland	14500-15000 Years
+Central Segment	Northern Segment	0.646	Corridor Segment	15000-15500 Years
+Central Segment	Panxi and Liangshan	0.7	Between groups	15000-15500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.666	Between groups	15000-15500 Years
+Central Segment	Western Highland	0.714	Between groups	15000-15500 Years
+North China	Northern Segment	0.526	Between groups	15000-15500 Years
+Northern Segment	Panxi and Liangshan	0.538	Between groups	15000-15500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.636	Between groups	15000-15500 Years
+Northern Segment	Western Highland	0.632	Between groups	15000-15500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.578	Between groups	15000-15500 Years
+Panxi and Liangshan	Western Highland	0.626	Between groups	15000-15500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.656	Highland	15000-15500 Years
+Central Segment	Northern Segment	0.626	Corridor Segment	16000-16500 Years
+Central Segment	Panxi and Liangshan	0.6	Between groups	16000-16500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.67	Between groups	16000-16500 Years
+Central Segment	Western Highland	0.668	Between groups	16000-16500 Years
+North China	Qinghai-Tibet Plateau Core	0.5	Between groups	16000-16500 Years
+Northern Segment	Panxi and Liangshan	0.594	Between groups	16000-16500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.692	Between groups	16000-16500 Years
+Northern Segment	Western Highland	0.662	Between groups	16000-16500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.674	Between groups	16000-16500 Years
+Panxi and Liangshan	Western Highland	0.612	Between groups	16000-16500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.758	Highland	16000-16500 Years
+Central Segment	Northern Segment	0.554	Corridor Segment	17000-17500 Years
+Central Segment	Panxi and Liangshan	0.692	Between groups	17000-17500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.628	Between groups	17000-17500 Years
+Central Segment	Western Highland	0.64	Between groups	17000-17500 Years
+Northern Segment	Panxi and Liangshan	0.662	Between groups	17000-17500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.638	Between groups	17000-17500 Years
+Northern Segment	Western Highland	0.638	Between groups	17000-17500 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.8	Between groups	17000-17500 Years
+Panxi and Liangshan	Western Highland	0.788	Between groups	17000-17500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.736	Highland	17000-17500 Years
+Central Segment	North China	0.526	Between groups	17500-18000 Years
+Central Segment	Northern Segment	0.688	Corridor Segment	17500-18000 Years
+Central Segment	Panxi and Liangshan	0.652	Between groups	17500-18000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.692	Between groups	17500-18000 Years
+Central Segment	Western Highland	0.618	Between groups	17500-18000 Years
+North China	Northern Segment	0.566	Between groups	17500-18000 Years
+North China	Qinghai-Tibet Plateau Core	0.51	Between groups	17500-18000 Years
+Northern Segment	Panxi and Liangshan	0.588	Between groups	17500-18000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.636	Between groups	17500-18000 Years
+Northern Segment	Western Highland	0.602	Between groups	17500-18000 Years
+Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.576	Between groups	17500-18000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.598	Highland	17500-18000 Years
+Central Segment	North China	0.54	Between groups	18500-19000 Years
+Central Segment	Northern Segment	0.6	Corridor Segment	18500-19000 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.556	Between groups	18500-19000 Years
+Central Segment	Western Highland	0.622	Between groups	18500-19000 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.524	Between groups	18500-19000 Years
+Northern Segment	Western Highland	0.55	Between groups	18500-19000 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.514	Highland	18500-19000 Years
+Central Segment	Northern Segment	0.592	Corridor Segment	19000-19500 Years
+Central Segment	Qinghai-Tibet Plateau Core	0.594	Between groups	19000-19500 Years
+Central Segment	Western Highland	0.608	Between groups	19000-19500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.518	Between groups	19000-19500 Years
+Northern Segment	Western Highland	0.572	Between groups	19000-19500 Years
+Qinghai-Tibet Plateau Core	Western Highland	0.59	Highland	19000-19500 Years
+Northern Segment	Qinghai-Tibet Plateau Core	0.526	Between groups	19500-20000 Years

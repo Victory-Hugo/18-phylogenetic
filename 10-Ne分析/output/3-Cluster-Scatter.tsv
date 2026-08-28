@@ -1,0 +1,279 @@
+Category	Group	Cluster	Component 1	Component 2	Time Window
+Central Segment	Corridor Segment	Cluster 1	-1.78177	0.18036	0-500 Years
+North China	Northern Lowland	Cluster 1	-1.39911	1.89959	0-500 Years
+Northern Segment	Corridor Segment	Cluster 1	-0.32031	0.53205	0-500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-1.74558	-0.85784	0-500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.06441	-0.6571	0-500 Years
+Sichuan Basin	Sichuan Region	Cluster 2	4.93772	0.28141	0-500 Years
+Southern Segment	Corridor Segment	Cluster 2	2.56567	-0.55358	0-500 Years
+Western Highland	Highland	Cluster 1	-1.19221	-0.82489	0-500 Years
+Central Segment	Corridor Segment	Cluster 1	2.65314	1.22679	500-1000 Years
+North China	Northern Lowland	Cluster 1	1.51727	0.9891	500-1000 Years
+Northern Segment	Corridor Segment	Cluster 2	-1.21968	-0.68605	500-1000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	2.04367	-0.56021	500-1000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	0.67557	-0.82519	500-1000 Years
+Sichuan Basin	Sichuan Region	Cluster 2	-4.32564	0.81187	500-1000 Years
+Southern Segment	Corridor Segment	Cluster 2	-2.35941	-0.17563	500-1000 Years
+Western Highland	Highland	Cluster 1	1.01508	-0.78068	500-1000 Years
+Central Segment	Corridor Segment	Cluster 1	0.85994	2.37898	1000-1500 Years
+North China	Northern Lowland	Cluster 1	-0.54426	0.15995	1000-1500 Years
+Northern Segment	Corridor Segment	Cluster 1	-1.69896	-2.19205	1000-1500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-1.21463	1.06986	1000-1500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.73423	-0.22705	1000-1500 Years
+Sichuan Basin	Sichuan Region	Cluster 2	4.1487	-0.86423	1000-1500 Years
+Southern Segment	Corridor Segment	Cluster 2	1.83119	-0.49671	1000-1500 Years
+Western Highland	Highland	Cluster 1	-1.64775	0.17125	1000-1500 Years
+Central Segment	Corridor Segment	Cluster 1	-1.17909	-1.85607	1500-2000 Years
+North China	Northern Lowland	Cluster 1	-1.93588	1.14214	1500-2000 Years
+Northern Segment	Corridor Segment	Cluster 1	-0.75053	1.61663	1500-2000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-1.19884	-1.97756	1500-2000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-0.67624	1.1074	1500-2000 Years
+Sichuan Basin	Sichuan Region	Cluster 2	5.76382	0.22435	1500-2000 Years
+Southern Segment	Corridor Segment	Cluster 1	0.71974	-1.27842	1500-2000 Years
+Western Highland	Highland	Cluster 1	-0.743	1.02153	1500-2000 Years
+Central Segment	Corridor Segment	Cluster 3	-1.40917	-1.71576	2000-2500 Years
+North China	Northern Lowland	Cluster 1	1.05935	1.06552	2000-2500 Years
+Northern Segment	Corridor Segment	Cluster 1	2.03478	1.12948	2000-2500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 3	-0.8092	-2.1372	2000-2500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	1.81099	-0.31792	2000-2500 Years
+Sichuan Basin	Sichuan Region	Cluster 2	-0.69653	0.55168	2000-2500 Years
+Southern Segment	Corridor Segment	Cluster 4	-4.37847	1.48012	2000-2500 Years
+Western Highland	Highland	Cluster 1	2.38826	-0.05592	2000-2500 Years
+Central Segment	Corridor Segment	Cluster 3	-3.15997	-0.69105	2500-3000 Years
+North China	Northern Lowland	Cluster 2	2.06229	-0.63739	2500-3000 Years
+Northern Segment	Corridor Segment	Cluster 1	0.4847	1.33545	2500-3000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 3	-3.95539	-1.26032	2500-3000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-0.67	1.48982	2500-3000 Years
+Sichuan Basin	Sichuan Region	Cluster 2	3.19833	-0.63577	2500-3000 Years
+Southern Segment	Corridor Segment	Cluster 2	2.03678	-1.70704	2500-3000 Years
+Western Highland	Highland	Cluster 1	0.00326	2.1063	2500-3000 Years
+Central Segment	Corridor Segment	Cluster 1	-2.3962	0.10229	3000-3500 Years
+North China	Northern Lowland	Cluster 3	2.23264	-3.14833	3000-3500 Years
+Northern Segment	Corridor Segment	Cluster 1	-0.02889	0.41943	3000-3500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-3.33565	-1.00699	3000-3500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.1932	0.64186	3000-3500 Years
+Sichuan Basin	Sichuan Region	Cluster 2	1.77345	1.23398	3000-3500 Years
+Southern Segment	Corridor Segment	Cluster 2	3.71107	0.85966	3000-3500 Years
+Western Highland	Highland	Cluster 1	-0.76322	0.8981	3000-3500 Years
+Central Segment	Corridor Segment	Cluster 4	-0.28563	2.36843	3500-4000 Years
+North China	Northern Lowland	Cluster 3	4.01601	-1.33898	3500-4000 Years
+Northern Segment	Corridor Segment	Cluster 1	0.88523	-0.39352	3500-4000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 4	-0.99237	2.35535	3500-4000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	0.39498	0.20847	3500-4000 Years
+Sichuan Basin	Sichuan Region	Cluster 2	-3.29231	-2.10564	3500-4000 Years
+Southern Segment	Corridor Segment	Cluster 2	-1.15614	-1.38401	3500-4000 Years
+Western Highland	Highland	Cluster 1	0.43024	0.28989	3500-4000 Years
+Central Segment	Corridor Segment	Cluster 1	1.02693	-0.74604	4000-4500 Years
+North China	Northern Lowland	Cluster 3	3.29495	3.21909	4000-4500 Years
+Northern Segment	Corridor Segment	Cluster 1	0.72508	-0.69173	4000-4500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	1.23421	-0.82041	4000-4500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	0.35658	-1.34435	4000-4500 Years
+Sichuan Basin	Sichuan Region	Cluster 2	-3.18105	0.53924	4000-4500 Years
+Southern Segment	Corridor Segment	Cluster 2	-3.95556	1.35912	4000-4500 Years
+Western Highland	Highland	Cluster 1	0.49885	-1.5149	4000-4500 Years
+Central Segment	Corridor Segment	Cluster 1	1.03493	-0.70433	4500-5000 Years
+North China	Northern Lowland	Cluster 3	-4.29888	2.51067	4500-5000 Years
+Northern Segment	Corridor Segment	Cluster 1	-0.12713	-0.64173	4500-5000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	0.6573	-0.17123	4500-5000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.47738	-1.45717	4500-5000 Years
+Sichuan Basin	Sichuan Region	Cluster 1	3.92257	1.326	4500-5000 Years
+Southern Segment	Corridor Segment	Cluster 1	1.83126	0.85028	4500-5000 Years
+Western Highland	Highland	Cluster 1	-1.54267	-1.71248	4500-5000 Years
+Central Segment	Corridor Segment	Cluster 1	0.07124	1.52904	5000-5500 Years
+North China	Northern Lowland	Cluster 1	-2.95202	-1.71035	5000-5500 Years
+Northern Segment	Corridor Segment	Cluster 1	-0.40601	-0.74271	5000-5500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-0.08345	-1.11511	5000-5500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.74766	0.39619	5000-5500 Years
+Sichuan Basin	Sichuan Region	Cluster 2	3.04307	-1.71545	5000-5500 Years
+Southern Segment	Corridor Segment	Cluster 2	3.88166	1.13003	5000-5500 Years
+Western Highland	Highland	Cluster 1	-1.80683	2.22836	5000-5500 Years
+Central Segment	Corridor Segment	Cluster 1	2.15354	0.15111	5500-6000 Years
+North China	Northern Lowland	Cluster 2	-4.04792	1.7204	5500-6000 Years
+Northern Segment	Corridor Segment	Cluster 1	0.22289	-0.37278	5500-6000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-0.70548	-1.29378	5500-6000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-0.04841	-1.44278	5500-6000 Years
+Sichuan Basin	Sichuan Region	Cluster 1	-1.80166	0.48035	5500-6000 Years
+Southern Segment	Corridor Segment	Cluster 1	3.52626	2.14963	5500-6000 Years
+Western Highland	Highland	Cluster 1	0.70078	-1.39215	5500-6000 Years
+Central Segment	Corridor Segment	Cluster 1	2.90192	1.80179	6000-6500 Years
+North China	Northern Lowland	Cluster 1	-1.93498	-0.90792	6000-6500 Years
+Northern Segment	Corridor Segment	Cluster 1	0.6209	-1.06538	6000-6500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	0.28289	0.84214	6000-6500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	0.69409	-1.6582	6000-6500 Years
+Sichuan Basin	Sichuan Region	Cluster 2	-4.30992	1.05621	6000-6500 Years
+Southern Segment	Corridor Segment	Cluster 1	0.59625	1.41186	6000-6500 Years
+Western Highland	Highland	Cluster 1	1.14886	-1.4805	6000-6500 Years
+Central Segment	Corridor Segment	Cluster 1	-1.62953	-0.4253	6500-7000 Years
+North China	Northern Lowland	Cluster 1	1.99312	2.04351	6500-7000 Years
+Northern Segment	Corridor Segment	Cluster 1	-0.72015	1.51343	6500-7000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	0.19994	-1.68375	6500-7000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-2.24001	0.04861	6500-7000 Years
+Sichuan Basin	Sichuan Region	Cluster 2	5.39573	-0.57946	6500-7000 Years
+Southern Segment	Corridor Segment	Cluster 1	-0.08129	-0.97995	6500-7000 Years
+Western Highland	Highland	Cluster 1	-2.91781	0.06292	6500-7000 Years
+Central Segment	Corridor Segment	Cluster 1	-1.47649	0.29983	7000-7500 Years
+North China	Northern Lowland	Cluster 2	3.7721	-1.88836	7000-7500 Years
+Northern Segment	Corridor Segment	Cluster 1	0.33349	-2.20059	7000-7500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-0.36702	0.95743	7000-7500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.63797	0.17205	7000-7500 Years
+Sichuan Basin	Sichuan Region	Cluster 2	3.75404	2.4881	7000-7500 Years
+Southern Segment	Corridor Segment	Cluster 1	-1.92697	0.02459	7000-7500 Years
+Western Highland	Highland	Cluster 1	-2.45117	0.14694	7000-7500 Years
+Central Segment	Corridor Segment	Cluster 1	1.39476	-1.11682	7500-8000 Years
+North China	Northern Lowland	Cluster 1	3.18903	2.34666	7500-8000 Years
+Northern Segment	Corridor Segment	Cluster 1	1.52556	0.52895	7500-8000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	0.9216	-1.48053	7500-8000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	0.29414	-0.8679	7500-8000 Years
+Sichuan Basin	Sichuan Region	Cluster 1	-1.37158	1.06518	7500-8000 Years
+Southern Segment	Corridor Segment	Cluster 2	-5.06213	0.97727	7500-8000 Years
+Western Highland	Highland	Cluster 1	-0.89138	-1.45281	7500-8000 Years
+Central Segment	Corridor Segment	Cluster 1	-1.82059	-1.10549	8000-8500 Years
+North China	Northern Lowland	Cluster 1	1.08929	-3.21785	8000-8500 Years
+Northern Segment	Corridor Segment	Cluster 1	-1.22674	-1.30263	8000-8500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-0.66817	0.19419	8000-8500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.63629	0.64916	8000-8500 Years
+Sichuan Basin	Sichuan Region	Cluster 2	3.17844	0.69482	8000-8500 Years
+Southern Segment	Corridor Segment	Cluster 2	3.03862	1.37546	8000-8500 Years
+Western Highland	Highland	Cluster 1	-1.95457	2.71234	8000-8500 Years
+Central Segment	Corridor Segment	Cluster 1	-2.11073	0.84755	8500-9000 Years
+North China	Northern Lowland	Cluster 2	2.9324	-0.52508	8500-9000 Years
+Northern Segment	Corridor Segment	Cluster 1	-0.19711	0.8305	8500-9000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-2.61326	1.32373	8500-9000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.93356	-0.45833	8500-9000 Years
+Sichuan Basin	Sichuan Region	Cluster 2	2.1876	1.12918	8500-9000 Years
+Southern Segment	Corridor Segment	Cluster 2	2.59655	0.25513	8500-9000 Years
+Western Highland	Highland	Cluster 1	-0.86189	-3.40269	8500-9000 Years
+Central Segment	Corridor Segment	Cluster 1	1.73657	0.81635	9000-9500 Years
+North China	Northern Lowland	Cluster 1	1.49671	-2.56535	9000-9500 Years
+Northern Segment	Corridor Segment	Cluster 1	0.37047	0.98783	9000-9500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	2.02355	-0.97644	9000-9500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	1.0488	1.26357	9000-9500 Years
+Sichuan Basin	Sichuan Region	Cluster 2	-3.04902	-1.71909	9000-9500 Years
+Southern Segment	Corridor Segment	Cluster 2	-4.73471	0.84967	9000-9500 Years
+Western Highland	Highland	Cluster 1	1.10762	1.34346	9000-9500 Years
+Central Segment	Corridor Segment	Cluster 3	-0.03903	1.71542	9500-10000 Years
+North China	Northern Lowland	Cluster 4	1.36775	0.45251	9500-10000 Years
+Northern Segment	Corridor Segment	Cluster 1	-2.00843	-1.76715	9500-10000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 3	0.86096	2.19772	9500-10000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-2.1816	-0.61203	9500-10000 Years
+Sichuan Basin	Sichuan Region	Cluster 2	4.16611	-1.83686	9500-10000 Years
+Western Highland	Highland	Cluster 1	-2.16576	-0.14962	9500-10000 Years
+Central Segment	Corridor Segment	Cluster 1	-1.01809	-1.01963	10000-10500 Years
+North China	Northern Lowland	Cluster 1	-0.39835	-0.158	10000-10500 Years
+Northern Segment	Corridor Segment	Cluster 1	-0.35401	2.66913	10000-10500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-0.88067	-1.47834	10000-10500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.64089	0.23108	10000-10500 Years
+Sichuan Basin	Sichuan Region	Cluster 2	5.97822	-0.1945	10000-10500 Years
+Western Highland	Highland	Cluster 1	-1.68622	-0.04974	10000-10500 Years
+Central Segment	Corridor Segment	Cluster 1	0.19598	-1.99724	10500-11000 Years
+North China	Northern Lowland	Cluster 1	0.18291	-0.0351	10500-11000 Years
+Northern Segment	Corridor Segment	Cluster 1	-1.92329	1.99599	10500-11000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	0.31084	-2.43387	10500-11000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.8187	0.77664	10500-11000 Years
+Sichuan Basin	Sichuan Region	Cluster 2	4.73404	1.44237	10500-11000 Years
+Western Highland	Highland	Cluster 1	-1.68178	0.25122	10500-11000 Years
+Central Segment	Corridor Segment	Cluster 1	1.4449	-1.02323	11000-11500 Years
+North China	Northern Lowland	Cluster 1	-0.4787	-0.67495	11000-11500 Years
+Northern Segment	Corridor Segment	Cluster 1	2.32401	1.67608	11000-11500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	0.15059	-2.35219	11000-11500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	0.98443	0.57551	11000-11500 Years
+Sichuan Basin	Sichuan Region	Cluster 2	-5.44604	0.74045	11000-11500 Years
+Western Highland	Highland	Cluster 1	1.02081	1.05833	11000-11500 Years
+Central Segment	Corridor Segment	Cluster 1	1.69705	-1.67922	11500-12000 Years
+North China	Northern Lowland	Cluster 1	-3.61692	1.67233	11500-12000 Years
+Northern Segment	Corridor Segment	Cluster 2	4.15166	1.70348	11500-12000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-1.3629	-1.16376	11500-12000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-0.39998	-0.14202	11500-12000 Years
+Western Highland	Highland	Cluster 1	-0.46891	-0.39081	11500-12000 Years
+Central Segment	Corridor Segment	Cluster 1	1.26222	-0.31919	12000-12500 Years
+North China	Northern Lowland	Cluster 1	-2.86518	1.69924	12000-12500 Years
+Northern Segment	Corridor Segment	Cluster 2	4.36472	1.13981	12000-12500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-0.17447	-2.69064	12000-12500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.10757	0.2145	12000-12500 Years
+Western Highland	Highland	Cluster 1	-1.47972	-0.04372	12000-12500 Years
+Central Segment	Corridor Segment	Cluster 1	0.33331	-1.02427	12500-13000 Years
+North China	Northern Lowland	Cluster 1	-0.50236	2.93	12500-13000 Years
+Northern Segment	Corridor Segment	Cluster 1	1.9076	-1.71455	12500-13000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 2	-4.20374	-1.02262	12500-13000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	1.64563	0.12561	12500-13000 Years
+Western Highland	Highland	Cluster 1	0.81956	0.70584	12500-13000 Years
+Central Segment	Corridor Segment	Cluster 1	0.13521	-0.76903	13000-13500 Years
+North China	Northern Lowland	Cluster 1	0.31051	-1.30567	13000-13500 Years
+Northern Segment	Corridor Segment	Cluster 1	1.99304	2.67097	13000-13500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 2	-4.92231	0.63147	13000-13500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	1.48344	-0.98848	13000-13500 Years
+Western Highland	Highland	Cluster 1	1.00011	-0.23926	13000-13500 Years
+Central Segment	Corridor Segment	Cluster 1	-2.19426	-2.11006	13500-14000 Years
+North China	Northern Lowland	Cluster 1	3.86664	0.27929	13500-14000 Years
+Northern Segment	Corridor Segment	Cluster 1	1.31308	1.33998	13500-14000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 2	-3.38225	2.08582	13500-14000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	0.56796	-0.93036	13500-14000 Years
+Western Highland	Highland	Cluster 1	-0.17117	-0.66467	13500-14000 Years
+Central Segment	Corridor Segment	Cluster 2	-3.02715	-1.16358	14000-14500 Years
+North China	Northern Lowland	Cluster 3	4.33839	-1.29388	14000-14500 Years
+Northern Segment	Corridor Segment	Cluster 1	1.4453	0.57866	14000-14500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 2	-3.21726	-0.23472	14000-14500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	0.34931	1.10993	14000-14500 Years
+Western Highland	Highland	Cluster 1	0.11142	1.00359	14000-14500 Years
+Central Segment	Corridor Segment	Cluster 1	-2.51166	-0.49302	14500-15000 Years
+North China	Northern Lowland	Cluster 3	3.80922	1.66194	14500-15000 Years
+Northern Segment	Corridor Segment	Cluster 1	2.10541	-0.93051	14500-15000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-3.1109	1.77139	14500-15000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	0.20326	-1.56711	14500-15000 Years
+Western Highland	Highland	Cluster 1	-0.49533	-0.44268	14500-15000 Years
+Central Segment	Corridor Segment	Cluster 1	-2.11099	-2.08429	15000-15500 Years
+North China	Northern Lowland	Cluster 3	3.7914	0.13123	15000-15500 Years
+Northern Segment	Corridor Segment	Cluster 3	1.8825	0.28667	15000-15500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-3.25215	1.76195	15000-15500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-0.03792	1.13611	15000-15500 Years
+Western Highland	Highland	Cluster 1	-0.27285	-1.23167	15000-15500 Years
+Central Segment	Corridor Segment	Cluster 2	-2.55802	-0.67074	15500-16000 Years
+North China	Northern Lowland	Cluster 3	4.08256	1.08263	15500-16000 Years
+Northern Segment	Corridor Segment	Cluster 1	1.38113	-0.62587	15500-16000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 2	-3.1003	1.58337	15500-16000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	1.01385	-0.80967	15500-16000 Years
+Western Highland	Highland	Cluster 1	-0.81922	-0.55973	15500-16000 Years
+Central Segment	Corridor Segment	Cluster 1	-2.63102	-1.71513	16000-16500 Years
+North China	Northern Lowland	Cluster 3	4.41765	-1.12712	16000-16500 Years
+Northern Segment	Corridor Segment	Cluster 1	0.25073	1.58772	16000-16500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-1.06229	1.1468	16000-16500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-0.01337	1.46622	16000-16500 Years
+Western Highland	Highland	Cluster 1	-0.9617	-1.35849	16000-16500 Years
+Central Segment	Corridor Segment	Cluster 2	-1.60263	1.73215	16500-17000 Years
+North China	Northern Lowland	Cluster 3	4.66565	0.21575	16500-17000 Years
+Northern Segment	Corridor Segment	Cluster 4	0.20149	0.43187	16500-17000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 2	-1.33704	1.63813	16500-17000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.05461	-2.01142	16500-17000 Years
+Western Highland	Highland	Cluster 1	-0.87285	-2.00648	16500-17000 Years
+Central Segment	Corridor Segment	Cluster 1	-1.45709	0.09759	17000-17500 Years
+North China	Northern Lowland	Cluster 3	4.91619	-0.18533	17000-17500 Years
+Northern Segment	Corridor Segment	Cluster 1	0.24016	1.66559	17000-17500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-1.75843	1.10256	17000-17500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-0.96338	-1.98323	17000-17500 Years
+Western Highland	Highland	Cluster 1	-0.97746	-0.69718	17000-17500 Years
+Central Segment	Corridor Segment	Cluster 1	-2.21903	-0.14599	17500-18000 Years
+North China	Northern Lowland	Cluster 3	4.60701	0.9092	17500-18000 Years
+Northern Segment	Corridor Segment	Cluster 1	1.21595	-2.31565	17500-18000 Years
+Panxi and Liangshan	Sichuan Region	Cluster 1	-1.04173	-0.29031	17500-18000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-1.65109	0.43304	17500-18000 Years
+Western Highland	Highland	Cluster 1	-0.91111	1.40971	17500-18000 Years
+Central Segment	Corridor Segment	Cluster 1	-1.08961	0.31065	18000-18500 Years
+North China	Northern Lowland	Cluster 3	2.68434	-1.95503	18000-18500 Years
+Northern Segment	Corridor Segment	Cluster 2	2.767	2.67739	18000-18500 Years
+Panxi and Liangshan	Sichuan Region	Cluster 3	0.42335	-1.67656	18000-18500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-2.80412	-0.1977	18000-18500 Years
+Western Highland	Highland	Cluster 1	-1.98096	0.84125	18000-18500 Years
+Central Segment	Corridor Segment	Cluster 1	-0.57459	2.39413	18500-19000 Years
+North China	Northern Lowland	Cluster 1	-2.63943	-1.67939	18500-19000 Years
+Northern Segment	Corridor Segment	Cluster 2	3.52466	-0.88381	18500-19000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-0.1882	-1.19912	18500-19000 Years
+Western Highland	Highland	Cluster 1	-0.12245	1.36818	18500-19000 Years
+Central Segment	Corridor Segment	Cluster 1	1.65134	1.53156	19000-19500 Years
+North China	Northern Lowland	Cluster 2	-4.11472	0.1868	19000-19500 Years
+Northern Segment	Corridor Segment	Cluster 1	1.61381	-2.4629	19000-19500 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-0.26903	-0.99542	19000-19500 Years
+Western Highland	Highland	Cluster 1	1.11861	1.73996	19000-19500 Years
+Central Segment	Corridor Segment	Cluster 2	3.76461	-0.18158	19500-20000 Years
+Northern Segment	Corridor Segment	Cluster 1	-0.6937	-1.93136	19500-20000 Years
+Qinghai-Tibet Plateau Core	Highland	Cluster 1	-3.08122	0.21931	19500-20000 Years
+Western Highland	Highland	Cluster 1	0.01032	1.89364	19500-20000 Years
