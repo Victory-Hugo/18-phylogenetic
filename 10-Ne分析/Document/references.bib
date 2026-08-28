@@ -1,0 +1,320 @@
+% =====================================================================
+% references.bib —— 参考文献数据库
+% 编译：xelatex -> biber -> xelatex x2  （或直接 latexmk -xelatex）
+% 命名建议：作者姓氏+年份，如 soares2009；同年多篇加 a/b。
+% =====================================================================
+
+% ---------- 模板演示用示例条目 ----------
+@article{aton2025,
+  author  = {Aton, Alice and Example, Bob and Author, Carol},
+  title   = {A Reusable Benchmark for Algorithmic Methods},
+  journal = {Journal of Example Research},
+  year    = {2025},
+  volume  = {12},
+  number  = {3},
+  pages   = {101--115},
+  doi     = {10.0000/example.2025.001}
+}
+
+% ---------- 软件 / 方法 ----------
+@article{alexander2009,
+  author  = {Alexander, David H. and Novembre, John and Lange, Kenneth},
+  title   = {Fast Model-Based Estimation of Ancestry in Unrelated Individuals},
+  journal = {Genome Research},
+  year    = {2009},
+  volume  = {19},
+  number  = {9},
+  pages   = {1655--1664},
+  doi     = {10.1101/gr.094052.109}
+}
+
+@article{purcell2007,
+  author  = {Purcell, Shaun and Neale, Benjamin and Todd-Brown, Kathe and Thomas, Lori
+             and Ferreira, Manuel A. R. and Bender, David and Maller, Julian
+             and Sklar, Pamela and de Bakker, Paul I. W. and Daly, Mark J.
+             and Sham, Pak C.},
+  title   = {{PLINK}: A Tool Set for Whole-Genome Association and Population-Based
+             Linkage Analyses},
+  journal = {The American Journal of Human Genetics},
+  year    = {2007},
+  volume  = {81},
+  number  = {3},
+  pages   = {559--575},
+  doi     = {10.1086/519795}
+}
+
+% ---------- mtDNA 系统发育与分子钟 ----------
+@article{forster1996,
+  author  = {Forster, Peter and Harding, Rosalind and Torroni, Antonio
+             and Bandelt, Hans-J{\"u}rgen},
+  title   = {Origin and Evolution of Native {American} {mtDNA} Variation:
+             A Reappraisal},
+  journal = {American Journal of Human Genetics},
+  year    = {1996},
+  volume  = {59},
+  number  = {4},
+  pages   = {935--945}
+}
+
+@article{saillard2000,
+  author  = {Saillard, Juliette and Forster, Peter and Lynnerup, Niels
+             and Bandelt, Hans-J{\"u}rgen and N{\o}rby, S{\o}ren},
+  title   = {{mtDNA} Variation among {Greenland} {Eskimos}:
+             The Edge of the {Beringian} Expansion},
+  journal = {American Journal of Human Genetics},
+  year    = {2000},
+  volume  = {67},
+  number  = {3},
+  pages   = {718--726},
+  doi     = {10.1086/303038}
+}
+
+@article{soares2009,
+  author  = {Soares, Pedro and Ermini, Luca and Thomson, Noel and Mormina, Maru
+             and Rito, Teresa and R{\"o}hl, Arne and Salas, Antonio
+             and Oppenheimer, Stephen and Macaulay, Vincent and Richards, Martin B.},
+  title   = {Correcting for Purifying Selection: An Improved Human Mitochondrial
+             Molecular Clock},
+  journal = {The American Journal of Human Genetics},
+  year    = {2009},
+  volume  = {84},
+  number  = {6},
+  pages   = {740--759},
+  doi     = {10.1016/j.ajhg.2009.05.001}
+}
+
+@article{behar2012,
+  author  = {Behar, Doron M. and van Oven, Mannis and Rosset, Saharon
+             and Metspalu, Mait and Loogv{\"a}li, Eva-Liis and Silva, Nuno M.
+             and Kivisild, Toomas and Torroni, Antonio and Villems, Richard},
+  title   = {A ``{Copernican}'' Reassessment of the Human Mitochondrial {DNA} Tree
+             from Its Root},
+  journal = {The American Journal of Human Genetics},
+  year    = {2012},
+  volume  = {90},
+  number  = {4},
+  pages   = {675--684},
+  doi     = {10.1016/j.ajhg.2012.03.002}
+}
+
+@article{vanoven2009,
+  author  = {van Oven, Mannis and Kayser, Manfred},
+  title   = {Updated Comprehensive Phylogenetic Tree of Global Human
+             Mitochondrial {DNA} Variation},
+  journal = {Human Mutation},
+  year    = {2009},
+  volume  = {30},
+  number  = {2},
+  pages   = {E386--E394},
+  doi     = {10.1002/humu.20921}
+}
+
+% ---------- 其他条目类型示例 ----------
+@book{felsenstein2004,
+  author    = {Felsenstein, Joseph},
+  title     = {Inferring Phylogenies},
+  publisher = {Sinauer Associates},
+  address   = {Sunderland, MA},
+  year      = {2004}
+}
+
+@incollection{example_chapter,
+  author    = {Author, First},
+  title     = {Title of the Book Chapter},
+  booktitle = {Title of the Edited Volume},
+  editor    = {Editor, Second},
+  publisher = {Publisher Name},
+  year      = {2024},
+  pages     = {1--20}
+}
+
+@online{example_dataset,
+  author       = {Data Author},
+  title        = {Name of the Deposited Dataset},
+  year         = {2025},
+  url          = {https://doi.org/10.0000/zenodo.0000000},
+  urldate      = {2026-08-28},
+  note         = {Zenodo}
+}
+
+% ---------- Ne 轨迹聚类流程所用软件与方法 ----------
+@article{gill2013,
+  author  = {Gill, Mandev S. and Lemey, Philippe and Faria, Nuno R. and Rambaut, Andrew
+             and Shapiro, Beth and Suchard, Marc A.},
+  title   = {Improving {Bayesian} Population Dynamics Inference: A Coalescent-Based
+             Model for Multiple Loci},
+  journal = {Molecular Biology and Evolution},
+  year    = {2013},
+  volume  = {30},
+  number  = {3},
+  pages   = {713--724},
+  doi     = {10.1093/molbev/mss265}
+}
+
+@article{suchard2018,
+  author  = {Suchard, Marc A. and Lemey, Philippe and Baele, Guy and Ayres, Daniel L.
+             and Drummond, Alexei J. and Rambaut, Andrew},
+  title   = {Bayesian Phylogenetic and Phylodynamic Data Integration Using {BEAST} 1.10},
+  journal = {Virus Evolution},
+  year    = {2018},
+  volume  = {4},
+  number  = {1},
+  pages   = {vey016},
+  doi     = {10.1093/ve/vey016}
+}
+
+@article{harris2020,
+  author  = {Harris, Charles R. and Millman, K. Jarrod and van der Walt, St{\'e}fan J.
+             and Gommers, Ralf and Virtanen, Pauli and Cournapeau, David
+             and Wieser, Eric and Taylor, Julian and Berg, Sebastian
+             and Smith, Nathaniel J. and Kern, Robert and Picus, Matti
+             and Hoyer, Stephan and van Kerkwijk, Marten H. and Brett, Matthew
+             and Haldane, Allan and del R{\'i}o, Jaime Fern{\'a}ndez
+             and Wiebe, Mark and Peterson, Pearu and G{\'e}rard-Marchant, Pierre
+             and Sheppard, Kevin and Reddy, Tyler and Weckesser, Warren
+             and Abbasi, Hameer and Gohlke, Christoph and Oliphant, Travis E.},
+  title   = {Array Programming with {NumPy}},
+  journal = {Nature},
+  year    = {2020},
+  volume  = {585},
+  number  = {7825},
+  pages   = {357--362},
+  doi     = {10.1038/s41586-020-2649-2}
+}
+
+@article{virtanen2020,
+  author  = {Virtanen, Pauli and Gommers, Ralf and Oliphant, Travis E. and Haberland, Matt
+             and Reddy, Tyler and Cournapeau, David and Burovski, Evgeni
+             and Peterson, Pearu and Weckesser, Warren and Bright, Jonathan
+             and van der Walt, St{\'e}fan J. and Brett, Matthew and Wilson, Joshua
+             and Millman, K. Jarrod and Mayorov, Nikolay and Nelson, Andrew R. J.
+             and Jones, Eric and Kern, Robert and Larson, Eric and Carey, C J
+             and Polat, {\.I}lhan and Feng, Yu and Moore, Eric W.
+             and VanderPlas, Jake and Laxalde, Denis and Perktold, Josef
+             and Cimrman, Robert and Henriksen, Ian and Quintero, E. A.
+             and Harris, Charles R. and Archibald, Anne M. and Ribeiro, Ant{\^o}nio H.
+             and Pedregosa, Fabian and van Mulbregt, Paul},
+  title   = {{SciPy} 1.0: Fundamental Algorithms for Scientific Computing in {Python}},
+  journal = {Nature Methods},
+  year    = {2020},
+  volume  = {17},
+  number  = {3},
+  pages   = {261--272},
+  doi     = {10.1038/s41592-019-0686-2}
+}
+
+@article{pedregosa2011,
+  author  = {Pedregosa, Fabian and Varoquaux, Ga{\"e}l and Gramfort, Alexandre
+             and Michel, Vincent and Thirion, Bertrand and Grisel, Olivier
+             and Blondel, Mathieu and Prettenhofer, Peter and Weiss, Ron
+             and Dubourg, Vincent and Vanderplas, Jake and Passos, Alexandre
+             and Cournapeau, David and Brucher, Matthieu and Perrot, Matthieu
+             and Duchesnay, {\'E}douard},
+  title   = {Scikit-learn: Machine Learning in {Python}},
+  journal = {Journal of Machine Learning Research},
+  year    = {2011},
+  volume  = {12},
+  pages   = {2825--2830}
+}
+
+@inproceedings{mckinney2010,
+  author    = {McKinney, Wes},
+  title     = {Data Structures for Statistical Computing in {Python}},
+  booktitle = {Proceedings of the 9th Python in Science Conference},
+  year      = {2010},
+  pages     = {56--61},
+  doi       = {10.25080/Majora-92bf1922-00a}
+}
+
+@article{cleveland1988,
+  author  = {Cleveland, William S. and Devlin, Susan J.},
+  title   = {Locally Weighted Regression: An Approach to Regression Analysis by
+             Local Fitting},
+  journal = {Journal of the American Statistical Association},
+  year    = {1988},
+  volume  = {83},
+  number  = {403},
+  pages   = {596--610},
+  doi     = {10.1080/01621459.1988.10478639}
+}
+
+@article{rousseeuw1987,
+  author  = {Rousseeuw, Peter J.},
+  title   = {Silhouettes: A Graphical Aid to the Interpretation and Validation of
+             Cluster Analysis},
+  journal = {Journal of Computational and Applied Mathematics},
+  year    = {1987},
+  volume  = {20},
+  pages   = {53--65},
+  doi     = {10.1016/0377-0427(87)90125-7}
+}
+
+@article{kuhn1955,
+  author  = {Kuhn, Harold W.},
+  title   = {The {Hungarian} Method for the Assignment Problem},
+  journal = {Naval Research Logistics Quarterly},
+  year    = {1955},
+  volume  = {2},
+  number  = {1-2},
+  pages   = {83--97},
+  doi     = {10.1002/nav.3800020109}
+}
+
+@manual{rcoreteam2026,
+  author       = {{R Core Team}},
+  title        = {R: A Language and Environment for Statistical Computing},
+  organization = {R Foundation for Statistical Computing},
+  address      = {Vienna, Austria},
+  year         = {2026},
+  url          = {https://www.R-project.org/}
+}
+
+@manual{engler2025,
+  author  = {Engler, Jan Broder},
+  title   = {tidyplots: Tidy Plots for Scientific Papers},
+  year    = {2025},
+  note    = {R package version 0.3.1},
+  url     = {https://CRAN.R-project.org/package=tidyplots}
+}
+
+@book{wickham2016,
+  author    = {Wickham, Hadley},
+  title     = {ggplot2: Elegant Graphics for Data Analysis},
+  publisher = {Springer-Verlag},
+  address   = {New York},
+  year      = {2016},
+  doi       = {10.1007/978-3-319-24277-4}
+}
+
+@manual{slowikowski2025,
+  author  = {S{\l}owikowski, Kamil},
+  title   = {ggrepel: Automatically Position Non-Overlapping Text Labels with ggplot2},
+  year    = {2025},
+  note    = {R package version 0.9.8},
+  url     = {https://CRAN.R-project.org/package=ggrepel}
+}
+
+@manual{kolde2025,
+  author  = {Kolde, Raivo},
+  title   = {pheatmap: Pretty Heatmaps},
+  year    = {2025},
+  note    = {R package version 1.0.13},
+  url     = {https://CRAN.R-project.org/package=pheatmap}
+}
+
+@article{csardi2006,
+  author  = {Cs{\'a}rdi, G{\'a}bor and Nepusz, Tam{\'a}s},
+  title   = {The {igraph} Software Package for Complex Network Research},
+  journal = {InterJournal, Complex Systems},
+  year    = {2006},
+  volume  = {1695},
+  pages   = {1--9}
+}
+
+@manual{pedersen2024,
+  author  = {Pedersen, Thomas Lin},
+  title   = {ggraph: An Implementation of Grammar of Graphics for Graphs and Networks},
+  year    = {2024},
+  note    = {R package version 2.2.2},
+  url     = {https://CRAN.R-project.org/package=ggraph}
+}

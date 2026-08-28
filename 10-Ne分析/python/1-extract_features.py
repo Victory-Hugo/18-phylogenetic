@@ -1,18 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """1-extract_features.py — 读入 Skygrid 后验，按时间段与时间 bin 提取 8 个轨迹特征。
-
-对每个类别、每个时间窗提取：平均水平 / 净变化 / 平均速率 / 波动幅度 / 最大扩张的时间
-与速率 / 最大收缩的时间与速率。八个特征逐条后验样本各算一遍，再对特征本身求中位数与
-95% HPD——不确定性从这一步就开始传播，而不是等到聚类才做。
-
-事件方向严格判断：速率极值的位置在任何窗口里都存在，但整窗速率同号时其中一个方向根本
-没有发生。因此扩张类给 P(最大速率 > 0)、收缩类给 P(最小速率 < 0)，并在 Probability
-Statement 列写明这个概率是什么的概率；支持度不足时事件时间不可当作事件年代解读。
-
-产出：
-    <output_dir>/⭐1-Feature-Summary.tsv     核心结果表（tidy long）
-    <output_dir>/.cache/curves.npz          供第 2 步复用的曲线，run.sh 结束时按需清理
 """
 from __future__ import annotations
 

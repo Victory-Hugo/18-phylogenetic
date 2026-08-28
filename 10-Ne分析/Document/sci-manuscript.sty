@@ -1,0 +1,246 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{sci-manuscript}[2026/08/28 v2.0 Reusable SCI manuscript style]
+
+% =====================================================================
+% Package options
+%   lineno     : 打开连续行号（投稿/返修稿常用）
+%   doublespace: 正文双倍行距（部分期刊初投稿要求）
+%   numeric    : 参考文献改为顺序编号制（默认 author-year）
+% =====================================================================
+\newif\ifsci@lineno   \sci@linenofalse
+\newif\ifsci@dspace   \sci@dspacefalse
+\newif\ifsci@numeric  \sci@numericfalse
+\DeclareOption{lineno}{\sci@linenotrue}
+\DeclareOption{doublespace}{\sci@dspacetrue}
+\DeclareOption{numeric}{\sci@numerictrue}
+\DeclareOption*{\PackageWarning{sci-manuscript}{Unknown option '\CurrentOption'}}
+\ProcessOptions\relax
+
+% ---------- Page and typography ----------
+\RequirePackage[a4paper,top=14mm,bottom=20mm,left=14mm,right=14mm]{geometry}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{newtxtext}
+\RequirePackage{newtxmath}
+\RequirePackage{microtype}
+\RequirePackage{xcolor}
+
+% ---------- Colours (defined early: used by caption/lineno options) ----------
+\definecolor{SCITitleBlue}{RGB}{14,75,146}
+\definecolor{SCISectionBlue}{RGB}{53,122,191}
+\definecolor{SCIORCIDGreen}{RGB}{166,206,57}
+\definecolor{SCIGrey}{RGB}{95,95,95}
+
+\RequirePackage{titlesec}
+\RequirePackage{setspace}
+
+% ---------- Math ----------
+\RequirePackage{amsmath}
+\RequirePackage{mathtools}
+% 注意：不要加载 amssymb —— newtxmath 已提供全部 AMS 符号，
+% 同时加载会报 "Command \Bbbk already defined"。
+\RequirePackage{siunitx}
+\sisetup{detect-all=true,group-separator={,},group-minimum-digits=4,
+         range-phrase={--},range-units=single}
+
+% ---------- Floats, figures, tables ----------
+\RequirePackage{graphicx}
+\RequirePackage{booktabs}
+\RequirePackage{tabularx}
+\RequirePackage{multirow}
+\RequirePackage{longtable}
+\RequirePackage{threeparttable}
+\RequirePackage{rotating}
+\RequirePackage{float}
+\RequirePackage[labelfont={bf,color=SCISectionBlue},font=small,
+                labelsep=period,justification=justified,
+                singlelinecheck=false,skip=4pt]{caption}
+\RequirePackage{subcaption}
+
+% ctex 会把 figurename/tablename 改成 “图/表”，与 \cref 输出的
+% Figure/Table 不一致。这里统一为英文（SCI 期刊惯例）。
+% 若确实要中文图表标签，把下面三行注释掉即可。
+\AtBeginDocument{%
+  \renewcommand{\figurename}{Figure}%
+  \renewcommand{\tablename}{Table}%
+}
+\RequirePackage{placeins}
+\graphicspath{{figures/}{Figures/}{./}}
+
+% ---------- Lists, misc ----------
+\RequirePackage{enumitem}
+\setlist{noitemsep,topsep=2pt,leftmargin=*}
+\RequirePackage{url}
+\RequirePackage{csquotes}
+
+% ---------- Bibliography ----------
+\ifsci@numeric
+  \RequirePackage[backend=biber,style=numeric-comp,sorting=none,
+    natbib=true,maxbibnames=99,giveninits=true,url=false,eprint=false]{biblatex}
+\else
+  \RequirePackage[backend=biber,style=authoryear,natbib=true,
+    maxcitenames=2,mincitenames=1,maxbibnames=99,
+    uniquename=false,uniquelist=false,giveninits=true,useprefix=true,useprefix=true,
+    url=false,eprint=false]{biblatex}
+  \DeclareDelimFormat{nameyeardelim}{\addspace}
+\fi
+% 参考文献表紧凑一些
+\setlength{\bibitemsep}{0.2em}
+\renewcommand*{\bibfont}{\fontsize{10.5}{13}\selectfont}
+
+\RequirePackage{orcidlink}
+\RequirePackage{hyperref}   % hyperref 必须在 cleveref 之前
+\RequirePackage[nameinlink,capitalise]{cleveref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=SCITitleBlue,
+  citecolor=SCITitleBlue,
+  urlcolor=SCITitleBlue,
+  breaklinks=true,
+  pdfstartview={FitH}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+% 浮动体（图/表）与正文之间的留白，默认偏大，同样收紧
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\emergencystretch}{1em}
+\pagestyle{plain}
+
+\ifsci@dspace\AtBeginDocument{\doublespacing}\fi
+\ifsci@lineno
+  \RequirePackage[mathlines]{lineno}
+  \renewcommand{\linenumberfont}{\normalfont\tiny\color{SCIGrey}}
+  \AtBeginDocument{\linenumbers}
+\fi
+
+% cleveref 中文/英文名称（正文用英文，与期刊惯例一致）
+\crefname{figure}{Figure}{Figures}
+\Crefname{figure}{Figure}{Figures}
+\crefname{table}{Table}{Tables}
+\Crefname{table}{Table}{Tables}
+\crefname{equation}{Equation}{Equations}
+\Crefname{equation}{Equation}{Equations}
+\crefname{section}{Section}{Sections}
+\Crefname{section}{Section}{Sections}
+
+% ---------- Section headings ----------
+\titleformat{\section}
+  {\color{SCISectionBlue}\bfseries\fontsize{18}{21}\selectfont}
+  {\thesection}{1.0em}{}
+\titlespacing*{\section}{0pt}{0.95em}{0.35em}
+
+\titleformat{\subsection}
+  {\color{SCITitleBlue}\bfseries\fontsize{14.5}{17}\selectfont}
+  {\thesubsection}{1.0em}{}
+\titlespacing*{\subsection}{0pt}{0.75em}{0.25em}
+
+\titleformat{\subsubsection}
+  {\color{SCITitleBlue}\bfseries\fontsize{12.5}{15}\selectfont}
+  {\thesubsubsection}{1.0em}{}
+\titlespacing*{\subsubsection}{0pt}{0.65em}{0.2em}
+
+\titleformat{\paragraph}[runin]
+  {\bfseries\normalsize}{}{0em}{}[.]
+\titlespacing*{\paragraph}{0pt}{0.6em}{0.5em}
+
+% ---------- Reusable manuscript metadata ----------
+\makeatletter
+\newcommand{\@scititle}{}
+\newcommand{\@scishorttitle}{}
+\newcommand{\@sciauthors}{}
+\newcommand{\@sciaffiliations}{}
+\newcommand{\@scicorrespondence}{}
+\newcommand{\@scikeywords}{}
+
+\newcommand{\ManuscriptTitle}[1]{\gdef\@scititle{#1}}
+\newcommand{\RunningTitle}[1]{\gdef\@scishorttitle{#1}}
+\newcommand{\ManuscriptAuthors}[1]{\gdef\@sciauthors{#1}}
+\newcommand{\ManuscriptAffiliations}[1]{\gdef\@sciaffiliations{#1}}
+\newcommand{\Correspondence}[1]{\gdef\@scicorrespondence{#1}}
+\newcommand{\Keywords}[1]{\gdef\@scikeywords{#1}}
+
+\newcommand{\Author}[2]{\textbf{#1}\textsuperscript{#2}}
+\newcommand{\AuthorORCID}[3]{\textbf{#1}\,\orcidlink{#3}\textsuperscript{#2}}
+\newcommand{\Affiliation}[2]{\textsuperscript{#1}#2}
+
+\newcommand{\SCIRule}{%
+  \par\vspace{0.55em}%
+  {\color{SCITitleBlue}\hrule height 0.7pt}%
+  \vspace{0.55em}%
+}
+
+\newcommand{\MakeManuscriptTitle}{%
+  \begingroup
+  \raggedright
+  \setstretch{1.0}%
+  {\color{SCITitleBlue}\bfseries\fontsize{34}{40}\selectfont\@scititle\par}
+  \vspace{0.2em}
+  {\fontsize{16}{20}\selectfont\@sciauthors\par}
+  \vspace{0.2em}
+  {\fontsize{12.5}{16}\selectfont\@sciaffiliations\par}
+  \ifx\@scicorrespondence\@empty\else
+    \vspace{0.2em}{\fontsize{11.5}{14}\selectfont\@scicorrespondence\par}
+  \fi
+  \endgroup
+  \SCIRule
+  % 页眉短标题（若设置）
+  \ifx\@scishorttitle\@empty\else
+    \markboth{\@scishorttitle}{\@scishorttitle}%
+  \fi
+}
+
+% ---------- Abstract block ----------
+\newenvironment{manuscriptabstract}
+{%
+  \par
+  {\color{SCISectionBlue}\bfseries\fontsize{18}{21}\selectfont Abstract\par}
+  \vspace{0.2em}
+  \begingroup\fontsize{12}{14.2}\selectfont
+}
+{%
+  \par\endgroup
+  \ifx\@scikeywords\@empty
+    \SCIRule
+  \else
+    \vspace{0.35em}%
+    {\fontsize{11}{14}\selectfont\textbf{\color{SCITitleBlue}Keywords:}\ \@scikeywords\par}%
+    \SCIRule
+  \fi
+}
+\makeatother
+
+% ---------- Back-matter declaration blocks ----------
+% 用法：\begin{declaration}{Data availability} ... \end{declaration}
+\newenvironment{declaration}[1]
+{%
+  \par\vspace{0.5em}%
+  {\color{SCITitleBlue}\bfseries\fontsize{12}{15}\selectfont #1\par}%
+  \vspace{0.15em}%
+  \begingroup\fontsize{10.5}{13.5}\selectfont
+}
+{\par\endgroup\vspace{0.2em}}
+
+% ---------- Supplementary material ----------
+% 调用后，图/表编号变为 S1, S2 ...，并重新计数
+\newcommand{\SupplementaryMaterial}{%
+  \clearpage
+  \setcounter{figure}{0}\setcounter{table}{0}\setcounter{equation}{0}%
+  \renewcommand{\thefigure}{S\arabic{figure}}%
+  \renewcommand{\thetable}{S\arabic{table}}%
+  \renewcommand{\theequation}{S\arabic{equation}}%
+  \section*{Supplementary Material}%
+  \addcontentsline{toc}{section}{Supplementary Material}%
+}
+
+% ---------- Small helpers ----------
+% 软件/工具名（统一字体），基因名（斜体），单位间隔
+\newcommand{\software}[1]{\textsc{#1}}
+\newcommand{\gene}[1]{\textit{#1}}
+% 通用的“待补”标记，编译后在正文中醒目显示
+\newcommand{\TODO}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+
+% ---------- Default body size ----------
+\AtBeginDocument{\fontsize{12}{14.2}\selectfont}

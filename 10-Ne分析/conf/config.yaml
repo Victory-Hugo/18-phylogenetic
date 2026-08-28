@@ -1,26 +1,18 @@
 # Ne 轨迹聚类与可视化 —— 唯一配置文件
-#
-# 最小输入：input/ 下放 *.log 与同名 *.xml（一个 .log = 一个类别，类别名 = 文件名）。
-# cutOff 与网格数由 XML 自动解析，不需要维护任何清单文件。
-# 全部时间参数的单位与 time_unit 一致；内部一律换算成年。
 
 io:
   input_dir: "input"
   output_dir: "output"
-  # auto = 按目录内容自动识别；也可显式指定
-  # beast_log / npz / posterior_table / summary_table
+  # auto = 按目录内容自动识别；也可显式指定；特别建议放入 xml+skygrid 的log文件
   input_format: "auto"
   # 可选清单（category / display_name / group / n_tips）。留空 = 在 input_dir 里按表头
   # 自动认领（不含 time 列的那张就是清单），文件名随意
   samples_table: ""
 
 time:
-  # years = 树已定标到年；generations 时用 years_per_unit 换算
   time_unit: "years"
   years_per_unit: 1
-  # 时间段：默认按 period_width 等宽切到 period_max，每一段各出一个特征热图子图、
-  # 一个散点子图与一个弦图子图。需要不等宽的自定义分段时，把 time_periods 写出来
-  # （形如 - [0, 2000]），它一旦非空就完全覆盖上面两个参数。
+  # 时间段：period_width（每隔多少年计算）切到 period_max（最古老的时间点）为止。
   period_width: 500
   period_max: 50000
   time_periods: []
@@ -82,6 +74,5 @@ figure:
   panels_per_row: 3
 
 runtime:
-  # true 时额外输出距离矩阵、轮廓系数、可靠窗诊断到 output/debug/
   debug_mode: false
   log_level: "INFO"

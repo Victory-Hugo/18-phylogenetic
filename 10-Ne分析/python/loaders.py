@@ -1,22 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """loaders.py — 四种输入格式的统一入口（不含 main，只被 import）。
-
-最小输入是 `input/` 下的 `*.log` 加同名 `*.xml`：一个 .log = 一个类别，类别名取文件名
-去扩展名，cutOff 与网格数从 XML 自动解析。**用户不需要维护任何清单文件。**
-
-另外三种等价输入用于对接已有结果：
-    npz             上游缓存，含 log_ne / grid_kya / meta（可带 n_tips、分组）
-    posterior_table 逐条后验长表：category / draw / time / log_ne
-    summary_table   中位数汇总表：category / time / median / lower / upper
-
-summary_table 没有真正的后验样本，本模块会按"整条曲线共用一个位移"的方式合成伪样本
-（位移由 95% 区间宽度换算的标准差决定），从而保留曲线形状、只传播水平的不确定性。
-这是一个明确的近似，has_posterior 会被置为 False，下游据此降级并在日志中写明。
-
-可选的 `samples.tsv`（category / display_name / group / n_tips）只在需要展示名、弦图外圈
-分组或规模校正时才用得上，缺失不影响主流程：展示名会退回"下划线换空格并首字母大写"的
-兜底规则，分组退回单组，规模校正自动关闭。
 """
 from __future__ import annotations
 

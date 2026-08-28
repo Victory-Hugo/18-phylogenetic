@@ -3,6 +3,7 @@ library(readr)
 library(dplyr)
 library(tidyr)
 library(tidyplots)
+library(ggrepel)
 library(gridExtra)
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -80,6 +81,17 @@ for (period in periods) {
   p <- dat2 %>%
     tidyplot(x = `Component 1`, y = `Component 2`, color = Cluster) |>
     add_data_points(size = 1.6)
+  #* 标注每个点对应的 Category：白底半透明，描边与点同色（沿用 tidyplot 的 colour 映射）
+  p <- p + ggrepel::geom_label_repel(
+    ggplot2::aes(label = Category),
+    fill = ggplot2::alpha("white", 0.5),
+    label.size = 0.2, label.r = grid::unit(0.5, "mm"),
+    label.padding = grid::unit(0.6, "mm"),
+    family = plot_font_family, size = 1.5,
+    segment.size = 0.2, segment.alpha = 0.6,
+    min.segment.length = 0, box.padding = 0.25, point.padding = 0.15,
+    max.overlaps = Inf, seed = 1, show.legend = FALSE)
+
   # 每个成员数不少于 3 的簇都画一个椭圆
   ell <- if (show_ellipse) ellipse_paths(dat2) else NULL
   if (!is.null(ell)) {
@@ -93,14 +105,14 @@ for (period in periods) {
     adjust_y_axis_title(axis_label(ratio[2], 2)) |>
     adjust_title(period) |>
     remove_legend() |>
-    adjust_size(width = 42, height = 42)
+    adjust_size(width = 58, height = 58)
 
   grobs[[length(grobs) + 1]] <- ggplot2::ggplotGrob(p)
   all_rows[[length(all_rows) + 1]] <- dat2 %>% mutate(`Time Window` = period)
 }
 
 stem <- file.path(fig_dir, "3-Cluster-Scatter")
-save_panels(grobs, stem, n_col = n_col, panel_width = 2.9, panel_height = 3.4,
+save_panels(grobs, stem, n_col = n_col, panel_width = 3.5, panel_height = 4.0,
             title = grid::textGrob("Category ordination of trajectory features by time period",
                                    gp = grid::gpar(fontfamily = plot_font_family,
                                                    fontface = 1, fontsize = 12)),

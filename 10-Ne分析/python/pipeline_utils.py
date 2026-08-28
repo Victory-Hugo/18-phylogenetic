@@ -45,11 +45,6 @@ def setup_logging(level: str = "INFO", log_file: str | None = None) -> None:
 
 
 def load_config(path: str) -> dict[str, dict[str, Any]]:
-    """读配置并补齐默认值：用户只需要写自己关心的那几项。
-
-    时间单位不是"年"时，time_periods / bin_width / analysis_max 等时间参数一律按
-    years_per_unit 换算成年，全流程内部只用年。
-    """
     raw = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
     cfg = {sec: dict(vals) for sec, vals in DEFAULTS.items()}
     for sec, vals in raw.items():

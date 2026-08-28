@@ -1,0 +1,80 @@
+\documentclass[12pt]{article}
+\usepackage{ctex}
+\usepackage{sci-manuscript}
+\addbibresource{references.bib}
+
+\ManuscriptTitle{\LaTeX 模板标题}
+
+\ManuscriptAuthors{%
+  \AuthorORCID{Lintao Luo}{1,*}{0009-0001-5790-4866}
+}
+
+\ManuscriptAffiliations{%
+  \Affiliation{1}{giantlinlinlin@gmail.com}%
+}
+
+\Keywords{effective population size; Skygrid; trajectory clustering}
+
+% \Correspondence{*Corresponding author: author@example.edu}
+
+\begin{document}
+
+\MakeManuscriptTitle
+
+\section{Materials and Methods}
+
+\subsection{Effective population size trajectories and feature extraction}
+Posterior trajectories of the effective population size were taken from
+Bayesian Skygrid coalescent analyses \parencite{gill2013} performed in
+\software{BEAST} (v1.10) \parencite{suchard2018}, with 200 posterior draws
+retained for each of the eight geographic categories after the first
+\SI{10}{\percent} of each chain had been discarded as burn-in and the remaining
+states had been thinned to at most 4{,}000 draws. All draws were interpolated
+onto a common calendar grid running from the present to \SI{20000}{years} before
+present in steps of \SI{200}{years}, the upper bound being the oldest time
+covered by every input. Each draw was smoothed and differentiated in a single
+pass by locally weighted quadratic regression with a tricube kernel and a
+bandwidth of \SI{3000}{years} \parencite{cleveland1988}, yielding a smoothed
+$\log N_\mathrm{e}$ curve and its rate of change expressed per \SI{1000}{years}.
+The time axis was divided into 40 non-overlapping windows of \SI{500}{years},
+and eight trajectory features (mean level, net change, mean rate of change,
+fluctuation amplitude, and the timing and magnitude of the strongest expansion
+and contraction) were computed for every draw within each window; medians,
+\SI{95}{\percent} highest posterior density (HPD) intervals and directional
+posterior probabilities were then summarised across draws. A grid point was
+regarded as reliable when the \SI{95}{\percent} HPD width of $\log N_\mathrm{e}$
+did not exceed 2.0 log units, and a category entered a given window only when at
+least \SI{80}{\percent} of the grid points of that window were reliable. All
+computations were implemented in \software{Python} (v3.10.20) with
+\software{NumPy} (v2.2.6) \parencite{harris2020}, \software{SciPy} (v1.15.2)
+\parencite{virtanen2020} and \software{pandas} (v2.3.3) \parencite{mckinney2010}.
+
+\subsection{Trajectory clustering, ordination and visualisation}
+Within each time window the eight features were standardised across categories
+($z$-scores) and clustered by average-linkage hierarchical clustering of
+Euclidean distances using \software{SciPy} (v1.15.2) \parencite{virtanen2020};
+the number of clusters was selected between $K = 2$ and $K = 8$ by maximising the
+average silhouette coefficient \parencite{rousseeuw1987} computed with
+\software{scikit-learn} (v1.7.2) \parencite{pedregosa2011}. Cluster labels were
+made comparable between consecutive windows by optimal label matching with the
+Hungarian algorithm \parencite{kuhn1955}. Uncertainty in the partition was
+quantified by 500 posterior resamples in which one curve per category was drawn
+at random, the features were recomputed and the clustering repeated with the same
+$K$ (random seed 20260828); the proportion of resamples placing two categories in
+the same cluster was reported as the co-clustering frequency, and pairs with a
+frequency of at least 0.5 were drawn as chords. The scaled feature matrix of each
+window was further projected onto its first two principal components
+\parencite{pedregosa2011}, and two composite scores (a level score from mean
+level and amplitude, and a change score from net change, rate and the extreme
+expansion and contraction rates) were defined as the first principal component of
+the corresponding feature subsets and standardised within each \SI{500}{years}
+bin. Figures were produced in \software{R} (v4.6.0) \parencite{rcoreteam2026}
+with \software{tidyplots} (v0.3.1) \parencite{engler2025}, \software{ggplot2}
+(v4.0.3) \parencite{wickham2016}, \software{ggrepel} (v0.9.8)
+\parencite{slowikowski2025}, \software{pheatmap} (v1.0.13) \parencite{kolde2025},
+and \software{igraph} (v2.3.3) \parencite{csardi2006} together with
+\software{ggraph} (v2.2.2) \parencite{pedersen2024}.
+
+\printbibliography[title={References}]
+
+\end{document}

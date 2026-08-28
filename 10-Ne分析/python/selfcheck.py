@@ -1,18 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """selfcheck.py — 关键实现的最小测试，不依赖任何真实数据。
-
-六项，全部用人工构造的最小样例：
-
-  Test 1  Skygrid 分段边界归属。时间恰好落在内部边界上时必须归入**后**一段。
-  Test 2  XML 与日志的一致性守卫。维度对不上、分析上界超出 cutOff 都必须报错。
-  Test 3  事件方向语义。整窗只收缩时扩张支持度必须为 0、收缩为 1；水平不给概率。
-  Test 4  跨时间 bin 的标签对齐。只在两个 bin 共有的类别上匹配，缺席者不参与。
-  Test 5  Ward 的适用范围。非欧氏度量必须被挡在 Ward 之外。
-  Test 6  端到端。合成三个类别的 mini .log + .xml，跑通特征提取并检查关键列。
-
-    python python/selfcheck.py
-返回码 0 表示全部通过。
 """
 from __future__ import annotations
 
