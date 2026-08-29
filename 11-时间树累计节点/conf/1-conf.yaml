@@ -1,0 +1,102 @@
+# 时间树累计节点山脊图 —— 唯一配置文件
+# 换一棵时间树 + 一张 META TSV，改本文件即可出图。
+
+paths:
+  tree: "input/BEAST_final_0726.nwk"      # 单棵 newick 时间树，枝长单位为年
+  meta: "input/1-META.tsv"                # 样本 metadata，制表符分隔
+
+cohort:
+  id_column: "Id"     # metadata 中的样本编号列，取值需与树的 tip 名一致
+                      # 实际分析的样本 = 树的 tip 与该列的交集
+                      
+# 出图的分组维度：metadata 中的列名，顺序即出图顺序。
+# 每列的类别自动从数据里取全部取值，按样本量降序排列（样本量最大的画在最上面），
+# 展示名即该列的原始取值。少于 2 例的类别构不成合并事件，会被自动剔除。
+groupings:
+  - Corridor_and_key_regions
+  - Corridor_NCS
+  - Sichuan_geographic_regions
+  - Elevation_group
+  - Language
+
+analysis:
+  # 类别的最小样本量：低于此值的类别不参与出图。抽稀的目标样本量取该维度最小类别的样本量，
+  # 留着长尾里的小类别会把整个维度抽稀到无法出图。设为 2 表示只剔除构不成合并事件的类别。
+  min_group_size: 50
+  # 等样本量抽稀的重复次数。诱导子树的形状本身依赖样本量，不抽稀就直接比较峰形并不公平。
+  # 设为 0 关闭抽稀，直接用全样本诱导子树出图（快速预览用，组间峰形不可比）。
+  rarefaction_replicates: 200
+  # 抽稀目标的绝对样本量：各维度共用同一个值，维度之间也因此可比。
+  # 设为 0 则改用下面的 rarefaction_fraction 按各维度最小类别的比例计算。
+  rarefaction_size: 0
+  # rarefaction_size 为 0 时生效：抽稀目标 = 该维度最小类别的样本量 × 此系数。必须小于 1：等于 1 时最小类别的每次重复
+  # 都是同一批人，它的区间带宽恒为 0、曲线也完全没被跨重复中位数平滑，近期尖峰会以全高
+  # 保留而其余类别的被平均掉，形成对最小类别的系统性偏袒。
+  rarefaction_fraction: 0.7
+  rarefaction_seed: 20260828
+  # 时间窗口：<文件名标识>:<起>-<止>，单位 kya。多个窗口只是同一条密度曲线的不同裁剪。
+  time_windows: "recent:0-10,full:0-60"
+  grid_points: 700
+  # Silverman 规则的系数，作用在该维度全部类别合并后的对数年龄上
+  bandwidth_factor: 1.0
+  # 平滑分辨率下限（kya）：核宽度不小于此值，声明本图不主张分辨到更细的时间尺度。
+  # 它同时压住 0 kya 处的伪影：极年轻的节点堆在一起时，核越窄峰越尖，400 年的下限把这根
+  # 针摊成缓坡，使它不再主导全图的高度换算。
+  bandwidth_floor_kya: 0.4
+  # 可分辨下界（kya）：比它更年轻的节点不参与构核。设为 0 表示全部节点都参与，脊线因此完整
+  # 画到 0 kya；代价是最近几百年的峰高部分反映的是带宽下限本身，而非事件强度。
+  # 设为 "auto" 则取 bandwidth_floor_kya / 相对带宽，即带宽由下限而非数据决定的那段年龄。
+  resolution_cut: 0
+  # 另按计数报告这几个窄窗口内的事件比例，用来替代“读 0 kya 处的曲线高度”
+  recent_windows_kya: "0.5,1.0"
+  # 抽稀重复之间取的分位数区间
+  interval_percentiles: "5,95"
+
+plot:
+  # category：每条脊线按纵轴顺序从色带上取一个纯色（相邻类别沿色带连续过渡，不跳色）
+  # age：脊线内部沿节点年龄连续渐变着色
+  fill_mode: "category"
+  colour_ramp:
+    - "#456FB1"
+    - "#368CBB"
+    - "#4FA8AF"
+    - "#69C3A5"
+    - "#8AD0A4"
+    - "#f9fcb7"
+    - "#FDC877"
+    - "#F88F52"
+    - "#E55848"
+    - "#BC2349"
+    - "#A20643"
+  # 最高的一条脊线占用多少个行距；大于 1 时相邻脊线开始交叠
+  ridge_scale: 3.0
+  # 脊线填充的不透明度：填充半透明以看清叠压关系，描边另画一条不透明的线
+  ridge_alpha: 0.55
+  # 描边线宽
+  outline_width: 0.5
+  # 描边色相对填充色压暗的比例（1 为不压暗）
+  outline_darken: 0.55
+  # 低于全图最高脊线这个比例的部分不绘制，脊线左端因此收成尖角而非平铺的长条
+  min_height_fraction: 0.018
+  baseline_colour: "#404040"
+  # age 模式下脊线的描边色；category 模式的描边由各自填充色压暗而来
+  outline_colour: "#343434"
+  reference_colour: "#9C9C9C"
+  # 抽稀重复之间的区间带，垫在脊线之下。category 模式用各条脊线自己的填充色调淡；
+  # age 模式没有属于单条脊线的颜色，回落到下面这个中性色。
+  interval_colour: "#D9D9D9"
+  interval_alpha: 0.28
+  # 时间参照线（kya）：短窗口与长窗口各一套
+  reference_lines_recent: [1, 3, 5, 10]
+  reference_lines_full: [3, 5, 11.7, 19, 26.5]
+  # 全图统一字号（tidyplots 口径：所有文字同字号、同字体、同颜色）
+  font_size: 7
+  # 每个子图面板强制为正方形。边长取 panel_mm 与「类别数 × min_row_mm」的较大者：
+  # 类别多时面板随之放大，避免每行太薄、脊线标签叠在一起。label_mm 是左侧类别名的宽度。
+  panel_mm: 75
+  min_row_mm: 7
+  label_mm: 40
+
+tools:
+  python_bin: "/home/luolintao/miniconda3/envs/BigLin/bin/python"
+  r_bin: "/usr/bin/Rscript"
