@@ -22,9 +22,10 @@ The following object is masked from ‘package:readr’:
 Registered S3 method overwritten by 'bit64':
   method          from 
   print.bitstring tools
-⭐4-1-Corridor-and-key-regions                      (230 x 95 mm)
-⭐4-2-Corridor-NCS                                  (230 x 95 mm)
-⭐4-3-Sichuan-geographic-regions                    (230 x 95 mm)
-⭐4-4-Elevation-group                               (230 x 95 mm)
-⭐4-5-Language                                      (290 x 125 mm)
-⭐4-composite-All-groupings                         (290 x 603 mm)
+⭐4-1-All-samples                                   (230 x 95 mm)
+⭐4-2-Corridor-and-key-regions                      (230 x 95 mm)
+⭐4-3-Corridor-NCS                                  (230 x 95 mm)
+⭐4-4-Sichuan-geographic-regions                    (230 x 95 mm)
+⭐4-5-Elevation-group                               (230 x 95 mm)
+⭐4-6-Language                                      (290 x 125 mm)
+⭐4-composite-All-groupings                         (290 x 722 mm)

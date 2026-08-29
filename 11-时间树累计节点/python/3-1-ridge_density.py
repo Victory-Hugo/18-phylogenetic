@@ -188,10 +188,11 @@ def run(conf: str, node_ages: str, rarefied_node_ages: str, sample_counts: str,
             if all_ages.size == 0:
                 continue
 
-            if use_rarefaction:
-                subset = df4[(df4["Grouping"] == grouping) & (df4["Group"] == category)]
-                if subset.empty:
-                    continue
+            # 某个维度若没有抽稀数据（单类别的全样本总览，或全局关闭抽稀），
+            # 就用全部节点直接出曲线
+            subset = (df4[(df4["Grouping"] == grouping) & (df4["Group"] == category)]
+                      if use_rarefaction else None)
+            if subset is not None and not subset.empty:
                 n_replicates = int(subset["Replicate"].max()) + 1
                 counts = np.zeros((bins.size, n_replicates))
                 per_replicate_nodes = np.zeros(n_replicates)

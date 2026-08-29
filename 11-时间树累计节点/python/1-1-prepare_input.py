@@ -28,6 +28,7 @@ log = logging.getLogger(__name__)
 
 TIP_PATTERN = re.compile(r"[(,]\s*([^(),:;]+):")
 GROUP_FIELDS = ["Sample", "Grouping", "Group"]
+ALL_SAMPLES = "All samples"
 DESIGN_FIELDS = ["Grouping", "Group", "Order", "Colour", "Outline"]
 
 
@@ -65,7 +66,7 @@ def _darken(colour: str, factor: float) -> str:
 def run(conf: str, output_result: str) -> int:
     settings = yaml.safe_load(Path(conf).read_text(encoding="utf-8"))
     paths, cohort_conf = settings["paths"], settings["cohort"]
-    groupings = settings["groupings"]
+    groupings = list(settings["groupings"])
     plot_conf = settings["plot"]
 
     result_path = Path(output_result)
@@ -127,6 +128,16 @@ def run(conf: str, output_result: str) -> int:
             value = str(record.get(column, "")).strip()
             if value in levels[column]:
                 group_rows.append({"Sample": sample_id, "Grouping": column, "Group": value})
+
+    # 全样本总览：单类别维度，涵盖树上的每一个样本。单类别没有要均衡的对象，
+    # 下游会跳过抽稀直接用全部个体。
+    if settings.get("include_all_samples", False):
+        groupings.insert(0, ALL_SAMPLES)
+        levels[ALL_SAMPLES] = [ALL_SAMPLES]
+        counts[(ALL_SAMPLES, ALL_SAMPLES)] = len(on_tree)
+        group_rows.extend({"Sample": str(r[id_column]).strip(),
+                           "Grouping": ALL_SAMPLES, "Group": ALL_SAMPLES} for r in on_tree)
+        log.info("  %-28s 全样本总览，%d 个个体（单类别，不抽稀）", ALL_SAMPLES, len(on_tree))
 
     with open(result_path / "sample-groups.tsv", "w", newline="") as fh:
         writer = csv.DictWriter(fh, delimiter="\t", fieldnames=GROUP_FIELDS)

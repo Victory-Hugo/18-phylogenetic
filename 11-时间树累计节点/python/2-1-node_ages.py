@@ -165,6 +165,11 @@ def run(conf: str, sample_groups: str, output_result: str, temp: str) -> int:
 
             if replicates <= 0:
                 continue
+            if len(categories) == 1:
+                # 单类别（如全样本总览）没有要均衡的对象，抽稀只会白白丢掉个体
+                log.info("  %-30s 单类别，跳过抽稀，直接使用全部 %d 个个体",
+                         grouping, len(members[categories[0]]))
+                continue
             # 目标样本量若正好等于最小类别的样本量，该类别的每次重复都是同一批人：
             # 区间带宽恒为 0，曲线也完全没有被跨重复的中位数平滑，近期尖峰会以全高保留，
             # 而其余类别的尖峰被平均掉。乘一个小于 1 的系数，使每个类别都真正被抽稀。
