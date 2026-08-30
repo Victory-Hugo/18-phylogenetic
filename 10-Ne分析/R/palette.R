@@ -91,6 +91,8 @@ resolve_palette <- function(spec, n = 100) {
 
 #* 共享图例：一条**真渐变**色条（rasterGrob 插值，不是几十个小矩形拼出来的），
 #* 下面接分组色块。所有子图共用一份，既省地方又不会每张子图各画一遍
+#* lim 给一个数是对称色标 [-lim, lim]，给两个数就是 [lo, hi]——同簇频率这类
+#* 取值在 0-1 的量没有"以 0 为中心"的读法，硬套对称色条会读错
 shared_legend <- function(cols = NULL, lim = NULL, value_title = "Value",
                           groups = NULL, group_cols = NULL,
                           group_title = "Group") {
@@ -98,15 +100,19 @@ shared_legend <- function(cols = NULL, lim = NULL, value_title = "Value",
   parts <- list()
   y_top <- 0.96
   if (!is.null(cols) && !is.null(lim)) {
+    rng <- if (length(lim) >= 2) sort(as.numeric(lim[1:2])) else c(-abs(lim), abs(lim))
+    digits <- if (diff(rng) <= 3) 2 else 1
+    lab <- function(v) formatC(v, format = "f", digits = digits)
     bar_top <- y_top - 0.05
     bar_h <- 0.34
     parts <- c(parts, list(
       grid::textGrob(value_title, x = 0.06, y = y_top, hjust = 0, gp = gp_txt),
       grid::rasterGrob(rev(cols), x = 0.10, y = bar_top - bar_h / 2, width = 0.16,
                        height = bar_h, hjust = 0, vjust = 0.5, interpolate = TRUE),
-      grid::textGrob(sprintf("%.1f", lim), x = 0.30, y = bar_top, hjust = 0, gp = gp_txt),
-      grid::textGrob("0", x = 0.30, y = bar_top - bar_h / 2, hjust = 0, gp = gp_txt),
-      grid::textGrob(sprintf("%.1f", -lim), x = 0.30, y = bar_top - bar_h,
+      grid::textGrob(lab(rng[2]), x = 0.30, y = bar_top, hjust = 0, gp = gp_txt),
+      grid::textGrob(lab(mean(rng)), x = 0.30, y = bar_top - bar_h / 2, hjust = 0,
+                     gp = gp_txt),
+      grid::textGrob(lab(rng[1]), x = 0.30, y = bar_top - bar_h,
                      hjust = 0, gp = gp_txt)))
     y_top <- bar_top - bar_h - 0.08
   }
@@ -124,31 +130,118 @@ shared_legend <- function(cols = NULL, lim = NULL, value_title = "Value",
   do.call(grid::grobTree, parts)
 }
 
-#* 一组子图排成每行 n_col 个的整版图，并按长边限制 PNG 分辨率——子图很多时
+#* =====A4 纵向分页=====
+A4_WIDTH <- 8.27
+A4_HEIGHT <- 11.69
+
+#* 内容比 A4 宽时不减列、不换方向，而是整页等比放大出图、再统一缩回 A4：
+#* 减列会把 40 个时间段摊成几十页，直接截断则打印时丢内容
+shrink_pdf_to_a4 <- function(path) {
+  if (nzchar(Sys.which("pdfjam"))) {
+    tmp <- paste0(path, ".a4.pdf")
+    ok <- system2("pdfjam", c("--paper", "a4paper", "--quiet", "--outfile",
+                              shQuote(tmp), shQuote(path)),
+                  stdout = FALSE, stderr = FALSE)
+    if (ok == 0 && file.exists(tmp)) {
+      file.rename(tmp, path)
+      return(TRUE)
+    }
+    unlink(tmp)
+  }
+  if (nzchar(Sys.which("gs"))) {
+    tmp <- paste0(path, ".a4.pdf")
+    ok <- system2("gs", c("-q", "-dNOPAUSE", "-dBATCH", "-sDEVICE=pdfwrite",
+                          "-sPAPERSIZE=a4", "-dFIXEDMEDIA", "-dPDFFitPage",
+                          paste0("-sOutputFile=", tmp), path),
+                  stdout = FALSE, stderr = FALSE)
+    if (ok == 0 && file.exists(tmp)) {
+      file.rename(tmp, path)
+      return(TRUE)
+    }
+    unlink(tmp)
+  }
+  FALSE
+}
+
+#* 一组子图排成每行 n_col 个的整版图，按 A4 纵向分页：PDF 是多页的，PNG 每页一个文件
+#* （只有一页时文件名不带页码，与旧输出保持一致）。长边限制 PNG 分辨率——子图很多时
 #* 300 dpi 会生成上亿像素的图片
 save_panels <- function(grobs, stem, n_col = 3, panel_width = 3.6,
                         panel_height = 3.2, title = NULL, legend = NULL,
                         legend_width = 1.6) {
-  n_row <- ceiling(length(grobs) / n_col)
-  width <- panel_width * min(n_col, length(grobs))
-  height <- panel_height * n_row
-  combined <- gridExtra::arrangeGrob(grobs = grobs, ncol = n_col, top = title)
-  if (!is.null(legend)) {
-    # 图例固定高度顶在上方：直接并到整版右侧的话，色条会被整版高度按比例拉成一条巨柱
-    legend_height <- min(3.4, height)
-    legend <- gridExtra::arrangeGrob(
-      legend, grid::nullGrob(), ncol = 1,
-      heights = grid::unit(c(legend_height, height - legend_height), "in"))
-    combined <- gridExtra::arrangeGrob(
-      combined, legend, ncol = 2,
-      widths = grid::unit(c(width, legend_width), "in"))
-    width <- width + legend_width
+  if (!length(grobs)) stop("save_panels 收到空的子图列表", call. = FALSE)
+  n_used_col <- min(n_col, length(grobs))
+  body_width <- panel_width * n_used_col
+  page_width <- body_width + if (is.null(legend)) 0 else legend_width
+  #* 页面先按 A4 的宽高比放大到内容宽度，最后整份 PDF 再等比缩回真正的 A4
+  page_scale <- max(1, page_width / A4_WIDTH)
+  page_width <- A4_WIDTH * page_scale
+  page_height <- A4_HEIGHT * page_scale
+  title_h <- if (is.null(title)) 0 else 0.5 * page_scale
+  foot_h <- 0.3 * page_scale
+  rows_per_page <- max(1, floor((page_height - title_h - foot_h) / panel_height))
+  per_page <- rows_per_page * n_used_col
+  n_page <- ceiling(length(grobs) / per_page)
+  body_h <- rows_per_page * panel_height
+
+  page_grob <- function(k) {
+    idx <- seq((k - 1) * per_page + 1, min(k * per_page, length(grobs)))
+    g <- grobs[idx]
+    if (length(g) < per_page) {
+      g <- c(g, replicate(per_page - length(g), grid::nullGrob(), simplify = FALSE))
+    }
+    body <- gridExtra::arrangeGrob(
+      grobs = g, ncol = n_used_col,
+      widths = grid::unit(rep(panel_width, n_used_col), "in"),
+      heights = grid::unit(rep(panel_height, rows_per_page), "in"))
+    if (!is.null(legend)) {
+      # 图例固定高度顶在上方：直接并到整版右侧的话，色条会被整版高度按比例拉成一条巨柱
+      legend_height <- min(3.4 * page_scale, body_h)
+      leg <- gridExtra::arrangeGrob(
+        legend, grid::nullGrob(), ncol = 1,
+        heights = grid::unit(c(legend_height, body_h - legend_height), "in"))
+      body <- gridExtra::arrangeGrob(
+        body, leg, ncol = 2,
+        widths = grid::unit(c(body_width, legend_width), "in"))
+    }
+    foot <- if (n_page > 1) {
+      grid::textGrob(sprintf("Page %d of %d", k, n_page), y = 0.5,
+                     gp = grid::gpar(fontfamily = plot_font_family, fontface = 1,
+                                     fontsize = 8, col = "grey40"))
+    } else {
+      grid::nullGrob()
+    }
+    parts <- list(if (is.null(title)) grid::nullGrob() else title, body, foot,
+                  grid::nullGrob())
+    gridExtra::arrangeGrob(
+      grobs = parts, ncol = 1,
+      heights = grid::unit(c(title_h, body_h, foot_h,
+                             max(page_height - title_h - body_h - foot_h, 0)), "in"))
   }
-  cairo_pdf(paste0(stem, ".pdf"), width = width, height = height,
+
+  #* 上一次运行留下的分页 PNG 必须先清掉：页数变少时，旧页会冒充本次的输出
+  unlink(c(paste0(stem, ".png"), Sys.glob(sprintf("%s-p*.png", stem))))
+
+  pdf_path <- paste0(stem, ".pdf")
+  cairo_pdf(pdf_path, width = page_width, height = page_height,
             family = plot_font_family, onefile = TRUE)
-  grid::grid.newpage(); grid::grid.draw(combined); dev.off()
-  dpi <- max(60, min(300, 8000 / max(width, height)))
-  png(paste0(stem, ".png"), width = width, height = height, units = "in", res = dpi,
-      family = plot_font_family, type = "cairo")
-  grid::grid.newpage(); grid::grid.draw(combined); dev.off()
+  for (k in seq_len(n_page)) {
+    grid::grid.newpage(); grid::grid.draw(page_grob(k))
+  }
+  dev.off()
+  if (page_scale > 1 && !shrink_pdf_to_a4(pdf_path)) {
+    message(sprintf("找不到 pdfjam / gs，%s 的页面保持 %.2f x %.2f in（A4 的 %.2f 倍）",
+                    basename(pdf_path), page_width, page_height, page_scale))
+  }
+
+  dpi <- max(60, min(300, 8000 / max(page_width, page_height)))
+  for (k in seq_len(n_page)) {
+    png_path <- if (n_page == 1) paste0(stem, ".png") else
+      sprintf("%s-p%02d.png", stem, k)
+    png(png_path, width = page_width, height = page_height, units = "in", res = dpi,
+        family = plot_font_family, type = "cairo")
+    grid::grid.newpage(); grid::grid.draw(page_grob(k))
+    dev.off()
+  }
+  invisible(n_page)
 }

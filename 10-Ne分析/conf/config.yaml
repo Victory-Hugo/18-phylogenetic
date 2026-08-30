@@ -71,7 +71,7 @@ figure:
   heatmap_palette: "#20364F,#31646C,#4E9280,#96B89B,#DCDFD2,#ECD9CF,#D49C87,#B86265,#8B345E,#50184E"
   score_palette: "#20364F,#31646C,#4E9280,#96B89B,#DCDFD2,#ECD9CF,#D49C87,#B86265,#8B345E,#50184E"
   # 多时间段的子图每行排几个
-  panels_per_row: 3
+  panels_per_row: 2
 
 runtime:
   debug_mode: false

@@ -193,19 +193,21 @@ def run(config: str, project_root: str = ".", log_file: str | None = None) -> in
         if wtype != "Time Period":
             continue
         mask = window_mask(grid, t0, t1)
-        if fg["chord_metric"] == "coclustering":
-            co = coclustering_frequency(curves, rates, grid, mask, names, k_used,
-                                        cl["distance_metric"], cl["linkage_method"],
-                                        cl["feature_scaling"], int(po["n_resample"]), rng)
-            quantity = "Co-clustering Frequency"
-        else:
-            d = feature_distance(scaled, cl["distance_metric"])
-            co = 1.0 - d / (d.max() or 1.0)
-            quantity = "Similarity"
-        for a in range(len(names)):
-            for b in range(a + 1, len(names)):
-                rows.append([quantity, wtype, wname, f"{t0:g}", names[a], names[b],
-                             groups[names[a]], "", "", "", f"{co[a, b]:.4f}", "", "Yes"])
+        # 两个配对量都写进长表：弦图按 chord_metric 二选一，配对矩阵热图要把两者并排对照
+        pair_mats = {}
+        pair_mats["Co-clustering Frequency"] = coclustering_frequency(
+            curves, rates, grid, mask, names, k_used, cl["distance_metric"],
+            cl["linkage_method"], cl["feature_scaling"], int(po["n_resample"]), rng)
+        d = feature_distance(scaled, cl["distance_metric"])
+        pair_mats["Similarity"] = 1.0 - d / (d.max() or 1.0)
+        co = pair_mats["Co-clustering Frequency" if fg["chord_metric"] == "coclustering"
+                       else "Similarity"]
+        for quantity, mat in pair_mats.items():
+            for a in range(len(names)):
+                for b in range(a + 1, len(names)):
+                    rows.append([quantity, wtype, wname, f"{t0:g}", names[a], names[b],
+                                 groups[names[a]], "", "", "", f"{mat[a, b]:.4f}", "",
+                                 "Yes"])
         emb, ratio = scatter_coordinates(scaled, fg["scatter_method"])
         for a, c in enumerate(names):
             for comp in (0, 1):

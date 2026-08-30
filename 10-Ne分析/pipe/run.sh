@@ -68,6 +68,7 @@ HEAT_PAL="$(yaml_scalar figure.heatmap_palette)"; HEAT_PAL="${HEAT_PAL:-divergin
 SCORE_PAL="$(yaml_scalar figure.score_palette)"; SCORE_PAL="${SCORE_PAL:-diverging}"
 ELLIPSE="$(yaml_scalar figure.scatter_ellipse)"; ELLIPSE="${ELLIPSE:-true}"
 N_COL="$(yaml_scalar figure.panels_per_row)"; N_COL="${N_COL:-3}"
+CHORD_METRIC="$(yaml_scalar figure.chord_metric)"; CHORD_METRIC="${CHORD_METRIC:-coclustering}"
 
 mkdir -p "$OUT_DIR"
 SUCCESS_LOG="$OUT_DIR/success.log"
@@ -96,7 +97,9 @@ run_step "2-plot_all_time_cluster_heatmap" "$RSCRIPT_BIN" R/2-plot_all_time_clus
 run_step "3-plot_cluster_scatter" "$RSCRIPT_BIN" R/3-plot_cluster_scatter.R \
     "$CLUSTER_TABLE" "$OUT_DIR" "$SCATTER" "$ELLIPSE" "$N_COL"
 run_step "4-plot_chord_diagram" "$RSCRIPT_BIN" R/4-plot_chord_diagram.R \
-    "$CLUSTER_TABLE" "$OUT_DIR" "$THRESHOLD" "$N_COL"
+    "$CLUSTER_TABLE" "$OUT_DIR" "$THRESHOLD" "$N_COL" "$CHORD_METRIC"
+run_step "5-plot_pairwise_matrix" "$RSCRIPT_BIN" R/5-plot_pairwise_matrix.R \
+    "$CLUSTER_TABLE" "$OUT_DIR" "$HEAT_PAL" "$N_COL"
 
 # 曲线缓存只是两个 Python 步骤之间的接力，默认不留
 if [[ "${DEBUG_MODE,,}" != "true" ]]; then

@@ -13,6 +13,7 @@ cluster_file <- args[1] #* ⭐2-Cluster-And-Similarity.tsv
 fig_dir <- args[2]
 threshold <- if (length(args) >= 3) as.numeric(args[3]) else 0.5
 n_col <- if (length(args) >= 4) as.integer(args[4]) else 3
+chord_metric <- if (length(args) >= 5) tolower(args[5]) else "coclustering"
 
 script_dir <- dirname(sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE)[1]))
 source(file.path(script_dir, "palette.R"))
@@ -21,10 +22,12 @@ dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 #* =====读取数据=====
 # 分层弦图：结点按分组排列、外圈色带标出分组，弦的粗细为两个类别的同簇频率
 dat1 <- read_tsv(cluster_file, show_col_types = FALSE)
-link_quantity <- if (any(dat1$Quantity == "Co-clustering Frequency")) {
+# 长表里两个配对量都在，用哪一个由 chord_metric 决定（缺失时退回另一个）
+link_quantity <- if (chord_metric == "similarity") "Similarity" else
   "Co-clustering Frequency"
-} else {
-  "Similarity"
+if (!any(dat1$Quantity == link_quantity)) {
+  link_quantity <- if (link_quantity == "Similarity") "Co-clustering Frequency" else
+    "Similarity"
 }
 between_label <- "Between groups"
 

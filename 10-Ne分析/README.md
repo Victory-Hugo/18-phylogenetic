@@ -28,7 +28,7 @@ NE_PYTHON=/path/to/python3 bash pipe/run.sh   # 指定解释器
 
 ## 输出
 
-`output/` 下只有两张核心长表与四类图，每张图都配一份同名 TSV（可直接重绘）：
+`output/` 下只有两张核心长表与五类图，每张图都配一份同名 TSV（可直接重绘）：
 
 | 文件 | 内容 |
 |---|---|
@@ -38,3 +38,10 @@ NE_PYTHON=/path/to/python3 bash pipe/run.sh   # 指定解释器
 | `2-Composite-Score-Heatmap` | 类别 × 时间 bin 的水平分数与变化分数两个子图，行按共同可靠时段聚类 |
 | `3-Cluster-Scatter` | 每个时间段一个 PCA（默认）或 UMAP 散点子图，按簇着色并加置信椭圆 |
 | `4-Chord-Diagram` | 每个时间段一个分层弦图子图，弦的粗细为同簇频率 |
+| `5-Pairwise-Matrix-Heatmap` | 每个时间段一对"类别 × 类别"矩阵：左同簇频率、右特征相似度 |
+
+所有图都按 **A4 纵向分页**：PDF 是多页的（内容比 A4 宽时整页等比缩到页宽，需要
+`pdfjam` 或 `gs`，两者都没有时页面保持 A4 比例的放大版），PNG 每页一个文件
+（`*-p01.png`、`*-p02.png`…，只有一页时不带页码）。每页放几个子图由
+`figure.panels_per_row` 与各图自身的子图尺寸共同决定——列数越少，缩放越轻，
+A4 上的字号越大。

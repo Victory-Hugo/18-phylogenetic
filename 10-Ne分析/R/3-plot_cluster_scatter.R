@@ -112,7 +112,7 @@ for (period in periods) {
 }
 
 stem <- file.path(fig_dir, "3-Cluster-Scatter")
-save_panels(grobs, stem, n_col = n_col, panel_width = 3.5, panel_height = 4.0,
+save_panels(grobs, stem, n_col = n_col, panel_width = 3.5, panel_height = 3.5,
             title = grid::textGrob("Category ordination of trajectory features by time period",
                                    gp = grid::gpar(fontfamily = plot_font_family,
                                                    fontface = 1, fontsize = 12)),

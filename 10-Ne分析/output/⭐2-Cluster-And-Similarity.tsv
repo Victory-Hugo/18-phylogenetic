@@ -35,6 +35,34 @@ Co-clustering Frequency	Time Period	0-500 Years	0	Qinghai-Tibet Plateau Core	Wes
 Co-clustering Frequency	Time Period	0-500 Years	0	Sichuan Basin	Southern Segment	Sichuan Region				0.7660		Yes
 Co-clustering Frequency	Time Period	0-500 Years	0	Sichuan Basin	Western Highland	Sichuan Region				0.1180		Yes
 Co-clustering Frequency	Time Period	0-500 Years	0	Southern Segment	Western Highland	Corridor Segment				0.3520		Yes
+Similarity	Time Period	0-500 Years	0	Central Segment	North China	Corridor Segment				0.7397		Yes
+Similarity	Time Period	0-500 Years	0	Central Segment	Northern Segment	Corridor Segment				0.7752		Yes
+Similarity	Time Period	0-500 Years	0	Central Segment	Panxi and Liangshan	Corridor Segment				0.8463		Yes
+Similarity	Time Period	0-500 Years	0	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.8360		Yes
+Similarity	Time Period	0-500 Years	0	Central Segment	Sichuan Basin	Corridor Segment				0.0087		Yes
+Similarity	Time Period	0-500 Years	0	Central Segment	Southern Segment	Corridor Segment				0.3495		Yes
+Similarity	Time Period	0-500 Years	0	Central Segment	Western Highland	Corridor Segment				0.8270		Yes
+Similarity	Time Period	0-500 Years	0	North China	Northern Segment	Northern Lowland				0.7415		Yes
+Similarity	Time Period	0-500 Years	0	North China	Panxi and Liangshan	Northern Lowland				0.5901		Yes
+Similarity	Time Period	0-500 Years	0	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.6195		Yes
+Similarity	Time Period	0-500 Years	0	North China	Sichuan Basin	Northern Lowland				0.0353		Yes
+Similarity	Time Period	0-500 Years	0	North China	Southern Segment	Northern Lowland				0.3123		Yes
+Similarity	Time Period	0-500 Years	0	North China	Western Highland	Northern Lowland				0.5969		Yes
+Similarity	Time Period	0-500 Years	0	Northern Segment	Panxi and Liangshan	Corridor Segment				0.7051		Yes
+Similarity	Time Period	0-500 Years	0	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7923		Yes
+Similarity	Time Period	0-500 Years	0	Northern Segment	Sichuan Basin	Corridor Segment				0.2231		Yes
+Similarity	Time Period	0-500 Years	0	Northern Segment	Southern Segment	Corridor Segment				0.5444		Yes
+Similarity	Time Period	0-500 Years	0	Northern Segment	Western Highland	Corridor Segment				0.7612		Yes
+Similarity	Time Period	0-500 Years	0	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.8948		Yes
+Similarity	Time Period	0-500 Years	0	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.0000		Yes
+Similarity	Time Period	0-500 Years	0	Panxi and Liangshan	Southern Segment	Sichuan Region				0.3625		Yes
+Similarity	Time Period	0-500 Years	0	Panxi and Liangshan	Western Highland	Sichuan Region				0.9179		Yes
+Similarity	Time Period	0-500 Years	0	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.1039		Yes
+Similarity	Time Period	0-500 Years	0	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.4643		Yes
+Similarity	Time Period	0-500 Years	0	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9688		Yes
+Similarity	Time Period	0-500 Years	0	Sichuan Basin	Southern Segment	Sichuan Region				0.6290		Yes
+Similarity	Time Period	0-500 Years	0	Sichuan Basin	Western Highland	Sichuan Region				0.0812		Yes
+Similarity	Time Period	0-500 Years	0	Southern Segment	Western Highland	Corridor Segment				0.4442		Yes
 Scatter Coordinate	Time Period	0-500 Years	0	Central Segment		Corridor Segment	Cluster 1	Component 1		-1.78177	1.000	Yes
 Scatter Coordinate	Time Period	0-500 Years	0	Central Segment		Corridor Segment	Cluster 1	Component 2		0.18036	1.000	Yes
 Scatter Coordinate	Time Period	0-500 Years	0	North China		Northern Lowland	Cluster 1	Component 1		-1.39911	1.000	Yes
@@ -97,6 +125,34 @@ Co-clustering Frequency	Time Period	500-1000 Years	500	Qinghai-Tibet Plateau Cor
 Co-clustering Frequency	Time Period	500-1000 Years	500	Sichuan Basin	Southern Segment	Sichuan Region				0.6980		Yes
 Co-clustering Frequency	Time Period	500-1000 Years	500	Sichuan Basin	Western Highland	Sichuan Region				0.2940		Yes
 Co-clustering Frequency	Time Period	500-1000 Years	500	Southern Segment	Western Highland	Corridor Segment				0.5960		Yes
+Similarity	Time Period	500-1000 Years	500	Central Segment	North China	Corridor Segment				0.7296		Yes
+Similarity	Time Period	500-1000 Years	500	Central Segment	Northern Segment	Corridor Segment				0.3649		Yes
+Similarity	Time Period	500-1000 Years	500	Central Segment	Panxi and Liangshan	Corridor Segment				0.7165		Yes
+Similarity	Time Period	500-1000 Years	500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5846		Yes
+Similarity	Time Period	500-1000 Years	500	Central Segment	Sichuan Basin	Corridor Segment				0.0000		Yes
+Similarity	Time Period	500-1000 Years	500	Central Segment	Southern Segment	Corridor Segment				0.2558		Yes
+Similarity	Time Period	500-1000 Years	500	Central Segment	Western Highland	Corridor Segment				0.6212		Yes
+Similarity	Time Period	500-1000 Years	500	North China	Northern Segment	Northern Lowland				0.5308		Yes
+Similarity	Time Period	500-1000 Years	500	North China	Panxi and Liangshan	Northern Lowland				0.7197		Yes
+Similarity	Time Period	500-1000 Years	500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.6858		Yes
+Similarity	Time Period	500-1000 Years	500	North China	Sichuan Basin	Northern Lowland				0.1533		Yes
+Similarity	Time Period	500-1000 Years	500	North China	Southern Segment	Northern Lowland				0.4001		Yes
+Similarity	Time Period	500-1000 Years	500	North China	Western Highland	Northern Lowland				0.6995		Yes
+Similarity	Time Period	500-1000 Years	500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.5121		Yes
+Similarity	Time Period	500-1000 Years	500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7078		Yes
+Similarity	Time Period	500-1000 Years	500	Northern Segment	Sichuan Basin	Corridor Segment				0.4899		Yes
+Similarity	Time Period	500-1000 Years	500	Northern Segment	Southern Segment	Corridor Segment				0.7788		Yes
+Similarity	Time Period	500-1000 Years	500	Northern Segment	Western Highland	Corridor Segment				0.6554		Yes
+Similarity	Time Period	500-1000 Years	500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.7979		Yes
+Similarity	Time Period	500-1000 Years	500	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.0713		Yes
+Similarity	Time Period	500-1000 Years	500	Panxi and Liangshan	Southern Segment	Sichuan Region				0.3690		Yes
+Similarity	Time Period	500-1000 Years	500	Panxi and Liangshan	Western Highland	Sichuan Region				0.8489		Yes
+Similarity	Time Period	500-1000 Years	500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.2495		Yes
+Similarity	Time Period	500-1000 Years	500	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.5562		Yes
+Similarity	Time Period	500-1000 Years	500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9468		Yes
+Similarity	Time Period	500-1000 Years	500	Sichuan Basin	Southern Segment	Sichuan Region				0.6846		Yes
+Similarity	Time Period	500-1000 Years	500	Sichuan Basin	Western Highland	Sichuan Region				0.2057		Yes
+Similarity	Time Period	500-1000 Years	500	Southern Segment	Western Highland	Corridor Segment				0.5103		Yes
 Scatter Coordinate	Time Period	500-1000 Years	500	Central Segment		Corridor Segment	Cluster 1	Component 1		2.65314	1.000	Yes
 Scatter Coordinate	Time Period	500-1000 Years	500	Central Segment		Corridor Segment	Cluster 1	Component 2		1.22679	1.000	Yes
 Scatter Coordinate	Time Period	500-1000 Years	500	North China		Northern Lowland	Cluster 1	Component 1		1.51727	1.000	Yes
@@ -159,6 +215,34 @@ Co-clustering Frequency	Time Period	1000-1500 Years	1000	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	1000-1500 Years	1000	Sichuan Basin	Southern Segment	Sichuan Region				0.7520		Yes
 Co-clustering Frequency	Time Period	1000-1500 Years	1000	Sichuan Basin	Western Highland	Sichuan Region				0.3400		Yes
 Co-clustering Frequency	Time Period	1000-1500 Years	1000	Southern Segment	Western Highland	Corridor Segment				0.5880		Yes
+Similarity	Time Period	1000-1500 Years	1000	Central Segment	North China	Corridor Segment				0.5099		Yes
+Similarity	Time Period	1000-1500 Years	1000	Central Segment	Northern Segment	Corridor Segment				0.1385		Yes
+Similarity	Time Period	1000-1500 Years	1000	Central Segment	Panxi and Liangshan	Corridor Segment				0.5590		Yes
+Similarity	Time Period	1000-1500 Years	1000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.3638		Yes
+Similarity	Time Period	1000-1500 Years	1000	Central Segment	Sichuan Basin	Corridor Segment				0.2247		Yes
+Similarity	Time Period	1000-1500 Years	1000	Central Segment	Southern Segment	Corridor Segment				0.4657		Yes
+Similarity	Time Period	1000-1500 Years	1000	Central Segment	Western Highland	Corridor Segment				0.4117		Yes
+Similarity	Time Period	1000-1500 Years	1000	North China	Northern Segment	Northern Lowland				0.5081		Yes
+Similarity	Time Period	1000-1500 Years	1000	North China	Panxi and Liangshan	Northern Lowland				0.7019		Yes
+Similarity	Time Period	1000-1500 Years	1000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.6966		Yes
+Similarity	Time Period	1000-1500 Years	1000	North China	Sichuan Basin	Northern Lowland				0.1893		Yes
+Similarity	Time Period	1000-1500 Years	1000	North China	Southern Segment	Northern Lowland				0.5265		Yes
+Similarity	Time Period	1000-1500 Years	1000	North China	Western Highland	Northern Lowland				0.7055		Yes
+Similarity	Time Period	1000-1500 Years	1000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.4265		Yes
+Similarity	Time Period	1000-1500 Years	1000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.6157		Yes
+Similarity	Time Period	1000-1500 Years	1000	Northern Segment	Sichuan Basin	Corridor Segment				0.0000		Yes
+Similarity	Time Period	1000-1500 Years	1000	Northern Segment	Southern Segment	Corridor Segment				0.3266		Yes
+Similarity	Time Period	1000-1500 Years	1000	Northern Segment	Western Highland	Corridor Segment				0.5531		Yes
+Similarity	Time Period	1000-1500 Years	1000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.7658		Yes
+Similarity	Time Period	1000-1500 Years	1000	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.0594		Yes
+Similarity	Time Period	1000-1500 Years	1000	Panxi and Liangshan	Southern Segment	Sichuan Region				0.4350		Yes
+Similarity	Time Period	1000-1500 Years	1000	Panxi and Liangshan	Western Highland	Sichuan Region				0.8281		Yes
+Similarity	Time Period	1000-1500 Years	1000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.0252		Yes
+Similarity	Time Period	1000-1500 Years	1000	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.4057		Yes
+Similarity	Time Period	1000-1500 Years	1000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9317		Yes
+Similarity	Time Period	1000-1500 Years	1000	Sichuan Basin	Southern Segment	Sichuan Region				0.5977		Yes
+Similarity	Time Period	1000-1500 Years	1000	Sichuan Basin	Western Highland	Sichuan Region				0.0292		Yes
+Similarity	Time Period	1000-1500 Years	1000	Southern Segment	Western Highland	Corridor Segment				0.4107		Yes
 Scatter Coordinate	Time Period	1000-1500 Years	1000	Central Segment		Corridor Segment	Cluster 1	Component 1		0.85994	1.000	Yes
 Scatter Coordinate	Time Period	1000-1500 Years	1000	Central Segment		Corridor Segment	Cluster 1	Component 2		2.37898	1.000	Yes
 Scatter Coordinate	Time Period	1000-1500 Years	1000	North China		Northern Lowland	Cluster 1	Component 1		-0.54426	1.000	Yes
@@ -221,6 +305,34 @@ Co-clustering Frequency	Time Period	1500-2000 Years	1500	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	1500-2000 Years	1500	Sichuan Basin	Southern Segment	Sichuan Region				0.1400		Yes
 Co-clustering Frequency	Time Period	1500-2000 Years	1500	Sichuan Basin	Western Highland	Sichuan Region				0.0220		Yes
 Co-clustering Frequency	Time Period	1500-2000 Years	1500	Southern Segment	Western Highland	Corridor Segment				0.8700		Yes
+Similarity	Time Period	1500-2000 Years	1500	Central Segment	North China	Corridor Segment				0.5729		Yes
+Similarity	Time Period	1500-2000 Years	1500	Central Segment	Northern Segment	Corridor Segment				0.5439		Yes
+Similarity	Time Period	1500-2000 Years	1500	Central Segment	Panxi and Liangshan	Corridor Segment				0.9212		Yes
+Similarity	Time Period	1500-2000 Years	1500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5914		Yes
+Similarity	Time Period	1500-2000 Years	1500	Central Segment	Sichuan Basin	Corridor Segment				0.0768		Yes
+Similarity	Time Period	1500-2000 Years	1500	Central Segment	Southern Segment	Corridor Segment				0.6998		Yes
+Similarity	Time Period	1500-2000 Years	1500	Central Segment	Western Highland	Corridor Segment				0.5922		Yes
+Similarity	Time Period	1500-2000 Years	1500	North China	Northern Segment	Northern Lowland				0.8035		Yes
+Similarity	Time Period	1500-2000 Years	1500	North China	Panxi and Liangshan	Northern Lowland				0.5346		Yes
+Similarity	Time Period	1500-2000 Years	1500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.6563		Yes
+Similarity	Time Period	1500-2000 Years	1500	North China	Sichuan Basin	Northern Lowland				0.0000		Yes
+Similarity	Time Period	1500-2000 Years	1500	North China	Southern Segment	Northern Lowland				0.5114		Yes
+Similarity	Time Period	1500-2000 Years	1500	North China	Western Highland	Northern Lowland				0.6333		Yes
+Similarity	Time Period	1500-2000 Years	1500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.5122		Yes
+Similarity	Time Period	1500-2000 Years	1500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7725		Yes
+Similarity	Time Period	1500-2000 Years	1500	Northern Segment	Sichuan Basin	Corridor Segment				0.1460		Yes
+Similarity	Time Period	1500-2000 Years	1500	Northern Segment	Southern Segment	Corridor Segment				0.5762		Yes
+Similarity	Time Period	1500-2000 Years	1500	Northern Segment	Western Highland	Corridor Segment				0.7390		Yes
+Similarity	Time Period	1500-2000 Years	1500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.5889		Yes
+Similarity	Time Period	1500-2000 Years	1500	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.0677		Yes
+Similarity	Time Period	1500-2000 Years	1500	Panxi and Liangshan	Southern Segment	Sichuan Region				0.6594		Yes
+Similarity	Time Period	1500-2000 Years	1500	Panxi and Liangshan	Western Highland	Sichuan Region				0.5937		Yes
+Similarity	Time Period	1500-2000 Years	1500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.1590		Yes
+Similarity	Time Period	1500-2000 Years	1500	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.5714		Yes
+Similarity	Time Period	1500-2000 Years	1500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9628		Yes
+Similarity	Time Period	1500-2000 Years	1500	Sichuan Basin	Southern Segment	Sichuan Region				0.3083		Yes
+Similarity	Time Period	1500-2000 Years	1500	Sichuan Basin	Western Highland	Sichuan Region				0.1467		Yes
+Similarity	Time Period	1500-2000 Years	1500	Southern Segment	Western Highland	Corridor Segment				0.5568		Yes
 Scatter Coordinate	Time Period	1500-2000 Years	1500	Central Segment		Corridor Segment	Cluster 1	Component 1		-1.17909	1.000	Yes
 Scatter Coordinate	Time Period	1500-2000 Years	1500	Central Segment		Corridor Segment	Cluster 1	Component 2		-1.85607	1.000	Yes
 Scatter Coordinate	Time Period	1500-2000 Years	1500	North China		Northern Lowland	Cluster 1	Component 1		-1.93588	1.000	Yes
@@ -283,6 +395,34 @@ Co-clustering Frequency	Time Period	2000-2500 Years	2000	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	2000-2500 Years	2000	Sichuan Basin	Southern Segment	Sichuan Region				0.1700		Yes
 Co-clustering Frequency	Time Period	2000-2500 Years	2000	Sichuan Basin	Western Highland	Sichuan Region				0.0620		Yes
 Co-clustering Frequency	Time Period	2000-2500 Years	2000	Southern Segment	Western Highland	Corridor Segment				0.0000		Yes
+Similarity	Time Period	2000-2500 Years	2000	Central Segment	North China	Corridor Segment				0.4445		Yes
+Similarity	Time Period	2000-2500 Years	2000	Central Segment	Northern Segment	Corridor Segment				0.3539		Yes
+Similarity	Time Period	2000-2500 Years	2000	Central Segment	Panxi and Liangshan	Corridor Segment				0.8633		Yes
+Similarity	Time Period	2000-2500 Years	2000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.4380		Yes
+Similarity	Time Period	2000-2500 Years	2000	Central Segment	Sichuan Basin	Corridor Segment				0.4753		Yes
+Similarity	Time Period	2000-2500 Years	2000	Central Segment	Southern Segment	Corridor Segment				0.3341		Yes
+Similarity	Time Period	2000-2500 Years	2000	Central Segment	Western Highland	Corridor Segment				0.3483		Yes
+Similarity	Time Period	2000-2500 Years	2000	North China	Northern Segment	Northern Lowland				0.7395		Yes
+Similarity	Time Period	2000-2500 Years	2000	North China	Panxi and Liangshan	Northern Lowland				0.4206		Yes
+Similarity	Time Period	2000-2500 Years	2000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.5461		Yes
+Similarity	Time Period	2000-2500 Years	2000	North China	Sichuan Basin	Northern Lowland				0.4405		Yes
+Similarity	Time Period	2000-2500 Years	2000	North China	Southern Segment	Northern Lowland				0.1422		Yes
+Similarity	Time Period	2000-2500 Years	2000	North China	Western Highland	Northern Lowland				0.5231		Yes
+Similarity	Time Period	2000-2500 Years	2000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.3775		Yes
+Similarity	Time Period	2000-2500 Years	2000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7047		Yes
+Similarity	Time Period	2000-2500 Years	2000	Northern Segment	Sichuan Basin	Corridor Segment				0.4308		Yes
+Similarity	Time Period	2000-2500 Years	2000	Northern Segment	Southern Segment	Corridor Segment				0.0605		Yes
+Similarity	Time Period	2000-2500 Years	2000	Northern Segment	Western Highland	Corridor Segment				0.7066		Yes
+Similarity	Time Period	2000-2500 Years	2000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.5070		Yes
+Similarity	Time Period	2000-2500 Years	2000	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.4507		Yes
+Similarity	Time Period	2000-2500 Years	2000	Panxi and Liangshan	Southern Segment	Sichuan Region				0.2521		Yes
+Similarity	Time Period	2000-2500 Years	2000	Panxi and Liangshan	Western Highland	Sichuan Region				0.4160		Yes
+Similarity	Time Period	2000-2500 Years	2000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.4234		Yes
+Similarity	Time Period	2000-2500 Years	2000	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.0676		Yes
+Similarity	Time Period	2000-2500 Years	2000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8362		Yes
+Similarity	Time Period	2000-2500 Years	2000	Sichuan Basin	Southern Segment	Sichuan Region				0.2532		Yes
+Similarity	Time Period	2000-2500 Years	2000	Sichuan Basin	Western Highland	Sichuan Region				0.3448		Yes
+Similarity	Time Period	2000-2500 Years	2000	Southern Segment	Western Highland	Corridor Segment				0.0000		Yes
 Scatter Coordinate	Time Period	2000-2500 Years	2000	Central Segment		Corridor Segment	Cluster 3	Component 1		-1.40917	1.000	Yes
 Scatter Coordinate	Time Period	2000-2500 Years	2000	Central Segment		Corridor Segment	Cluster 3	Component 2		-1.71576	1.000	Yes
 Scatter Coordinate	Time Period	2000-2500 Years	2000	North China		Northern Lowland	Cluster 1	Component 1		1.05935	1.000	Yes
@@ -345,6 +485,34 @@ Co-clustering Frequency	Time Period	2500-3000 Years	2500	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	2500-3000 Years	2500	Sichuan Basin	Southern Segment	Sichuan Region				0.7760		Yes
 Co-clustering Frequency	Time Period	2500-3000 Years	2500	Sichuan Basin	Western Highland	Sichuan Region				0.1820		Yes
 Co-clustering Frequency	Time Period	2500-3000 Years	2500	Southern Segment	Western Highland	Corridor Segment				0.0740		Yes
+Similarity	Time Period	2500-3000 Years	2500	Central Segment	North China	Corridor Segment				0.2595		Yes
+Similarity	Time Period	2500-3000 Years	2500	Central Segment	Northern Segment	Corridor Segment				0.4049		Yes
+Similarity	Time Period	2500-3000 Years	2500	Central Segment	Panxi and Liangshan	Corridor Segment				0.7741		Yes
+Similarity	Time Period	2500-3000 Years	2500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5261		Yes
+Similarity	Time Period	2500-3000 Years	2500	Central Segment	Sichuan Basin	Corridor Segment				0.1032		Yes
+Similarity	Time Period	2500-3000 Years	2500	Central Segment	Southern Segment	Corridor Segment				0.2451		Yes
+Similarity	Time Period	2500-3000 Years	2500	Central Segment	Western Highland	Corridor Segment				0.3896		Yes
+Similarity	Time Period	2500-3000 Years	2500	North China	Northern Segment	Northern Lowland				0.5869		Yes
+Similarity	Time Period	2500-3000 Years	2500	North China	Panxi and Liangshan	Northern Lowland				0.1341		Yes
+Similarity	Time Period	2500-3000 Years	2500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.4880		Yes
+Similarity	Time Period	2500-3000 Years	2500	North China	Sichuan Basin	Northern Lowland				0.7300		Yes
+Similarity	Time Period	2500-3000 Years	2500	North China	Southern Segment	Northern Lowland				0.6981		Yes
+Similarity	Time Period	2500-3000 Years	2500	North China	Western Highland	Northern Lowland				0.4787		Yes
+Similarity	Time Period	2500-3000 Years	2500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.2631		Yes
+Similarity	Time Period	2500-3000 Years	2500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7590		Yes
+Similarity	Time Period	2500-3000 Years	2500	Northern Segment	Sichuan Basin	Corridor Segment				0.5032		Yes
+Similarity	Time Period	2500-3000 Years	2500	Northern Segment	Southern Segment	Corridor Segment				0.4907		Yes
+Similarity	Time Period	2500-3000 Years	2500	Northern Segment	Western Highland	Corridor Segment				0.7489		Yes
+Similarity	Time Period	2500-3000 Years	2500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.3953		Yes
+Similarity	Time Period	2500-3000 Years	2500	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.0000		Yes
+Similarity	Time Period	2500-3000 Years	2500	Panxi and Liangshan	Southern Segment	Sichuan Region				0.1532		Yes
+Similarity	Time Period	2500-3000 Years	2500	Panxi and Liangshan	Western Highland	Sichuan Region				0.2741		Yes
+Similarity	Time Period	2500-3000 Years	2500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.3761		Yes
+Similarity	Time Period	2500-3000 Years	2500	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.4102		Yes
+Similarity	Time Period	2500-3000 Years	2500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8560		Yes
+Similarity	Time Period	2500-3000 Years	2500	Sichuan Basin	Southern Segment	Sichuan Region				0.7332		Yes
+Similarity	Time Period	2500-3000 Years	2500	Sichuan Basin	Western Highland	Sichuan Region				0.4079		Yes
+Similarity	Time Period	2500-3000 Years	2500	Southern Segment	Western Highland	Corridor Segment				0.3882		Yes
 Scatter Coordinate	Time Period	2500-3000 Years	2500	Central Segment		Corridor Segment	Cluster 3	Component 1		-3.15997	1.000	Yes
 Scatter Coordinate	Time Period	2500-3000 Years	2500	Central Segment		Corridor Segment	Cluster 3	Component 2		-0.69105	1.000	Yes
 Scatter Coordinate	Time Period	2500-3000 Years	2500	North China		Northern Lowland	Cluster 2	Component 1		2.06229	1.000	Yes
@@ -407,6 +575,34 @@ Co-clustering Frequency	Time Period	3000-3500 Years	3000	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	3000-3500 Years	3000	Sichuan Basin	Southern Segment	Sichuan Region				0.4900		Yes
 Co-clustering Frequency	Time Period	3000-3500 Years	3000	Sichuan Basin	Western Highland	Sichuan Region				0.6260		Yes
 Co-clustering Frequency	Time Period	3000-3500 Years	3000	Southern Segment	Western Highland	Corridor Segment				0.2160		Yes
+Similarity	Time Period	3000-3500 Years	3000	Central Segment	North China	Corridor Segment				0.2165		Yes
+Similarity	Time Period	3000-3500 Years	3000	Central Segment	Northern Segment	Corridor Segment				0.6505		Yes
+Similarity	Time Period	3000-3500 Years	3000	Central Segment	Panxi and Liangshan	Corridor Segment				0.7015		Yes
+Similarity	Time Period	3000-3500 Years	3000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7276		Yes
+Similarity	Time Period	3000-3500 Years	3000	Central Segment	Sichuan Basin	Corridor Segment				0.3912		Yes
+Similarity	Time Period	3000-3500 Years	3000	Central Segment	Southern Segment	Corridor Segment				0.1469		Yes
+Similarity	Time Period	3000-3500 Years	3000	Central Segment	Western Highland	Corridor Segment				0.6232		Yes
+Similarity	Time Period	3000-3500 Years	3000	North China	Northern Segment	Northern Lowland				0.4082		Yes
+Similarity	Time Period	3000-3500 Years	3000	North China	Panxi and Liangshan	Northern Lowland				0.1503		Yes
+Similarity	Time Period	3000-3500 Years	3000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.2999		Yes
+Similarity	Time Period	3000-3500 Years	3000	North China	Sichuan Basin	Northern Lowland				0.3691		Yes
+Similarity	Time Period	3000-3500 Years	3000	North China	Southern Segment	Northern Lowland				0.3930		Yes
+Similarity	Time Period	3000-3500 Years	3000	North China	Western Highland	Northern Lowland				0.2978		Yes
+Similarity	Time Period	3000-3500 Years	3000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.4322		Yes
+Similarity	Time Period	3000-3500 Years	3000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7469		Yes
+Similarity	Time Period	3000-3500 Years	3000	Northern Segment	Sichuan Basin	Corridor Segment				0.6672		Yes
+Similarity	Time Period	3000-3500 Years	3000	Northern Segment	Southern Segment	Corridor Segment				0.4362		Yes
+Similarity	Time Period	3000-3500 Years	3000	Northern Segment	Western Highland	Corridor Segment				0.7044		Yes
+Similarity	Time Period	3000-3500 Years	3000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.5249		Yes
+Similarity	Time Period	3000-3500 Years	3000	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.2279		Yes
+Similarity	Time Period	3000-3500 Years	3000	Panxi and Liangshan	Southern Segment	Sichuan Region				0.0000		Yes
+Similarity	Time Period	3000-3500 Years	3000	Panxi and Liangshan	Western Highland	Sichuan Region				0.4454		Yes
+Similarity	Time Period	3000-3500 Years	3000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.5104		Yes
+Similarity	Time Period	3000-3500 Years	3000	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.2975		Yes
+Similarity	Time Period	3000-3500 Years	3000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8928		Yes
+Similarity	Time Period	3000-3500 Years	3000	Sichuan Basin	Southern Segment	Sichuan Region				0.6851		Yes
+Similarity	Time Period	3000-3500 Years	3000	Sichuan Basin	Western Highland	Sichuan Region				0.5239		Yes
+Similarity	Time Period	3000-3500 Years	3000	Southern Segment	Western Highland	Corridor Segment				0.3356		Yes
 Scatter Coordinate	Time Period	3000-3500 Years	3000	Central Segment		Corridor Segment	Cluster 1	Component 1		-2.39620	1.000	Yes
 Scatter Coordinate	Time Period	3000-3500 Years	3000	Central Segment		Corridor Segment	Cluster 1	Component 2		0.10229	1.000	Yes
 Scatter Coordinate	Time Period	3000-3500 Years	3000	North China		Northern Lowland	Cluster 3	Component 1		2.23264	1.000	Yes
@@ -469,6 +665,34 @@ Co-clustering Frequency	Time Period	3500-4000 Years	3500	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	3500-4000 Years	3500	Sichuan Basin	Southern Segment	Sichuan Region				0.4440		Yes
 Co-clustering Frequency	Time Period	3500-4000 Years	3500	Sichuan Basin	Western Highland	Sichuan Region				0.1460		Yes
 Co-clustering Frequency	Time Period	3500-4000 Years	3500	Southern Segment	Western Highland	Corridor Segment				0.3380		Yes
+Similarity	Time Period	3500-4000 Years	3500	Central Segment	North China	Corridor Segment				0.2270		Yes
+Similarity	Time Period	3500-4000 Years	3500	Central Segment	Northern Segment	Corridor Segment				0.5358		Yes
+Similarity	Time Period	3500-4000 Years	3500	Central Segment	Panxi and Liangshan	Corridor Segment				0.8808		Yes
+Similarity	Time Period	3500-4000 Years	3500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5211		Yes
+Similarity	Time Period	3500-4000 Years	3500	Central Segment	Sichuan Basin	Corridor Segment				0.2654		Yes
+Similarity	Time Period	3500-4000 Years	3500	Central Segment	Southern Segment	Corridor Segment				0.4493		Yes
+Similarity	Time Period	3500-4000 Years	3500	Central Segment	Western Highland	Corridor Segment				0.4838		Yes
+Similarity	Time Period	3500-4000 Years	3500	North China	Northern Segment	Northern Lowland				0.4653		Yes
+Similarity	Time Period	3500-4000 Years	3500	North China	Panxi and Liangshan	Northern Lowland				0.1535		Yes
+Similarity	Time Period	3500-4000 Years	3500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.3282		Yes
+Similarity	Time Period	3500-4000 Years	3500	North China	Sichuan Basin	Northern Lowland				0.0000		Yes
+Similarity	Time Period	3500-4000 Years	3500	North China	Southern Segment	Northern Lowland				0.2671		Yes
+Similarity	Time Period	3500-4000 Years	3500	North China	Western Highland	Northern Lowland				0.2995		Yes
+Similarity	Time Period	3500-4000 Years	3500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.4917		Yes
+Similarity	Time Period	3500-4000 Years	3500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7270		Yes
+Similarity	Time Period	3500-4000 Years	3500	Northern Segment	Sichuan Basin	Corridor Segment				0.3454		Yes
+Similarity	Time Period	3500-4000 Years	3500	Northern Segment	Southern Segment	Corridor Segment				0.6342		Yes
+Similarity	Time Period	3500-4000 Years	3500	Northern Segment	Western Highland	Corridor Segment				0.6537		Yes
+Similarity	Time Period	3500-4000 Years	3500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.5175		Yes
+Similarity	Time Period	3500-4000 Years	3500	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.3152		Yes
+Similarity	Time Period	3500-4000 Years	3500	Panxi and Liangshan	Southern Segment	Sichuan Region				0.4739		Yes
+Similarity	Time Period	3500-4000 Years	3500	Panxi and Liangshan	Western Highland	Sichuan Region				0.4863		Yes
+Similarity	Time Period	3500-4000 Years	3500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.3266		Yes
+Similarity	Time Period	3500-4000 Years	3500	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.5854		Yes
+Similarity	Time Period	3500-4000 Years	3500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9143		Yes
+Similarity	Time Period	3500-4000 Years	3500	Sichuan Basin	Southern Segment	Sichuan Region				0.6325		Yes
+Similarity	Time Period	3500-4000 Years	3500	Sichuan Basin	Western Highland	Sichuan Region				0.2926		Yes
+Similarity	Time Period	3500-4000 Years	3500	Southern Segment	Western Highland	Corridor Segment				0.5446		Yes
 Scatter Coordinate	Time Period	3500-4000 Years	3500	Central Segment		Corridor Segment	Cluster 4	Component 1		-0.28563	1.000	Yes
 Scatter Coordinate	Time Period	3500-4000 Years	3500	Central Segment		Corridor Segment	Cluster 4	Component 2		2.36843	1.000	Yes
 Scatter Coordinate	Time Period	3500-4000 Years	3500	North China		Northern Lowland	Cluster 3	Component 1		4.01601	1.000	Yes
@@ -531,6 +755,34 @@ Co-clustering Frequency	Time Period	4000-4500 Years	4000	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	4000-4500 Years	4000	Sichuan Basin	Southern Segment	Sichuan Region				0.7440		Yes
 Co-clustering Frequency	Time Period	4000-4500 Years	4000	Sichuan Basin	Western Highland	Sichuan Region				0.1640		Yes
 Co-clustering Frequency	Time Period	4000-4500 Years	4000	Southern Segment	Western Highland	Corridor Segment				0.0500		Yes
+Similarity	Time Period	4000-4500 Years	4000	Central Segment	North China	Corridor Segment				0.3760		Yes
+Similarity	Time Period	4000-4500 Years	4000	Central Segment	Northern Segment	Corridor Segment				0.9097		Yes
+Similarity	Time Period	4000-4500 Years	4000	Central Segment	Panxi and Liangshan	Corridor Segment				0.9335		Yes
+Similarity	Time Period	4000-4500 Years	4000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7609		Yes
+Similarity	Time Period	4000-4500 Years	4000	Central Segment	Sichuan Basin	Corridor Segment				0.4085		Yes
+Similarity	Time Period	4000-4500 Years	4000	Central Segment	Southern Segment	Corridor Segment				0.2571		Yes
+Similarity	Time Period	4000-4500 Years	4000	Central Segment	Western Highland	Corridor Segment				0.7165		Yes
+Similarity	Time Period	4000-4500 Years	4000	North China	Northern Segment	Northern Lowland				0.3549		Yes
+Similarity	Time Period	4000-4500 Years	4000	North China	Panxi and Liangshan	Northern Lowland				0.3818		Yes
+Similarity	Time Period	4000-4500 Years	4000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.2732		Yes
+Similarity	Time Period	4000-4500 Years	4000	North China	Sichuan Basin	Northern Lowland				0.0530		Yes
+Similarity	Time Period	4000-4500 Years	4000	North China	Southern Segment	Northern Lowland				0.0000		Yes
+Similarity	Time Period	4000-4500 Years	4000	North China	Western Highland	Northern Lowland				0.2575		Yes
+Similarity	Time Period	4000-4500 Years	4000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.8531		Yes
+Similarity	Time Period	4000-4500 Years	4000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7517		Yes
+Similarity	Time Period	4000-4500 Years	4000	Northern Segment	Sichuan Basin	Corridor Segment				0.4445		Yes
+Similarity	Time Period	4000-4500 Years	4000	Northern Segment	Southern Segment	Corridor Segment				0.2882		Yes
+Similarity	Time Period	4000-4500 Years	4000	Northern Segment	Western Highland	Corridor Segment				0.6972		Yes
+Similarity	Time Period	4000-4500 Years	4000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.7600		Yes
+Similarity	Time Period	4000-4500 Years	4000	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.3776		Yes
+Similarity	Time Period	4000-4500 Years	4000	Panxi and Liangshan	Southern Segment	Sichuan Region				0.2305		Yes
+Similarity	Time Period	4000-4500 Years	4000	Panxi and Liangshan	Western Highland	Sichuan Region				0.7235		Yes
+Similarity	Time Period	4000-4500 Years	4000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.4206		Yes
+Similarity	Time Period	4000-4500 Years	4000	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.3187		Yes
+Similarity	Time Period	4000-4500 Years	4000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9364		Yes
+Similarity	Time Period	4000-4500 Years	4000	Sichuan Basin	Southern Segment	Sichuan Region				0.7346		Yes
+Similarity	Time Period	4000-4500 Years	4000	Sichuan Basin	Western Highland	Sichuan Region				0.3755		Yes
+Similarity	Time Period	4000-4500 Years	4000	Southern Segment	Western Highland	Corridor Segment				0.2871		Yes
 Scatter Coordinate	Time Period	4000-4500 Years	4000	Central Segment		Corridor Segment	Cluster 1	Component 1		1.02693	1.000	Yes
 Scatter Coordinate	Time Period	4000-4500 Years	4000	Central Segment		Corridor Segment	Cluster 1	Component 2		-0.74604	1.000	Yes
 Scatter Coordinate	Time Period	4000-4500 Years	4000	North China		Northern Lowland	Cluster 3	Component 1		3.29495	1.000	Yes
@@ -593,6 +845,34 @@ Co-clustering Frequency	Time Period	4500-5000 Years	4500	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	4500-5000 Years	4500	Sichuan Basin	Southern Segment	Sichuan Region				0.6580		Yes
 Co-clustering Frequency	Time Period	4500-5000 Years	4500	Sichuan Basin	Western Highland	Sichuan Region				0.4600		Yes
 Co-clustering Frequency	Time Period	4500-5000 Years	4500	Southern Segment	Western Highland	Corridor Segment				0.6260		Yes
+Similarity	Time Period	4500-5000 Years	4500	Central Segment	North China	Corridor Segment				0.2490		Yes
+Similarity	Time Period	4500-5000 Years	4500	Central Segment	Northern Segment	Corridor Segment				0.7993		Yes
+Similarity	Time Period	4500-5000 Years	4500	Central Segment	Panxi and Liangshan	Corridor Segment				0.8239		Yes
+Similarity	Time Period	4500-5000 Years	4500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.6620		Yes
+Similarity	Time Period	4500-5000 Years	4500	Central Segment	Sichuan Basin	Corridor Segment				0.5666		Yes
+Similarity	Time Period	4500-5000 Years	4500	Central Segment	Southern Segment	Corridor Segment				0.7011		Yes
+Similarity	Time Period	4500-5000 Years	4500	Central Segment	Western Highland	Corridor Segment				0.6484		Yes
+Similarity	Time Period	4500-5000 Years	4500	North China	Northern Segment	Northern Lowland				0.3600		Yes
+Similarity	Time Period	4500-5000 Years	4500	North China	Panxi and Liangshan	Northern Lowland				0.2992		Yes
+Similarity	Time Period	4500-5000 Years	4500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.4108		Yes
+Similarity	Time Period	4500-5000 Years	4500	North China	Sichuan Basin	Northern Lowland				0.0000		Yes
+Similarity	Time Period	4500-5000 Years	4500	North China	Southern Segment	Northern Lowland				0.2187		Yes
+Similarity	Time Period	4500-5000 Years	4500	North China	Western Highland	Northern Lowland				0.3903		Yes
+Similarity	Time Period	4500-5000 Years	4500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.7173		Yes
+Similarity	Time Period	4500-5000 Years	4500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7794		Yes
+Similarity	Time Period	4500-5000 Years	4500	Northern Segment	Sichuan Basin	Corridor Segment				0.4381		Yes
+Similarity	Time Period	4500-5000 Years	4500	Northern Segment	Southern Segment	Corridor Segment				0.6755		Yes
+Similarity	Time Period	4500-5000 Years	4500	Northern Segment	Western Highland	Corridor Segment				0.7371		Yes
+Similarity	Time Period	4500-5000 Years	4500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.6171		Yes
+Similarity	Time Period	4500-5000 Years	4500	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.5223		Yes
+Similarity	Time Period	4500-5000 Years	4500	Panxi and Liangshan	Southern Segment	Sichuan Region				0.6306		Yes
+Similarity	Time Period	4500-5000 Years	4500	Panxi and Liangshan	Western Highland	Sichuan Region				0.6098		Yes
+Similarity	Time Period	4500-5000 Years	4500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.2665		Yes
+Similarity	Time Period	4500-5000 Years	4500	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.5013		Yes
+Similarity	Time Period	4500-5000 Years	4500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9411		Yes
+Similarity	Time Period	4500-5000 Years	4500	Sichuan Basin	Southern Segment	Sichuan Region				0.6845		Yes
+Similarity	Time Period	4500-5000 Years	4500	Sichuan Basin	Western Highland	Sichuan Region				0.2463		Yes
+Similarity	Time Period	4500-5000 Years	4500	Southern Segment	Western Highland	Corridor Segment				0.4703		Yes
 Scatter Coordinate	Time Period	4500-5000 Years	4500	Central Segment		Corridor Segment	Cluster 1	Component 1		1.03493	1.000	Yes
 Scatter Coordinate	Time Period	4500-5000 Years	4500	Central Segment		Corridor Segment	Cluster 1	Component 2		-0.70433	1.000	Yes
 Scatter Coordinate	Time Period	4500-5000 Years	4500	North China		Northern Lowland	Cluster 3	Component 1		-4.29888	1.000	Yes
@@ -655,6 +935,34 @@ Co-clustering Frequency	Time Period	5000-5500 Years	5000	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	5000-5500 Years	5000	Sichuan Basin	Southern Segment	Sichuan Region				0.7640		Yes
 Co-clustering Frequency	Time Period	5000-5500 Years	5000	Sichuan Basin	Western Highland	Sichuan Region				0.3500		Yes
 Co-clustering Frequency	Time Period	5000-5500 Years	5000	Southern Segment	Western Highland	Corridor Segment				0.2020		Yes
+Similarity	Time Period	5000-5500 Years	5000	Central Segment	North China	Corridor Segment				0.3698		Yes
+Similarity	Time Period	5000-5500 Years	5000	Central Segment	Northern Segment	Corridor Segment				0.6385		Yes
+Similarity	Time Period	5000-5500 Years	5000	Central Segment	Panxi and Liangshan	Corridor Segment				0.5795		Yes
+Similarity	Time Period	5000-5500 Years	5000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.6881		Yes
+Similarity	Time Period	5000-5500 Years	5000	Central Segment	Sichuan Basin	Corridor Segment				0.3995		Yes
+Similarity	Time Period	5000-5500 Years	5000	Central Segment	Southern Segment	Corridor Segment				0.4692		Yes
+Similarity	Time Period	5000-5500 Years	5000	Central Segment	Western Highland	Corridor Segment				0.7050		Yes
+Similarity	Time Period	5000-5500 Years	5000	North China	Northern Segment	Northern Lowland				0.5127		Yes
+Similarity	Time Period	5000-5500 Years	5000	North China	Panxi and Liangshan	Northern Lowland				0.4339		Yes
+Similarity	Time Period	5000-5500 Years	5000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.5603		Yes
+Similarity	Time Period	5000-5500 Years	5000	North China	Sichuan Basin	Northern Lowland				0.1545		Yes
+Similarity	Time Period	5000-5500 Years	5000	North China	Southern Segment	Northern Lowland				0.0000		Yes
+Similarity	Time Period	5000-5500 Years	5000	North China	Western Highland	Northern Lowland				0.3901		Yes
+Similarity	Time Period	5000-5500 Years	5000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.7327		Yes
+Similarity	Time Period	5000-5500 Years	5000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7125		Yes
+Similarity	Time Period	5000-5500 Years	5000	Northern Segment	Sichuan Basin	Corridor Segment				0.4882		Yes
+Similarity	Time Period	5000-5500 Years	5000	Northern Segment	Southern Segment	Corridor Segment				0.3273		Yes
+Similarity	Time Period	5000-5500 Years	5000	Northern Segment	Western Highland	Corridor Segment				0.5266		Yes
+Similarity	Time Period	5000-5500 Years	5000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.6711		Yes
+Similarity	Time Period	5000-5500 Years	5000	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.5402		Yes
+Similarity	Time Period	5000-5500 Years	5000	Panxi and Liangshan	Southern Segment	Sichuan Region				0.3062		Yes
+Similarity	Time Period	5000-5500 Years	5000	Panxi and Liangshan	Western Highland	Sichuan Region				0.4658		Yes
+Similarity	Time Period	5000-5500 Years	5000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.2938		Yes
+Similarity	Time Period	5000-5500 Years	5000	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.2084		Yes
+Similarity	Time Period	5000-5500 Years	5000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.7468		Yes
+Similarity	Time Period	5000-5500 Years	5000	Sichuan Basin	Southern Segment	Sichuan Region				0.5670		Yes
+Similarity	Time Period	5000-5500 Years	5000	Sichuan Basin	Western Highland	Sichuan Region				0.1584		Yes
+Similarity	Time Period	5000-5500 Years	5000	Southern Segment	Western Highland	Corridor Segment				0.2013		Yes
 Scatter Coordinate	Time Period	5000-5500 Years	5000	Central Segment		Corridor Segment	Cluster 1	Component 1		0.07124	1.000	Yes
 Scatter Coordinate	Time Period	5000-5500 Years	5000	Central Segment		Corridor Segment	Cluster 1	Component 2		1.52904	1.000	Yes
 Scatter Coordinate	Time Period	5000-5500 Years	5000	North China		Northern Lowland	Cluster 1	Component 1		-2.95202	1.000	Yes
@@ -717,6 +1025,34 @@ Co-clustering Frequency	Time Period	5500-6000 Years	5500	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	5500-6000 Years	5500	Sichuan Basin	Southern Segment	Sichuan Region				0.3420		Yes
 Co-clustering Frequency	Time Period	5500-6000 Years	5500	Sichuan Basin	Western Highland	Sichuan Region				0.6420		Yes
 Co-clustering Frequency	Time Period	5500-6000 Years	5500	Southern Segment	Western Highland	Corridor Segment				0.5520		Yes
+Similarity	Time Period	5500-6000 Years	5500	Central Segment	North China	Corridor Segment				0.1589		Yes
+Similarity	Time Period	5500-6000 Years	5500	Central Segment	Northern Segment	Corridor Segment				0.6901		Yes
+Similarity	Time Period	5500-6000 Years	5500	Central Segment	Panxi and Liangshan	Corridor Segment				0.5534		Yes
+Similarity	Time Period	5500-6000 Years	5500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.6348		Yes
+Similarity	Time Period	5500-6000 Years	5500	Central Segment	Sichuan Basin	Corridor Segment				0.3594		Yes
+Similarity	Time Period	5500-6000 Years	5500	Central Segment	Southern Segment	Corridor Segment				0.6742		Yes
+Similarity	Time Period	5500-6000 Years	5500	Central Segment	Western Highland	Corridor Segment				0.7014		Yes
+Similarity	Time Period	5500-6000 Years	5500	North China	Northern Segment	Northern Lowland				0.3382		Yes
+Similarity	Time Period	5500-6000 Years	5500	North China	Panxi and Liangshan	Northern Lowland				0.3823		Yes
+Similarity	Time Period	5500-6000 Years	5500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.3168		Yes
+Similarity	Time Period	5500-6000 Years	5500	North China	Sichuan Basin	Northern Lowland				0.3976		Yes
+Similarity	Time Period	5500-6000 Years	5500	North China	Southern Segment	Northern Lowland				0.0000		Yes
+Similarity	Time Period	5500-6000 Years	5500	North China	Western Highland	Northern Lowland				0.2460		Yes
+Similarity	Time Period	5500-6000 Years	5500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.7031		Yes
+Similarity	Time Period	5500-6000 Years	5500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7924		Yes
+Similarity	Time Period	5500-6000 Years	5500	Northern Segment	Sichuan Basin	Corridor Segment				0.5366		Yes
+Similarity	Time Period	5500-6000 Years	5500	Northern Segment	Southern Segment	Corridor Segment				0.4345		Yes
+Similarity	Time Period	5500-6000 Years	5500	Northern Segment	Western Highland	Corridor Segment				0.7204		Yes
+Similarity	Time Period	5500-6000 Years	5500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.7626		Yes
+Similarity	Time Period	5500-6000 Years	5500	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.4918		Yes
+Similarity	Time Period	5500-6000 Years	5500	Panxi and Liangshan	Southern Segment	Sichuan Region				0.2762		Yes
+Similarity	Time Period	5500-6000 Years	5500	Panxi and Liangshan	Western Highland	Sichuan Region				0.7007		Yes
+Similarity	Time Period	5500-6000 Years	5500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.5170		Yes
+Similarity	Time Period	5500-6000 Years	5500	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.3369		Yes
+Similarity	Time Period	5500-6000 Years	5500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8661		Yes
+Similarity	Time Period	5500-6000 Years	5500	Sichuan Basin	Southern Segment	Sichuan Region				0.2002		Yes
+Similarity	Time Period	5500-6000 Years	5500	Sichuan Basin	Western Highland	Sichuan Region				0.4440		Yes
+Similarity	Time Period	5500-6000 Years	5500	Southern Segment	Western Highland	Corridor Segment				0.3999		Yes
 Scatter Coordinate	Time Period	5500-6000 Years	5500	Central Segment		Corridor Segment	Cluster 1	Component 1		2.15354	1.000	Yes
 Scatter Coordinate	Time Period	5500-6000 Years	5500	Central Segment		Corridor Segment	Cluster 1	Component 2		0.15111	1.000	Yes
 Scatter Coordinate	Time Period	5500-6000 Years	5500	North China		Northern Lowland	Cluster 2	Component 1		-4.04792	1.000	Yes
@@ -779,6 +1115,34 @@ Co-clustering Frequency	Time Period	6000-6500 Years	6000	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	6000-6500 Years	6000	Sichuan Basin	Southern Segment	Sichuan Region				0.3700		Yes
 Co-clustering Frequency	Time Period	6000-6500 Years	6000	Sichuan Basin	Western Highland	Sichuan Region				0.4260		Yes
 Co-clustering Frequency	Time Period	6000-6500 Years	6000	Southern Segment	Western Highland	Corridor Segment				0.7000		Yes
+Similarity	Time Period	6000-6500 Years	6000	Central Segment	North China	Corridor Segment				0.2039		Yes
+Similarity	Time Period	6000-6500 Years	6000	Central Segment	Northern Segment	Corridor Segment				0.4730		Yes
+Similarity	Time Period	6000-6500 Years	6000	Central Segment	Panxi and Liangshan	Corridor Segment				0.4987		Yes
+Similarity	Time Period	6000-6500 Years	6000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.4148		Yes
+Similarity	Time Period	6000-6500 Years	6000	Central Segment	Sichuan Basin	Corridor Segment				0.0000		Yes
+Similarity	Time Period	6000-6500 Years	6000	Central Segment	Southern Segment	Corridor Segment				0.5278		Yes
+Similarity	Time Period	6000-6500 Years	6000	Central Segment	Western Highland	Corridor Segment				0.4585		Yes
+Similarity	Time Period	6000-6500 Years	6000	North China	Northern Segment	Northern Lowland				0.5510		Yes
+Similarity	Time Period	6000-6500 Years	6000	North China	Panxi and Liangshan	Northern Lowland				0.5545		Yes
+Similarity	Time Period	6000-6500 Years	6000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.4853		Yes
+Similarity	Time Period	6000-6500 Years	6000	North China	Sichuan Basin	Northern Lowland				0.4148		Yes
+Similarity	Time Period	6000-6500 Years	6000	North China	Southern Segment	Northern Lowland				0.3651		Yes
+Similarity	Time Period	6000-6500 Years	6000	North China	Western Highland	Northern Lowland				0.4272		Yes
+Similarity	Time Period	6000-6500 Years	6000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.5198		Yes
+Similarity	Time Period	6000-6500 Years	6000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.8092		Yes
+Similarity	Time Period	6000-6500 Years	6000	Northern Segment	Sichuan Basin	Corridor Segment				0.2436		Yes
+Similarity	Time Period	6000-6500 Years	6000	Northern Segment	Southern Segment	Corridor Segment				0.6017		Yes
+Similarity	Time Period	6000-6500 Years	6000	Northern Segment	Western Highland	Corridor Segment				0.7418		Yes
+Similarity	Time Period	6000-6500 Years	6000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.4931		Yes
+Similarity	Time Period	6000-6500 Years	6000	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.2429		Yes
+Similarity	Time Period	6000-6500 Years	6000	Panxi and Liangshan	Southern Segment	Sichuan Region				0.4980		Yes
+Similarity	Time Period	6000-6500 Years	6000	Panxi and Liangshan	Western Highland	Sichuan Region				0.5068		Yes
+Similarity	Time Period	6000-6500 Years	6000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.2237		Yes
+Similarity	Time Period	6000-6500 Years	6000	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.5318		Yes
+Similarity	Time Period	6000-6500 Years	6000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8987		Yes
+Similarity	Time Period	6000-6500 Years	6000	Sichuan Basin	Southern Segment	Sichuan Region				0.2826		Yes
+Similarity	Time Period	6000-6500 Years	6000	Sichuan Basin	Western Highland	Sichuan Region				0.1783		Yes
+Similarity	Time Period	6000-6500 Years	6000	Southern Segment	Western Highland	Corridor Segment				0.5140		Yes
 Scatter Coordinate	Time Period	6000-6500 Years	6000	Central Segment		Corridor Segment	Cluster 1	Component 1		2.90192	1.000	Yes
 Scatter Coordinate	Time Period	6000-6500 Years	6000	Central Segment		Corridor Segment	Cluster 1	Component 2		1.80179	1.000	Yes
 Scatter Coordinate	Time Period	6000-6500 Years	6000	North China		Northern Lowland	Cluster 1	Component 1		-1.93498	1.000	Yes
@@ -841,6 +1205,34 @@ Co-clustering Frequency	Time Period	6500-7000 Years	6500	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	6500-7000 Years	6500	Sichuan Basin	Southern Segment	Sichuan Region				0.3660		Yes
 Co-clustering Frequency	Time Period	6500-7000 Years	6500	Sichuan Basin	Western Highland	Sichuan Region				0.1520		Yes
 Co-clustering Frequency	Time Period	6500-7000 Years	6500	Southern Segment	Western Highland	Corridor Segment				0.7220		Yes
+Similarity	Time Period	6500-7000 Years	6500	Central Segment	North China	Corridor Segment				0.4721		Yes
+Similarity	Time Period	6500-7000 Years	6500	Central Segment	Northern Segment	Corridor Segment				0.7196		Yes
+Similarity	Time Period	6500-7000 Years	6500	Central Segment	Panxi and Liangshan	Corridor Segment				0.7192		Yes
+Similarity	Time Period	6500-7000 Years	6500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.8443		Yes
+Similarity	Time Period	6500-7000 Years	6500	Central Segment	Sichuan Basin	Corridor Segment				0.1484		Yes
+Similarity	Time Period	6500-7000 Years	6500	Central Segment	Southern Segment	Corridor Segment				0.7240		Yes
+Similarity	Time Period	6500-7000 Years	6500	Central Segment	Western Highland	Corridor Segment				0.7815		Yes
+Similarity	Time Period	6500-7000 Years	6500	North China	Northern Segment	Northern Lowland				0.6622		Yes
+Similarity	Time Period	6500-7000 Years	6500	North China	Panxi and Liangshan	Northern Lowland				0.4989		Yes
+Similarity	Time Period	6500-7000 Years	6500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.4330		Yes
+Similarity	Time Period	6500-7000 Years	6500	North China	Sichuan Basin	Northern Lowland				0.4765		Yes
+Similarity	Time Period	6500-7000 Years	6500	North China	Southern Segment	Northern Lowland				0.5321		Yes
+Similarity	Time Period	6500-7000 Years	6500	North China	Western Highland	Northern Lowland				0.3547		Yes
+Similarity	Time Period	6500-7000 Years	6500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.5864		Yes
+Similarity	Time Period	6500-7000 Years	6500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7447		Yes
+Similarity	Time Period	6500-7000 Years	6500	Northern Segment	Sichuan Basin	Corridor Segment				0.2223		Yes
+Similarity	Time Period	6500-7000 Years	6500	Northern Segment	Southern Segment	Corridor Segment				0.6695		Yes
+Similarity	Time Period	6500-7000 Years	6500	Northern Segment	Western Highland	Corridor Segment				0.6707		Yes
+Similarity	Time Period	6500-7000 Years	6500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.6172		Yes
+Similarity	Time Period	6500-7000 Years	6500	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.3470		Yes
+Similarity	Time Period	6500-7000 Years	6500	Panxi and Liangshan	Southern Segment	Sichuan Region				0.7596		Yes
+Similarity	Time Period	6500-7000 Years	6500	Panxi and Liangshan	Western Highland	Sichuan Region				0.5434		Yes
+Similarity	Time Period	6500-7000 Years	6500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.0807		Yes
+Similarity	Time Period	6500-7000 Years	6500	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.6948		Yes
+Similarity	Time Period	6500-7000 Years	6500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8933		Yes
+Similarity	Time Period	6500-7000 Years	6500	Sichuan Basin	Southern Segment	Sichuan Region				0.3297		Yes
+Similarity	Time Period	6500-7000 Years	6500	Sichuan Basin	Western Highland	Sichuan Region				0.0000		Yes
+Similarity	Time Period	6500-7000 Years	6500	Southern Segment	Western Highland	Corridor Segment				0.6074		Yes
 Scatter Coordinate	Time Period	6500-7000 Years	6500	Central Segment		Corridor Segment	Cluster 1	Component 1		-1.62953	1.000	Yes
 Scatter Coordinate	Time Period	6500-7000 Years	6500	Central Segment		Corridor Segment	Cluster 1	Component 2		-0.42530	1.000	Yes
 Scatter Coordinate	Time Period	6500-7000 Years	6500	North China		Northern Lowland	Cluster 1	Component 1		1.99312	1.000	Yes
@@ -903,6 +1295,34 @@ Co-clustering Frequency	Time Period	7000-7500 Years	7000	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	7000-7500 Years	7000	Sichuan Basin	Southern Segment	Sichuan Region				0.3220		Yes
 Co-clustering Frequency	Time Period	7000-7500 Years	7000	Sichuan Basin	Western Highland	Sichuan Region				0.3360		Yes
 Co-clustering Frequency	Time Period	7000-7500 Years	7000	Southern Segment	Western Highland	Corridor Segment				0.8020		Yes
+Similarity	Time Period	7000-7500 Years	7000	Central Segment	North China	Corridor Segment				0.1438		Yes
+Similarity	Time Period	7000-7500 Years	7000	Central Segment	Northern Segment	Corridor Segment				0.5154		Yes
+Similarity	Time Period	7000-7500 Years	7000	Central Segment	Panxi and Liangshan	Corridor Segment				0.7733		Yes
+Similarity	Time Period	7000-7500 Years	7000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.9160		Yes
+Similarity	Time Period	7000-7500 Years	7000	Central Segment	Sichuan Basin	Corridor Segment				0.1357		Yes
+Similarity	Time Period	7000-7500 Years	7000	Central Segment	Southern Segment	Corridor Segment				0.6828		Yes
+Similarity	Time Period	7000-7500 Years	7000	Central Segment	Western Highland	Corridor Segment				0.8205		Yes
+Similarity	Time Period	7000-7500 Years	7000	North China	Northern Segment	Northern Lowland				0.4583		Yes
+Similarity	Time Period	7000-7500 Years	7000	North China	Panxi and Liangshan	Northern Lowland				0.2285		Yes
+Similarity	Time Period	7000-7500 Years	7000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.1287		Yes
+Similarity	Time Period	7000-7500 Years	7000	North China	Sichuan Basin	Northern Lowland				0.3305		Yes
+Similarity	Time Period	7000-7500 Years	7000	North China	Southern Segment	Northern Lowland				0.0647		Yes
+Similarity	Time Period	7000-7500 Years	7000	North China	Western Highland	Northern Lowland				0.0161		Yes
+Similarity	Time Period	7000-7500 Years	7000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.4721		Yes
+Similarity	Time Period	7000-7500 Years	7000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5275		Yes
+Similarity	Time Period	7000-7500 Years	7000	Northern Segment	Sichuan Basin	Corridor Segment				0.1265		Yes
+Similarity	Time Period	7000-7500 Years	7000	Northern Segment	Southern Segment	Corridor Segment				0.4655		Yes
+Similarity	Time Period	7000-7500 Years	7000	Northern Segment	Western Highland	Corridor Segment				0.4405		Yes
+Similarity	Time Period	7000-7500 Years	7000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.7176		Yes
+Similarity	Time Period	7000-7500 Years	7000	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.2956		Yes
+Similarity	Time Period	7000-7500 Years	7000	Panxi and Liangshan	Southern Segment	Sichuan Region				0.5164		Yes
+Similarity	Time Period	7000-7500 Years	7000	Panxi and Liangshan	Western Highland	Sichuan Region				0.6230		Yes
+Similarity	Time Period	7000-7500 Years	7000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.1155		Yes
+Similarity	Time Period	7000-7500 Years	7000	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.7471		Yes
+Similarity	Time Period	7000-7500 Years	7000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8511		Yes
+Similarity	Time Period	7000-7500 Years	7000	Sichuan Basin	Southern Segment	Sichuan Region				0.0567		Yes
+Similarity	Time Period	7000-7500 Years	7000	Sichuan Basin	Western Highland	Sichuan Region				0.0000		Yes
+Similarity	Time Period	7000-7500 Years	7000	Southern Segment	Western Highland	Corridor Segment				0.7297		Yes
 Scatter Coordinate	Time Period	7000-7500 Years	7000	Central Segment		Corridor Segment	Cluster 1	Component 1		-1.47649	1.000	Yes
 Scatter Coordinate	Time Period	7000-7500 Years	7000	Central Segment		Corridor Segment	Cluster 1	Component 2		0.29983	1.000	Yes
 Scatter Coordinate	Time Period	7000-7500 Years	7000	North China		Northern Lowland	Cluster 2	Component 1		3.77210	1.000	Yes
@@ -965,6 +1385,34 @@ Co-clustering Frequency	Time Period	7500-8000 Years	7500	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	7500-8000 Years	7500	Sichuan Basin	Southern Segment	Sichuan Region				0.5600		Yes
 Co-clustering Frequency	Time Period	7500-8000 Years	7500	Sichuan Basin	Western Highland	Sichuan Region				0.6540		Yes
 Co-clustering Frequency	Time Period	7500-8000 Years	7500	Southern Segment	Western Highland	Corridor Segment				0.4460		Yes
+Similarity	Time Period	7500-8000 Years	7500	Central Segment	North China	Corridor Segment				0.5049		Yes
+Similarity	Time Period	7500-8000 Years	7500	Central Segment	Northern Segment	Corridor Segment				0.7817		Yes
+Similarity	Time Period	7500-8000 Years	7500	Central Segment	Panxi and Liangshan	Corridor Segment				0.8061		Yes
+Similarity	Time Period	7500-8000 Years	7500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7970		Yes
+Similarity	Time Period	7500-8000 Years	7500	Central Segment	Sichuan Basin	Corridor Segment				0.5455		Yes
+Similarity	Time Period	7500-8000 Years	7500	Central Segment	Southern Segment	Corridor Segment				0.1800		Yes
+Similarity	Time Period	7500-8000 Years	7500	Central Segment	Western Highland	Corridor Segment				0.6928		Yes
+Similarity	Time Period	7500-8000 Years	7500	North China	Northern Segment	Northern Lowland				0.6478		Yes
+Similarity	Time Period	7500-8000 Years	7500	North China	Panxi and Liangshan	Northern Lowland				0.4584		Yes
+Similarity	Time Period	7500-8000 Years	7500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.4676		Yes
+Similarity	Time Period	7500-8000 Years	7500	North China	Sichuan Basin	Northern Lowland				0.3799		Yes
+Similarity	Time Period	7500-8000 Years	7500	North China	Southern Segment	Northern Lowland				0.0000		Yes
+Similarity	Time Period	7500-8000 Years	7500	North China	Western Highland	Northern Lowland				0.3317		Yes
+Similarity	Time Period	7500-8000 Years	7500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.6785		Yes
+Similarity	Time Period	7500-8000 Years	7500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7338		Yes
+Similarity	Time Period	7500-8000 Years	7500	Northern Segment	Sichuan Basin	Corridor Segment				0.5980		Yes
+Similarity	Time Period	7500-8000 Years	7500	Northern Segment	Southern Segment	Corridor Segment				0.1996		Yes
+Similarity	Time Period	7500-8000 Years	7500	Northern Segment	Western Highland	Corridor Segment				0.5957		Yes
+Similarity	Time Period	7500-8000 Years	7500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.8631		Yes
+Similarity	Time Period	7500-8000 Years	7500	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.5524		Yes
+Similarity	Time Period	7500-8000 Years	7500	Panxi and Liangshan	Southern Segment	Sichuan Region				0.2180		Yes
+Similarity	Time Period	7500-8000 Years	7500	Panxi and Liangshan	Western Highland	Sichuan Region				0.7380		Yes
+Similarity	Time Period	7500-8000 Years	7500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.6555		Yes
+Similarity	Time Period	7500-8000 Years	7500	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.3139		Yes
+Similarity	Time Period	7500-8000 Years	7500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.7857		Yes
+Similarity	Time Period	7500-8000 Years	7500	Sichuan Basin	Southern Segment	Sichuan Region				0.5004		Yes
+Similarity	Time Period	7500-8000 Years	7500	Sichuan Basin	Western Highland	Sichuan Region				0.5986		Yes
+Similarity	Time Period	7500-8000 Years	7500	Southern Segment	Western Highland	Corridor Segment				0.4230		Yes
 Scatter Coordinate	Time Period	7500-8000 Years	7500	Central Segment		Corridor Segment	Cluster 1	Component 1		1.39476	1.000	Yes
 Scatter Coordinate	Time Period	7500-8000 Years	7500	Central Segment		Corridor Segment	Cluster 1	Component 2		-1.11682	1.000	Yes
 Scatter Coordinate	Time Period	7500-8000 Years	7500	North China		Northern Lowland	Cluster 1	Component 1		3.18903	1.000	Yes
@@ -1027,6 +1475,34 @@ Co-clustering Frequency	Time Period	8000-8500 Years	8000	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	8000-8500 Years	8000	Sichuan Basin	Southern Segment	Sichuan Region				0.4840		Yes
 Co-clustering Frequency	Time Period	8000-8500 Years	8000	Sichuan Basin	Western Highland	Sichuan Region				0.4700		Yes
 Co-clustering Frequency	Time Period	8000-8500 Years	8000	Southern Segment	Western Highland	Corridor Segment				0.5260		Yes
+Similarity	Time Period	8000-8500 Years	8000	Central Segment	North China	Corridor Segment				0.4286		Yes
+Similarity	Time Period	8000-8500 Years	8000	Central Segment	Northern Segment	Corridor Segment				0.7499		Yes
+Similarity	Time Period	8000-8500 Years	8000	Central Segment	Panxi and Liangshan	Corridor Segment				0.5821		Yes
+Similarity	Time Period	8000-8500 Years	8000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7052		Yes
+Similarity	Time Period	8000-8500 Years	8000	Central Segment	Sichuan Basin	Corridor Segment				0.1923		Yes
+Similarity	Time Period	8000-8500 Years	8000	Central Segment	Southern Segment	Corridor Segment				0.1704		Yes
+Similarity	Time Period	8000-8500 Years	8000	Central Segment	Western Highland	Corridor Segment				0.4007		Yes
+Similarity	Time Period	8000-8500 Years	8000	North China	Northern Segment	Northern Lowland				0.4834		Yes
+Similarity	Time Period	8000-8500 Years	8000	North China	Panxi and Liangshan	Northern Lowland				0.3497		Yes
+Similarity	Time Period	8000-8500 Years	8000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.2834		Yes
+Similarity	Time Period	8000-8500 Years	8000	North China	Sichuan Basin	Northern Lowland				0.3231		Yes
+Similarity	Time Period	8000-8500 Years	8000	North China	Southern Segment	Northern Lowland				0.2283		Yes
+Similarity	Time Period	8000-8500 Years	8000	North China	Western Highland	Northern Lowland				0.0000		Yes
+Similarity	Time Period	8000-8500 Years	8000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.4611		Yes
+Similarity	Time Period	8000-8500 Years	8000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.6604		Yes
+Similarity	Time Period	8000-8500 Years	8000	Northern Segment	Sichuan Basin	Corridor Segment				0.2343		Yes
+Similarity	Time Period	8000-8500 Years	8000	Northern Segment	Southern Segment	Corridor Segment				0.2355		Yes
+Similarity	Time Period	8000-8500 Years	8000	Northern Segment	Western Highland	Corridor Segment				0.3559		Yes
+Similarity	Time Period	8000-8500 Years	8000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.6154		Yes
+Similarity	Time Period	8000-8500 Years	8000	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.3633		Yes
+Similarity	Time Period	8000-8500 Years	8000	Panxi and Liangshan	Southern Segment	Sichuan Region				0.2826		Yes
+Similarity	Time Period	8000-8500 Years	8000	Panxi and Liangshan	Western Highland	Sichuan Region				0.4535		Yes
+Similarity	Time Period	8000-8500 Years	8000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.2704		Yes
+Similarity	Time Period	8000-8500 Years	8000	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.2828		Yes
+Similarity	Time Period	8000-8500 Years	8000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.6804		Yes
+Similarity	Time Period	8000-8500 Years	8000	Sichuan Basin	Southern Segment	Sichuan Region				0.7717		Yes
+Similarity	Time Period	8000-8500 Years	8000	Sichuan Basin	Western Highland	Sichuan Region				0.1631		Yes
+Similarity	Time Period	8000-8500 Years	8000	Southern Segment	Western Highland	Corridor Segment				0.2111		Yes
 Scatter Coordinate	Time Period	8000-8500 Years	8000	Central Segment		Corridor Segment	Cluster 1	Component 1		-1.82059	1.000	Yes
 Scatter Coordinate	Time Period	8000-8500 Years	8000	Central Segment		Corridor Segment	Cluster 1	Component 2		-1.10549	1.000	Yes
 Scatter Coordinate	Time Period	8000-8500 Years	8000	North China		Northern Lowland	Cluster 1	Component 1		1.08929	1.000	Yes
@@ -1089,6 +1565,34 @@ Co-clustering Frequency	Time Period	8500-9000 Years	8500	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	8500-9000 Years	8500	Sichuan Basin	Southern Segment	Sichuan Region				0.5000		Yes
 Co-clustering Frequency	Time Period	8500-9000 Years	8500	Sichuan Basin	Western Highland	Sichuan Region				0.5940		Yes
 Co-clustering Frequency	Time Period	8500-9000 Years	8500	Southern Segment	Western Highland	Corridor Segment				0.5180		Yes
+Similarity	Time Period	8500-9000 Years	8500	Central Segment	North China	Corridor Segment				0.0860		Yes
+Similarity	Time Period	8500-9000 Years	8500	Central Segment	Northern Segment	Corridor Segment				0.6284		Yes
+Similarity	Time Period	8500-9000 Years	8500	Central Segment	Panxi and Liangshan	Corridor Segment				0.8094		Yes
+Similarity	Time Period	8500-9000 Years	8500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5995		Yes
+Similarity	Time Period	8500-9000 Years	8500	Central Segment	Sichuan Basin	Corridor Segment				0.2489		Yes
+Similarity	Time Period	8500-9000 Years	8500	Central Segment	Southern Segment	Corridor Segment				0.1593		Yes
+Similarity	Time Period	8500-9000 Years	8500	Central Segment	Western Highland	Corridor Segment				0.2582		Yes
+Similarity	Time Period	8500-9000 Years	8500	North China	Northern Segment	Northern Lowland				0.3311		Yes
+Similarity	Time Period	8500-9000 Years	8500	North China	Panxi and Liangshan	Northern Lowland				0.0000		Yes
+Similarity	Time Period	8500-9000 Years	8500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.0764		Yes
+Similarity	Time Period	8500-9000 Years	8500	North China	Sichuan Basin	Northern Lowland				0.5155		Yes
+Similarity	Time Period	8500-9000 Years	8500	North China	Southern Segment	Northern Lowland				0.4121		Yes
+Similarity	Time Period	8500-9000 Years	8500	North China	Western Highland	Northern Lowland				0.1392		Yes
+Similarity	Time Period	8500-9000 Years	8500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.4968		Yes
+Similarity	Time Period	8500-9000 Years	8500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5335		Yes
+Similarity	Time Period	8500-9000 Years	8500	Northern Segment	Sichuan Basin	Corridor Segment				0.5118		Yes
+Similarity	Time Period	8500-9000 Years	8500	Northern Segment	Southern Segment	Corridor Segment				0.4290		Yes
+Similarity	Time Period	8500-9000 Years	8500	Northern Segment	Western Highland	Corridor Segment				0.2609		Yes
+Similarity	Time Period	8500-9000 Years	8500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.5233		Yes
+Similarity	Time Period	8500-9000 Years	8500	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.1796		Yes
+Similarity	Time Period	8500-9000 Years	8500	Panxi and Liangshan	Southern Segment	Sichuan Region				0.0417		Yes
+Similarity	Time Period	8500-9000 Years	8500	Panxi and Liangshan	Western Highland	Sichuan Region				0.1525		Yes
+Similarity	Time Period	8500-9000 Years	8500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.2385		Yes
+Similarity	Time Period	8500-9000 Years	8500	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.1730		Yes
+Similarity	Time Period	8500-9000 Years	8500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.4024		Yes
+Similarity	Time Period	8500-9000 Years	8500	Sichuan Basin	Southern Segment	Sichuan Region				0.6692		Yes
+Similarity	Time Period	8500-9000 Years	8500	Sichuan Basin	Western Highland	Sichuan Region				0.0821		Yes
+Similarity	Time Period	8500-9000 Years	8500	Southern Segment	Western Highland	Corridor Segment				0.1294		Yes
 Scatter Coordinate	Time Period	8500-9000 Years	8500	Central Segment		Corridor Segment	Cluster 1	Component 1		-2.11073	1.000	Yes
 Scatter Coordinate	Time Period	8500-9000 Years	8500	Central Segment		Corridor Segment	Cluster 1	Component 2		0.84755	1.000	Yes
 Scatter Coordinate	Time Period	8500-9000 Years	8500	North China		Northern Lowland	Cluster 2	Component 1		2.93240	1.000	Yes
@@ -1151,6 +1655,34 @@ Co-clustering Frequency	Time Period	9000-9500 Years	9000	Qinghai-Tibet Plateau C
 Co-clustering Frequency	Time Period	9000-9500 Years	9000	Sichuan Basin	Southern Segment	Sichuan Region				0.4660		Yes
 Co-clustering Frequency	Time Period	9000-9500 Years	9000	Sichuan Basin	Western Highland	Sichuan Region				0.3900		Yes
 Co-clustering Frequency	Time Period	9000-9500 Years	9000	Southern Segment	Western Highland	Corridor Segment				0.2120		Yes
+Similarity	Time Period	9000-9500 Years	9000	Central Segment	North China	Corridor Segment				0.5022		Yes
+Similarity	Time Period	9000-9500 Years	9000	Central Segment	Northern Segment	Corridor Segment				0.7282		Yes
+Similarity	Time Period	9000-9500 Years	9000	Central Segment	Panxi and Liangshan	Corridor Segment				0.6887		Yes
+Similarity	Time Period	9000-9500 Years	9000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.8538		Yes
+Similarity	Time Period	9000-9500 Years	9000	Central Segment	Sichuan Basin	Corridor Segment				0.2374		Yes
+Similarity	Time Period	9000-9500 Years	9000	Central Segment	Southern Segment	Corridor Segment				0.0938		Yes
+Similarity	Time Period	9000-9500 Years	9000	Central Segment	Western Highland	Corridor Segment				0.8621		Yes
+Similarity	Time Period	9000-9500 Years	9000	North China	Northern Segment	Northern Lowland				0.4710		Yes
+Similarity	Time Period	9000-9500 Years	9000	North China	Panxi and Liangshan	Northern Lowland				0.6230		Yes
+Similarity	Time Period	9000-9500 Years	9000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.4470		Yes
+Similarity	Time Period	9000-9500 Years	9000	North China	Sichuan Basin	Northern Lowland				0.3253		Yes
+Similarity	Time Period	9000-9500 Years	9000	North China	Southern Segment	Northern Lowland				0.0000		Yes
+Similarity	Time Period	9000-9500 Years	9000	North China	Western Highland	Northern Lowland				0.4268		Yes
+Similarity	Time Period	9000-9500 Years	9000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.5326		Yes
+Similarity	Time Period	9000-9500 Years	9000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.8315		Yes
+Similarity	Time Period	9000-9500 Years	9000	Northern Segment	Sichuan Basin	Corridor Segment				0.3628		Yes
+Similarity	Time Period	9000-9500 Years	9000	Northern Segment	Southern Segment	Corridor Segment				0.2677		Yes
+Similarity	Time Period	9000-9500 Years	9000	Northern Segment	Western Highland	Corridor Segment				0.7848		Yes
+Similarity	Time Period	9000-9500 Years	9000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.6159		Yes
+Similarity	Time Period	9000-9500 Years	9000	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.2714		Yes
+Similarity	Time Period	9000-9500 Years	9000	Panxi and Liangshan	Southern Segment	Sichuan Region				0.0076		Yes
+Similarity	Time Period	9000-9500 Years	9000	Panxi and Liangshan	Western Highland	Sichuan Region				0.6263		Yes
+Similarity	Time Period	9000-9500 Years	9000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.2885		Yes
+Similarity	Time Period	9000-9500 Years	9000	Qinghai-Tibet Plateau Core	Southern Segment	Highland				0.1882		Yes
+Similarity	Time Period	9000-9500 Years	9000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9492		Yes
+Similarity	Time Period	9000-9500 Years	9000	Sichuan Basin	Southern Segment	Sichuan Region				0.5559		Yes
+Similarity	Time Period	9000-9500 Years	9000	Sichuan Basin	Western Highland	Sichuan Region				0.2771		Yes
+Similarity	Time Period	9000-9500 Years	9000	Southern Segment	Western Highland	Corridor Segment				0.1791		Yes
 Scatter Coordinate	Time Period	9000-9500 Years	9000	Central Segment		Corridor Segment	Cluster 1	Component 1		1.73657	1.000	Yes
 Scatter Coordinate	Time Period	9000-9500 Years	9000	Central Segment		Corridor Segment	Cluster 1	Component 2		0.81635	1.000	Yes
 Scatter Coordinate	Time Period	9000-9500 Years	9000	North China		Northern Lowland	Cluster 1	Component 1		1.49671	1.000	Yes
@@ -1206,6 +1738,27 @@ Co-clustering Frequency	Time Period	9500-10000 Years	9500	Panxi and Liangshan	We
 Co-clustering Frequency	Time Period	9500-10000 Years	9500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.0580		Yes
 Co-clustering Frequency	Time Period	9500-10000 Years	9500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.3400		Yes
 Co-clustering Frequency	Time Period	9500-10000 Years	9500	Sichuan Basin	Western Highland	Sichuan Region				0.0480		Yes
+Similarity	Time Period	9500-10000 Years	9500	Central Segment	North China	Corridor Segment				0.4878		Yes
+Similarity	Time Period	9500-10000 Years	9500	Central Segment	Northern Segment	Corridor Segment				0.3829		Yes
+Similarity	Time Period	9500-10000 Years	9500	Central Segment	Panxi and Liangshan	Corridor Segment				0.7779		Yes
+Similarity	Time Period	9500-10000 Years	9500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5078		Yes
+Similarity	Time Period	9500-10000 Years	9500	Central Segment	Sichuan Basin	Corridor Segment				0.1599		Yes
+Similarity	Time Period	9500-10000 Years	9500	Central Segment	Western Highland	Corridor Segment				0.5545		Yes
+Similarity	Time Period	9500-10000 Years	9500	North China	Northern Segment	Northern Lowland				0.2847		Yes
+Similarity	Time Period	9500-10000 Years	9500	North China	Panxi and Liangshan	Northern Lowland				0.4410		Yes
+Similarity	Time Period	9500-10000 Years	9500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.3248		Yes
+Similarity	Time Period	9500-10000 Years	9500	North China	Sichuan Basin	Northern Lowland				0.2826		Yes
+Similarity	Time Period	9500-10000 Years	9500	North China	Western Highland	Northern Lowland				0.3453		Yes
+Similarity	Time Period	9500-10000 Years	9500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.2444		Yes
+Similarity	Time Period	9500-10000 Years	9500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.8005		Yes
+Similarity	Time Period	9500-10000 Years	9500	Northern Segment	Sichuan Basin	Corridor Segment				0.0549		Yes
+Similarity	Time Period	9500-10000 Years	9500	Northern Segment	Western Highland	Corridor Segment				0.7286		Yes
+Similarity	Time Period	9500-10000 Years	9500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.3583		Yes
+Similarity	Time Period	9500-10000 Years	9500	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.2049		Yes
+Similarity	Time Period	9500-10000 Years	9500	Panxi and Liangshan	Western Highland	Sichuan Region				0.3994		Yes
+Similarity	Time Period	9500-10000 Years	9500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.0149		Yes
+Similarity	Time Period	9500-10000 Years	9500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9209		Yes
+Similarity	Time Period	9500-10000 Years	9500	Sichuan Basin	Western Highland	Sichuan Region				0.0000		Yes
 Scatter Coordinate	Time Period	9500-10000 Years	9500	Central Segment		Corridor Segment	Cluster 3	Component 1		-0.03903	1.000	Yes
 Scatter Coordinate	Time Period	9500-10000 Years	9500	Central Segment		Corridor Segment	Cluster 3	Component 2		1.71542	1.000	Yes
 Scatter Coordinate	Time Period	9500-10000 Years	9500	North China		Northern Lowland	Cluster 4	Component 1		1.36775	1.000	Yes
@@ -1258,6 +1811,27 @@ Co-clustering Frequency	Time Period	10000-10500 Years	10000	Panxi and Liangshan	
 Co-clustering Frequency	Time Period	10000-10500 Years	10000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.1860		Yes
 Co-clustering Frequency	Time Period	10000-10500 Years	10000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8840		Yes
 Co-clustering Frequency	Time Period	10000-10500 Years	10000	Sichuan Basin	Western Highland	Sichuan Region				0.1540		Yes
+Similarity	Time Period	10000-10500 Years	10000	Central Segment	North China	Corridor Segment				0.7859		Yes
+Similarity	Time Period	10000-10500 Years	10000	Central Segment	Northern Segment	Corridor Segment				0.5108		Yes
+Similarity	Time Period	10000-10500 Years	10000	Central Segment	Panxi and Liangshan	Corridor Segment				0.9185		Yes
+Similarity	Time Period	10000-10500 Years	10000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7911		Yes
+Similarity	Time Period	10000-10500 Years	10000	Central Segment	Sichuan Basin	Corridor Segment				0.0801		Yes
+Similarity	Time Period	10000-10500 Years	10000	Central Segment	Western Highland	Corridor Segment				0.8240		Yes
+Similarity	Time Period	10000-10500 Years	10000	North China	Northern Segment	Northern Lowland				0.5883		Yes
+Similarity	Time Period	10000-10500 Years	10000	North China	Panxi and Liangshan	Northern Lowland				0.7204		Yes
+Similarity	Time Period	10000-10500 Years	10000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.7975		Yes
+Similarity	Time Period	10000-10500 Years	10000	North China	Sichuan Basin	Northern Lowland				0.1577		Yes
+Similarity	Time Period	10000-10500 Years	10000	North China	Western Highland	Northern Lowland				0.7736		Yes
+Similarity	Time Period	10000-10500 Years	10000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.4542		Yes
+Similarity	Time Period	10000-10500 Years	10000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.6220		Yes
+Similarity	Time Period	10000-10500 Years	10000	Northern Segment	Sichuan Basin	Corridor Segment				0.0916		Yes
+Similarity	Time Period	10000-10500 Years	10000	Northern Segment	Western Highland	Corridor Segment				0.5939		Yes
+Similarity	Time Period	10000-10500 Years	10000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.7191		Yes
+Similarity	Time Period	10000-10500 Years	10000	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.0859		Yes
+Similarity	Time Period	10000-10500 Years	10000	Panxi and Liangshan	Western Highland	Sichuan Region				0.7584		Yes
+Similarity	Time Period	10000-10500 Years	10000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.0040		Yes
+Similarity	Time Period	10000-10500 Years	10000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9418		Yes
+Similarity	Time Period	10000-10500 Years	10000	Sichuan Basin	Western Highland	Sichuan Region				0.0000		Yes
 Scatter Coordinate	Time Period	10000-10500 Years	10000	Central Segment		Corridor Segment	Cluster 1	Component 1		-1.01809	1.000	Yes
 Scatter Coordinate	Time Period	10000-10500 Years	10000	Central Segment		Corridor Segment	Cluster 1	Component 2		-1.01963	1.000	Yes
 Scatter Coordinate	Time Period	10000-10500 Years	10000	North China		Northern Lowland	Cluster 1	Component 1		-0.39835	1.000	Yes
@@ -1310,6 +1884,27 @@ Co-clustering Frequency	Time Period	10500-11000 Years	10500	Panxi and Liangshan	
 Co-clustering Frequency	Time Period	10500-11000 Years	10500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.3760		Yes
 Co-clustering Frequency	Time Period	10500-11000 Years	10500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.7400		Yes
 Co-clustering Frequency	Time Period	10500-11000 Years	10500	Sichuan Basin	Western Highland	Sichuan Region				0.3880		Yes
+Similarity	Time Period	10500-11000 Years	10500	Central Segment	North China	Corridor Segment				0.6102		Yes
+Similarity	Time Period	10500-11000 Years	10500	Central Segment	Northern Segment	Corridor Segment				0.3228		Yes
+Similarity	Time Period	10500-11000 Years	10500	Central Segment	Panxi and Liangshan	Corridor Segment				0.8301		Yes
+Similarity	Time Period	10500-11000 Years	10500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.4626		Yes
+Similarity	Time Period	10500-11000 Years	10500	Central Segment	Sichuan Basin	Corridor Segment				0.1543		Yes
+Similarity	Time Period	10500-11000 Years	10500	Central Segment	Western Highland	Corridor Segment				0.5008		Yes
+Similarity	Time Period	10500-11000 Years	10500	North China	Northern Segment	Northern Lowland				0.4390		Yes
+Similarity	Time Period	10500-11000 Years	10500	North China	Panxi and Liangshan	Northern Lowland				0.5202		Yes
+Similarity	Time Period	10500-11000 Years	10500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.5743		Yes
+Similarity	Time Period	10500-11000 Years	10500	North China	Sichuan Basin	Northern Lowland				0.2507		Yes
+Similarity	Time Period	10500-11000 Years	10500	North China	Western Highland	Northern Lowland				0.6463		Yes
+Similarity	Time Period	10500-11000 Years	10500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.2543		Yes
+Similarity	Time Period	10500-11000 Years	10500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.6842		Yes
+Similarity	Time Period	10500-11000 Years	10500	Northern Segment	Sichuan Basin	Corridor Segment				0.0000		Yes
+Similarity	Time Period	10500-11000 Years	10500	Northern Segment	Western Highland	Corridor Segment				0.5720		Yes
+Similarity	Time Period	10500-11000 Years	10500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.4164		Yes
+Similarity	Time Period	10500-11000 Years	10500	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.1310		Yes
+Similarity	Time Period	10500-11000 Years	10500	Panxi and Liangshan	Western Highland	Sichuan Region				0.4555		Yes
+Similarity	Time Period	10500-11000 Years	10500	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.0270		Yes
+Similarity	Time Period	10500-11000 Years	10500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.7996		Yes
+Similarity	Time Period	10500-11000 Years	10500	Sichuan Basin	Western Highland	Sichuan Region				0.0263		Yes
 Scatter Coordinate	Time Period	10500-11000 Years	10500	Central Segment		Corridor Segment	Cluster 1	Component 1		0.19598	1.000	Yes
 Scatter Coordinate	Time Period	10500-11000 Years	10500	Central Segment		Corridor Segment	Cluster 1	Component 2		-1.99724	1.000	Yes
 Scatter Coordinate	Time Period	10500-11000 Years	10500	North China		Northern Lowland	Cluster 1	Component 1		0.18291	1.000	Yes
@@ -1362,6 +1957,27 @@ Co-clustering Frequency	Time Period	11000-11500 Years	11000	Panxi and Liangshan	
 Co-clustering Frequency	Time Period	11000-11500 Years	11000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.2120		Yes
 Co-clustering Frequency	Time Period	11000-11500 Years	11000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8640		Yes
 Co-clustering Frequency	Time Period	11000-11500 Years	11000	Sichuan Basin	Western Highland	Sichuan Region				0.2440		Yes
+Similarity	Time Period	11000-11500 Years	11000	Central Segment	North China	Corridor Segment				0.6470		Yes
+Similarity	Time Period	11000-11500 Years	11000	Central Segment	Northern Segment	Corridor Segment				0.6089		Yes
+Similarity	Time Period	11000-11500 Years	11000	Central Segment	Panxi and Liangshan	Corridor Segment				0.7601		Yes
+Similarity	Time Period	11000-11500 Years	11000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7564		Yes
+Similarity	Time Period	11000-11500 Years	11000	Central Segment	Sichuan Basin	Corridor Segment				0.0961		Yes
+Similarity	Time Period	11000-11500 Years	11000	Central Segment	Western Highland	Corridor Segment				0.7156		Yes
+Similarity	Time Period	11000-11500 Years	11000	North China	Northern Segment	Northern Lowland				0.5228		Yes
+Similarity	Time Period	11000-11500 Years	11000	North China	Panxi and Liangshan	Northern Lowland				0.6866		Yes
+Similarity	Time Period	11000-11500 Years	11000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.6709		Yes
+Similarity	Time Period	11000-11500 Years	11000	North China	Sichuan Basin	Northern Lowland				0.3120		Yes
+Similarity	Time Period	11000-11500 Years	11000	North China	Western Highland	Northern Lowland				0.5734		Yes
+Similarity	Time Period	11000-11500 Years	11000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.4053		Yes
+Similarity	Time Period	11000-11500 Years	11000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7249		Yes
+Similarity	Time Period	11000-11500 Years	11000	Northern Segment	Sichuan Basin	Corridor Segment				0.0000		Yes
+Similarity	Time Period	11000-11500 Years	11000	Northern Segment	Western Highland	Corridor Segment				0.7090		Yes
+Similarity	Time Period	11000-11500 Years	11000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.6030		Yes
+Similarity	Time Period	11000-11500 Years	11000	Panxi and Liangshan	Sichuan Basin	Sichuan Region				0.1883		Yes
+Similarity	Time Period	11000-11500 Years	11000	Panxi and Liangshan	Western Highland	Sichuan Region				0.5415		Yes
+Similarity	Time Period	11000-11500 Years	11000	Qinghai-Tibet Plateau Core	Sichuan Basin	Highland				0.1779		Yes
+Similarity	Time Period	11000-11500 Years	11000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8352		Yes
+Similarity	Time Period	11000-11500 Years	11000	Sichuan Basin	Western Highland	Sichuan Region				0.1702		Yes
 Scatter Coordinate	Time Period	11000-11500 Years	11000	Central Segment		Corridor Segment	Cluster 1	Component 1		1.44490	1.000	Yes
 Scatter Coordinate	Time Period	11000-11500 Years	11000	Central Segment		Corridor Segment	Cluster 1	Component 2		-1.02323	1.000	Yes
 Scatter Coordinate	Time Period	11000-11500 Years	11000	North China		Northern Lowland	Cluster 1	Component 1		-0.47870	1.000	Yes
@@ -1408,6 +2024,21 @@ Co-clustering Frequency	Time Period	11500-12000 Years	11500	Northern Segment	Wes
 Co-clustering Frequency	Time Period	11500-12000 Years	11500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.6160		Yes
 Co-clustering Frequency	Time Period	11500-12000 Years	11500	Panxi and Liangshan	Western Highland	Sichuan Region				0.6060		Yes
 Co-clustering Frequency	Time Period	11500-12000 Years	11500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.6380		Yes
+Similarity	Time Period	11500-12000 Years	11500	Central Segment	North China	Corridor Segment				0.1922		Yes
+Similarity	Time Period	11500-12000 Years	11500	Central Segment	Northern Segment	Corridor Segment				0.4545		Yes
+Similarity	Time Period	11500-12000 Years	11500	Central Segment	Panxi and Liangshan	Corridor Segment				0.5723		Yes
+Similarity	Time Period	11500-12000 Years	11500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.6291		Yes
+Similarity	Time Period	11500-12000 Years	11500	Central Segment	Western Highland	Corridor Segment				0.6423		Yes
+Similarity	Time Period	11500-12000 Years	11500	North China	Northern Segment	Northern Lowland				0.0000		Yes
+Similarity	Time Period	11500-12000 Years	11500	North China	Panxi and Liangshan	Northern Lowland				0.5187		Yes
+Similarity	Time Period	11500-12000 Years	11500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.5029		Yes
+Similarity	Time Period	11500-12000 Years	11500	North China	Western Highland	Northern Lowland				0.4975		Yes
+Similarity	Time Period	11500-12000 Years	11500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.1979		Yes
+Similarity	Time Period	11500-12000 Years	11500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.3563		Yes
+Similarity	Time Period	11500-12000 Years	11500	Northern Segment	Western Highland	Corridor Segment				0.3385		Yes
+Similarity	Time Period	11500-12000 Years	11500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.7359		Yes
+Similarity	Time Period	11500-12000 Years	11500	Panxi and Liangshan	Western Highland	Sichuan Region				0.7651		Yes
+Similarity	Time Period	11500-12000 Years	11500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9489		Yes
 Scatter Coordinate	Time Period	11500-12000 Years	11500	Central Segment		Corridor Segment	Cluster 1	Component 1		1.69705	1.000	Yes
 Scatter Coordinate	Time Period	11500-12000 Years	11500	Central Segment		Corridor Segment	Cluster 1	Component 2		-1.67922	1.000	Yes
 Scatter Coordinate	Time Period	11500-12000 Years	11500	North China		Northern Lowland	Cluster 1	Component 1		-3.61692	1.000	Yes
@@ -1451,6 +2082,21 @@ Co-clustering Frequency	Time Period	12000-12500 Years	12000	Northern Segment	Wes
 Co-clustering Frequency	Time Period	12000-12500 Years	12000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.7140		Yes
 Co-clustering Frequency	Time Period	12000-12500 Years	12000	Panxi and Liangshan	Western Highland	Sichuan Region				0.7560		Yes
 Co-clustering Frequency	Time Period	12000-12500 Years	12000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.6260		Yes
+Similarity	Time Period	12000-12500 Years	12000	Central Segment	North China	Corridor Segment				0.3189		Yes
+Similarity	Time Period	12000-12500 Years	12000	Central Segment	Northern Segment	Corridor Segment				0.4362		Yes
+Similarity	Time Period	12000-12500 Years	12000	Central Segment	Panxi and Liangshan	Corridor Segment				0.5110		Yes
+Similarity	Time Period	12000-12500 Years	12000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5736		Yes
+Similarity	Time Period	12000-12500 Years	12000	Central Segment	Western Highland	Corridor Segment				0.5669		Yes
+Similarity	Time Period	12000-12500 Years	12000	North China	Northern Segment	Northern Lowland				0.0000		Yes
+Similarity	Time Period	12000-12500 Years	12000	North China	Panxi and Liangshan	Northern Lowland				0.2895		Yes
+Similarity	Time Period	12000-12500 Years	12000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.6536		Yes
+Similarity	Time Period	12000-12500 Years	12000	North China	Western Highland	Northern Lowland				0.6786		Yes
+Similarity	Time Period	12000-12500 Years	12000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.1831		Yes
+Similarity	Time Period	12000-12500 Years	12000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.2294		Yes
+Similarity	Time Period	12000-12500 Years	12000	Northern Segment	Western Highland	Corridor Segment				0.1730		Yes
+Similarity	Time Period	12000-12500 Years	12000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.5613		Yes
+Similarity	Time Period	12000-12500 Years	12000	Panxi and Liangshan	Western Highland	Sichuan Region				0.5778		Yes
+Similarity	Time Period	12000-12500 Years	12000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9066		Yes
 Scatter Coordinate	Time Period	12000-12500 Years	12000	Central Segment		Corridor Segment	Cluster 1	Component 1		1.26222	1.000	Yes
 Scatter Coordinate	Time Period	12000-12500 Years	12000	Central Segment		Corridor Segment	Cluster 1	Component 2		-0.31919	1.000	Yes
 Scatter Coordinate	Time Period	12000-12500 Years	12000	North China		Northern Lowland	Cluster 1	Component 1		-2.86518	1.000	Yes
@@ -1494,6 +2140,21 @@ Co-clustering Frequency	Time Period	12500-13000 Years	12500	Northern Segment	Wes
 Co-clustering Frequency	Time Period	12500-13000 Years	12500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.5840		Yes
 Co-clustering Frequency	Time Period	12500-13000 Years	12500	Panxi and Liangshan	Western Highland	Sichuan Region				0.5640		Yes
 Co-clustering Frequency	Time Period	12500-13000 Years	12500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.5560		Yes
+Similarity	Time Period	12500-13000 Years	12500	Central Segment	North China	Corridor Segment				0.2629		Yes
+Similarity	Time Period	12500-13000 Years	12500	Central Segment	Northern Segment	Corridor Segment				0.4009		Yes
+Similarity	Time Period	12500-13000 Years	12500	Central Segment	Panxi and Liangshan	Corridor Segment				0.1829		Yes
+Similarity	Time Period	12500-13000 Years	12500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5564		Yes
+Similarity	Time Period	12500-13000 Years	12500	Central Segment	Western Highland	Corridor Segment				0.5328		Yes
+Similarity	Time Period	12500-13000 Years	12500	North China	Northern Segment	Northern Lowland				0.1509		Yes
+Similarity	Time Period	12500-13000 Years	12500	North China	Panxi and Liangshan	Northern Lowland				0.1264		Yes
+Similarity	Time Period	12500-13000 Years	12500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.3921		Yes
+Similarity	Time Period	12500-13000 Years	12500	North China	Western Highland	Northern Lowland				0.4962		Yes
+Similarity	Time Period	12500-13000 Years	12500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.0000		Yes
+Similarity	Time Period	12500-13000 Years	12500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5662		Yes
+Similarity	Time Period	12500-13000 Years	12500	Northern Segment	Western Highland	Corridor Segment				0.4428		Yes
+Similarity	Time Period	12500-13000 Years	12500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.0473		Yes
+Similarity	Time Period	12500-13000 Years	12500	Panxi and Liangshan	Western Highland	Sichuan Region				0.1419		Yes
+Similarity	Time Period	12500-13000 Years	12500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8232		Yes
 Scatter Coordinate	Time Period	12500-13000 Years	12500	Central Segment		Corridor Segment	Cluster 1	Component 1		0.33331	1.000	Yes
 Scatter Coordinate	Time Period	12500-13000 Years	12500	Central Segment		Corridor Segment	Cluster 1	Component 2		-1.02427	1.000	Yes
 Scatter Coordinate	Time Period	12500-13000 Years	12500	North China		Northern Lowland	Cluster 1	Component 1		-0.50236	1.000	Yes
@@ -1537,6 +2198,21 @@ Co-clustering Frequency	Time Period	13000-13500 Years	13000	Northern Segment	Wes
 Co-clustering Frequency	Time Period	13000-13500 Years	13000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.4860		Yes
 Co-clustering Frequency	Time Period	13000-13500 Years	13000	Panxi and Liangshan	Western Highland	Sichuan Region				0.5120		Yes
 Co-clustering Frequency	Time Period	13000-13500 Years	13000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.6820		Yes
+Similarity	Time Period	13000-13500 Years	13000	Central Segment	North China	Corridor Segment				0.5658		Yes
+Similarity	Time Period	13000-13500 Years	13000	Central Segment	Northern Segment	Corridor Segment				0.4091		Yes
+Similarity	Time Period	13000-13500 Years	13000	Central Segment	Panxi and Liangshan	Corridor Segment				0.2450		Yes
+Similarity	Time Period	13000-13500 Years	13000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7421		Yes
+Similarity	Time Period	13000-13500 Years	13000	Central Segment	Western Highland	Corridor Segment				0.7783		Yes
+Similarity	Time Period	13000-13500 Years	13000	North China	Northern Segment	Northern Lowland				0.3713		Yes
+Similarity	Time Period	13000-13500 Years	13000	North China	Panxi and Liangshan	Northern Lowland				0.1936		Yes
+Similarity	Time Period	13000-13500 Years	13000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.6834		Yes
+Similarity	Time Period	13000-13500 Years	13000	North China	Western Highland	Northern Lowland				0.6491		Yes
+Similarity	Time Period	13000-13500 Years	13000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.0000		Yes
+Similarity	Time Period	13000-13500 Years	13000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.4815		Yes
+Similarity	Time Period	13000-13500 Years	13000	Northern Segment	Western Highland	Corridor Segment				0.5525		Yes
+Similarity	Time Period	13000-13500 Years	13000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.0826		Yes
+Similarity	Time Period	13000-13500 Years	13000	Panxi and Liangshan	Western Highland	Sichuan Region				0.1641		Yes
+Similarity	Time Period	13000-13500 Years	13000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8266		Yes
 Scatter Coordinate	Time Period	13000-13500 Years	13000	Central Segment		Corridor Segment	Cluster 1	Component 1		0.13521	1.000	Yes
 Scatter Coordinate	Time Period	13000-13500 Years	13000	Central Segment		Corridor Segment	Cluster 1	Component 2		-0.76903	1.000	Yes
 Scatter Coordinate	Time Period	13000-13500 Years	13000	North China		Northern Lowland	Cluster 1	Component 1		0.31051	1.000	Yes
@@ -1580,6 +2256,21 @@ Co-clustering Frequency	Time Period	13500-14000 Years	13500	Northern Segment	Wes
 Co-clustering Frequency	Time Period	13500-14000 Years	13500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.5960		Yes
 Co-clustering Frequency	Time Period	13500-14000 Years	13500	Panxi and Liangshan	Western Highland	Sichuan Region				0.6680		Yes
 Co-clustering Frequency	Time Period	13500-14000 Years	13500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.6080		Yes
+Similarity	Time Period	13500-14000 Years	13500	Central Segment	North China	Corridor Segment				0.1206		Yes
+Similarity	Time Period	13500-14000 Years	13500	Central Segment	Northern Segment	Corridor Segment				0.3349		Yes
+Similarity	Time Period	13500-14000 Years	13500	Central Segment	Panxi and Liangshan	Corridor Segment				0.4019		Yes
+Similarity	Time Period	13500-14000 Years	13500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5612		Yes
+Similarity	Time Period	13500-14000 Years	13500	Central Segment	Western Highland	Corridor Segment				0.6333		Yes
+Similarity	Time Period	13500-14000 Years	13500	North China	Northern Segment	Northern Lowland				0.5802		Yes
+Similarity	Time Period	13500-14000 Years	13500	North China	Panxi and Liangshan	Northern Lowland				0.0000		Yes
+Similarity	Time Period	13500-14000 Years	13500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.5192		Yes
+Similarity	Time Period	13500-14000 Years	13500	North China	Western Highland	Northern Lowland				0.4333		Yes
+Similarity	Time Period	13500-14000 Years	13500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.3337		Yes
+Similarity	Time Period	13500-14000 Years	13500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.6126		Yes
+Similarity	Time Period	13500-14000 Years	13500	Northern Segment	Western Highland	Corridor Segment				0.6215		Yes
+Similarity	Time Period	13500-14000 Years	13500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.3321		Yes
+Similarity	Time Period	13500-14000 Years	13500	Panxi and Liangshan	Western Highland	Sichuan Region				0.4284		Yes
+Similarity	Time Period	13500-14000 Years	13500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.8823		Yes
 Scatter Coordinate	Time Period	13500-14000 Years	13500	Central Segment		Corridor Segment	Cluster 1	Component 1		-2.19426	1.000	Yes
 Scatter Coordinate	Time Period	13500-14000 Years	13500	Central Segment		Corridor Segment	Cluster 1	Component 2		-2.11006	1.000	Yes
 Scatter Coordinate	Time Period	13500-14000 Years	13500	North China		Northern Lowland	Cluster 1	Component 1		3.86664	1.000	Yes
@@ -1623,6 +2314,21 @@ Co-clustering Frequency	Time Period	14000-14500 Years	14000	Northern Segment	Wes
 Co-clustering Frequency	Time Period	14000-14500 Years	14000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.3620		Yes
 Co-clustering Frequency	Time Period	14000-14500 Years	14000	Panxi and Liangshan	Western Highland	Sichuan Region				0.3720		Yes
 Co-clustering Frequency	Time Period	14000-14500 Years	14000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.3640		Yes
+Similarity	Time Period	14000-14500 Years	14000	Central Segment	North China	Corridor Segment				0.0309		Yes
+Similarity	Time Period	14000-14500 Years	14000	Central Segment	Northern Segment	Corridor Segment				0.3654		Yes
+Similarity	Time Period	14000-14500 Years	14000	Central Segment	Panxi and Liangshan	Corridor Segment				0.7558		Yes
+Similarity	Time Period	14000-14500 Years	14000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.4661		Yes
+Similarity	Time Period	14000-14500 Years	14000	Central Segment	Western Highland	Corridor Segment				0.4903		Yes
+Similarity	Time Period	14000-14500 Years	14000	North China	Northern Segment	Northern Lowland				0.5443		Yes
+Similarity	Time Period	14000-14500 Years	14000	North China	Panxi and Liangshan	Northern Lowland				0.0000		Yes
+Similarity	Time Period	14000-14500 Years	14000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.3875		Yes
+Similarity	Time Period	14000-14500 Years	14000	North China	Western Highland	Northern Lowland				0.3710		Yes
+Similarity	Time Period	14000-14500 Years	14000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.3682		Yes
+Similarity	Time Period	14000-14500 Years	14000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.8244		Yes
+Similarity	Time Period	14000-14500 Years	14000	Northern Segment	Western Highland	Corridor Segment				0.7957		Yes
+Similarity	Time Period	14000-14500 Years	14000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.4762		Yes
+Similarity	Time Period	14000-14500 Years	14000	Panxi and Liangshan	Western Highland	Sichuan Region				0.5216		Yes
+Similarity	Time Period	14000-14500 Years	14000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9199		Yes
 Scatter Coordinate	Time Period	14000-14500 Years	14000	Central Segment		Corridor Segment	Cluster 2	Component 1		-3.02715	1.000	Yes
 Scatter Coordinate	Time Period	14000-14500 Years	14000	Central Segment		Corridor Segment	Cluster 2	Component 2		-1.16358	1.000	Yes
 Scatter Coordinate	Time Period	14000-14500 Years	14000	North China		Northern Lowland	Cluster 3	Component 1		4.33839	1.000	Yes
@@ -1666,6 +2372,21 @@ Co-clustering Frequency	Time Period	14500-15000 Years	14500	Northern Segment	Wes
 Co-clustering Frequency	Time Period	14500-15000 Years	14500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.6020		Yes
 Co-clustering Frequency	Time Period	14500-15000 Years	14500	Panxi and Liangshan	Western Highland	Sichuan Region				0.6040		Yes
 Co-clustering Frequency	Time Period	14500-15000 Years	14500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.6940		Yes
+Similarity	Time Period	14500-15000 Years	14500	Central Segment	North China	Corridor Segment				0.0468		Yes
+Similarity	Time Period	14500-15000 Years	14500	Central Segment	Northern Segment	Corridor Segment				0.2915		Yes
+Similarity	Time Period	14500-15000 Years	14500	Central Segment	Panxi and Liangshan	Corridor Segment				0.5788		Yes
+Similarity	Time Period	14500-15000 Years	14500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5471		Yes
+Similarity	Time Period	14500-15000 Years	14500	Central Segment	Western Highland	Corridor Segment				0.6514		Yes
+Similarity	Time Period	14500-15000 Years	14500	North China	Northern Segment	Northern Lowland				0.5217		Yes
+Similarity	Time Period	14500-15000 Years	14500	North China	Panxi and Liangshan	Northern Lowland				0.0000		Yes
+Similarity	Time Period	14500-15000 Years	14500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.3045		Yes
+Similarity	Time Period	14500-15000 Years	14500	North China	Western Highland	Northern Lowland				0.3077		Yes
+Similarity	Time Period	14500-15000 Years	14500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.1641		Yes
+Similarity	Time Period	14500-15000 Years	14500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.6952		Yes
+Similarity	Time Period	14500-15000 Years	14500	Northern Segment	Western Highland	Corridor Segment				0.5962		Yes
+Similarity	Time Period	14500-15000 Years	14500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.3253		Yes
+Similarity	Time Period	14500-15000 Years	14500	Panxi and Liangshan	Western Highland	Sichuan Region				0.4941		Yes
+Similarity	Time Period	14500-15000 Years	14500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.7796		Yes
 Scatter Coordinate	Time Period	14500-15000 Years	14500	Central Segment		Corridor Segment	Cluster 1	Component 1		-2.51166	1.000	Yes
 Scatter Coordinate	Time Period	14500-15000 Years	14500	Central Segment		Corridor Segment	Cluster 1	Component 2		-0.49302	1.000	Yes
 Scatter Coordinate	Time Period	14500-15000 Years	14500	North China		Northern Lowland	Cluster 3	Component 1		3.80922	1.000	Yes
@@ -1709,6 +2430,21 @@ Co-clustering Frequency	Time Period	15000-15500 Years	15000	Northern Segment	Wes
 Co-clustering Frequency	Time Period	15000-15500 Years	15000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.5780		Yes
 Co-clustering Frequency	Time Period	15000-15500 Years	15000	Panxi and Liangshan	Western Highland	Sichuan Region				0.6260		Yes
 Co-clustering Frequency	Time Period	15000-15500 Years	15000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.6560		Yes
+Similarity	Time Period	15000-15500 Years	15000	Central Segment	North China	Corridor Segment				0.1242		Yes
+Similarity	Time Period	15000-15500 Years	15000	Central Segment	Northern Segment	Corridor Segment				0.3381		Yes
+Similarity	Time Period	15000-15500 Years	15000	Central Segment	Panxi and Liangshan	Corridor Segment				0.4369		Yes
+Similarity	Time Period	15000-15500 Years	15000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.4395		Yes
+Similarity	Time Period	15000-15500 Years	15000	Central Segment	Western Highland	Corridor Segment				0.6659		Yes
+Similarity	Time Period	15000-15500 Years	15000	North China	Northern Segment	Northern Lowland				0.6425		Yes
+Similarity	Time Period	15000-15500 Years	15000	North China	Panxi and Liangshan	Northern Lowland				0.0000		Yes
+Similarity	Time Period	15000-15500 Years	15000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.3944		Yes
+Similarity	Time Period	15000-15500 Years	15000	North China	Western Highland	Northern Lowland				0.3730		Yes
+Similarity	Time Period	15000-15500 Years	15000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.2423		Yes
+Similarity	Time Period	15000-15500 Years	15000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.6378		Yes
+Similarity	Time Period	15000-15500 Years	15000	Northern Segment	Western Highland	Corridor Segment				0.6037		Yes
+Similarity	Time Period	15000-15500 Years	15000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.4799		Yes
+Similarity	Time Period	15000-15500 Years	15000	Panxi and Liangshan	Western Highland	Sichuan Region				0.3941		Yes
+Similarity	Time Period	15000-15500 Years	15000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.6273		Yes
 Scatter Coordinate	Time Period	15000-15500 Years	15000	Central Segment		Corridor Segment	Cluster 1	Component 1		-2.11099	1.000	Yes
 Scatter Coordinate	Time Period	15000-15500 Years	15000	Central Segment		Corridor Segment	Cluster 1	Component 2		-2.08429	1.000	Yes
 Scatter Coordinate	Time Period	15000-15500 Years	15000	North China		Northern Lowland	Cluster 3	Component 1		3.79140	1.000	Yes
@@ -1752,6 +2488,21 @@ Co-clustering Frequency	Time Period	15500-16000 Years	15500	Northern Segment	Wes
 Co-clustering Frequency	Time Period	15500-16000 Years	15500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.3640		Yes
 Co-clustering Frequency	Time Period	15500-16000 Years	15500	Panxi and Liangshan	Western Highland	Sichuan Region				0.3600		Yes
 Co-clustering Frequency	Time Period	15500-16000 Years	15500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.3580		Yes
+Similarity	Time Period	15500-16000 Years	15500	Central Segment	North China	Corridor Segment				0.0612		Yes
+Similarity	Time Period	15500-16000 Years	15500	Central Segment	Northern Segment	Corridor Segment				0.3745		Yes
+Similarity	Time Period	15500-16000 Years	15500	Central Segment	Panxi and Liangshan	Corridor Segment				0.5784		Yes
+Similarity	Time Period	15500-16000 Years	15500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.4474		Yes
+Similarity	Time Period	15500-16000 Years	15500	Central Segment	Western Highland	Corridor Segment				0.6313		Yes
+Similarity	Time Period	15500-16000 Years	15500	North China	Northern Segment	Northern Lowland				0.4973		Yes
+Similarity	Time Period	15500-16000 Years	15500	North China	Panxi and Liangshan	Northern Lowland				0.0000		Yes
+Similarity	Time Period	15500-16000 Years	15500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.4708		Yes
+Similarity	Time Period	15500-16000 Years	15500	North China	Western Highland	Northern Lowland				0.2733		Yes
+Similarity	Time Period	15500-16000 Years	15500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.3188		Yes
+Similarity	Time Period	15500-16000 Years	15500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.9096		Yes
+Similarity	Time Period	15500-16000 Years	15500	Northern Segment	Western Highland	Corridor Segment				0.6198		Yes
+Similarity	Time Period	15500-16000 Years	15500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.3516		Yes
+Similarity	Time Period	15500-16000 Years	15500	Panxi and Liangshan	Western Highland	Sichuan Region				0.5322		Yes
+Similarity	Time Period	15500-16000 Years	15500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.6635		Yes
 Scatter Coordinate	Time Period	15500-16000 Years	15500	Central Segment		Corridor Segment	Cluster 2	Component 1		-2.55802	1.000	Yes
 Scatter Coordinate	Time Period	15500-16000 Years	15500	Central Segment		Corridor Segment	Cluster 2	Component 2		-0.67074	1.000	Yes
 Scatter Coordinate	Time Period	15500-16000 Years	15500	North China		Northern Lowland	Cluster 3	Component 1		4.08256	1.000	Yes
@@ -1795,6 +2546,21 @@ Co-clustering Frequency	Time Period	16000-16500 Years	16000	Northern Segment	Wes
 Co-clustering Frequency	Time Period	16000-16500 Years	16000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.6740		Yes
 Co-clustering Frequency	Time Period	16000-16500 Years	16000	Panxi and Liangshan	Western Highland	Sichuan Region				0.6120		Yes
 Co-clustering Frequency	Time Period	16000-16500 Years	16000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.7580		Yes
+Similarity	Time Period	16000-16500 Years	16000	Central Segment	North China	Corridor Segment				0.0000		Yes
+Similarity	Time Period	16000-16500 Years	16000	Central Segment	Northern Segment	Corridor Segment				0.3454		Yes
+Similarity	Time Period	16000-16500 Years	16000	Central Segment	Panxi and Liangshan	Corridor Segment				0.5264		Yes
+Similarity	Time Period	16000-16500 Years	16000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.3715		Yes
+Similarity	Time Period	16000-16500 Years	16000	Central Segment	Western Highland	Corridor Segment				0.5911		Yes
+Similarity	Time Period	16000-16500 Years	16000	North China	Northern Segment	Northern Lowland				0.2719		Yes
+Similarity	Time Period	16000-16500 Years	16000	North China	Panxi and Liangshan	Northern Lowland				0.1515		Yes
+Similarity	Time Period	16000-16500 Years	16000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.2494		Yes
+Similarity	Time Period	16000-16500 Years	16000	North China	Western Highland	Northern Lowland				0.1869		Yes
+Similarity	Time Period	16000-16500 Years	16000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.6318		Yes
+Similarity	Time Period	16000-16500 Years	16000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.7675		Yes
+Similarity	Time Period	16000-16500 Years	16000	Northern Segment	Western Highland	Corridor Segment				0.5101		Yes
+Similarity	Time Period	16000-16500 Years	16000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.6533		Yes
+Similarity	Time Period	16000-16500 Years	16000	Panxi and Liangshan	Western Highland	Sichuan Region				0.4524		Yes
+Similarity	Time Period	16000-16500 Years	16000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.5489		Yes
 Scatter Coordinate	Time Period	16000-16500 Years	16000	Central Segment		Corridor Segment	Cluster 1	Component 1		-2.63102	1.000	Yes
 Scatter Coordinate	Time Period	16000-16500 Years	16000	Central Segment		Corridor Segment	Cluster 1	Component 2		-1.71513	1.000	Yes
 Scatter Coordinate	Time Period	16000-16500 Years	16000	North China		Northern Lowland	Cluster 3	Component 1		4.41765	1.000	Yes
@@ -1838,6 +2604,21 @@ Co-clustering Frequency	Time Period	16500-17000 Years	16500	Northern Segment	Wes
 Co-clustering Frequency	Time Period	16500-17000 Years	16500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.1780		Yes
 Co-clustering Frequency	Time Period	16500-17000 Years	16500	Panxi and Liangshan	Western Highland	Sichuan Region				0.1800		Yes
 Co-clustering Frequency	Time Period	16500-17000 Years	16500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.1960		Yes
+Similarity	Time Period	16500-17000 Years	16500	Central Segment	North China	Corridor Segment				0.0000		Yes
+Similarity	Time Period	16500-17000 Years	16500	Central Segment	Northern Segment	Corridor Segment				0.4439		Yes
+Similarity	Time Period	16500-17000 Years	16500	Central Segment	Panxi and Liangshan	Corridor Segment				0.8761		Yes
+Similarity	Time Period	16500-17000 Years	16500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.4068		Yes
+Similarity	Time Period	16500-17000 Years	16500	Central Segment	Western Highland	Corridor Segment				0.4061		Yes
+Similarity	Time Period	16500-17000 Years	16500	North China	Northern Segment	Northern Lowland				0.1916		Yes
+Similarity	Time Period	16500-17000 Years	16500	North China	Panxi and Liangshan	Northern Lowland				0.0429		Yes
+Similarity	Time Period	16500-17000 Years	16500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.0477		Yes
+Similarity	Time Period	16500-17000 Years	16500	North China	Western Highland	Northern Lowland				0.0754		Yes
+Similarity	Time Period	16500-17000 Years	16500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.4930		Yes
+Similarity	Time Period	16500-17000 Years	16500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.4427		Yes
+Similarity	Time Period	16500-17000 Years	16500	Northern Segment	Western Highland	Corridor Segment				0.4342		Yes
+Similarity	Time Period	16500-17000 Years	16500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.4289		Yes
+Similarity	Time Period	16500-17000 Years	16500	Panxi and Liangshan	Western Highland	Sichuan Region				0.4276		Yes
+Similarity	Time Period	16500-17000 Years	16500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.9552		Yes
 Scatter Coordinate	Time Period	16500-17000 Years	16500	Central Segment		Corridor Segment	Cluster 2	Component 1		-1.60263	1.000	Yes
 Scatter Coordinate	Time Period	16500-17000 Years	16500	Central Segment		Corridor Segment	Cluster 2	Component 2		1.73215	1.000	Yes
 Scatter Coordinate	Time Period	16500-17000 Years	16500	North China		Northern Lowland	Cluster 3	Component 1		4.66565	1.000	Yes
@@ -1881,6 +2662,21 @@ Co-clustering Frequency	Time Period	17000-17500 Years	17000	Northern Segment	Wes
 Co-clustering Frequency	Time Period	17000-17500 Years	17000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.8000		Yes
 Co-clustering Frequency	Time Period	17000-17500 Years	17000	Panxi and Liangshan	Western Highland	Sichuan Region				0.7880		Yes
 Co-clustering Frequency	Time Period	17000-17500 Years	17000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.7360		Yes
+Similarity	Time Period	17000-17500 Years	17000	Central Segment	North China	Corridor Segment				0.0409		Yes
+Similarity	Time Period	17000-17500 Years	17000	Central Segment	Northern Segment	Corridor Segment				0.4448		Yes
+Similarity	Time Period	17000-17500 Years	17000	Central Segment	Panxi and Liangshan	Corridor Segment				0.6240		Yes
+Similarity	Time Period	17000-17500 Years	17000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5152		Yes
+Similarity	Time Period	17000-17500 Years	17000	Central Segment	Western Highland	Corridor Segment				0.6153		Yes
+Similarity	Time Period	17000-17500 Years	17000	North China	Northern Segment	Northern Lowland				0.2166		Yes
+Similarity	Time Period	17000-17500 Years	17000	North China	Panxi and Liangshan	Northern Lowland				0.0000		Yes
+Similarity	Time Period	17000-17500 Years	17000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.0894		Yes
+Similarity	Time Period	17000-17500 Years	17000	North China	Western Highland	Northern Lowland				0.1208		Yes
+Similarity	Time Period	17000-17500 Years	17000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.5443		Yes
+Similarity	Time Period	17000-17500 Years	17000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.4223		Yes
+Similarity	Time Period	17000-17500 Years	17000	Northern Segment	Western Highland	Corridor Segment				0.5903		Yes
+Similarity	Time Period	17000-17500 Years	17000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.4934		Yes
+Similarity	Time Period	17000-17500 Years	17000	Panxi and Liangshan	Western Highland	Sichuan Region				0.6275		Yes
+Similarity	Time Period	17000-17500 Years	17000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.7886		Yes
 Scatter Coordinate	Time Period	17000-17500 Years	17000	Central Segment		Corridor Segment	Cluster 1	Component 1		-1.45709	1.000	Yes
 Scatter Coordinate	Time Period	17000-17500 Years	17000	Central Segment		Corridor Segment	Cluster 1	Component 2		0.09759	1.000	Yes
 Scatter Coordinate	Time Period	17000-17500 Years	17000	North China		Northern Lowland	Cluster 3	Component 1		4.91619	1.000	Yes
@@ -1924,6 +2720,21 @@ Co-clustering Frequency	Time Period	17500-18000 Years	17500	Northern Segment	Wes
 Co-clustering Frequency	Time Period	17500-18000 Years	17500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.5760		Yes
 Co-clustering Frequency	Time Period	17500-18000 Years	17500	Panxi and Liangshan	Western Highland	Sichuan Region				0.4940		Yes
 Co-clustering Frequency	Time Period	17500-18000 Years	17500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.5980		Yes
+Similarity	Time Period	17500-18000 Years	17500	Central Segment	North China	Corridor Segment				0.0000		Yes
+Similarity	Time Period	17500-18000 Years	17500	Central Segment	Northern Segment	Corridor Segment				0.3363		Yes
+Similarity	Time Period	17500-18000 Years	17500	Central Segment	Panxi and Liangshan	Corridor Segment				0.6446		Yes
+Similarity	Time Period	17500-18000 Years	17500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.6485		Yes
+Similarity	Time Period	17500-18000 Years	17500	Central Segment	Western Highland	Corridor Segment				0.5193		Yes
+Similarity	Time Period	17500-18000 Years	17500	North China	Northern Segment	Northern Lowland				0.3087		Yes
+Similarity	Time Period	17500-18000 Years	17500	North China	Panxi and Liangshan	Northern Lowland				0.1536		Yes
+Similarity	Time Period	17500-18000 Years	17500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.0831		Yes
+Similarity	Time Period	17500-18000 Years	17500	North China	Western Highland	Northern Lowland				0.1732		Yes
+Similarity	Time Period	17500-18000 Years	17500	Northern Segment	Panxi and Liangshan	Corridor Segment				0.5059		Yes
+Similarity	Time Period	17500-18000 Years	17500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.4228		Yes
+Similarity	Time Period	17500-18000 Years	17500	Northern Segment	Western Highland	Corridor Segment				0.3820		Yes
+Similarity	Time Period	17500-18000 Years	17500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.6890		Yes
+Similarity	Time Period	17500-18000 Years	17500	Panxi and Liangshan	Western Highland	Sichuan Region				0.6503		Yes
+Similarity	Time Period	17500-18000 Years	17500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.7546		Yes
 Scatter Coordinate	Time Period	17500-18000 Years	17500	Central Segment		Corridor Segment	Cluster 1	Component 1		-2.21903	1.000	Yes
 Scatter Coordinate	Time Period	17500-18000 Years	17500	Central Segment		Corridor Segment	Cluster 1	Component 2		-0.14599	1.000	Yes
 Scatter Coordinate	Time Period	17500-18000 Years	17500	North China		Northern Lowland	Cluster 3	Component 1		4.60701	1.000	Yes
@@ -1967,6 +2778,21 @@ Co-clustering Frequency	Time Period	18000-18500 Years	18000	Northern Segment	Wes
 Co-clustering Frequency	Time Period	18000-18500 Years	18000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.3420		Yes
 Co-clustering Frequency	Time Period	18000-18500 Years	18000	Panxi and Liangshan	Western Highland	Sichuan Region				0.3240		Yes
 Co-clustering Frequency	Time Period	18000-18500 Years	18000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.4300		Yes
+Similarity	Time Period	18000-18500 Years	18000	Central Segment	North China	Corridor Segment				0.2652		Yes
+Similarity	Time Period	18000-18500 Years	18000	Central Segment	Northern Segment	Corridor Segment				0.2355		Yes
+Similarity	Time Period	18000-18500 Years	18000	Central Segment	Panxi and Liangshan	Corridor Segment				0.4684		Yes
+Similarity	Time Period	18000-18500 Years	18000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5874		Yes
+Similarity	Time Period	18000-18500 Years	18000	Central Segment	Western Highland	Corridor Segment				0.7068		Yes
+Similarity	Time Period	18000-18500 Years	18000	North China	Northern Segment	Northern Lowland				0.2347		Yes
+Similarity	Time Period	18000-18500 Years	18000	North China	Panxi and Liangshan	Northern Lowland				0.4824		Yes
+Similarity	Time Period	18000-18500 Years	18000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.0650		Yes
+Similarity	Time Period	18000-18500 Years	18000	North China	Western Highland	Northern Lowland				0.1288		Yes
+Similarity	Time Period	18000-18500 Years	18000	Northern Segment	Panxi and Liangshan	Corridor Segment				0.1963		Yes
+Similarity	Time Period	18000-18500 Years	18000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.0000		Yes
+Similarity	Time Period	18000-18500 Years	18000	Northern Segment	Western Highland	Corridor Segment				0.1803		Yes
+Similarity	Time Period	18000-18500 Years	18000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	Sichuan Region				0.3920		Yes
+Similarity	Time Period	18000-18500 Years	18000	Panxi and Liangshan	Western Highland	Sichuan Region				0.3777		Yes
+Similarity	Time Period	18000-18500 Years	18000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.7575		Yes
 Scatter Coordinate	Time Period	18000-18500 Years	18000	Central Segment		Corridor Segment	Cluster 1	Component 1		-1.08961	1.000	Yes
 Scatter Coordinate	Time Period	18000-18500 Years	18000	Central Segment		Corridor Segment	Cluster 1	Component 2		0.31065	1.000	Yes
 Scatter Coordinate	Time Period	18000-18500 Years	18000	North China		Northern Lowland	Cluster 3	Component 1		2.68434	1.000	Yes
@@ -2005,6 +2831,16 @@ Co-clustering Frequency	Time Period	18500-19000 Years	18500	North China	Western 
 Co-clustering Frequency	Time Period	18500-19000 Years	18500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5240		Yes
 Co-clustering Frequency	Time Period	18500-19000 Years	18500	Northern Segment	Western Highland	Corridor Segment				0.5500		Yes
 Co-clustering Frequency	Time Period	18500-19000 Years	18500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.5140		Yes
+Similarity	Time Period	18500-19000 Years	18500	Central Segment	North China	Corridor Segment				0.2528		Yes
+Similarity	Time Period	18500-19000 Years	18500	Central Segment	Northern Segment	Corridor Segment				0.1487		Yes
+Similarity	Time Period	18500-19000 Years	18500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.3037		Yes
+Similarity	Time Period	18500-19000 Years	18500	Central Segment	Western Highland	Corridor Segment				0.5517		Yes
+Similarity	Time Period	18500-19000 Years	18500	North China	Northern Segment	Northern Lowland				0.0000		Yes
+Similarity	Time Period	18500-19000 Years	18500	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.4170		Yes
+Similarity	Time Period	18500-19000 Years	18500	North China	Western Highland	Northern Lowland				0.2690		Yes
+Similarity	Time Period	18500-19000 Years	18500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.2904		Yes
+Similarity	Time Period	18500-19000 Years	18500	Northern Segment	Western Highland	Corridor Segment				0.2331		Yes
+Similarity	Time Period	18500-19000 Years	18500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.5181		Yes
 Scatter Coordinate	Time Period	18500-19000 Years	18500	Central Segment		Corridor Segment	Cluster 1	Component 1		-0.57459	1.000	Yes
 Scatter Coordinate	Time Period	18500-19000 Years	18500	Central Segment		Corridor Segment	Cluster 1	Component 2		2.39413	1.000	Yes
 Scatter Coordinate	Time Period	18500-19000 Years	18500	North China		Northern Lowland	Cluster 1	Component 1		-2.63943	1.000	Yes
@@ -2040,6 +2876,16 @@ Co-clustering Frequency	Time Period	19000-19500 Years	19000	North China	Western 
 Co-clustering Frequency	Time Period	19000-19500 Years	19000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5180		Yes
 Co-clustering Frequency	Time Period	19000-19500 Years	19000	Northern Segment	Western Highland	Corridor Segment				0.5720		Yes
 Co-clustering Frequency	Time Period	19000-19500 Years	19000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.5900		Yes
+Similarity	Time Period	19000-19500 Years	19000	Central Segment	North China	Corridor Segment				0.0594		Yes
+Similarity	Time Period	19000-19500 Years	19000	Central Segment	Northern Segment	Corridor Segment				0.3638		Yes
+Similarity	Time Period	19000-19500 Years	19000	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.3848		Yes
+Similarity	Time Period	19000-19500 Years	19000	Central Segment	Western Highland	Corridor Segment				0.7239		Yes
+Similarity	Time Period	19000-19500 Years	19000	North China	Northern Segment	Northern Lowland				0.0000		Yes
+Similarity	Time Period	19000-19500 Years	19000	North China	Qinghai-Tibet Plateau Core	Northern Lowland				0.2966		Yes
+Similarity	Time Period	19000-19500 Years	19000	North China	Western Highland	Northern Lowland				0.1141		Yes
+Similarity	Time Period	19000-19500 Years	19000	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5037		Yes
+Similarity	Time Period	19000-19500 Years	19000	Northern Segment	Western Highland	Corridor Segment				0.2967		Yes
+Similarity	Time Period	19000-19500 Years	19000	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.4977		Yes
 Scatter Coordinate	Time Period	19000-19500 Years	19000	Central Segment		Corridor Segment	Cluster 1	Component 1		1.65134	1.000	Yes
 Scatter Coordinate	Time Period	19000-19500 Years	19000	Central Segment		Corridor Segment	Cluster 1	Component 2		1.53156	1.000	Yes
 Scatter Coordinate	Time Period	19000-19500 Years	19000	North China		Northern Lowland	Cluster 2	Component 1		-4.11472	1.000	Yes
@@ -2071,6 +2917,12 @@ Co-clustering Frequency	Time Period	19500-20000 Years	19500	Central Segment	West
 Co-clustering Frequency	Time Period	19500-20000 Years	19500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5260		Yes
 Co-clustering Frequency	Time Period	19500-20000 Years	19500	Northern Segment	Western Highland	Corridor Segment				0.4540		Yes
 Co-clustering Frequency	Time Period	19500-20000 Years	19500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.4520		Yes
+Similarity	Time Period	19500-20000 Years	19500	Central Segment	Northern Segment	Corridor Segment				0.2964		Yes
+Similarity	Time Period	19500-20000 Years	19500	Central Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.0000		Yes
+Similarity	Time Period	19500-20000 Years	19500	Central Segment	Western Highland	Corridor Segment				0.3682		Yes
+Similarity	Time Period	19500-20000 Years	19500	Northern Segment	Qinghai-Tibet Plateau Core	Corridor Segment				0.5199		Yes
+Similarity	Time Period	19500-20000 Years	19500	Northern Segment	Western Highland	Corridor Segment				0.4329		Yes
+Similarity	Time Period	19500-20000 Years	19500	Qinghai-Tibet Plateau Core	Western Highland	Highland				0.4760		Yes
 Scatter Coordinate	Time Period	19500-20000 Years	19500	Central Segment		Corridor Segment	Cluster 2	Component 1		3.76461	1.000	Yes
 Scatter Coordinate	Time Period	19500-20000 Years	19500	Central Segment		Corridor Segment	Cluster 2	Component 2		-0.18158	1.000	Yes
 Scatter Coordinate	Time Period	19500-20000 Years	19500	Northern Segment		Corridor Segment	Cluster 1	Component 1		-0.69370	1.000	Yes

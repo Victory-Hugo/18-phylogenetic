@@ -62,7 +62,10 @@ quantified by 500 posterior resamples in which one curve per category was drawn
 at random, the features were recomputed and the clustering repeated with the same
 $K$ (random seed 20260828); the proportion of resamples placing two categories in
 the same cluster was reported as the co-clustering frequency, and pairs with a
-frequency of at least 0.5 were drawn as chords. The scaled feature matrix of each
+frequency of at least 0.5 were drawn as chords. Both the co-clustering frequency
+and a feature similarity, defined as one minus the Euclidean distance normalised
+by its within-window maximum, were additionally displayed as category-by-category
+matrices, with rows and columns kept in a single global order across all windows. The scaled feature matrix of each
 window was further projected onto its first two principal components
 \parencite{pedregosa2011}, and two composite scores (a level score from mean
 level and amplitude, and a change score from net change, rate and the extreme

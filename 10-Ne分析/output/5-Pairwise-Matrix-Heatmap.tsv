@@ -1,0 +1,1705 @@
+Quantity	Time Window	Window Start (Years)	Category	Second Category	Value
+Co-clustering Frequency	0-500 Years	0	Central Segment	North China	0.884
+Co-clustering Frequency	0-500 Years	0	Central Segment	Northern Segment	0.998
+Co-clustering Frequency	0-500 Years	0	Central Segment	Panxi and Liangshan	0.998
+Co-clustering Frequency	0-500 Years	0	Central Segment	Qinghai-Tibet Plateau Core	1
+Co-clustering Frequency	0-500 Years	0	Central Segment	Sichuan Basin	0.118
+Co-clustering Frequency	0-500 Years	0	Central Segment	Southern Segment	0.352
+Co-clustering Frequency	0-500 Years	0	Central Segment	Western Highland	1
+Co-clustering Frequency	0-500 Years	0	North China	Northern Segment	0.882
+Co-clustering Frequency	0-500 Years	0	North China	Panxi and Liangshan	0.882
+Co-clustering Frequency	0-500 Years	0	North China	Qinghai-Tibet Plateau Core	0.884
+Co-clustering Frequency	0-500 Years	0	North China	Sichuan Basin	0.002
+Co-clustering Frequency	0-500 Years	0	North China	Southern Segment	0.236
+Co-clustering Frequency	0-500 Years	0	North China	Western Highland	0.884
+Co-clustering Frequency	0-500 Years	0	Northern Segment	Panxi and Liangshan	0.996
+Co-clustering Frequency	0-500 Years	0	Northern Segment	Qinghai-Tibet Plateau Core	0.998
+Co-clustering Frequency	0-500 Years	0	Northern Segment	Sichuan Basin	0.12
+Co-clustering Frequency	0-500 Years	0	Northern Segment	Southern Segment	0.354
+Co-clustering Frequency	0-500 Years	0	Northern Segment	Western Highland	0.998
+Co-clustering Frequency	0-500 Years	0	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.998
+Co-clustering Frequency	0-500 Years	0	Panxi and Liangshan	Sichuan Basin	0.116
+Co-clustering Frequency	0-500 Years	0	Panxi and Liangshan	Southern Segment	0.35
+Co-clustering Frequency	0-500 Years	0	Panxi and Liangshan	Western Highland	0.998
+Co-clustering Frequency	0-500 Years	0	Qinghai-Tibet Plateau Core	Sichuan Basin	0.118
+Co-clustering Frequency	0-500 Years	0	Qinghai-Tibet Plateau Core	Southern Segment	0.352
+Co-clustering Frequency	0-500 Years	0	Qinghai-Tibet Plateau Core	Western Highland	1
+Co-clustering Frequency	0-500 Years	0	Sichuan Basin	Southern Segment	0.766
+Co-clustering Frequency	0-500 Years	0	Sichuan Basin	Western Highland	0.118
+Co-clustering Frequency	0-500 Years	0	Southern Segment	Western Highland	0.352
+Co-clustering Frequency	500-1000 Years	500	Central Segment	North China	0.76
+Co-clustering Frequency	500-1000 Years	500	Central Segment	Northern Segment	0.686
+Co-clustering Frequency	500-1000 Years	500	Central Segment	Panxi and Liangshan	0.944
+Co-clustering Frequency	500-1000 Years	500	Central Segment	Qinghai-Tibet Plateau Core	0.92
+Co-clustering Frequency	500-1000 Years	500	Central Segment	Sichuan Basin	0.244
+Co-clustering Frequency	500-1000 Years	500	Central Segment	Southern Segment	0.546
+Co-clustering Frequency	500-1000 Years	500	Central Segment	Western Highland	0.946
+Co-clustering Frequency	500-1000 Years	500	North China	Northern Segment	0.522
+Co-clustering Frequency	500-1000 Years	500	North China	Panxi and Liangshan	0.74
+Co-clustering Frequency	500-1000 Years	500	North China	Qinghai-Tibet Plateau Core	0.736
+Co-clustering Frequency	500-1000 Years	500	North China	Sichuan Basin	0.076
+Co-clustering Frequency	500-1000 Years	500	North China	Southern Segment	0.378
+Co-clustering Frequency	500-1000 Years	500	North China	Western Highland	0.75
+Co-clustering Frequency	500-1000 Years	500	Northern Segment	Panxi and Liangshan	0.674
+Co-clustering Frequency	500-1000 Years	500	Northern Segment	Qinghai-Tibet Plateau Core	0.766
+Co-clustering Frequency	500-1000 Years	500	Northern Segment	Sichuan Basin	0.546
+Co-clustering Frequency	500-1000 Years	500	Northern Segment	Southern Segment	0.832
+Co-clustering Frequency	500-1000 Years	500	Northern Segment	Western Highland	0.736
+Co-clustering Frequency	500-1000 Years	500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.908
+Co-clustering Frequency	500-1000 Years	500	Panxi and Liangshan	Sichuan Basin	0.232
+Co-clustering Frequency	500-1000 Years	500	Panxi and Liangshan	Southern Segment	0.534
+Co-clustering Frequency	500-1000 Years	500	Panxi and Liangshan	Western Highland	0.934
+Co-clustering Frequency	500-1000 Years	500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.324
+Co-clustering Frequency	500-1000 Years	500	Qinghai-Tibet Plateau Core	Southern Segment	0.626
+Co-clustering Frequency	500-1000 Years	500	Qinghai-Tibet Plateau Core	Western Highland	0.938
+Co-clustering Frequency	500-1000 Years	500	Sichuan Basin	Southern Segment	0.698
+Co-clustering Frequency	500-1000 Years	500	Sichuan Basin	Western Highland	0.294
+Co-clustering Frequency	500-1000 Years	500	Southern Segment	Western Highland	0.596
+Co-clustering Frequency	1000-1500 Years	1000	Central Segment	North China	0.552
+Co-clustering Frequency	1000-1500 Years	1000	Central Segment	Northern Segment	0.776
+Co-clustering Frequency	1000-1500 Years	1000	Central Segment	Panxi and Liangshan	0.792
+Co-clustering Frequency	1000-1500 Years	1000	Central Segment	Qinghai-Tibet Plateau Core	0.802
+Co-clustering Frequency	1000-1500 Years	1000	Central Segment	Sichuan Basin	0.468
+Co-clustering Frequency	1000-1500 Years	1000	Central Segment	Southern Segment	0.676
+Co-clustering Frequency	1000-1500 Years	1000	Central Segment	Western Highland	0.8
+Co-clustering Frequency	1000-1500 Years	1000	North China	Northern Segment	0.72
+Co-clustering Frequency	1000-1500 Years	1000	North China	Panxi and Liangshan	0.684
+Co-clustering Frequency	1000-1500 Years	1000	North China	Qinghai-Tibet Plateau Core	0.742
+Co-clustering Frequency	1000-1500 Years	1000	North China	Sichuan Basin	0.104
+Co-clustering Frequency	1000-1500 Years	1000	North China	Southern Segment	0.352
+Co-clustering Frequency	1000-1500 Years	1000	North China	Western Highland	0.74
+Co-clustering Frequency	1000-1500 Years	1000	Northern Segment	Panxi and Liangshan	0.916
+Co-clustering Frequency	1000-1500 Years	1000	Northern Segment	Qinghai-Tibet Plateau Core	0.974
+Co-clustering Frequency	1000-1500 Years	1000	Northern Segment	Sichuan Basin	0.316
+Co-clustering Frequency	1000-1500 Years	1000	Northern Segment	Southern Segment	0.564
+Co-clustering Frequency	1000-1500 Years	1000	Northern Segment	Western Highland	0.972
+Co-clustering Frequency	1000-1500 Years	1000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.942
+Co-clustering Frequency	1000-1500 Years	1000	Panxi and Liangshan	Sichuan Basin	0.336
+Co-clustering Frequency	1000-1500 Years	1000	Panxi and Liangshan	Southern Segment	0.58
+Co-clustering Frequency	1000-1500 Years	1000	Panxi and Liangshan	Western Highland	0.94
+Co-clustering Frequency	1000-1500 Years	1000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.342
+Co-clustering Frequency	1000-1500 Years	1000	Qinghai-Tibet Plateau Core	Southern Segment	0.59
+Co-clustering Frequency	1000-1500 Years	1000	Qinghai-Tibet Plateau Core	Western Highland	0.998
+Co-clustering Frequency	1000-1500 Years	1000	Sichuan Basin	Southern Segment	0.752
+Co-clustering Frequency	1000-1500 Years	1000	Sichuan Basin	Western Highland	0.34
+Co-clustering Frequency	1000-1500 Years	1000	Southern Segment	Western Highland	0.588
+Co-clustering Frequency	1500-2000 Years	1500	Central Segment	North China	0.992
+Co-clustering Frequency	1500-2000 Years	1500	Central Segment	Northern Segment	0.992
+Co-clustering Frequency	1500-2000 Years	1500	Central Segment	Panxi and Liangshan	0.99
+Co-clustering Frequency	1500-2000 Years	1500	Central Segment	Qinghai-Tibet Plateau Core	0.992
+Co-clustering Frequency	1500-2000 Years	1500	Central Segment	Sichuan Basin	0.008
+Co-clustering Frequency	1500-2000 Years	1500	Central Segment	Southern Segment	0.868
+Co-clustering Frequency	1500-2000 Years	1500	Central Segment	Western Highland	0.986
+Co-clustering Frequency	1500-2000 Years	1500	North China	Northern Segment	0.984
+Co-clustering Frequency	1500-2000 Years	1500	North China	Panxi and Liangshan	0.982
+Co-clustering Frequency	1500-2000 Years	1500	North China	Qinghai-Tibet Plateau Core	0.984
+Co-clustering Frequency	1500-2000 Years	1500	North China	Sichuan Basin	0
+Co-clustering Frequency	1500-2000 Years	1500	North China	Southern Segment	0.86
+Co-clustering Frequency	1500-2000 Years	1500	North China	Western Highland	0.978
+Co-clustering Frequency	1500-2000 Years	1500	Northern Segment	Panxi and Liangshan	0.982
+Co-clustering Frequency	1500-2000 Years	1500	Northern Segment	Qinghai-Tibet Plateau Core	0.996
+Co-clustering Frequency	1500-2000 Years	1500	Northern Segment	Sichuan Basin	0.016
+Co-clustering Frequency	1500-2000 Years	1500	Northern Segment	Southern Segment	0.872
+Co-clustering Frequency	1500-2000 Years	1500	Northern Segment	Western Highland	0.99
+Co-clustering Frequency	1500-2000 Years	1500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.982
+Co-clustering Frequency	1500-2000 Years	1500	Panxi and Liangshan	Sichuan Basin	0.018
+Co-clustering Frequency	1500-2000 Years	1500	Panxi and Liangshan	Southern Segment	0.878
+Co-clustering Frequency	1500-2000 Years	1500	Panxi and Liangshan	Western Highland	0.976
+Co-clustering Frequency	1500-2000 Years	1500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.016
+Co-clustering Frequency	1500-2000 Years	1500	Qinghai-Tibet Plateau Core	Southern Segment	0.868
+Co-clustering Frequency	1500-2000 Years	1500	Qinghai-Tibet Plateau Core	Western Highland	0.99
+Co-clustering Frequency	1500-2000 Years	1500	Sichuan Basin	Southern Segment	0.14
+Co-clustering Frequency	1500-2000 Years	1500	Sichuan Basin	Western Highland	0.022
+Co-clustering Frequency	1500-2000 Years	1500	Southern Segment	Western Highland	0.87
+Co-clustering Frequency	2000-2500 Years	2000	Central Segment	North China	0.126
+Co-clustering Frequency	2000-2500 Years	2000	Central Segment	Northern Segment	0.098
+Co-clustering Frequency	2000-2500 Years	2000	Central Segment	Panxi and Liangshan	0.808
+Co-clustering Frequency	2000-2500 Years	2000	Central Segment	Qinghai-Tibet Plateau Core	0.206
+Co-clustering Frequency	2000-2500 Years	2000	Central Segment	Sichuan Basin	0.174
+Co-clustering Frequency	2000-2500 Years	2000	Central Segment	Southern Segment	0.084
+Co-clustering Frequency	2000-2500 Years	2000	Central Segment	Western Highland	0.12
+Co-clustering Frequency	2000-2500 Years	2000	North China	Northern Segment	0.626
+Co-clustering Frequency	2000-2500 Years	2000	North China	Panxi and Liangshan	0.104
+Co-clustering Frequency	2000-2500 Years	2000	North China	Qinghai-Tibet Plateau Core	0.43
+Co-clustering Frequency	2000-2500 Years	2000	North China	Sichuan Basin	0.074
+Co-clustering Frequency	2000-2500 Years	2000	North China	Southern Segment	0
+Co-clustering Frequency	2000-2500 Years	2000	North China	Western Highland	0.47
+Co-clustering Frequency	2000-2500 Years	2000	Northern Segment	Panxi and Liangshan	0.086
+Co-clustering Frequency	2000-2500 Years	2000	Northern Segment	Qinghai-Tibet Plateau Core	0.574
+Co-clustering Frequency	2000-2500 Years	2000	Northern Segment	Sichuan Basin	0.11
+Co-clustering Frequency	2000-2500 Years	2000	Northern Segment	Southern Segment	0
+Co-clustering Frequency	2000-2500 Years	2000	Northern Segment	Western Highland	0.618
+Co-clustering Frequency	2000-2500 Years	2000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.232
+Co-clustering Frequency	2000-2500 Years	2000	Panxi and Liangshan	Sichuan Basin	0.18
+Co-clustering Frequency	2000-2500 Years	2000	Panxi and Liangshan	Southern Segment	0.028
+Co-clustering Frequency	2000-2500 Years	2000	Panxi and Liangshan	Western Highland	0.11
+Co-clustering Frequency	2000-2500 Years	2000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.112
+Co-clustering Frequency	2000-2500 Years	2000	Qinghai-Tibet Plateau Core	Southern Segment	0.004
+Co-clustering Frequency	2000-2500 Years	2000	Qinghai-Tibet Plateau Core	Western Highland	0.638
+Co-clustering Frequency	2000-2500 Years	2000	Sichuan Basin	Southern Segment	0.17
+Co-clustering Frequency	2000-2500 Years	2000	Sichuan Basin	Western Highland	0.062
+Co-clustering Frequency	2000-2500 Years	2000	Southern Segment	Western Highland	0
+Co-clustering Frequency	2500-3000 Years	2500	Central Segment	North China	0.192
+Co-clustering Frequency	2500-3000 Years	2500	Central Segment	Northern Segment	0.332
+Co-clustering Frequency	2500-3000 Years	2500	Central Segment	Panxi and Liangshan	0.66
+Co-clustering Frequency	2500-3000 Years	2500	Central Segment	Qinghai-Tibet Plateau Core	0.38
+Co-clustering Frequency	2500-3000 Years	2500	Central Segment	Sichuan Basin	0.086
+Co-clustering Frequency	2500-3000 Years	2500	Central Segment	Southern Segment	0.088
+Co-clustering Frequency	2500-3000 Years	2500	Central Segment	Western Highland	0.318
+Co-clustering Frequency	2500-3000 Years	2500	North China	Northern Segment	0.246
+Co-clustering Frequency	2500-3000 Years	2500	North China	Panxi and Liangshan	0.106
+Co-clustering Frequency	2500-3000 Years	2500	North China	Qinghai-Tibet Plateau Core	0.21
+Co-clustering Frequency	2500-3000 Years	2500	North China	Sichuan Basin	0.63
+Co-clustering Frequency	2500-3000 Years	2500	North China	Southern Segment	0.702
+Co-clustering Frequency	2500-3000 Years	2500	North China	Western Highland	0.206
+Co-clustering Frequency	2500-3000 Years	2500	Northern Segment	Panxi and Liangshan	0.168
+Co-clustering Frequency	2500-3000 Years	2500	Northern Segment	Qinghai-Tibet Plateau Core	0.848
+Co-clustering Frequency	2500-3000 Years	2500	Northern Segment	Sichuan Basin	0.254
+Co-clustering Frequency	2500-3000 Years	2500	Northern Segment	Southern Segment	0.138
+Co-clustering Frequency	2500-3000 Years	2500	Northern Segment	Western Highland	0.842
+Co-clustering Frequency	2500-3000 Years	2500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.216
+Co-clustering Frequency	2500-3000 Years	2500	Panxi and Liangshan	Sichuan Basin	0.032
+Co-clustering Frequency	2500-3000 Years	2500	Panxi and Liangshan	Southern Segment	0.028
+Co-clustering Frequency	2500-3000 Years	2500	Panxi and Liangshan	Western Highland	0.146
+Co-clustering Frequency	2500-3000 Years	2500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.192
+Co-clustering Frequency	2500-3000 Years	2500	Qinghai-Tibet Plateau Core	Southern Segment	0.074
+Co-clustering Frequency	2500-3000 Years	2500	Qinghai-Tibet Plateau Core	Western Highland	0.862
+Co-clustering Frequency	2500-3000 Years	2500	Sichuan Basin	Southern Segment	0.776
+Co-clustering Frequency	2500-3000 Years	2500	Sichuan Basin	Western Highland	0.182
+Co-clustering Frequency	2500-3000 Years	2500	Southern Segment	Western Highland	0.074
+Co-clustering Frequency	3000-3500 Years	3000	Central Segment	North China	0.202
+Co-clustering Frequency	3000-3500 Years	3000	Central Segment	Northern Segment	0.564
+Co-clustering Frequency	3000-3500 Years	3000	Central Segment	Panxi and Liangshan	0.584
+Co-clustering Frequency	3000-3500 Years	3000	Central Segment	Qinghai-Tibet Plateau Core	0.614
+Co-clustering Frequency	3000-3500 Years	3000	Central Segment	Sichuan Basin	0.344
+Co-clustering Frequency	3000-3500 Years	3000	Central Segment	Southern Segment	0.078
+Co-clustering Frequency	3000-3500 Years	3000	Central Segment	Western Highland	0.602
+Co-clustering Frequency	3000-3500 Years	3000	North China	Northern Segment	0.238
+Co-clustering Frequency	3000-3500 Years	3000	North China	Panxi and Liangshan	0.058
+Co-clustering Frequency	3000-3500 Years	3000	North China	Qinghai-Tibet Plateau Core	0.194
+Co-clustering Frequency	3000-3500 Years	3000	North China	Sichuan Basin	0.232
+Co-clustering Frequency	3000-3500 Years	3000	North China	Southern Segment	0.288
+Co-clustering Frequency	3000-3500 Years	3000	North China	Western Highland	0.198
+Co-clustering Frequency	3000-3500 Years	3000	Northern Segment	Panxi and Liangshan	0.422
+Co-clustering Frequency	3000-3500 Years	3000	Northern Segment	Qinghai-Tibet Plateau Core	0.856
+Co-clustering Frequency	3000-3500 Years	3000	Northern Segment	Sichuan Basin	0.624
+Co-clustering Frequency	3000-3500 Years	3000	Northern Segment	Southern Segment	0.242
+Co-clustering Frequency	3000-3500 Years	3000	Northern Segment	Western Highland	0.876
+Co-clustering Frequency	3000-3500 Years	3000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.504
+Co-clustering Frequency	3000-3500 Years	3000	Panxi and Liangshan	Sichuan Basin	0.234
+Co-clustering Frequency	3000-3500 Years	3000	Panxi and Liangshan	Southern Segment	0.008
+Co-clustering Frequency	3000-3500 Years	3000	Panxi and Liangshan	Western Highland	0.484
+Co-clustering Frequency	3000-3500 Years	3000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.6
+Co-clustering Frequency	3000-3500 Years	3000	Qinghai-Tibet Plateau Core	Southern Segment	0.2
+Co-clustering Frequency	3000-3500 Years	3000	Qinghai-Tibet Plateau Core	Western Highland	0.932
+Co-clustering Frequency	3000-3500 Years	3000	Sichuan Basin	Southern Segment	0.49
+Co-clustering Frequency	3000-3500 Years	3000	Sichuan Basin	Western Highland	0.626
+Co-clustering Frequency	3000-3500 Years	3000	Southern Segment	Western Highland	0.216
+Co-clustering Frequency	3500-4000 Years	3500	Central Segment	North China	0.022
+Co-clustering Frequency	3500-4000 Years	3500	Central Segment	Northern Segment	0.076
+Co-clustering Frequency	3500-4000 Years	3500	Central Segment	Panxi and Liangshan	0.78
+Co-clustering Frequency	3500-4000 Years	3500	Central Segment	Qinghai-Tibet Plateau Core	0.072
+Co-clustering Frequency	3500-4000 Years	3500	Central Segment	Sichuan Basin	0.02
+Co-clustering Frequency	3500-4000 Years	3500	Central Segment	Southern Segment	0.022
+Co-clustering Frequency	3500-4000 Years	3500	Central Segment	Western Highland	0.052
+Co-clustering Frequency	3500-4000 Years	3500	North China	Northern Segment	0.24
+Co-clustering Frequency	3500-4000 Years	3500	North China	Panxi and Liangshan	0.008
+Co-clustering Frequency	3500-4000 Years	3500	North China	Qinghai-Tibet Plateau Core	0.116
+Co-clustering Frequency	3500-4000 Years	3500	North China	Sichuan Basin	0.016
+Co-clustering Frequency	3500-4000 Years	3500	North China	Southern Segment	0.132
+Co-clustering Frequency	3500-4000 Years	3500	North China	Western Highland	0.116
+Co-clustering Frequency	3500-4000 Years	3500	Northern Segment	Panxi and Liangshan	0.068
+Co-clustering Frequency	3500-4000 Years	3500	Northern Segment	Qinghai-Tibet Plateau Core	0.624
+Co-clustering Frequency	3500-4000 Years	3500	Northern Segment	Sichuan Basin	0.252
+Co-clustering Frequency	3500-4000 Years	3500	Northern Segment	Southern Segment	0.496
+Co-clustering Frequency	3500-4000 Years	3500	Northern Segment	Western Highland	0.632
+Co-clustering Frequency	3500-4000 Years	3500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.08
+Co-clustering Frequency	3500-4000 Years	3500	Panxi and Liangshan	Sichuan Basin	0.026
+Co-clustering Frequency	3500-4000 Years	3500	Panxi and Liangshan	Southern Segment	0.022
+Co-clustering Frequency	3500-4000 Years	3500	Panxi and Liangshan	Western Highland	0.054
+Co-clustering Frequency	3500-4000 Years	3500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.168
+Co-clustering Frequency	3500-4000 Years	3500	Qinghai-Tibet Plateau Core	Southern Segment	0.366
+Co-clustering Frequency	3500-4000 Years	3500	Qinghai-Tibet Plateau Core	Western Highland	0.844
+Co-clustering Frequency	3500-4000 Years	3500	Sichuan Basin	Southern Segment	0.444
+Co-clustering Frequency	3500-4000 Years	3500	Sichuan Basin	Western Highland	0.146
+Co-clustering Frequency	3500-4000 Years	3500	Southern Segment	Western Highland	0.338
+Co-clustering Frequency	4000-4500 Years	4000	Central Segment	North China	0.132
+Co-clustering Frequency	4000-4500 Years	4000	Central Segment	Northern Segment	0.786
+Co-clustering Frequency	4000-4500 Years	4000	Central Segment	Panxi and Liangshan	0.908
+Co-clustering Frequency	4000-4500 Years	4000	Central Segment	Qinghai-Tibet Plateau Core	0.74
+Co-clustering Frequency	4000-4500 Years	4000	Central Segment	Sichuan Basin	0.214
+Co-clustering Frequency	4000-4500 Years	4000	Central Segment	Southern Segment	0.066
+Co-clustering Frequency	4000-4500 Years	4000	Central Segment	Western Highland	0.736
+Co-clustering Frequency	4000-4500 Years	4000	North China	Northern Segment	0.258
+Co-clustering Frequency	4000-4500 Years	4000	North China	Panxi and Liangshan	0.09
+Co-clustering Frequency	4000-4500 Years	4000	North China	Qinghai-Tibet Plateau Core	0.216
+Co-clustering Frequency	4000-4500 Years	4000	North China	Sichuan Basin	0.008
+Co-clustering Frequency	4000-4500 Years	4000	North China	Southern Segment	0.008
+Co-clustering Frequency	4000-4500 Years	4000	North China	Western Highland	0.232
+Co-clustering Frequency	4000-4500 Years	4000	Northern Segment	Panxi and Liangshan	0.788
+Co-clustering Frequency	4000-4500 Years	4000	Northern Segment	Qinghai-Tibet Plateau Core	0.686
+Co-clustering Frequency	4000-4500 Years	4000	Northern Segment	Sichuan Basin	0.172
+Co-clustering Frequency	4000-4500 Years	4000	Northern Segment	Southern Segment	0.05
+Co-clustering Frequency	4000-4500 Years	4000	Northern Segment	Western Highland	0.66
+Co-clustering Frequency	4000-4500 Years	4000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.76
+Co-clustering Frequency	4000-4500 Years	4000	Panxi and Liangshan	Sichuan Basin	0.182
+Co-clustering Frequency	4000-4500 Years	4000	Panxi and Liangshan	Southern Segment	0.038
+Co-clustering Frequency	4000-4500 Years	4000	Panxi and Liangshan	Western Highland	0.766
+Co-clustering Frequency	4000-4500 Years	4000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.202
+Co-clustering Frequency	4000-4500 Years	4000	Qinghai-Tibet Plateau Core	Southern Segment	0.076
+Co-clustering Frequency	4000-4500 Years	4000	Qinghai-Tibet Plateau Core	Western Highland	0.704
+Co-clustering Frequency	4000-4500 Years	4000	Sichuan Basin	Southern Segment	0.744
+Co-clustering Frequency	4000-4500 Years	4000	Sichuan Basin	Western Highland	0.164
+Co-clustering Frequency	4000-4500 Years	4000	Southern Segment	Western Highland	0.05
+Co-clustering Frequency	4500-5000 Years	4500	Central Segment	North China	0.44
+Co-clustering Frequency	4500-5000 Years	4500	Central Segment	Northern Segment	0.862
+Co-clustering Frequency	4500-5000 Years	4500	Central Segment	Panxi and Liangshan	0.828
+Co-clustering Frequency	4500-5000 Years	4500	Central Segment	Qinghai-Tibet Plateau Core	0.788
+Co-clustering Frequency	4500-5000 Years	4500	Central Segment	Sichuan Basin	0.656
+Co-clustering Frequency	4500-5000 Years	4500	Central Segment	Southern Segment	0.734
+Co-clustering Frequency	4500-5000 Years	4500	Central Segment	Western Highland	0.78
+Co-clustering Frequency	4500-5000 Years	4500	North China	Northern Segment	0.542
+Co-clustering Frequency	4500-5000 Years	4500	North China	Panxi and Liangshan	0.404
+Co-clustering Frequency	4500-5000 Years	4500	North China	Qinghai-Tibet Plateau Core	0.648
+Co-clustering Frequency	4500-5000 Years	4500	North China	Sichuan Basin	0.112
+Co-clustering Frequency	4500-5000 Years	4500	North China	Southern Segment	0.298
+Co-clustering Frequency	4500-5000 Years	4500	North China	Western Highland	0.648
+Co-clustering Frequency	4500-5000 Years	4500	Northern Segment	Panxi and Liangshan	0.834
+Co-clustering Frequency	4500-5000 Years	4500	Northern Segment	Qinghai-Tibet Plateau Core	0.866
+Co-clustering Frequency	4500-5000 Years	4500	Northern Segment	Sichuan Basin	0.562
+Co-clustering Frequency	4500-5000 Years	4500	Northern Segment	Southern Segment	0.732
+Co-clustering Frequency	4500-5000 Years	4500	Northern Segment	Western Highland	0.874
+Co-clustering Frequency	4500-5000 Years	4500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.744
+Co-clustering Frequency	4500-5000 Years	4500	Panxi and Liangshan	Sichuan Basin	0.624
+Co-clustering Frequency	4500-5000 Years	4500	Panxi and Liangshan	Southern Segment	0.714
+Co-clustering Frequency	4500-5000 Years	4500	Panxi and Liangshan	Western Highland	0.752
+Co-clustering Frequency	4500-5000 Years	4500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.464
+Co-clustering Frequency	4500-5000 Years	4500	Qinghai-Tibet Plateau Core	Southern Segment	0.634
+Co-clustering Frequency	4500-5000 Years	4500	Qinghai-Tibet Plateau Core	Western Highland	0.892
+Co-clustering Frequency	4500-5000 Years	4500	Sichuan Basin	Southern Segment	0.658
+Co-clustering Frequency	4500-5000 Years	4500	Sichuan Basin	Western Highland	0.46
+Co-clustering Frequency	4500-5000 Years	4500	Southern Segment	Western Highland	0.626
+Co-clustering Frequency	5000-5500 Years	5000	Central Segment	North China	0.678
+Co-clustering Frequency	5000-5500 Years	5000	Central Segment	Northern Segment	0.858
+Co-clustering Frequency	5000-5500 Years	5000	Central Segment	Panxi and Liangshan	0.804
+Co-clustering Frequency	5000-5500 Years	5000	Central Segment	Qinghai-Tibet Plateau Core	0.82
+Co-clustering Frequency	5000-5500 Years	5000	Central Segment	Sichuan Basin	0.51
+Co-clustering Frequency	5000-5500 Years	5000	Central Segment	Southern Segment	0.366
+Co-clustering Frequency	5000-5500 Years	5000	Central Segment	Western Highland	0.82
+Co-clustering Frequency	5000-5500 Years	5000	North China	Northern Segment	0.764
+Co-clustering Frequency	5000-5500 Years	5000	North China	Panxi and Liangshan	0.654
+Co-clustering Frequency	5000-5500 Years	5000	North China	Qinghai-Tibet Plateau Core	0.842
+Co-clustering Frequency	5000-5500 Years	5000	North China	Sichuan Basin	0.208
+Co-clustering Frequency	5000-5500 Years	5000	North China	Southern Segment	0.064
+Co-clustering Frequency	5000-5500 Years	5000	North China	Western Highland	0.85
+Co-clustering Frequency	5000-5500 Years	5000	Northern Segment	Panxi and Liangshan	0.83
+Co-clustering Frequency	5000-5500 Years	5000	Northern Segment	Qinghai-Tibet Plateau Core	0.89
+Co-clustering Frequency	5000-5500 Years	5000	Northern Segment	Sichuan Basin	0.444
+Co-clustering Frequency	5000-5500 Years	5000	Northern Segment	Southern Segment	0.296
+Co-clustering Frequency	5000-5500 Years	5000	Northern Segment	Western Highland	0.898
+Co-clustering Frequency	5000-5500 Years	5000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.804
+Co-clustering Frequency	5000-5500 Years	5000	Panxi and Liangshan	Sichuan Basin	0.522
+Co-clustering Frequency	5000-5500 Years	5000	Panxi and Liangshan	Southern Segment	0.358
+Co-clustering Frequency	5000-5500 Years	5000	Panxi and Liangshan	Western Highland	0.792
+Co-clustering Frequency	5000-5500 Years	5000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.362
+Co-clustering Frequency	5000-5500 Years	5000	Qinghai-Tibet Plateau Core	Southern Segment	0.214
+Co-clustering Frequency	5000-5500 Years	5000	Qinghai-Tibet Plateau Core	Western Highland	0.952
+Co-clustering Frequency	5000-5500 Years	5000	Sichuan Basin	Southern Segment	0.764
+Co-clustering Frequency	5000-5500 Years	5000	Sichuan Basin	Western Highland	0.35
+Co-clustering Frequency	5000-5500 Years	5000	Southern Segment	Western Highland	0.202
+Co-clustering Frequency	5500-6000 Years	5500	Central Segment	North China	0.442
+Co-clustering Frequency	5500-6000 Years	5500	Central Segment	Northern Segment	0.702
+Co-clustering Frequency	5500-6000 Years	5500	Central Segment	Panxi and Liangshan	0.702
+Co-clustering Frequency	5500-6000 Years	5500	Central Segment	Qinghai-Tibet Plateau Core	0.692
+Co-clustering Frequency	5500-6000 Years	5500	Central Segment	Sichuan Basin	0.472
+Co-clustering Frequency	5500-6000 Years	5500	Central Segment	Southern Segment	0.65
+Co-clustering Frequency	5500-6000 Years	5500	Central Segment	Western Highland	0.718
+Co-clustering Frequency	5500-6000 Years	5500	North China	Northern Segment	0.684
+Co-clustering Frequency	5500-6000 Years	5500	North China	Panxi and Liangshan	0.724
+Co-clustering Frequency	5500-6000 Years	5500	North China	Qinghai-Tibet Plateau Core	0.666
+Co-clustering Frequency	5500-6000 Years	5500	North China	Sichuan Basin	0.65
+Co-clustering Frequency	5500-6000 Years	5500	North China	Southern Segment	0.296
+Co-clustering Frequency	5500-6000 Years	5500	North China	Western Highland	0.612
+Co-clustering Frequency	5500-6000 Years	5500	Northern Segment	Panxi and Liangshan	0.904
+Co-clustering Frequency	5500-6000 Years	5500	Northern Segment	Qinghai-Tibet Plateau Core	0.862
+Co-clustering Frequency	5500-6000 Years	5500	Northern Segment	Sichuan Basin	0.718
+Co-clustering Frequency	5500-6000 Years	5500	Northern Segment	Southern Segment	0.548
+Co-clustering Frequency	5500-6000 Years	5500	Northern Segment	Western Highland	0.816
+Co-clustering Frequency	5500-6000 Years	5500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.91
+Co-clustering Frequency	5500-6000 Years	5500	Panxi and Liangshan	Sichuan Basin	0.738
+Co-clustering Frequency	5500-6000 Years	5500	Panxi and Liangshan	Southern Segment	0.556
+Co-clustering Frequency	5500-6000 Years	5500	Panxi and Liangshan	Western Highland	0.864
+Co-clustering Frequency	5500-6000 Years	5500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.696
+Co-clustering Frequency	5500-6000 Years	5500	Qinghai-Tibet Plateau Core	Southern Segment	0.562
+Co-clustering Frequency	5500-6000 Years	5500	Qinghai-Tibet Plateau Core	Western Highland	0.838
+Co-clustering Frequency	5500-6000 Years	5500	Sichuan Basin	Southern Segment	0.342
+Co-clustering Frequency	5500-6000 Years	5500	Sichuan Basin	Western Highland	0.642
+Co-clustering Frequency	5500-6000 Years	5500	Southern Segment	Western Highland	0.552
+Co-clustering Frequency	6000-6500 Years	6000	Central Segment	North China	0.63
+Co-clustering Frequency	6000-6500 Years	6000	Central Segment	Northern Segment	0.702
+Co-clustering Frequency	6000-6500 Years	6000	Central Segment	Panxi and Liangshan	0.696
+Co-clustering Frequency	6000-6500 Years	6000	Central Segment	Qinghai-Tibet Plateau Core	0.682
+Co-clustering Frequency	6000-6500 Years	6000	Central Segment	Sichuan Basin	0.192
+Co-clustering Frequency	6000-6500 Years	6000	Central Segment	Southern Segment	0.618
+Co-clustering Frequency	6000-6500 Years	6000	Central Segment	Western Highland	0.69
+Co-clustering Frequency	6000-6500 Years	6000	North China	Northern Segment	0.88
+Co-clustering Frequency	6000-6500 Years	6000	North China	Panxi and Liangshan	0.818
+Co-clustering Frequency	6000-6500 Years	6000	North China	Qinghai-Tibet Plateau Core	0.9
+Co-clustering Frequency	6000-6500 Years	6000	North China	Sichuan Basin	0.53
+Co-clustering Frequency	6000-6500 Years	6000	North China	Southern Segment	0.724
+Co-clustering Frequency	6000-6500 Years	6000	North China	Western Highland	0.84
+Co-clustering Frequency	6000-6500 Years	6000	Northern Segment	Panxi and Liangshan	0.838
+Co-clustering Frequency	6000-6500 Years	6000	Northern Segment	Qinghai-Tibet Plateau Core	0.896
+Co-clustering Frequency	6000-6500 Years	6000	Northern Segment	Sichuan Basin	0.438
+Co-clustering Frequency	6000-6500 Years	6000	Northern Segment	Southern Segment	0.756
+Co-clustering Frequency	6000-6500 Years	6000	Northern Segment	Western Highland	0.876
+Co-clustering Frequency	6000-6500 Years	6000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.822
+Co-clustering Frequency	6000-6500 Years	6000	Panxi and Liangshan	Sichuan Basin	0.38
+Co-clustering Frequency	6000-6500 Years	6000	Panxi and Liangshan	Southern Segment	0.674
+Co-clustering Frequency	6000-6500 Years	6000	Panxi and Liangshan	Western Highland	0.79
+Co-clustering Frequency	6000-6500 Years	6000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.482
+Co-clustering Frequency	6000-6500 Years	6000	Qinghai-Tibet Plateau Core	Southern Segment	0.764
+Co-clustering Frequency	6000-6500 Years	6000	Qinghai-Tibet Plateau Core	Western Highland	0.876
+Co-clustering Frequency	6000-6500 Years	6000	Sichuan Basin	Southern Segment	0.37
+Co-clustering Frequency	6000-6500 Years	6000	Sichuan Basin	Western Highland	0.426
+Co-clustering Frequency	6000-6500 Years	6000	Southern Segment	Western Highland	0.7
+Co-clustering Frequency	6500-7000 Years	6500	Central Segment	North China	0.628
+Co-clustering Frequency	6500-7000 Years	6500	Central Segment	Northern Segment	0.916
+Co-clustering Frequency	6500-7000 Years	6500	Central Segment	Panxi and Liangshan	0.74
+Co-clustering Frequency	6500-7000 Years	6500	Central Segment	Qinghai-Tibet Plateau Core	0.88
+Co-clustering Frequency	6500-7000 Years	6500	Central Segment	Sichuan Basin	0.172
+Co-clustering Frequency	6500-7000 Years	6500	Central Segment	Southern Segment	0.754
+Co-clustering Frequency	6500-7000 Years	6500	Central Segment	Western Highland	0.936
+Co-clustering Frequency	6500-7000 Years	6500	North China	Northern Segment	0.664
+Co-clustering Frequency	6500-7000 Years	6500	North China	Panxi and Liangshan	0.568
+Co-clustering Frequency	6500-7000 Years	6500	North China	Qinghai-Tibet Plateau Core	0.648
+Co-clustering Frequency	6500-7000 Years	6500	North China	Sichuan Basin	0.412
+Co-clustering Frequency	6500-7000 Years	6500	North China	Southern Segment	0.654
+Co-clustering Frequency	6500-7000 Years	6500	North China	Western Highland	0.612
+Co-clustering Frequency	6500-7000 Years	6500	Northern Segment	Panxi and Liangshan	0.716
+Co-clustering Frequency	6500-7000 Years	6500	Northern Segment	Qinghai-Tibet Plateau Core	0.852
+Co-clustering Frequency	6500-7000 Years	6500	Northern Segment	Sichuan Basin	0.192
+Co-clustering Frequency	6500-7000 Years	6500	Northern Segment	Southern Segment	0.73
+Co-clustering Frequency	6500-7000 Years	6500	Northern Segment	Western Highland	0.884
+Co-clustering Frequency	6500-7000 Years	6500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.684
+Co-clustering Frequency	6500-7000 Years	6500	Panxi and Liangshan	Sichuan Basin	0.336
+Co-clustering Frequency	6500-7000 Years	6500	Panxi and Liangshan	Southern Segment	0.694
+Co-clustering Frequency	6500-7000 Years	6500	Panxi and Liangshan	Western Highland	0.7
+Co-clustering Frequency	6500-7000 Years	6500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.18
+Co-clustering Frequency	6500-7000 Years	6500	Qinghai-Tibet Plateau Core	Southern Segment	0.702
+Co-clustering Frequency	6500-7000 Years	6500	Qinghai-Tibet Plateau Core	Western Highland	0.868
+Co-clustering Frequency	6500-7000 Years	6500	Sichuan Basin	Southern Segment	0.366
+Co-clustering Frequency	6500-7000 Years	6500	Sichuan Basin	Western Highland	0.152
+Co-clustering Frequency	6500-7000 Years	6500	Southern Segment	Western Highland	0.722
+Co-clustering Frequency	7000-7500 Years	7000	Central Segment	North China	0.528
+Co-clustering Frequency	7000-7500 Years	7000	Central Segment	Northern Segment	0.862
+Co-clustering Frequency	7000-7500 Years	7000	Central Segment	Panxi and Liangshan	0.818
+Co-clustering Frequency	7000-7500 Years	7000	Central Segment	Qinghai-Tibet Plateau Core	0.86
+Co-clustering Frequency	7000-7500 Years	7000	Central Segment	Sichuan Basin	0.382
+Co-clustering Frequency	7000-7500 Years	7000	Central Segment	Southern Segment	0.8
+Co-clustering Frequency	7000-7500 Years	7000	Central Segment	Western Highland	0.87
+Co-clustering Frequency	7000-7500 Years	7000	North China	Northern Segment	0.538
+Co-clustering Frequency	7000-7500 Years	7000	North China	Panxi and Liangshan	0.542
+Co-clustering Frequency	7000-7500 Years	7000	North China	Qinghai-Tibet Plateau Core	0.496
+Co-clustering Frequency	7000-7500 Years	7000	North China	Sichuan Basin	0.574
+Co-clustering Frequency	7000-7500 Years	7000	North China	Southern Segment	0.432
+Co-clustering Frequency	7000-7500 Years	7000	North China	Western Highland	0.474
+Co-clustering Frequency	7000-7500 Years	7000	Northern Segment	Panxi and Liangshan	0.784
+Co-clustering Frequency	7000-7500 Years	7000	Northern Segment	Qinghai-Tibet Plateau Core	0.85
+Co-clustering Frequency	7000-7500 Years	7000	Northern Segment	Sichuan Basin	0.38
+Co-clustering Frequency	7000-7500 Years	7000	Northern Segment	Southern Segment	0.774
+Co-clustering Frequency	7000-7500 Years	7000	Northern Segment	Western Highland	0.852
+Co-clustering Frequency	7000-7500 Years	7000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.786
+Co-clustering Frequency	7000-7500 Years	7000	Panxi and Liangshan	Sichuan Basin	0.476
+Co-clustering Frequency	7000-7500 Years	7000	Panxi and Liangshan	Southern Segment	0.722
+Co-clustering Frequency	7000-7500 Years	7000	Panxi and Liangshan	Western Highland	0.784
+Co-clustering Frequency	7000-7500 Years	7000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.366
+Co-clustering Frequency	7000-7500 Years	7000	Qinghai-Tibet Plateau Core	Southern Segment	0.76
+Co-clustering Frequency	7000-7500 Years	7000	Qinghai-Tibet Plateau Core	Western Highland	0.862
+Co-clustering Frequency	7000-7500 Years	7000	Sichuan Basin	Southern Segment	0.322
+Co-clustering Frequency	7000-7500 Years	7000	Sichuan Basin	Western Highland	0.336
+Co-clustering Frequency	7000-7500 Years	7000	Southern Segment	Western Highland	0.802
+Co-clustering Frequency	7500-8000 Years	7500	Central Segment	North China	0.712
+Co-clustering Frequency	7500-8000 Years	7500	Central Segment	Northern Segment	0.89
+Co-clustering Frequency	7500-8000 Years	7500	Central Segment	Panxi and Liangshan	0.942
+Co-clustering Frequency	7500-8000 Years	7500	Central Segment	Qinghai-Tibet Plateau Core	0.91
+Co-clustering Frequency	7500-8000 Years	7500	Central Segment	Sichuan Basin	0.668
+Co-clustering Frequency	7500-8000 Years	7500	Central Segment	Southern Segment	0.412
+Co-clustering Frequency	7500-8000 Years	7500	Central Segment	Western Highland	0.894
+Co-clustering Frequency	7500-8000 Years	7500	North China	Northern Segment	0.75
+Co-clustering Frequency	7500-8000 Years	7500	North China	Panxi and Liangshan	0.694
+Co-clustering Frequency	7500-8000 Years	7500	North China	Qinghai-Tibet Plateau Core	0.674
+Co-clustering Frequency	7500-8000 Years	7500	North China	Sichuan Basin	0.4
+Co-clustering Frequency	7500-8000 Years	7500	North China	Southern Segment	0.136
+Co-clustering Frequency	7500-8000 Years	7500	North China	Western Highland	0.626
+Co-clustering Frequency	7500-8000 Years	7500	Northern Segment	Panxi and Liangshan	0.864
+Co-clustering Frequency	7500-8000 Years	7500	Northern Segment	Qinghai-Tibet Plateau Core	0.86
+Co-clustering Frequency	7500-8000 Years	7500	Northern Segment	Sichuan Basin	0.606
+Co-clustering Frequency	7500-8000 Years	7500	Northern Segment	Southern Segment	0.358
+Co-clustering Frequency	7500-8000 Years	7500	Northern Segment	Western Highland	0.828
+Co-clustering Frequency	7500-8000 Years	7500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.896
+Co-clustering Frequency	7500-8000 Years	7500	Panxi and Liangshan	Sichuan Basin	0.646
+Co-clustering Frequency	7500-8000 Years	7500	Panxi and Liangshan	Southern Segment	0.398
+Co-clustering Frequency	7500-8000 Years	7500	Panxi and Liangshan	Western Highland	0.864
+Co-clustering Frequency	7500-8000 Years	7500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.638
+Co-clustering Frequency	7500-8000 Years	7500	Qinghai-Tibet Plateau Core	Southern Segment	0.422
+Co-clustering Frequency	7500-8000 Years	7500	Qinghai-Tibet Plateau Core	Western Highland	0.856
+Co-clustering Frequency	7500-8000 Years	7500	Sichuan Basin	Southern Segment	0.56
+Co-clustering Frequency	7500-8000 Years	7500	Sichuan Basin	Western Highland	0.654
+Co-clustering Frequency	7500-8000 Years	7500	Southern Segment	Western Highland	0.446
+Co-clustering Frequency	8000-8500 Years	8000	Central Segment	North China	0.71
+Co-clustering Frequency	8000-8500 Years	8000	Central Segment	Northern Segment	0.82
+Co-clustering Frequency	8000-8500 Years	8000	Central Segment	Panxi and Liangshan	0.706
+Co-clustering Frequency	8000-8500 Years	8000	Central Segment	Qinghai-Tibet Plateau Core	0.838
+Co-clustering Frequency	8000-8500 Years	8000	Central Segment	Sichuan Basin	0.492
+Co-clustering Frequency	8000-8500 Years	8000	Central Segment	Southern Segment	0.592
+Co-clustering Frequency	8000-8500 Years	8000	Central Segment	Western Highland	0.806
+Co-clustering Frequency	8000-8500 Years	8000	North China	Northern Segment	0.794
+Co-clustering Frequency	8000-8500 Years	8000	North China	Panxi and Liangshan	0.612
+Co-clustering Frequency	8000-8500 Years	8000	North China	Qinghai-Tibet Plateau Core	0.736
+Co-clustering Frequency	8000-8500 Years	8000	North China	Sichuan Basin	0.526
+Co-clustering Frequency	8000-8500 Years	8000	North China	Southern Segment	0.574
+Co-clustering Frequency	8000-8500 Years	8000	North China	Western Highland	0.68
+Co-clustering Frequency	8000-8500 Years	8000	Northern Segment	Panxi and Liangshan	0.694
+Co-clustering Frequency	8000-8500 Years	8000	Northern Segment	Qinghai-Tibet Plateau Core	0.854
+Co-clustering Frequency	8000-8500 Years	8000	Northern Segment	Sichuan Basin	0.528
+Co-clustering Frequency	8000-8500 Years	8000	Northern Segment	Southern Segment	0.6
+Co-clustering Frequency	8000-8500 Years	8000	Northern Segment	Western Highland	0.806
+Co-clustering Frequency	8000-8500 Years	8000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.716
+Co-clustering Frequency	8000-8500 Years	8000	Panxi and Liangshan	Sichuan Basin	0.422
+Co-clustering Frequency	8000-8500 Years	8000	Panxi and Liangshan	Southern Segment	0.486
+Co-clustering Frequency	8000-8500 Years	8000	Panxi and Liangshan	Western Highland	0.7
+Co-clustering Frequency	8000-8500 Years	8000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.49
+Co-clustering Frequency	8000-8500 Years	8000	Qinghai-Tibet Plateau Core	Southern Segment	0.578
+Co-clustering Frequency	8000-8500 Years	8000	Qinghai-Tibet Plateau Core	Western Highland	0.836
+Co-clustering Frequency	8000-8500 Years	8000	Sichuan Basin	Southern Segment	0.484
+Co-clustering Frequency	8000-8500 Years	8000	Sichuan Basin	Western Highland	0.47
+Co-clustering Frequency	8000-8500 Years	8000	Southern Segment	Western Highland	0.526
+Co-clustering Frequency	8500-9000 Years	8500	Central Segment	North China	0.592
+Co-clustering Frequency	8500-9000 Years	8500	Central Segment	Northern Segment	0.778
+Co-clustering Frequency	8500-9000 Years	8500	Central Segment	Panxi and Liangshan	0.836
+Co-clustering Frequency	8500-9000 Years	8500	Central Segment	Qinghai-Tibet Plateau Core	0.82
+Co-clustering Frequency	8500-9000 Years	8500	Central Segment	Sichuan Basin	0.604
+Co-clustering Frequency	8500-9000 Years	8500	Central Segment	Southern Segment	0.564
+Co-clustering Frequency	8500-9000 Years	8500	Central Segment	Western Highland	0.786
+Co-clustering Frequency	8500-9000 Years	8500	North China	Northern Segment	0.618
+Co-clustering Frequency	8500-9000 Years	8500	North China	Panxi and Liangshan	0.596
+Co-clustering Frequency	8500-9000 Years	8500	North China	Qinghai-Tibet Plateau Core	0.596
+Co-clustering Frequency	8500-9000 Years	8500	North China	Sichuan Basin	0.496
+Co-clustering Frequency	8500-9000 Years	8500	North China	Southern Segment	0.448
+Co-clustering Frequency	8500-9000 Years	8500	North China	Western Highland	0.59
+Co-clustering Frequency	8500-9000 Years	8500	Northern Segment	Panxi and Liangshan	0.79
+Co-clustering Frequency	8500-9000 Years	8500	Northern Segment	Qinghai-Tibet Plateau Core	0.782
+Co-clustering Frequency	8500-9000 Years	8500	Northern Segment	Sichuan Basin	0.626
+Co-clustering Frequency	8500-9000 Years	8500	Northern Segment	Southern Segment	0.586
+Co-clustering Frequency	8500-9000 Years	8500	Northern Segment	Western Highland	0.744
+Co-clustering Frequency	8500-9000 Years	8500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.84
+Co-clustering Frequency	8500-9000 Years	8500	Panxi and Liangshan	Sichuan Basin	0.624
+Co-clustering Frequency	8500-9000 Years	8500	Panxi and Liangshan	Southern Segment	0.552
+Co-clustering Frequency	8500-9000 Years	8500	Panxi and Liangshan	Western Highland	0.786
+Co-clustering Frequency	8500-9000 Years	8500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.624
+Co-clustering Frequency	8500-9000 Years	8500	Qinghai-Tibet Plateau Core	Southern Segment	0.568
+Co-clustering Frequency	8500-9000 Years	8500	Qinghai-Tibet Plateau Core	Western Highland	0.782
+Co-clustering Frequency	8500-9000 Years	8500	Sichuan Basin	Southern Segment	0.5
+Co-clustering Frequency	8500-9000 Years	8500	Sichuan Basin	Western Highland	0.594
+Co-clustering Frequency	8500-9000 Years	8500	Southern Segment	Western Highland	0.518
+Co-clustering Frequency	9000-9500 Years	9000	Central Segment	North China	0.942
+Co-clustering Frequency	9000-9500 Years	9000	Central Segment	Northern Segment	0.936
+Co-clustering Frequency	9000-9500 Years	9000	Central Segment	Panxi and Liangshan	0.99
+Co-clustering Frequency	9000-9500 Years	9000	Central Segment	Qinghai-Tibet Plateau Core	0.968
+Co-clustering Frequency	9000-9500 Years	9000	Central Segment	Sichuan Basin	0.388
+Co-clustering Frequency	9000-9500 Years	9000	Central Segment	Southern Segment	0.202
+Co-clustering Frequency	9000-9500 Years	9000	Central Segment	Western Highland	0.97
+Co-clustering Frequency	9000-9500 Years	9000	North China	Northern Segment	0.89
+Co-clustering Frequency	9000-9500 Years	9000	North China	Panxi and Liangshan	0.936
+Co-clustering Frequency	9000-9500 Years	9000	North China	Qinghai-Tibet Plateau Core	0.918
+Co-clustering Frequency	9000-9500 Years	9000	North China	Sichuan Basin	0.394
+Co-clustering Frequency	9000-9500 Years	9000	North China	Southern Segment	0.228
+Co-clustering Frequency	9000-9500 Years	9000	North China	Western Highland	0.916
+Co-clustering Frequency	9000-9500 Years	9000	Northern Segment	Panxi and Liangshan	0.934
+Co-clustering Frequency	9000-9500 Years	9000	Northern Segment	Qinghai-Tibet Plateau Core	0.924
+Co-clustering Frequency	9000-9500 Years	9000	Northern Segment	Sichuan Basin	0.408
+Co-clustering Frequency	9000-9500 Years	9000	Northern Segment	Southern Segment	0.258
+Co-clustering Frequency	9000-9500 Years	9000	Northern Segment	Western Highland	0.914
+Co-clustering Frequency	9000-9500 Years	9000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.962
+Co-clustering Frequency	9000-9500 Years	9000	Panxi and Liangshan	Sichuan Basin	0.382
+Co-clustering Frequency	9000-9500 Years	9000	Panxi and Liangshan	Southern Segment	0.2
+Co-clustering Frequency	9000-9500 Years	9000	Panxi and Liangshan	Western Highland	0.964
+Co-clustering Frequency	9000-9500 Years	9000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.392
+Co-clustering Frequency	9000-9500 Years	9000	Qinghai-Tibet Plateau Core	Southern Segment	0.218
+Co-clustering Frequency	9000-9500 Years	9000	Qinghai-Tibet Plateau Core	Western Highland	0.942
+Co-clustering Frequency	9000-9500 Years	9000	Sichuan Basin	Southern Segment	0.466
+Co-clustering Frequency	9000-9500 Years	9000	Sichuan Basin	Western Highland	0.39
+Co-clustering Frequency	9000-9500 Years	9000	Southern Segment	Western Highland	0.212
+Co-clustering Frequency	9500-10000 Years	9500	Central Segment	North China	0.248
+Co-clustering Frequency	9500-10000 Years	9500	Central Segment	Northern Segment	0.238
+Co-clustering Frequency	9500-10000 Years	9500	Central Segment	Panxi and Liangshan	0.394
+Co-clustering Frequency	9500-10000 Years	9500	Central Segment	Qinghai-Tibet Plateau Core	0.35
+Co-clustering Frequency	9500-10000 Years	9500	Central Segment	Sichuan Basin	0.056
+Co-clustering Frequency	9500-10000 Years	9500	Central Segment	Western Highland	0.38
+Co-clustering Frequency	9500-10000 Years	9500	North China	Northern Segment	0.216
+Co-clustering Frequency	9500-10000 Years	9500	North China	Panxi and Liangshan	0.148
+Co-clustering Frequency	9500-10000 Years	9500	North China	Qinghai-Tibet Plateau Core	0.192
+Co-clustering Frequency	9500-10000 Years	9500	North China	Sichuan Basin	0.126
+Co-clustering Frequency	9500-10000 Years	9500	North China	Western Highland	0.194
+Co-clustering Frequency	9500-10000 Years	9500	Northern Segment	Panxi and Liangshan	0.142
+Co-clustering Frequency	9500-10000 Years	9500	Northern Segment	Qinghai-Tibet Plateau Core	0.288
+Co-clustering Frequency	9500-10000 Years	9500	Northern Segment	Sichuan Basin	0.074
+Co-clustering Frequency	9500-10000 Years	9500	Northern Segment	Western Highland	0.262
+Co-clustering Frequency	9500-10000 Years	9500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.276
+Co-clustering Frequency	9500-10000 Years	9500	Panxi and Liangshan	Sichuan Basin	0.052
+Co-clustering Frequency	9500-10000 Years	9500	Panxi and Liangshan	Western Highland	0.276
+Co-clustering Frequency	9500-10000 Years	9500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.058
+Co-clustering Frequency	9500-10000 Years	9500	Qinghai-Tibet Plateau Core	Western Highland	0.34
+Co-clustering Frequency	9500-10000 Years	9500	Sichuan Basin	Western Highland	0.048
+Co-clustering Frequency	10000-10500 Years	10000	Central Segment	North China	0.816
+Co-clustering Frequency	10000-10500 Years	10000	Central Segment	Northern Segment	0.894
+Co-clustering Frequency	10000-10500 Years	10000	Central Segment	Panxi and Liangshan	0.91
+Co-clustering Frequency	10000-10500 Years	10000	Central Segment	Qinghai-Tibet Plateau Core	0.924
+Co-clustering Frequency	10000-10500 Years	10000	Central Segment	Sichuan Basin	0.222
+Co-clustering Frequency	10000-10500 Years	10000	Central Segment	Western Highland	0.904
+Co-clustering Frequency	10000-10500 Years	10000	North China	Northern Segment	0.75
+Co-clustering Frequency	10000-10500 Years	10000	North China	Panxi and Liangshan	0.766
+Co-clustering Frequency	10000-10500 Years	10000	North China	Qinghai-Tibet Plateau Core	0.788
+Co-clustering Frequency	10000-10500 Years	10000	North China	Sichuan Basin	0.27
+Co-clustering Frequency	10000-10500 Years	10000	North China	Western Highland	0.768
+Co-clustering Frequency	10000-10500 Years	10000	Northern Segment	Panxi and Liangshan	0.828
+Co-clustering Frequency	10000-10500 Years	10000	Northern Segment	Qinghai-Tibet Plateau Core	0.894
+Co-clustering Frequency	10000-10500 Years	10000	Northern Segment	Sichuan Basin	0.144
+Co-clustering Frequency	10000-10500 Years	10000	Northern Segment	Western Highland	0.87
+Co-clustering Frequency	10000-10500 Years	10000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.878
+Co-clustering Frequency	10000-10500 Years	10000	Panxi and Liangshan	Sichuan Basin	0.228
+Co-clustering Frequency	10000-10500 Years	10000	Panxi and Liangshan	Western Highland	0.854
+Co-clustering Frequency	10000-10500 Years	10000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.186
+Co-clustering Frequency	10000-10500 Years	10000	Qinghai-Tibet Plateau Core	Western Highland	0.884
+Co-clustering Frequency	10000-10500 Years	10000	Sichuan Basin	Western Highland	0.154
+Co-clustering Frequency	10500-11000 Years	10500	Central Segment	North China	0.638
+Co-clustering Frequency	10500-11000 Years	10500	Central Segment	Northern Segment	0.74
+Co-clustering Frequency	10500-11000 Years	10500	Central Segment	Panxi and Liangshan	0.896
+Co-clustering Frequency	10500-11000 Years	10500	Central Segment	Qinghai-Tibet Plateau Core	0.772
+Co-clustering Frequency	10500-11000 Years	10500	Central Segment	Sichuan Basin	0.44
+Co-clustering Frequency	10500-11000 Years	10500	Central Segment	Western Highland	0.78
+Co-clustering Frequency	10500-11000 Years	10500	North China	Northern Segment	0.598
+Co-clustering Frequency	10500-11000 Years	10500	North China	Panxi and Liangshan	0.662
+Co-clustering Frequency	10500-11000 Years	10500	North China	Qinghai-Tibet Plateau Core	0.63
+Co-clustering Frequency	10500-11000 Years	10500	North China	Sichuan Basin	0.414
+Co-clustering Frequency	10500-11000 Years	10500	North China	Western Highland	0.65
+Co-clustering Frequency	10500-11000 Years	10500	Northern Segment	Panxi and Liangshan	0.776
+Co-clustering Frequency	10500-11000 Years	10500	Northern Segment	Qinghai-Tibet Plateau Core	0.728
+Co-clustering Frequency	10500-11000 Years	10500	Northern Segment	Sichuan Basin	0.352
+Co-clustering Frequency	10500-11000 Years	10500	Northern Segment	Western Highland	0.712
+Co-clustering Frequency	10500-11000 Years	10500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.812
+Co-clustering Frequency	10500-11000 Years	10500	Panxi and Liangshan	Sichuan Basin	0.444
+Co-clustering Frequency	10500-11000 Years	10500	Panxi and Liangshan	Western Highland	0.808
+Co-clustering Frequency	10500-11000 Years	10500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.376
+Co-clustering Frequency	10500-11000 Years	10500	Qinghai-Tibet Plateau Core	Western Highland	0.74
+Co-clustering Frequency	10500-11000 Years	10500	Sichuan Basin	Western Highland	0.388
+Co-clustering Frequency	11000-11500 Years	11000	Central Segment	North China	0.814
+Co-clustering Frequency	11000-11500 Years	11000	Central Segment	Northern Segment	0.838
+Co-clustering Frequency	11000-11500 Years	11000	Central Segment	Panxi and Liangshan	0.834
+Co-clustering Frequency	11000-11500 Years	11000	Central Segment	Qinghai-Tibet Plateau Core	0.866
+Co-clustering Frequency	11000-11500 Years	11000	Central Segment	Sichuan Basin	0.186
+Co-clustering Frequency	11000-11500 Years	11000	Central Segment	Western Highland	0.858
+Co-clustering Frequency	11000-11500 Years	11000	North China	Northern Segment	0.784
+Co-clustering Frequency	11000-11500 Years	11000	North China	Panxi and Liangshan	0.796
+Co-clustering Frequency	11000-11500 Years	11000	North China	Qinghai-Tibet Plateau Core	0.848
+Co-clustering Frequency	11000-11500 Years	11000	North China	Sichuan Basin	0.28
+Co-clustering Frequency	11000-11500 Years	11000	North China	Western Highland	0.824
+Co-clustering Frequency	11000-11500 Years	11000	Northern Segment	Panxi and Liangshan	0.792
+Co-clustering Frequency	11000-11500 Years	11000	Northern Segment	Qinghai-Tibet Plateau Core	0.856
+Co-clustering Frequency	11000-11500 Years	11000	Northern Segment	Sichuan Basin	0.112
+Co-clustering Frequency	11000-11500 Years	11000	Northern Segment	Western Highland	0.828
+Co-clustering Frequency	11000-11500 Years	11000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.832
+Co-clustering Frequency	11000-11500 Years	11000	Panxi and Liangshan	Sichuan Basin	0.212
+Co-clustering Frequency	11000-11500 Years	11000	Panxi and Liangshan	Western Highland	0.836
+Co-clustering Frequency	11000-11500 Years	11000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.212
+Co-clustering Frequency	11000-11500 Years	11000	Qinghai-Tibet Plateau Core	Western Highland	0.864
+Co-clustering Frequency	11000-11500 Years	11000	Sichuan Basin	Western Highland	0.244
+Co-clustering Frequency	11500-12000 Years	11500	Central Segment	North China	0.488
+Co-clustering Frequency	11500-12000 Years	11500	Central Segment	Northern Segment	0.662
+Co-clustering Frequency	11500-12000 Years	11500	Central Segment	Panxi and Liangshan	0.636
+Co-clustering Frequency	11500-12000 Years	11500	Central Segment	Qinghai-Tibet Plateau Core	0.672
+Co-clustering Frequency	11500-12000 Years	11500	Central Segment	Western Highland	0.694
+Co-clustering Frequency	11500-12000 Years	11500	North China	Northern Segment	0.386
+Co-clustering Frequency	11500-12000 Years	11500	North China	Panxi and Liangshan	0.504
+Co-clustering Frequency	11500-12000 Years	11500	North China	Qinghai-Tibet Plateau Core	0.484
+Co-clustering Frequency	11500-12000 Years	11500	North China	Western Highland	0.498
+Co-clustering Frequency	11500-12000 Years	11500	Northern Segment	Panxi and Liangshan	0.53
+Co-clustering Frequency	11500-12000 Years	11500	Northern Segment	Qinghai-Tibet Plateau Core	0.626
+Co-clustering Frequency	11500-12000 Years	11500	Northern Segment	Western Highland	0.592
+Co-clustering Frequency	11500-12000 Years	11500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.616
+Co-clustering Frequency	11500-12000 Years	11500	Panxi and Liangshan	Western Highland	0.606
+Co-clustering Frequency	11500-12000 Years	11500	Qinghai-Tibet Plateau Core	Western Highland	0.638
+Co-clustering Frequency	12000-12500 Years	12000	Central Segment	North China	0.418
+Co-clustering Frequency	12000-12500 Years	12000	Central Segment	Northern Segment	0.542
+Co-clustering Frequency	12000-12500 Years	12000	Central Segment	Panxi and Liangshan	0.678
+Co-clustering Frequency	12000-12500 Years	12000	Central Segment	Qinghai-Tibet Plateau Core	0.576
+Co-clustering Frequency	12000-12500 Years	12000	Central Segment	Western Highland	0.55
+Co-clustering Frequency	12000-12500 Years	12000	North China	Northern Segment	0.504
+Co-clustering Frequency	12000-12500 Years	12000	North China	Panxi and Liangshan	0.568
+Co-clustering Frequency	12000-12500 Years	12000	North China	Qinghai-Tibet Plateau Core	0.474
+Co-clustering Frequency	12000-12500 Years	12000	North China	Western Highland	0.508
+Co-clustering Frequency	12000-12500 Years	12000	Northern Segment	Panxi and Liangshan	0.708
+Co-clustering Frequency	12000-12500 Years	12000	Northern Segment	Qinghai-Tibet Plateau Core	0.59
+Co-clustering Frequency	12000-12500 Years	12000	Northern Segment	Western Highland	0.608
+Co-clustering Frequency	12000-12500 Years	12000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.714
+Co-clustering Frequency	12000-12500 Years	12000	Panxi and Liangshan	Western Highland	0.756
+Co-clustering Frequency	12000-12500 Years	12000	Qinghai-Tibet Plateau Core	Western Highland	0.626
+Co-clustering Frequency	12500-13000 Years	12500	Central Segment	North China	0.552
+Co-clustering Frequency	12500-13000 Years	12500	Central Segment	Northern Segment	0.652
+Co-clustering Frequency	12500-13000 Years	12500	Central Segment	Panxi and Liangshan	0.726
+Co-clustering Frequency	12500-13000 Years	12500	Central Segment	Qinghai-Tibet Plateau Core	0.642
+Co-clustering Frequency	12500-13000 Years	12500	Central Segment	Western Highland	0.618
+Co-clustering Frequency	12500-13000 Years	12500	North China	Northern Segment	0.544
+Co-clustering Frequency	12500-13000 Years	12500	North China	Panxi and Liangshan	0.478
+Co-clustering Frequency	12500-13000 Years	12500	North China	Qinghai-Tibet Plateau Core	0.51
+Co-clustering Frequency	12500-13000 Years	12500	North China	Western Highland	0.506
+Co-clustering Frequency	12500-13000 Years	12500	Northern Segment	Panxi and Liangshan	0.57
+Co-clustering Frequency	12500-13000 Years	12500	Northern Segment	Qinghai-Tibet Plateau Core	0.546
+Co-clustering Frequency	12500-13000 Years	12500	Northern Segment	Western Highland	0.598
+Co-clustering Frequency	12500-13000 Years	12500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.584
+Co-clustering Frequency	12500-13000 Years	12500	Panxi and Liangshan	Western Highland	0.564
+Co-clustering Frequency	12500-13000 Years	12500	Qinghai-Tibet Plateau Core	Western Highland	0.556
+Co-clustering Frequency	13000-13500 Years	13000	Central Segment	North China	0.584
+Co-clustering Frequency	13000-13500 Years	13000	Central Segment	Northern Segment	0.662
+Co-clustering Frequency	13000-13500 Years	13000	Central Segment	Panxi and Liangshan	0.5
+Co-clustering Frequency	13000-13500 Years	13000	Central Segment	Qinghai-Tibet Plateau Core	0.678
+Co-clustering Frequency	13000-13500 Years	13000	Central Segment	Western Highland	0.64
+Co-clustering Frequency	13000-13500 Years	13000	North China	Northern Segment	0.594
+Co-clustering Frequency	13000-13500 Years	13000	North China	Panxi and Liangshan	0.428
+Co-clustering Frequency	13000-13500 Years	13000	North China	Qinghai-Tibet Plateau Core	0.59
+Co-clustering Frequency	13000-13500 Years	13000	North China	Western Highland	0.568
+Co-clustering Frequency	13000-13500 Years	13000	Northern Segment	Panxi and Liangshan	0.494
+Co-clustering Frequency	13000-13500 Years	13000	Northern Segment	Qinghai-Tibet Plateau Core	0.692
+Co-clustering Frequency	13000-13500 Years	13000	Northern Segment	Western Highland	0.674
+Co-clustering Frequency	13000-13500 Years	13000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.486
+Co-clustering Frequency	13000-13500 Years	13000	Panxi and Liangshan	Western Highland	0.512
+Co-clustering Frequency	13000-13500 Years	13000	Qinghai-Tibet Plateau Core	Western Highland	0.682
+Co-clustering Frequency	13500-14000 Years	13500	Central Segment	North China	0.502
+Co-clustering Frequency	13500-14000 Years	13500	Central Segment	Northern Segment	0.604
+Co-clustering Frequency	13500-14000 Years	13500	Central Segment	Panxi and Liangshan	0.66
+Co-clustering Frequency	13500-14000 Years	13500	Central Segment	Qinghai-Tibet Plateau Core	0.608
+Co-clustering Frequency	13500-14000 Years	13500	Central Segment	Western Highland	0.628
+Co-clustering Frequency	13500-14000 Years	13500	North China	Northern Segment	0.506
+Co-clustering Frequency	13500-14000 Years	13500	North China	Panxi and Liangshan	0.502
+Co-clustering Frequency	13500-14000 Years	13500	North China	Qinghai-Tibet Plateau Core	0.494
+Co-clustering Frequency	13500-14000 Years	13500	North China	Western Highland	0.538
+Co-clustering Frequency	13500-14000 Years	13500	Northern Segment	Panxi and Liangshan	0.62
+Co-clustering Frequency	13500-14000 Years	13500	Northern Segment	Qinghai-Tibet Plateau Core	0.592
+Co-clustering Frequency	13500-14000 Years	13500	Northern Segment	Western Highland	0.636
+Co-clustering Frequency	13500-14000 Years	13500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.596
+Co-clustering Frequency	13500-14000 Years	13500	Panxi and Liangshan	Western Highland	0.668
+Co-clustering Frequency	13500-14000 Years	13500	Qinghai-Tibet Plateau Core	Western Highland	0.608
+Co-clustering Frequency	14000-14500 Years	14000	Central Segment	North China	0.178
+Co-clustering Frequency	14000-14500 Years	14000	Central Segment	Northern Segment	0.264
+Co-clustering Frequency	14000-14500 Years	14000	Central Segment	Panxi and Liangshan	0.456
+Co-clustering Frequency	14000-14500 Years	14000	Central Segment	Qinghai-Tibet Plateau Core	0.326
+Co-clustering Frequency	14000-14500 Years	14000	Central Segment	Western Highland	0.318
+Co-clustering Frequency	14000-14500 Years	14000	North China	Northern Segment	0.27
+Co-clustering Frequency	14000-14500 Years	14000	North China	Panxi and Liangshan	0.208
+Co-clustering Frequency	14000-14500 Years	14000	North China	Qinghai-Tibet Plateau Core	0.276
+Co-clustering Frequency	14000-14500 Years	14000	North China	Western Highland	0.222
+Co-clustering Frequency	14000-14500 Years	14000	Northern Segment	Panxi and Liangshan	0.328
+Co-clustering Frequency	14000-14500 Years	14000	Northern Segment	Qinghai-Tibet Plateau Core	0.338
+Co-clustering Frequency	14000-14500 Years	14000	Northern Segment	Western Highland	0.344
+Co-clustering Frequency	14000-14500 Years	14000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.362
+Co-clustering Frequency	14000-14500 Years	14000	Panxi and Liangshan	Western Highland	0.372
+Co-clustering Frequency	14000-14500 Years	14000	Qinghai-Tibet Plateau Core	Western Highland	0.364
+Co-clustering Frequency	14500-15000 Years	14500	Central Segment	North China	0.388
+Co-clustering Frequency	14500-15000 Years	14500	Central Segment	Northern Segment	0.638
+Co-clustering Frequency	14500-15000 Years	14500	Central Segment	Panxi and Liangshan	0.614
+Co-clustering Frequency	14500-15000 Years	14500	Central Segment	Qinghai-Tibet Plateau Core	0.688
+Co-clustering Frequency	14500-15000 Years	14500	Central Segment	Western Highland	0.702
+Co-clustering Frequency	14500-15000 Years	14500	North China	Northern Segment	0.55
+Co-clustering Frequency	14500-15000 Years	14500	North China	Panxi and Liangshan	0.31
+Co-clustering Frequency	14500-15000 Years	14500	North China	Qinghai-Tibet Plateau Core	0.492
+Co-clustering Frequency	14500-15000 Years	14500	North China	Western Highland	0.43
+Co-clustering Frequency	14500-15000 Years	14500	Northern Segment	Panxi and Liangshan	0.54
+Co-clustering Frequency	14500-15000 Years	14500	Northern Segment	Qinghai-Tibet Plateau Core	0.706
+Co-clustering Frequency	14500-15000 Years	14500	Northern Segment	Western Highland	0.688
+Co-clustering Frequency	14500-15000 Years	14500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.602
+Co-clustering Frequency	14500-15000 Years	14500	Panxi and Liangshan	Western Highland	0.604
+Co-clustering Frequency	14500-15000 Years	14500	Qinghai-Tibet Plateau Core	Western Highland	0.694
+Co-clustering Frequency	15000-15500 Years	15000	Central Segment	North China	0.44
+Co-clustering Frequency	15000-15500 Years	15000	Central Segment	Northern Segment	0.646
+Co-clustering Frequency	15000-15500 Years	15000	Central Segment	Panxi and Liangshan	0.7
+Co-clustering Frequency	15000-15500 Years	15000	Central Segment	Qinghai-Tibet Plateau Core	0.666
+Co-clustering Frequency	15000-15500 Years	15000	Central Segment	Western Highland	0.714
+Co-clustering Frequency	15000-15500 Years	15000	North China	Northern Segment	0.526
+Co-clustering Frequency	15000-15500 Years	15000	North China	Panxi and Liangshan	0.364
+Co-clustering Frequency	15000-15500 Years	15000	North China	Qinghai-Tibet Plateau Core	0.494
+Co-clustering Frequency	15000-15500 Years	15000	North China	Western Highland	0.454
+Co-clustering Frequency	15000-15500 Years	15000	Northern Segment	Panxi and Liangshan	0.538
+Co-clustering Frequency	15000-15500 Years	15000	Northern Segment	Qinghai-Tibet Plateau Core	0.636
+Co-clustering Frequency	15000-15500 Years	15000	Northern Segment	Western Highland	0.632
+Co-clustering Frequency	15000-15500 Years	15000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.578
+Co-clustering Frequency	15000-15500 Years	15000	Panxi and Liangshan	Western Highland	0.626
+Co-clustering Frequency	15000-15500 Years	15000	Qinghai-Tibet Plateau Core	Western Highland	0.656
+Co-clustering Frequency	15500-16000 Years	15500	Central Segment	North China	0.18
+Co-clustering Frequency	15500-16000 Years	15500	Central Segment	Northern Segment	0.304
+Co-clustering Frequency	15500-16000 Years	15500	Central Segment	Panxi and Liangshan	0.346
+Co-clustering Frequency	15500-16000 Years	15500	Central Segment	Qinghai-Tibet Plateau Core	0.286
+Co-clustering Frequency	15500-16000 Years	15500	Central Segment	Western Highland	0.268
+Co-clustering Frequency	15500-16000 Years	15500	North China	Northern Segment	0.3
+Co-clustering Frequency	15500-16000 Years	15500	North China	Panxi and Liangshan	0.232
+Co-clustering Frequency	15500-16000 Years	15500	North China	Qinghai-Tibet Plateau Core	0.258
+Co-clustering Frequency	15500-16000 Years	15500	North China	Western Highland	0.244
+Co-clustering Frequency	15500-16000 Years	15500	Northern Segment	Panxi and Liangshan	0.422
+Co-clustering Frequency	15500-16000 Years	15500	Northern Segment	Qinghai-Tibet Plateau Core	0.408
+Co-clustering Frequency	15500-16000 Years	15500	Northern Segment	Western Highland	0.376
+Co-clustering Frequency	15500-16000 Years	15500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.364
+Co-clustering Frequency	15500-16000 Years	15500	Panxi and Liangshan	Western Highland	0.36
+Co-clustering Frequency	15500-16000 Years	15500	Qinghai-Tibet Plateau Core	Western Highland	0.358
+Co-clustering Frequency	16000-16500 Years	16000	Central Segment	North China	0.394
+Co-clustering Frequency	16000-16500 Years	16000	Central Segment	Northern Segment	0.626
+Co-clustering Frequency	16000-16500 Years	16000	Central Segment	Panxi and Liangshan	0.6
+Co-clustering Frequency	16000-16500 Years	16000	Central Segment	Qinghai-Tibet Plateau Core	0.67
+Co-clustering Frequency	16000-16500 Years	16000	Central Segment	Western Highland	0.668
+Co-clustering Frequency	16000-16500 Years	16000	North China	Northern Segment	0.424
+Co-clustering Frequency	16000-16500 Years	16000	North China	Panxi and Liangshan	0.402
+Co-clustering Frequency	16000-16500 Years	16000	North China	Qinghai-Tibet Plateau Core	0.5
+Co-clustering Frequency	16000-16500 Years	16000	North China	Western Highland	0.494
+Co-clustering Frequency	16000-16500 Years	16000	Northern Segment	Panxi and Liangshan	0.594
+Co-clustering Frequency	16000-16500 Years	16000	Northern Segment	Qinghai-Tibet Plateau Core	0.692
+Co-clustering Frequency	16000-16500 Years	16000	Northern Segment	Western Highland	0.662
+Co-clustering Frequency	16000-16500 Years	16000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.674
+Co-clustering Frequency	16000-16500 Years	16000	Panxi and Liangshan	Western Highland	0.612
+Co-clustering Frequency	16000-16500 Years	16000	Qinghai-Tibet Plateau Core	Western Highland	0.758
+Co-clustering Frequency	16500-17000 Years	16500	Central Segment	North China	0.13
+Co-clustering Frequency	16500-17000 Years	16500	Central Segment	Northern Segment	0.164
+Co-clustering Frequency	16500-17000 Years	16500	Central Segment	Panxi and Liangshan	0.124
+Co-clustering Frequency	16500-17000 Years	16500	Central Segment	Qinghai-Tibet Plateau Core	0.152
+Co-clustering Frequency	16500-17000 Years	16500	Central Segment	Western Highland	0.162
+Co-clustering Frequency	16500-17000 Years	16500	North China	Northern Segment	0.17
+Co-clustering Frequency	16500-17000 Years	16500	North China	Panxi and Liangshan	0.12
+Co-clustering Frequency	16500-17000 Years	16500	North China	Qinghai-Tibet Plateau Core	0.098
+Co-clustering Frequency	16500-17000 Years	16500	North China	Western Highland	0.116
+Co-clustering Frequency	16500-17000 Years	16500	Northern Segment	Panxi and Liangshan	0.188
+Co-clustering Frequency	16500-17000 Years	16500	Northern Segment	Qinghai-Tibet Plateau Core	0.234
+Co-clustering Frequency	16500-17000 Years	16500	Northern Segment	Western Highland	0.208
+Co-clustering Frequency	16500-17000 Years	16500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.178
+Co-clustering Frequency	16500-17000 Years	16500	Panxi and Liangshan	Western Highland	0.18
+Co-clustering Frequency	16500-17000 Years	16500	Qinghai-Tibet Plateau Core	Western Highland	0.196
+Co-clustering Frequency	17000-17500 Years	17000	Central Segment	North China	0.374
+Co-clustering Frequency	17000-17500 Years	17000	Central Segment	Northern Segment	0.554
+Co-clustering Frequency	17000-17500 Years	17000	Central Segment	Panxi and Liangshan	0.692
+Co-clustering Frequency	17000-17500 Years	17000	Central Segment	Qinghai-Tibet Plateau Core	0.628
+Co-clustering Frequency	17000-17500 Years	17000	Central Segment	Western Highland	0.64
+Co-clustering Frequency	17000-17500 Years	17000	North China	Northern Segment	0.4
+Co-clustering Frequency	17000-17500 Years	17000	North China	Panxi and Liangshan	0.442
+Co-clustering Frequency	17000-17500 Years	17000	North China	Qinghai-Tibet Plateau Core	0.386
+Co-clustering Frequency	17000-17500 Years	17000	North China	Western Highland	0.422
+Co-clustering Frequency	17000-17500 Years	17000	Northern Segment	Panxi and Liangshan	0.662
+Co-clustering Frequency	17000-17500 Years	17000	Northern Segment	Qinghai-Tibet Plateau Core	0.638
+Co-clustering Frequency	17000-17500 Years	17000	Northern Segment	Western Highland	0.638
+Co-clustering Frequency	17000-17500 Years	17000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.8
+Co-clustering Frequency	17000-17500 Years	17000	Panxi and Liangshan	Western Highland	0.788
+Co-clustering Frequency	17000-17500 Years	17000	Qinghai-Tibet Plateau Core	Western Highland	0.736
+Co-clustering Frequency	17500-18000 Years	17500	Central Segment	North China	0.526
+Co-clustering Frequency	17500-18000 Years	17500	Central Segment	Northern Segment	0.688
+Co-clustering Frequency	17500-18000 Years	17500	Central Segment	Panxi and Liangshan	0.652
+Co-clustering Frequency	17500-18000 Years	17500	Central Segment	Qinghai-Tibet Plateau Core	0.692
+Co-clustering Frequency	17500-18000 Years	17500	Central Segment	Western Highland	0.618
+Co-clustering Frequency	17500-18000 Years	17500	North China	Northern Segment	0.566
+Co-clustering Frequency	17500-18000 Years	17500	North China	Panxi and Liangshan	0.466
+Co-clustering Frequency	17500-18000 Years	17500	North China	Qinghai-Tibet Plateau Core	0.51
+Co-clustering Frequency	17500-18000 Years	17500	North China	Western Highland	0.468
+Co-clustering Frequency	17500-18000 Years	17500	Northern Segment	Panxi and Liangshan	0.588
+Co-clustering Frequency	17500-18000 Years	17500	Northern Segment	Qinghai-Tibet Plateau Core	0.636
+Co-clustering Frequency	17500-18000 Years	17500	Northern Segment	Western Highland	0.602
+Co-clustering Frequency	17500-18000 Years	17500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.576
+Co-clustering Frequency	17500-18000 Years	17500	Panxi and Liangshan	Western Highland	0.494
+Co-clustering Frequency	17500-18000 Years	17500	Qinghai-Tibet Plateau Core	Western Highland	0.598
+Co-clustering Frequency	18000-18500 Years	18000	Central Segment	North China	0.196
+Co-clustering Frequency	18000-18500 Years	18000	Central Segment	Northern Segment	0.39
+Co-clustering Frequency	18000-18500 Years	18000	Central Segment	Panxi and Liangshan	0.272
+Co-clustering Frequency	18000-18500 Years	18000	Central Segment	Qinghai-Tibet Plateau Core	0.382
+Co-clustering Frequency	18000-18500 Years	18000	Central Segment	Western Highland	0.374
+Co-clustering Frequency	18000-18500 Years	18000	North China	Northern Segment	0.226
+Co-clustering Frequency	18000-18500 Years	18000	North China	Panxi and Liangshan	0.222
+Co-clustering Frequency	18000-18500 Years	18000	North China	Qinghai-Tibet Plateau Core	0.222
+Co-clustering Frequency	18000-18500 Years	18000	North China	Western Highland	0.204
+Co-clustering Frequency	18000-18500 Years	18000	Northern Segment	Panxi and Liangshan	0.31
+Co-clustering Frequency	18000-18500 Years	18000	Northern Segment	Qinghai-Tibet Plateau Core	0.352
+Co-clustering Frequency	18000-18500 Years	18000	Northern Segment	Western Highland	0.398
+Co-clustering Frequency	18000-18500 Years	18000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.342
+Co-clustering Frequency	18000-18500 Years	18000	Panxi and Liangshan	Western Highland	0.324
+Co-clustering Frequency	18000-18500 Years	18000	Qinghai-Tibet Plateau Core	Western Highland	0.43
+Co-clustering Frequency	18500-19000 Years	18500	Central Segment	North China	0.54
+Co-clustering Frequency	18500-19000 Years	18500	Central Segment	Northern Segment	0.6
+Co-clustering Frequency	18500-19000 Years	18500	Central Segment	Qinghai-Tibet Plateau Core	0.556
+Co-clustering Frequency	18500-19000 Years	18500	Central Segment	Western Highland	0.622
+Co-clustering Frequency	18500-19000 Years	18500	North China	Northern Segment	0.448
+Co-clustering Frequency	18500-19000 Years	18500	North China	Qinghai-Tibet Plateau Core	0.448
+Co-clustering Frequency	18500-19000 Years	18500	North China	Western Highland	0.47
+Co-clustering Frequency	18500-19000 Years	18500	Northern Segment	Qinghai-Tibet Plateau Core	0.524
+Co-clustering Frequency	18500-19000 Years	18500	Northern Segment	Western Highland	0.55
+Co-clustering Frequency	18500-19000 Years	18500	Qinghai-Tibet Plateau Core	Western Highland	0.514
+Co-clustering Frequency	19000-19500 Years	19000	Central Segment	North China	0.438
+Co-clustering Frequency	19000-19500 Years	19000	Central Segment	Northern Segment	0.592
+Co-clustering Frequency	19000-19500 Years	19000	Central Segment	Qinghai-Tibet Plateau Core	0.594
+Co-clustering Frequency	19000-19500 Years	19000	Central Segment	Western Highland	0.608
+Co-clustering Frequency	19000-19500 Years	19000	North China	Northern Segment	0.434
+Co-clustering Frequency	19000-19500 Years	19000	North China	Qinghai-Tibet Plateau Core	0.44
+Co-clustering Frequency	19000-19500 Years	19000	North China	Western Highland	0.458
+Co-clustering Frequency	19000-19500 Years	19000	Northern Segment	Qinghai-Tibet Plateau Core	0.518
+Co-clustering Frequency	19000-19500 Years	19000	Northern Segment	Western Highland	0.572
+Co-clustering Frequency	19000-19500 Years	19000	Qinghai-Tibet Plateau Core	Western Highland	0.59
+Co-clustering Frequency	19500-20000 Years	19500	Central Segment	Northern Segment	0.436
+Co-clustering Frequency	19500-20000 Years	19500	Central Segment	Qinghai-Tibet Plateau Core	0.442
+Co-clustering Frequency	19500-20000 Years	19500	Central Segment	Western Highland	0.386
+Co-clustering Frequency	19500-20000 Years	19500	Northern Segment	Qinghai-Tibet Plateau Core	0.526
+Co-clustering Frequency	19500-20000 Years	19500	Northern Segment	Western Highland	0.454
+Co-clustering Frequency	19500-20000 Years	19500	Qinghai-Tibet Plateau Core	Western Highland	0.452
+Similarity	0-500 Years	0	Central Segment	North China	0.7397
+Similarity	0-500 Years	0	Central Segment	Northern Segment	0.7752
+Similarity	0-500 Years	0	Central Segment	Panxi and Liangshan	0.8463
+Similarity	0-500 Years	0	Central Segment	Qinghai-Tibet Plateau Core	0.836
+Similarity	0-500 Years	0	Central Segment	Sichuan Basin	0.0087
+Similarity	0-500 Years	0	Central Segment	Southern Segment	0.3495
+Similarity	0-500 Years	0	Central Segment	Western Highland	0.827
+Similarity	0-500 Years	0	North China	Northern Segment	0.7415
+Similarity	0-500 Years	0	North China	Panxi and Liangshan	0.5901
+Similarity	0-500 Years	0	North China	Qinghai-Tibet Plateau Core	0.6195
+Similarity	0-500 Years	0	North China	Sichuan Basin	0.0353
+Similarity	0-500 Years	0	North China	Southern Segment	0.3123
+Similarity	0-500 Years	0	North China	Western Highland	0.5969
+Similarity	0-500 Years	0	Northern Segment	Panxi and Liangshan	0.7051
+Similarity	0-500 Years	0	Northern Segment	Qinghai-Tibet Plateau Core	0.7923
+Similarity	0-500 Years	0	Northern Segment	Sichuan Basin	0.2231
+Similarity	0-500 Years	0	Northern Segment	Southern Segment	0.5444
+Similarity	0-500 Years	0	Northern Segment	Western Highland	0.7612
+Similarity	0-500 Years	0	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.8948
+Similarity	0-500 Years	0	Panxi and Liangshan	Sichuan Basin	0
+Similarity	0-500 Years	0	Panxi and Liangshan	Southern Segment	0.3625
+Similarity	0-500 Years	0	Panxi and Liangshan	Western Highland	0.9179
+Similarity	0-500 Years	0	Qinghai-Tibet Plateau Core	Sichuan Basin	0.1039
+Similarity	0-500 Years	0	Qinghai-Tibet Plateau Core	Southern Segment	0.4643
+Similarity	0-500 Years	0	Qinghai-Tibet Plateau Core	Western Highland	0.9688
+Similarity	0-500 Years	0	Sichuan Basin	Southern Segment	0.629
+Similarity	0-500 Years	0	Sichuan Basin	Western Highland	0.0812
+Similarity	0-500 Years	0	Southern Segment	Western Highland	0.4442
+Similarity	500-1000 Years	500	Central Segment	North China	0.7296
+Similarity	500-1000 Years	500	Central Segment	Northern Segment	0.3649
+Similarity	500-1000 Years	500	Central Segment	Panxi and Liangshan	0.7165
+Similarity	500-1000 Years	500	Central Segment	Qinghai-Tibet Plateau Core	0.5846
+Similarity	500-1000 Years	500	Central Segment	Sichuan Basin	0
+Similarity	500-1000 Years	500	Central Segment	Southern Segment	0.2558
+Similarity	500-1000 Years	500	Central Segment	Western Highland	0.6212
+Similarity	500-1000 Years	500	North China	Northern Segment	0.5308
+Similarity	500-1000 Years	500	North China	Panxi and Liangshan	0.7197
+Similarity	500-1000 Years	500	North China	Qinghai-Tibet Plateau Core	0.6858
+Similarity	500-1000 Years	500	North China	Sichuan Basin	0.1533
+Similarity	500-1000 Years	500	North China	Southern Segment	0.4001
+Similarity	500-1000 Years	500	North China	Western Highland	0.6995
+Similarity	500-1000 Years	500	Northern Segment	Panxi and Liangshan	0.5121
+Similarity	500-1000 Years	500	Northern Segment	Qinghai-Tibet Plateau Core	0.7078
+Similarity	500-1000 Years	500	Northern Segment	Sichuan Basin	0.4899
+Similarity	500-1000 Years	500	Northern Segment	Southern Segment	0.7788
+Similarity	500-1000 Years	500	Northern Segment	Western Highland	0.6554
+Similarity	500-1000 Years	500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.7979
+Similarity	500-1000 Years	500	Panxi and Liangshan	Sichuan Basin	0.0713
+Similarity	500-1000 Years	500	Panxi and Liangshan	Southern Segment	0.369
+Similarity	500-1000 Years	500	Panxi and Liangshan	Western Highland	0.8489
+Similarity	500-1000 Years	500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.2495
+Similarity	500-1000 Years	500	Qinghai-Tibet Plateau Core	Southern Segment	0.5562
+Similarity	500-1000 Years	500	Qinghai-Tibet Plateau Core	Western Highland	0.9468
+Similarity	500-1000 Years	500	Sichuan Basin	Southern Segment	0.6846
+Similarity	500-1000 Years	500	Sichuan Basin	Western Highland	0.2057
+Similarity	500-1000 Years	500	Southern Segment	Western Highland	0.5103
+Similarity	1000-1500 Years	1000	Central Segment	North China	0.5099
+Similarity	1000-1500 Years	1000	Central Segment	Northern Segment	0.1385
+Similarity	1000-1500 Years	1000	Central Segment	Panxi and Liangshan	0.559
+Similarity	1000-1500 Years	1000	Central Segment	Qinghai-Tibet Plateau Core	0.3638
+Similarity	1000-1500 Years	1000	Central Segment	Sichuan Basin	0.2247
+Similarity	1000-1500 Years	1000	Central Segment	Southern Segment	0.4657
+Similarity	1000-1500 Years	1000	Central Segment	Western Highland	0.4117
+Similarity	1000-1500 Years	1000	North China	Northern Segment	0.5081
+Similarity	1000-1500 Years	1000	North China	Panxi and Liangshan	0.7019
+Similarity	1000-1500 Years	1000	North China	Qinghai-Tibet Plateau Core	0.6966
+Similarity	1000-1500 Years	1000	North China	Sichuan Basin	0.1893
+Similarity	1000-1500 Years	1000	North China	Southern Segment	0.5265
+Similarity	1000-1500 Years	1000	North China	Western Highland	0.7055
+Similarity	1000-1500 Years	1000	Northern Segment	Panxi and Liangshan	0.4265
+Similarity	1000-1500 Years	1000	Northern Segment	Qinghai-Tibet Plateau Core	0.6157
+Similarity	1000-1500 Years	1000	Northern Segment	Sichuan Basin	0
+Similarity	1000-1500 Years	1000	Northern Segment	Southern Segment	0.3266
+Similarity	1000-1500 Years	1000	Northern Segment	Western Highland	0.5531
+Similarity	1000-1500 Years	1000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.7658
+Similarity	1000-1500 Years	1000	Panxi and Liangshan	Sichuan Basin	0.0594
+Similarity	1000-1500 Years	1000	Panxi and Liangshan	Southern Segment	0.435
+Similarity	1000-1500 Years	1000	Panxi and Liangshan	Western Highland	0.8281
+Similarity	1000-1500 Years	1000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.0252
+Similarity	1000-1500 Years	1000	Qinghai-Tibet Plateau Core	Southern Segment	0.4057
+Similarity	1000-1500 Years	1000	Qinghai-Tibet Plateau Core	Western Highland	0.9317
+Similarity	1000-1500 Years	1000	Sichuan Basin	Southern Segment	0.5977
+Similarity	1000-1500 Years	1000	Sichuan Basin	Western Highland	0.0292
+Similarity	1000-1500 Years	1000	Southern Segment	Western Highland	0.4107
+Similarity	1500-2000 Years	1500	Central Segment	North China	0.5729
+Similarity	1500-2000 Years	1500	Central Segment	Northern Segment	0.5439
+Similarity	1500-2000 Years	1500	Central Segment	Panxi and Liangshan	0.9212
+Similarity	1500-2000 Years	1500	Central Segment	Qinghai-Tibet Plateau Core	0.5914
+Similarity	1500-2000 Years	1500	Central Segment	Sichuan Basin	0.0768
+Similarity	1500-2000 Years	1500	Central Segment	Southern Segment	0.6998
+Similarity	1500-2000 Years	1500	Central Segment	Western Highland	0.5922
+Similarity	1500-2000 Years	1500	North China	Northern Segment	0.8035
+Similarity	1500-2000 Years	1500	North China	Panxi and Liangshan	0.5346
+Similarity	1500-2000 Years	1500	North China	Qinghai-Tibet Plateau Core	0.6563
+Similarity	1500-2000 Years	1500	North China	Sichuan Basin	0
+Similarity	1500-2000 Years	1500	North China	Southern Segment	0.5114
+Similarity	1500-2000 Years	1500	North China	Western Highland	0.6333
+Similarity	1500-2000 Years	1500	Northern Segment	Panxi and Liangshan	0.5122
+Similarity	1500-2000 Years	1500	Northern Segment	Qinghai-Tibet Plateau Core	0.7725
+Similarity	1500-2000 Years	1500	Northern Segment	Sichuan Basin	0.146
+Similarity	1500-2000 Years	1500	Northern Segment	Southern Segment	0.5762
+Similarity	1500-2000 Years	1500	Northern Segment	Western Highland	0.739
+Similarity	1500-2000 Years	1500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.5889
+Similarity	1500-2000 Years	1500	Panxi and Liangshan	Sichuan Basin	0.0677
+Similarity	1500-2000 Years	1500	Panxi and Liangshan	Southern Segment	0.6594
+Similarity	1500-2000 Years	1500	Panxi and Liangshan	Western Highland	0.5937
+Similarity	1500-2000 Years	1500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.159
+Similarity	1500-2000 Years	1500	Qinghai-Tibet Plateau Core	Southern Segment	0.5714
+Similarity	1500-2000 Years	1500	Qinghai-Tibet Plateau Core	Western Highland	0.9628
+Similarity	1500-2000 Years	1500	Sichuan Basin	Southern Segment	0.3083
+Similarity	1500-2000 Years	1500	Sichuan Basin	Western Highland	0.1467
+Similarity	1500-2000 Years	1500	Southern Segment	Western Highland	0.5568
+Similarity	2000-2500 Years	2000	Central Segment	North China	0.4445
+Similarity	2000-2500 Years	2000	Central Segment	Northern Segment	0.3539
+Similarity	2000-2500 Years	2000	Central Segment	Panxi and Liangshan	0.8633
+Similarity	2000-2500 Years	2000	Central Segment	Qinghai-Tibet Plateau Core	0.438
+Similarity	2000-2500 Years	2000	Central Segment	Sichuan Basin	0.4753
+Similarity	2000-2500 Years	2000	Central Segment	Southern Segment	0.3341
+Similarity	2000-2500 Years	2000	Central Segment	Western Highland	0.3483
+Similarity	2000-2500 Years	2000	North China	Northern Segment	0.7395
+Similarity	2000-2500 Years	2000	North China	Panxi and Liangshan	0.4206
+Similarity	2000-2500 Years	2000	North China	Qinghai-Tibet Plateau Core	0.5461
+Similarity	2000-2500 Years	2000	North China	Sichuan Basin	0.4405
+Similarity	2000-2500 Years	2000	North China	Southern Segment	0.1422
+Similarity	2000-2500 Years	2000	North China	Western Highland	0.5231
+Similarity	2000-2500 Years	2000	Northern Segment	Panxi and Liangshan	0.3775
+Similarity	2000-2500 Years	2000	Northern Segment	Qinghai-Tibet Plateau Core	0.7047
+Similarity	2000-2500 Years	2000	Northern Segment	Sichuan Basin	0.4308
+Similarity	2000-2500 Years	2000	Northern Segment	Southern Segment	0.0605
+Similarity	2000-2500 Years	2000	Northern Segment	Western Highland	0.7066
+Similarity	2000-2500 Years	2000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.507
+Similarity	2000-2500 Years	2000	Panxi and Liangshan	Sichuan Basin	0.4507
+Similarity	2000-2500 Years	2000	Panxi and Liangshan	Southern Segment	0.2521
+Similarity	2000-2500 Years	2000	Panxi and Liangshan	Western Highland	0.416
+Similarity	2000-2500 Years	2000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.4234
+Similarity	2000-2500 Years	2000	Qinghai-Tibet Plateau Core	Southern Segment	0.0676
+Similarity	2000-2500 Years	2000	Qinghai-Tibet Plateau Core	Western Highland	0.8362
+Similarity	2000-2500 Years	2000	Sichuan Basin	Southern Segment	0.2532
+Similarity	2000-2500 Years	2000	Sichuan Basin	Western Highland	0.3448
+Similarity	2000-2500 Years	2000	Southern Segment	Western Highland	0
+Similarity	2500-3000 Years	2500	Central Segment	North China	0.2595
+Similarity	2500-3000 Years	2500	Central Segment	Northern Segment	0.4049
+Similarity	2500-3000 Years	2500	Central Segment	Panxi and Liangshan	0.7741
+Similarity	2500-3000 Years	2500	Central Segment	Qinghai-Tibet Plateau Core	0.5261
+Similarity	2500-3000 Years	2500	Central Segment	Sichuan Basin	0.1032
+Similarity	2500-3000 Years	2500	Central Segment	Southern Segment	0.2451
+Similarity	2500-3000 Years	2500	Central Segment	Western Highland	0.3896
+Similarity	2500-3000 Years	2500	North China	Northern Segment	0.5869
+Similarity	2500-3000 Years	2500	North China	Panxi and Liangshan	0.1341
+Similarity	2500-3000 Years	2500	North China	Qinghai-Tibet Plateau Core	0.488
+Similarity	2500-3000 Years	2500	North China	Sichuan Basin	0.73
+Similarity	2500-3000 Years	2500	North China	Southern Segment	0.6981
+Similarity	2500-3000 Years	2500	North China	Western Highland	0.4787
+Similarity	2500-3000 Years	2500	Northern Segment	Panxi and Liangshan	0.2631
+Similarity	2500-3000 Years	2500	Northern Segment	Qinghai-Tibet Plateau Core	0.759
+Similarity	2500-3000 Years	2500	Northern Segment	Sichuan Basin	0.5032
+Similarity	2500-3000 Years	2500	Northern Segment	Southern Segment	0.4907
+Similarity	2500-3000 Years	2500	Northern Segment	Western Highland	0.7489
+Similarity	2500-3000 Years	2500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.3953
+Similarity	2500-3000 Years	2500	Panxi and Liangshan	Sichuan Basin	0
+Similarity	2500-3000 Years	2500	Panxi and Liangshan	Southern Segment	0.1532
+Similarity	2500-3000 Years	2500	Panxi and Liangshan	Western Highland	0.2741
+Similarity	2500-3000 Years	2500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.3761
+Similarity	2500-3000 Years	2500	Qinghai-Tibet Plateau Core	Southern Segment	0.4102
+Similarity	2500-3000 Years	2500	Qinghai-Tibet Plateau Core	Western Highland	0.856
+Similarity	2500-3000 Years	2500	Sichuan Basin	Southern Segment	0.7332
+Similarity	2500-3000 Years	2500	Sichuan Basin	Western Highland	0.4079
+Similarity	2500-3000 Years	2500	Southern Segment	Western Highland	0.3882
+Similarity	3000-3500 Years	3000	Central Segment	North China	0.2165
+Similarity	3000-3500 Years	3000	Central Segment	Northern Segment	0.6505
+Similarity	3000-3500 Years	3000	Central Segment	Panxi and Liangshan	0.7015
+Similarity	3000-3500 Years	3000	Central Segment	Qinghai-Tibet Plateau Core	0.7276
+Similarity	3000-3500 Years	3000	Central Segment	Sichuan Basin	0.3912
+Similarity	3000-3500 Years	3000	Central Segment	Southern Segment	0.1469
+Similarity	3000-3500 Years	3000	Central Segment	Western Highland	0.6232
+Similarity	3000-3500 Years	3000	North China	Northern Segment	0.4082
+Similarity	3000-3500 Years	3000	North China	Panxi and Liangshan	0.1503
+Similarity	3000-3500 Years	3000	North China	Qinghai-Tibet Plateau Core	0.2999
+Similarity	3000-3500 Years	3000	North China	Sichuan Basin	0.3691
+Similarity	3000-3500 Years	3000	North China	Southern Segment	0.393
+Similarity	3000-3500 Years	3000	North China	Western Highland	0.2978
+Similarity	3000-3500 Years	3000	Northern Segment	Panxi and Liangshan	0.4322
+Similarity	3000-3500 Years	3000	Northern Segment	Qinghai-Tibet Plateau Core	0.7469
+Similarity	3000-3500 Years	3000	Northern Segment	Sichuan Basin	0.6672
+Similarity	3000-3500 Years	3000	Northern Segment	Southern Segment	0.4362
+Similarity	3000-3500 Years	3000	Northern Segment	Western Highland	0.7044
+Similarity	3000-3500 Years	3000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.5249
+Similarity	3000-3500 Years	3000	Panxi and Liangshan	Sichuan Basin	0.2279
+Similarity	3000-3500 Years	3000	Panxi and Liangshan	Southern Segment	0
+Similarity	3000-3500 Years	3000	Panxi and Liangshan	Western Highland	0.4454
+Similarity	3000-3500 Years	3000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.5104
+Similarity	3000-3500 Years	3000	Qinghai-Tibet Plateau Core	Southern Segment	0.2975
+Similarity	3000-3500 Years	3000	Qinghai-Tibet Plateau Core	Western Highland	0.8928
+Similarity	3000-3500 Years	3000	Sichuan Basin	Southern Segment	0.6851
+Similarity	3000-3500 Years	3000	Sichuan Basin	Western Highland	0.5239
+Similarity	3000-3500 Years	3000	Southern Segment	Western Highland	0.3356
+Similarity	3500-4000 Years	3500	Central Segment	North China	0.227
+Similarity	3500-4000 Years	3500	Central Segment	Northern Segment	0.5358
+Similarity	3500-4000 Years	3500	Central Segment	Panxi and Liangshan	0.8808
+Similarity	3500-4000 Years	3500	Central Segment	Qinghai-Tibet Plateau Core	0.5211
+Similarity	3500-4000 Years	3500	Central Segment	Sichuan Basin	0.2654
+Similarity	3500-4000 Years	3500	Central Segment	Southern Segment	0.4493
+Similarity	3500-4000 Years	3500	Central Segment	Western Highland	0.4838
+Similarity	3500-4000 Years	3500	North China	Northern Segment	0.4653
+Similarity	3500-4000 Years	3500	North China	Panxi and Liangshan	0.1535
+Similarity	3500-4000 Years	3500	North China	Qinghai-Tibet Plateau Core	0.3282
+Similarity	3500-4000 Years	3500	North China	Sichuan Basin	0
+Similarity	3500-4000 Years	3500	North China	Southern Segment	0.2671
+Similarity	3500-4000 Years	3500	North China	Western Highland	0.2995
+Similarity	3500-4000 Years	3500	Northern Segment	Panxi and Liangshan	0.4917
+Similarity	3500-4000 Years	3500	Northern Segment	Qinghai-Tibet Plateau Core	0.727
+Similarity	3500-4000 Years	3500	Northern Segment	Sichuan Basin	0.3454
+Similarity	3500-4000 Years	3500	Northern Segment	Southern Segment	0.6342
+Similarity	3500-4000 Years	3500	Northern Segment	Western Highland	0.6537
+Similarity	3500-4000 Years	3500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.5175
+Similarity	3500-4000 Years	3500	Panxi and Liangshan	Sichuan Basin	0.3152
+Similarity	3500-4000 Years	3500	Panxi and Liangshan	Southern Segment	0.4739
+Similarity	3500-4000 Years	3500	Panxi and Liangshan	Western Highland	0.4863
+Similarity	3500-4000 Years	3500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.3266
+Similarity	3500-4000 Years	3500	Qinghai-Tibet Plateau Core	Southern Segment	0.5854
+Similarity	3500-4000 Years	3500	Qinghai-Tibet Plateau Core	Western Highland	0.9143
+Similarity	3500-4000 Years	3500	Sichuan Basin	Southern Segment	0.6325
+Similarity	3500-4000 Years	3500	Sichuan Basin	Western Highland	0.2926
+Similarity	3500-4000 Years	3500	Southern Segment	Western Highland	0.5446
+Similarity	4000-4500 Years	4000	Central Segment	North China	0.376
+Similarity	4000-4500 Years	4000	Central Segment	Northern Segment	0.9097
+Similarity	4000-4500 Years	4000	Central Segment	Panxi and Liangshan	0.9335
+Similarity	4000-4500 Years	4000	Central Segment	Qinghai-Tibet Plateau Core	0.7609
+Similarity	4000-4500 Years	4000	Central Segment	Sichuan Basin	0.4085
+Similarity	4000-4500 Years	4000	Central Segment	Southern Segment	0.2571
+Similarity	4000-4500 Years	4000	Central Segment	Western Highland	0.7165
+Similarity	4000-4500 Years	4000	North China	Northern Segment	0.3549
+Similarity	4000-4500 Years	4000	North China	Panxi and Liangshan	0.3818
+Similarity	4000-4500 Years	4000	North China	Qinghai-Tibet Plateau Core	0.2732
+Similarity	4000-4500 Years	4000	North China	Sichuan Basin	0.053
+Similarity	4000-4500 Years	4000	North China	Southern Segment	0
+Similarity	4000-4500 Years	4000	North China	Western Highland	0.2575
+Similarity	4000-4500 Years	4000	Northern Segment	Panxi and Liangshan	0.8531
+Similarity	4000-4500 Years	4000	Northern Segment	Qinghai-Tibet Plateau Core	0.7517
+Similarity	4000-4500 Years	4000	Northern Segment	Sichuan Basin	0.4445
+Similarity	4000-4500 Years	4000	Northern Segment	Southern Segment	0.2882
+Similarity	4000-4500 Years	4000	Northern Segment	Western Highland	0.6972
+Similarity	4000-4500 Years	4000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.76
+Similarity	4000-4500 Years	4000	Panxi and Liangshan	Sichuan Basin	0.3776
+Similarity	4000-4500 Years	4000	Panxi and Liangshan	Southern Segment	0.2305
+Similarity	4000-4500 Years	4000	Panxi and Liangshan	Western Highland	0.7235
+Similarity	4000-4500 Years	4000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.4206
+Similarity	4000-4500 Years	4000	Qinghai-Tibet Plateau Core	Southern Segment	0.3187
+Similarity	4000-4500 Years	4000	Qinghai-Tibet Plateau Core	Western Highland	0.9364
+Similarity	4000-4500 Years	4000	Sichuan Basin	Southern Segment	0.7346
+Similarity	4000-4500 Years	4000	Sichuan Basin	Western Highland	0.3755
+Similarity	4000-4500 Years	4000	Southern Segment	Western Highland	0.2871
+Similarity	4500-5000 Years	4500	Central Segment	North China	0.249
+Similarity	4500-5000 Years	4500	Central Segment	Northern Segment	0.7993
+Similarity	4500-5000 Years	4500	Central Segment	Panxi and Liangshan	0.8239
+Similarity	4500-5000 Years	4500	Central Segment	Qinghai-Tibet Plateau Core	0.662
+Similarity	4500-5000 Years	4500	Central Segment	Sichuan Basin	0.5666
+Similarity	4500-5000 Years	4500	Central Segment	Southern Segment	0.7011
+Similarity	4500-5000 Years	4500	Central Segment	Western Highland	0.6484
+Similarity	4500-5000 Years	4500	North China	Northern Segment	0.36
+Similarity	4500-5000 Years	4500	North China	Panxi and Liangshan	0.2992
+Similarity	4500-5000 Years	4500	North China	Qinghai-Tibet Plateau Core	0.4108
+Similarity	4500-5000 Years	4500	North China	Sichuan Basin	0
+Similarity	4500-5000 Years	4500	North China	Southern Segment	0.2187
+Similarity	4500-5000 Years	4500	North China	Western Highland	0.3903
+Similarity	4500-5000 Years	4500	Northern Segment	Panxi and Liangshan	0.7173
+Similarity	4500-5000 Years	4500	Northern Segment	Qinghai-Tibet Plateau Core	0.7794
+Similarity	4500-5000 Years	4500	Northern Segment	Sichuan Basin	0.4381
+Similarity	4500-5000 Years	4500	Northern Segment	Southern Segment	0.6755
+Similarity	4500-5000 Years	4500	Northern Segment	Western Highland	0.7371
+Similarity	4500-5000 Years	4500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.6171
+Similarity	4500-5000 Years	4500	Panxi and Liangshan	Sichuan Basin	0.5223
+Similarity	4500-5000 Years	4500	Panxi and Liangshan	Southern Segment	0.6306
+Similarity	4500-5000 Years	4500	Panxi and Liangshan	Western Highland	0.6098
+Similarity	4500-5000 Years	4500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.2665
+Similarity	4500-5000 Years	4500	Qinghai-Tibet Plateau Core	Southern Segment	0.5013
+Similarity	4500-5000 Years	4500	Qinghai-Tibet Plateau Core	Western Highland	0.9411
+Similarity	4500-5000 Years	4500	Sichuan Basin	Southern Segment	0.6845
+Similarity	4500-5000 Years	4500	Sichuan Basin	Western Highland	0.2463
+Similarity	4500-5000 Years	4500	Southern Segment	Western Highland	0.4703
+Similarity	5000-5500 Years	5000	Central Segment	North China	0.3698
+Similarity	5000-5500 Years	5000	Central Segment	Northern Segment	0.6385
+Similarity	5000-5500 Years	5000	Central Segment	Panxi and Liangshan	0.5795
+Similarity	5000-5500 Years	5000	Central Segment	Qinghai-Tibet Plateau Core	0.6881
+Similarity	5000-5500 Years	5000	Central Segment	Sichuan Basin	0.3995
+Similarity	5000-5500 Years	5000	Central Segment	Southern Segment	0.4692
+Similarity	5000-5500 Years	5000	Central Segment	Western Highland	0.705
+Similarity	5000-5500 Years	5000	North China	Northern Segment	0.5127
+Similarity	5000-5500 Years	5000	North China	Panxi and Liangshan	0.4339
+Similarity	5000-5500 Years	5000	North China	Qinghai-Tibet Plateau Core	0.5603
+Similarity	5000-5500 Years	5000	North China	Sichuan Basin	0.1545
+Similarity	5000-5500 Years	5000	North China	Southern Segment	0
+Similarity	5000-5500 Years	5000	North China	Western Highland	0.3901
+Similarity	5000-5500 Years	5000	Northern Segment	Panxi and Liangshan	0.7327
+Similarity	5000-5500 Years	5000	Northern Segment	Qinghai-Tibet Plateau Core	0.7125
+Similarity	5000-5500 Years	5000	Northern Segment	Sichuan Basin	0.4882
+Similarity	5000-5500 Years	5000	Northern Segment	Southern Segment	0.3273
+Similarity	5000-5500 Years	5000	Northern Segment	Western Highland	0.5266
+Similarity	5000-5500 Years	5000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.6711
+Similarity	5000-5500 Years	5000	Panxi and Liangshan	Sichuan Basin	0.5402
+Similarity	5000-5500 Years	5000	Panxi and Liangshan	Southern Segment	0.30620000000000003
+Similarity	5000-5500 Years	5000	Panxi and Liangshan	Western Highland	0.4658
+Similarity	5000-5500 Years	5000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.2938
+Similarity	5000-5500 Years	5000	Qinghai-Tibet Plateau Core	Southern Segment	0.2084
+Similarity	5000-5500 Years	5000	Qinghai-Tibet Plateau Core	Western Highland	0.7468
+Similarity	5000-5500 Years	5000	Sichuan Basin	Southern Segment	0.567
+Similarity	5000-5500 Years	5000	Sichuan Basin	Western Highland	0.1584
+Similarity	5000-5500 Years	5000	Southern Segment	Western Highland	0.2013
+Similarity	5500-6000 Years	5500	Central Segment	North China	0.1589
+Similarity	5500-6000 Years	5500	Central Segment	Northern Segment	0.6901
+Similarity	5500-6000 Years	5500	Central Segment	Panxi and Liangshan	0.5534
+Similarity	5500-6000 Years	5500	Central Segment	Qinghai-Tibet Plateau Core	0.6348
+Similarity	5500-6000 Years	5500	Central Segment	Sichuan Basin	0.3594
+Similarity	5500-6000 Years	5500	Central Segment	Southern Segment	0.6742
+Similarity	5500-6000 Years	5500	Central Segment	Western Highland	0.7014
+Similarity	5500-6000 Years	5500	North China	Northern Segment	0.3382
+Similarity	5500-6000 Years	5500	North China	Panxi and Liangshan	0.3823
+Similarity	5500-6000 Years	5500	North China	Qinghai-Tibet Plateau Core	0.3168
+Similarity	5500-6000 Years	5500	North China	Sichuan Basin	0.3976
+Similarity	5500-6000 Years	5500	North China	Southern Segment	0
+Similarity	5500-6000 Years	5500	North China	Western Highland	0.246
+Similarity	5500-6000 Years	5500	Northern Segment	Panxi and Liangshan	0.7031
+Similarity	5500-6000 Years	5500	Northern Segment	Qinghai-Tibet Plateau Core	0.7924
+Similarity	5500-6000 Years	5500	Northern Segment	Sichuan Basin	0.5366
+Similarity	5500-6000 Years	5500	Northern Segment	Southern Segment	0.4345
+Similarity	5500-6000 Years	5500	Northern Segment	Western Highland	0.7204
+Similarity	5500-6000 Years	5500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.7626
+Similarity	5500-6000 Years	5500	Panxi and Liangshan	Sichuan Basin	0.4918
+Similarity	5500-6000 Years	5500	Panxi and Liangshan	Southern Segment	0.2762
+Similarity	5500-6000 Years	5500	Panxi and Liangshan	Western Highland	0.7007
+Similarity	5500-6000 Years	5500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.517
+Similarity	5500-6000 Years	5500	Qinghai-Tibet Plateau Core	Southern Segment	0.3369
+Similarity	5500-6000 Years	5500	Qinghai-Tibet Plateau Core	Western Highland	0.8661
+Similarity	5500-6000 Years	5500	Sichuan Basin	Southern Segment	0.2002
+Similarity	5500-6000 Years	5500	Sichuan Basin	Western Highland	0.444
+Similarity	5500-6000 Years	5500	Southern Segment	Western Highland	0.3999
+Similarity	6000-6500 Years	6000	Central Segment	North China	0.2039
+Similarity	6000-6500 Years	6000	Central Segment	Northern Segment	0.473
+Similarity	6000-6500 Years	6000	Central Segment	Panxi and Liangshan	0.4987
+Similarity	6000-6500 Years	6000	Central Segment	Qinghai-Tibet Plateau Core	0.4148
+Similarity	6000-6500 Years	6000	Central Segment	Sichuan Basin	0
+Similarity	6000-6500 Years	6000	Central Segment	Southern Segment	0.5278
+Similarity	6000-6500 Years	6000	Central Segment	Western Highland	0.4585
+Similarity	6000-6500 Years	6000	North China	Northern Segment	0.551
+Similarity	6000-6500 Years	6000	North China	Panxi and Liangshan	0.5545
+Similarity	6000-6500 Years	6000	North China	Qinghai-Tibet Plateau Core	0.4853
+Similarity	6000-6500 Years	6000	North China	Sichuan Basin	0.4148
+Similarity	6000-6500 Years	6000	North China	Southern Segment	0.3651
+Similarity	6000-6500 Years	6000	North China	Western Highland	0.4272
+Similarity	6000-6500 Years	6000	Northern Segment	Panxi and Liangshan	0.5198
+Similarity	6000-6500 Years	6000	Northern Segment	Qinghai-Tibet Plateau Core	0.8092
+Similarity	6000-6500 Years	6000	Northern Segment	Sichuan Basin	0.2436
+Similarity	6000-6500 Years	6000	Northern Segment	Southern Segment	0.6017
+Similarity	6000-6500 Years	6000	Northern Segment	Western Highland	0.7418
+Similarity	6000-6500 Years	6000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.4931
+Similarity	6000-6500 Years	6000	Panxi and Liangshan	Sichuan Basin	0.2429
+Similarity	6000-6500 Years	6000	Panxi and Liangshan	Southern Segment	0.498
+Similarity	6000-6500 Years	6000	Panxi and Liangshan	Western Highland	0.5068
+Similarity	6000-6500 Years	6000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.2237
+Similarity	6000-6500 Years	6000	Qinghai-Tibet Plateau Core	Southern Segment	0.5318
+Similarity	6000-6500 Years	6000	Qinghai-Tibet Plateau Core	Western Highland	0.8987
+Similarity	6000-6500 Years	6000	Sichuan Basin	Southern Segment	0.2826
+Similarity	6000-6500 Years	6000	Sichuan Basin	Western Highland	0.1783
+Similarity	6000-6500 Years	6000	Southern Segment	Western Highland	0.514
+Similarity	6500-7000 Years	6500	Central Segment	North China	0.4721
+Similarity	6500-7000 Years	6500	Central Segment	Northern Segment	0.7196
+Similarity	6500-7000 Years	6500	Central Segment	Panxi and Liangshan	0.7192
+Similarity	6500-7000 Years	6500	Central Segment	Qinghai-Tibet Plateau Core	0.8443
+Similarity	6500-7000 Years	6500	Central Segment	Sichuan Basin	0.1484
+Similarity	6500-7000 Years	6500	Central Segment	Southern Segment	0.724
+Similarity	6500-7000 Years	6500	Central Segment	Western Highland	0.7815
+Similarity	6500-7000 Years	6500	North China	Northern Segment	0.6622
+Similarity	6500-7000 Years	6500	North China	Panxi and Liangshan	0.4989
+Similarity	6500-7000 Years	6500	North China	Qinghai-Tibet Plateau Core	0.433
+Similarity	6500-7000 Years	6500	North China	Sichuan Basin	0.4765
+Similarity	6500-7000 Years	6500	North China	Southern Segment	0.5321
+Similarity	6500-7000 Years	6500	North China	Western Highland	0.3547
+Similarity	6500-7000 Years	6500	Northern Segment	Panxi and Liangshan	0.5864
+Similarity	6500-7000 Years	6500	Northern Segment	Qinghai-Tibet Plateau Core	0.7447
+Similarity	6500-7000 Years	6500	Northern Segment	Sichuan Basin	0.2223
+Similarity	6500-7000 Years	6500	Northern Segment	Southern Segment	0.6695
+Similarity	6500-7000 Years	6500	Northern Segment	Western Highland	0.6707
+Similarity	6500-7000 Years	6500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.6172
+Similarity	6500-7000 Years	6500	Panxi and Liangshan	Sichuan Basin	0.347
+Similarity	6500-7000 Years	6500	Panxi and Liangshan	Southern Segment	0.7596
+Similarity	6500-7000 Years	6500	Panxi and Liangshan	Western Highland	0.5434
+Similarity	6500-7000 Years	6500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.0807
+Similarity	6500-7000 Years	6500	Qinghai-Tibet Plateau Core	Southern Segment	0.6948
+Similarity	6500-7000 Years	6500	Qinghai-Tibet Plateau Core	Western Highland	0.8933
+Similarity	6500-7000 Years	6500	Sichuan Basin	Southern Segment	0.3297
+Similarity	6500-7000 Years	6500	Sichuan Basin	Western Highland	0
+Similarity	6500-7000 Years	6500	Southern Segment	Western Highland	0.6074
+Similarity	7000-7500 Years	7000	Central Segment	North China	0.1438
+Similarity	7000-7500 Years	7000	Central Segment	Northern Segment	0.5154
+Similarity	7000-7500 Years	7000	Central Segment	Panxi and Liangshan	0.7733
+Similarity	7000-7500 Years	7000	Central Segment	Qinghai-Tibet Plateau Core	0.916
+Similarity	7000-7500 Years	7000	Central Segment	Sichuan Basin	0.1357
+Similarity	7000-7500 Years	7000	Central Segment	Southern Segment	0.6828
+Similarity	7000-7500 Years	7000	Central Segment	Western Highland	0.8205
+Similarity	7000-7500 Years	7000	North China	Northern Segment	0.4583
+Similarity	7000-7500 Years	7000	North China	Panxi and Liangshan	0.2285
+Similarity	7000-7500 Years	7000	North China	Qinghai-Tibet Plateau Core	0.1287
+Similarity	7000-7500 Years	7000	North China	Sichuan Basin	0.3305
+Similarity	7000-7500 Years	7000	North China	Southern Segment	0.0647
+Similarity	7000-7500 Years	7000	North China	Western Highland	0.0161
+Similarity	7000-7500 Years	7000	Northern Segment	Panxi and Liangshan	0.4721
+Similarity	7000-7500 Years	7000	Northern Segment	Qinghai-Tibet Plateau Core	0.5275
+Similarity	7000-7500 Years	7000	Northern Segment	Sichuan Basin	0.1265
+Similarity	7000-7500 Years	7000	Northern Segment	Southern Segment	0.4655
+Similarity	7000-7500 Years	7000	Northern Segment	Western Highland	0.4405
+Similarity	7000-7500 Years	7000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.7176
+Similarity	7000-7500 Years	7000	Panxi and Liangshan	Sichuan Basin	0.2956
+Similarity	7000-7500 Years	7000	Panxi and Liangshan	Southern Segment	0.5164
+Similarity	7000-7500 Years	7000	Panxi and Liangshan	Western Highland	0.623
+Similarity	7000-7500 Years	7000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.1155
+Similarity	7000-7500 Years	7000	Qinghai-Tibet Plateau Core	Southern Segment	0.7471
+Similarity	7000-7500 Years	7000	Qinghai-Tibet Plateau Core	Western Highland	0.8511
+Similarity	7000-7500 Years	7000	Sichuan Basin	Southern Segment	0.0567
+Similarity	7000-7500 Years	7000	Sichuan Basin	Western Highland	0
+Similarity	7000-7500 Years	7000	Southern Segment	Western Highland	0.7297
+Similarity	7500-8000 Years	7500	Central Segment	North China	0.5049
+Similarity	7500-8000 Years	7500	Central Segment	Northern Segment	0.7817
+Similarity	7500-8000 Years	7500	Central Segment	Panxi and Liangshan	0.8061
+Similarity	7500-8000 Years	7500	Central Segment	Qinghai-Tibet Plateau Core	0.797
+Similarity	7500-8000 Years	7500	Central Segment	Sichuan Basin	0.5455
+Similarity	7500-8000 Years	7500	Central Segment	Southern Segment	0.18
+Similarity	7500-8000 Years	7500	Central Segment	Western Highland	0.6928
+Similarity	7500-8000 Years	7500	North China	Northern Segment	0.6478
+Similarity	7500-8000 Years	7500	North China	Panxi and Liangshan	0.4584
+Similarity	7500-8000 Years	7500	North China	Qinghai-Tibet Plateau Core	0.4676
+Similarity	7500-8000 Years	7500	North China	Sichuan Basin	0.3799
+Similarity	7500-8000 Years	7500	North China	Southern Segment	0
+Similarity	7500-8000 Years	7500	North China	Western Highland	0.3317
+Similarity	7500-8000 Years	7500	Northern Segment	Panxi and Liangshan	0.6785
+Similarity	7500-8000 Years	7500	Northern Segment	Qinghai-Tibet Plateau Core	0.7338
+Similarity	7500-8000 Years	7500	Northern Segment	Sichuan Basin	0.598
+Similarity	7500-8000 Years	7500	Northern Segment	Southern Segment	0.1996
+Similarity	7500-8000 Years	7500	Northern Segment	Western Highland	0.5957
+Similarity	7500-8000 Years	7500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.8631
+Similarity	7500-8000 Years	7500	Panxi and Liangshan	Sichuan Basin	0.5524
+Similarity	7500-8000 Years	7500	Panxi and Liangshan	Southern Segment	0.218
+Similarity	7500-8000 Years	7500	Panxi and Liangshan	Western Highland	0.738
+Similarity	7500-8000 Years	7500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.6555
+Similarity	7500-8000 Years	7500	Qinghai-Tibet Plateau Core	Southern Segment	0.3139
+Similarity	7500-8000 Years	7500	Qinghai-Tibet Plateau Core	Western Highland	0.7857
+Similarity	7500-8000 Years	7500	Sichuan Basin	Southern Segment	0.5004
+Similarity	7500-8000 Years	7500	Sichuan Basin	Western Highland	0.5986
+Similarity	7500-8000 Years	7500	Southern Segment	Western Highland	0.423
+Similarity	8000-8500 Years	8000	Central Segment	North China	0.4286
+Similarity	8000-8500 Years	8000	Central Segment	Northern Segment	0.7499
+Similarity	8000-8500 Years	8000	Central Segment	Panxi and Liangshan	0.5821
+Similarity	8000-8500 Years	8000	Central Segment	Qinghai-Tibet Plateau Core	0.7052
+Similarity	8000-8500 Years	8000	Central Segment	Sichuan Basin	0.1923
+Similarity	8000-8500 Years	8000	Central Segment	Southern Segment	0.1704
+Similarity	8000-8500 Years	8000	Central Segment	Western Highland	0.4007
+Similarity	8000-8500 Years	8000	North China	Northern Segment	0.4834
+Similarity	8000-8500 Years	8000	North China	Panxi and Liangshan	0.3497
+Similarity	8000-8500 Years	8000	North China	Qinghai-Tibet Plateau Core	0.2834
+Similarity	8000-8500 Years	8000	North China	Sichuan Basin	0.3231
+Similarity	8000-8500 Years	8000	North China	Southern Segment	0.2283
+Similarity	8000-8500 Years	8000	North China	Western Highland	0
+Similarity	8000-8500 Years	8000	Northern Segment	Panxi and Liangshan	0.4611
+Similarity	8000-8500 Years	8000	Northern Segment	Qinghai-Tibet Plateau Core	0.6604
+Similarity	8000-8500 Years	8000	Northern Segment	Sichuan Basin	0.2343
+Similarity	8000-8500 Years	8000	Northern Segment	Southern Segment	0.2355
+Similarity	8000-8500 Years	8000	Northern Segment	Western Highland	0.3559
+Similarity	8000-8500 Years	8000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.6154
+Similarity	8000-8500 Years	8000	Panxi and Liangshan	Sichuan Basin	0.3633
+Similarity	8000-8500 Years	8000	Panxi and Liangshan	Southern Segment	0.2826
+Similarity	8000-8500 Years	8000	Panxi and Liangshan	Western Highland	0.4535
+Similarity	8000-8500 Years	8000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.2704
+Similarity	8000-8500 Years	8000	Qinghai-Tibet Plateau Core	Southern Segment	0.2828
+Similarity	8000-8500 Years	8000	Qinghai-Tibet Plateau Core	Western Highland	0.6804
+Similarity	8000-8500 Years	8000	Sichuan Basin	Southern Segment	0.7717
+Similarity	8000-8500 Years	8000	Sichuan Basin	Western Highland	0.1631
+Similarity	8000-8500 Years	8000	Southern Segment	Western Highland	0.2111
+Similarity	8500-9000 Years	8500	Central Segment	North China	0.086
+Similarity	8500-9000 Years	8500	Central Segment	Northern Segment	0.6284
+Similarity	8500-9000 Years	8500	Central Segment	Panxi and Liangshan	0.8094
+Similarity	8500-9000 Years	8500	Central Segment	Qinghai-Tibet Plateau Core	0.5995
+Similarity	8500-9000 Years	8500	Central Segment	Sichuan Basin	0.2489
+Similarity	8500-9000 Years	8500	Central Segment	Southern Segment	0.1593
+Similarity	8500-9000 Years	8500	Central Segment	Western Highland	0.2582
+Similarity	8500-9000 Years	8500	North China	Northern Segment	0.3311
+Similarity	8500-9000 Years	8500	North China	Panxi and Liangshan	0
+Similarity	8500-9000 Years	8500	North China	Qinghai-Tibet Plateau Core	0.0764
+Similarity	8500-9000 Years	8500	North China	Sichuan Basin	0.5155
+Similarity	8500-9000 Years	8500	North China	Southern Segment	0.4121
+Similarity	8500-9000 Years	8500	North China	Western Highland	0.1392
+Similarity	8500-9000 Years	8500	Northern Segment	Panxi and Liangshan	0.4968
+Similarity	8500-9000 Years	8500	Northern Segment	Qinghai-Tibet Plateau Core	0.5335
+Similarity	8500-9000 Years	8500	Northern Segment	Sichuan Basin	0.5118
+Similarity	8500-9000 Years	8500	Northern Segment	Southern Segment	0.429
+Similarity	8500-9000 Years	8500	Northern Segment	Western Highland	0.2609
+Similarity	8500-9000 Years	8500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.5233
+Similarity	8500-9000 Years	8500	Panxi and Liangshan	Sichuan Basin	0.1796
+Similarity	8500-9000 Years	8500	Panxi and Liangshan	Southern Segment	0.0417
+Similarity	8500-9000 Years	8500	Panxi and Liangshan	Western Highland	0.1525
+Similarity	8500-9000 Years	8500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.2385
+Similarity	8500-9000 Years	8500	Qinghai-Tibet Plateau Core	Southern Segment	0.173
+Similarity	8500-9000 Years	8500	Qinghai-Tibet Plateau Core	Western Highland	0.4024
+Similarity	8500-9000 Years	8500	Sichuan Basin	Southern Segment	0.6692
+Similarity	8500-9000 Years	8500	Sichuan Basin	Western Highland	0.0821
+Similarity	8500-9000 Years	8500	Southern Segment	Western Highland	0.1294
+Similarity	9000-9500 Years	9000	Central Segment	North China	0.5022
+Similarity	9000-9500 Years	9000	Central Segment	Northern Segment	0.7282
+Similarity	9000-9500 Years	9000	Central Segment	Panxi and Liangshan	0.6887
+Similarity	9000-9500 Years	9000	Central Segment	Qinghai-Tibet Plateau Core	0.8538
+Similarity	9000-9500 Years	9000	Central Segment	Sichuan Basin	0.2374
+Similarity	9000-9500 Years	9000	Central Segment	Southern Segment	0.0938
+Similarity	9000-9500 Years	9000	Central Segment	Western Highland	0.8621
+Similarity	9000-9500 Years	9000	North China	Northern Segment	0.471
+Similarity	9000-9500 Years	9000	North China	Panxi and Liangshan	0.623
+Similarity	9000-9500 Years	9000	North China	Qinghai-Tibet Plateau Core	0.447
+Similarity	9000-9500 Years	9000	North China	Sichuan Basin	0.3253
+Similarity	9000-9500 Years	9000	North China	Southern Segment	0
+Similarity	9000-9500 Years	9000	North China	Western Highland	0.4268
+Similarity	9000-9500 Years	9000	Northern Segment	Panxi and Liangshan	0.5326
+Similarity	9000-9500 Years	9000	Northern Segment	Qinghai-Tibet Plateau Core	0.8315
+Similarity	9000-9500 Years	9000	Northern Segment	Sichuan Basin	0.3628
+Similarity	9000-9500 Years	9000	Northern Segment	Southern Segment	0.2677
+Similarity	9000-9500 Years	9000	Northern Segment	Western Highland	0.7848
+Similarity	9000-9500 Years	9000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.6159
+Similarity	9000-9500 Years	9000	Panxi and Liangshan	Sichuan Basin	0.2714
+Similarity	9000-9500 Years	9000	Panxi and Liangshan	Southern Segment	0.0076
+Similarity	9000-9500 Years	9000	Panxi and Liangshan	Western Highland	0.6263
+Similarity	9000-9500 Years	9000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.2885
+Similarity	9000-9500 Years	9000	Qinghai-Tibet Plateau Core	Southern Segment	0.1882
+Similarity	9000-9500 Years	9000	Qinghai-Tibet Plateau Core	Western Highland	0.9492
+Similarity	9000-9500 Years	9000	Sichuan Basin	Southern Segment	0.5559
+Similarity	9000-9500 Years	9000	Sichuan Basin	Western Highland	0.2771
+Similarity	9000-9500 Years	9000	Southern Segment	Western Highland	0.1791
+Similarity	9500-10000 Years	9500	Central Segment	North China	0.4878
+Similarity	9500-10000 Years	9500	Central Segment	Northern Segment	0.3829
+Similarity	9500-10000 Years	9500	Central Segment	Panxi and Liangshan	0.7779
+Similarity	9500-10000 Years	9500	Central Segment	Qinghai-Tibet Plateau Core	0.5078
+Similarity	9500-10000 Years	9500	Central Segment	Sichuan Basin	0.1599
+Similarity	9500-10000 Years	9500	Central Segment	Western Highland	0.5545
+Similarity	9500-10000 Years	9500	North China	Northern Segment	0.2847
+Similarity	9500-10000 Years	9500	North China	Panxi and Liangshan	0.441
+Similarity	9500-10000 Years	9500	North China	Qinghai-Tibet Plateau Core	0.3248
+Similarity	9500-10000 Years	9500	North China	Sichuan Basin	0.2826
+Similarity	9500-10000 Years	9500	North China	Western Highland	0.3453
+Similarity	9500-10000 Years	9500	Northern Segment	Panxi and Liangshan	0.2444
+Similarity	9500-10000 Years	9500	Northern Segment	Qinghai-Tibet Plateau Core	0.8005
+Similarity	9500-10000 Years	9500	Northern Segment	Sichuan Basin	0.0549
+Similarity	9500-10000 Years	9500	Northern Segment	Western Highland	0.7286
+Similarity	9500-10000 Years	9500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.3583
+Similarity	9500-10000 Years	9500	Panxi and Liangshan	Sichuan Basin	0.2049
+Similarity	9500-10000 Years	9500	Panxi and Liangshan	Western Highland	0.3994
+Similarity	9500-10000 Years	9500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.0149
+Similarity	9500-10000 Years	9500	Qinghai-Tibet Plateau Core	Western Highland	0.9209
+Similarity	9500-10000 Years	9500	Sichuan Basin	Western Highland	0
+Similarity	10000-10500 Years	10000	Central Segment	North China	0.7859
+Similarity	10000-10500 Years	10000	Central Segment	Northern Segment	0.5108
+Similarity	10000-10500 Years	10000	Central Segment	Panxi and Liangshan	0.9185
+Similarity	10000-10500 Years	10000	Central Segment	Qinghai-Tibet Plateau Core	0.7911
+Similarity	10000-10500 Years	10000	Central Segment	Sichuan Basin	0.0801
+Similarity	10000-10500 Years	10000	Central Segment	Western Highland	0.824
+Similarity	10000-10500 Years	10000	North China	Northern Segment	0.5883
+Similarity	10000-10500 Years	10000	North China	Panxi and Liangshan	0.7204
+Similarity	10000-10500 Years	10000	North China	Qinghai-Tibet Plateau Core	0.7975
+Similarity	10000-10500 Years	10000	North China	Sichuan Basin	0.1577
+Similarity	10000-10500 Years	10000	North China	Western Highland	0.7736
+Similarity	10000-10500 Years	10000	Northern Segment	Panxi and Liangshan	0.4542
+Similarity	10000-10500 Years	10000	Northern Segment	Qinghai-Tibet Plateau Core	0.622
+Similarity	10000-10500 Years	10000	Northern Segment	Sichuan Basin	0.0916
+Similarity	10000-10500 Years	10000	Northern Segment	Western Highland	0.5939
+Similarity	10000-10500 Years	10000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.7191
+Similarity	10000-10500 Years	10000	Panxi and Liangshan	Sichuan Basin	0.0859
+Similarity	10000-10500 Years	10000	Panxi and Liangshan	Western Highland	0.7584
+Similarity	10000-10500 Years	10000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.004
+Similarity	10000-10500 Years	10000	Qinghai-Tibet Plateau Core	Western Highland	0.9418
+Similarity	10000-10500 Years	10000	Sichuan Basin	Western Highland	0
+Similarity	10500-11000 Years	10500	Central Segment	North China	0.6102
+Similarity	10500-11000 Years	10500	Central Segment	Northern Segment	0.3228
+Similarity	10500-11000 Years	10500	Central Segment	Panxi and Liangshan	0.8301
+Similarity	10500-11000 Years	10500	Central Segment	Qinghai-Tibet Plateau Core	0.4626
+Similarity	10500-11000 Years	10500	Central Segment	Sichuan Basin	0.1543
+Similarity	10500-11000 Years	10500	Central Segment	Western Highland	0.5008
+Similarity	10500-11000 Years	10500	North China	Northern Segment	0.439
+Similarity	10500-11000 Years	10500	North China	Panxi and Liangshan	0.5202
+Similarity	10500-11000 Years	10500	North China	Qinghai-Tibet Plateau Core	0.5743
+Similarity	10500-11000 Years	10500	North China	Sichuan Basin	0.2507
+Similarity	10500-11000 Years	10500	North China	Western Highland	0.6463
+Similarity	10500-11000 Years	10500	Northern Segment	Panxi and Liangshan	0.2543
+Similarity	10500-11000 Years	10500	Northern Segment	Qinghai-Tibet Plateau Core	0.6842
+Similarity	10500-11000 Years	10500	Northern Segment	Sichuan Basin	0
+Similarity	10500-11000 Years	10500	Northern Segment	Western Highland	0.572
+Similarity	10500-11000 Years	10500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.4164
+Similarity	10500-11000 Years	10500	Panxi and Liangshan	Sichuan Basin	0.131
+Similarity	10500-11000 Years	10500	Panxi and Liangshan	Western Highland	0.4555
+Similarity	10500-11000 Years	10500	Qinghai-Tibet Plateau Core	Sichuan Basin	0.027
+Similarity	10500-11000 Years	10500	Qinghai-Tibet Plateau Core	Western Highland	0.7996
+Similarity	10500-11000 Years	10500	Sichuan Basin	Western Highland	0.0263
+Similarity	11000-11500 Years	11000	Central Segment	North China	0.647
+Similarity	11000-11500 Years	11000	Central Segment	Northern Segment	0.6089
+Similarity	11000-11500 Years	11000	Central Segment	Panxi and Liangshan	0.7601
+Similarity	11000-11500 Years	11000	Central Segment	Qinghai-Tibet Plateau Core	0.7564
+Similarity	11000-11500 Years	11000	Central Segment	Sichuan Basin	0.0961
+Similarity	11000-11500 Years	11000	Central Segment	Western Highland	0.7156
+Similarity	11000-11500 Years	11000	North China	Northern Segment	0.5228
+Similarity	11000-11500 Years	11000	North China	Panxi and Liangshan	0.6866
+Similarity	11000-11500 Years	11000	North China	Qinghai-Tibet Plateau Core	0.6709
+Similarity	11000-11500 Years	11000	North China	Sichuan Basin	0.312
+Similarity	11000-11500 Years	11000	North China	Western Highland	0.5734
+Similarity	11000-11500 Years	11000	Northern Segment	Panxi and Liangshan	0.4053
+Similarity	11000-11500 Years	11000	Northern Segment	Qinghai-Tibet Plateau Core	0.7249
+Similarity	11000-11500 Years	11000	Northern Segment	Sichuan Basin	0
+Similarity	11000-11500 Years	11000	Northern Segment	Western Highland	0.709
+Similarity	11000-11500 Years	11000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.603
+Similarity	11000-11500 Years	11000	Panxi and Liangshan	Sichuan Basin	0.1883
+Similarity	11000-11500 Years	11000	Panxi and Liangshan	Western Highland	0.5415
+Similarity	11000-11500 Years	11000	Qinghai-Tibet Plateau Core	Sichuan Basin	0.1779
+Similarity	11000-11500 Years	11000	Qinghai-Tibet Plateau Core	Western Highland	0.8352
+Similarity	11000-11500 Years	11000	Sichuan Basin	Western Highland	0.1702
+Similarity	11500-12000 Years	11500	Central Segment	North China	0.1922
+Similarity	11500-12000 Years	11500	Central Segment	Northern Segment	0.4545
+Similarity	11500-12000 Years	11500	Central Segment	Panxi and Liangshan	0.5723
+Similarity	11500-12000 Years	11500	Central Segment	Qinghai-Tibet Plateau Core	0.6291
+Similarity	11500-12000 Years	11500	Central Segment	Western Highland	0.6423
+Similarity	11500-12000 Years	11500	North China	Northern Segment	0
+Similarity	11500-12000 Years	11500	North China	Panxi and Liangshan	0.5187
+Similarity	11500-12000 Years	11500	North China	Qinghai-Tibet Plateau Core	0.5029
+Similarity	11500-12000 Years	11500	North China	Western Highland	0.4975
+Similarity	11500-12000 Years	11500	Northern Segment	Panxi and Liangshan	0.1979
+Similarity	11500-12000 Years	11500	Northern Segment	Qinghai-Tibet Plateau Core	0.3563
+Similarity	11500-12000 Years	11500	Northern Segment	Western Highland	0.3385
+Similarity	11500-12000 Years	11500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.7359
+Similarity	11500-12000 Years	11500	Panxi and Liangshan	Western Highland	0.7651
+Similarity	11500-12000 Years	11500	Qinghai-Tibet Plateau Core	Western Highland	0.9489
+Similarity	12000-12500 Years	12000	Central Segment	North China	0.3189
+Similarity	12000-12500 Years	12000	Central Segment	Northern Segment	0.4362
+Similarity	12000-12500 Years	12000	Central Segment	Panxi and Liangshan	0.511
+Similarity	12000-12500 Years	12000	Central Segment	Qinghai-Tibet Plateau Core	0.5736
+Similarity	12000-12500 Years	12000	Central Segment	Western Highland	0.5669
+Similarity	12000-12500 Years	12000	North China	Northern Segment	0
+Similarity	12000-12500 Years	12000	North China	Panxi and Liangshan	0.2895
+Similarity	12000-12500 Years	12000	North China	Qinghai-Tibet Plateau Core	0.6536
+Similarity	12000-12500 Years	12000	North China	Western Highland	0.6786
+Similarity	12000-12500 Years	12000	Northern Segment	Panxi and Liangshan	0.1831
+Similarity	12000-12500 Years	12000	Northern Segment	Qinghai-Tibet Plateau Core	0.2294
+Similarity	12000-12500 Years	12000	Northern Segment	Western Highland	0.173
+Similarity	12000-12500 Years	12000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.5613
+Similarity	12000-12500 Years	12000	Panxi and Liangshan	Western Highland	0.5778
+Similarity	12000-12500 Years	12000	Qinghai-Tibet Plateau Core	Western Highland	0.9066
+Similarity	12500-13000 Years	12500	Central Segment	North China	0.2629
+Similarity	12500-13000 Years	12500	Central Segment	Northern Segment	0.4009
+Similarity	12500-13000 Years	12500	Central Segment	Panxi and Liangshan	0.1829
+Similarity	12500-13000 Years	12500	Central Segment	Qinghai-Tibet Plateau Core	0.5564
+Similarity	12500-13000 Years	12500	Central Segment	Western Highland	0.5328
+Similarity	12500-13000 Years	12500	North China	Northern Segment	0.1509
+Similarity	12500-13000 Years	12500	North China	Panxi and Liangshan	0.1264
+Similarity	12500-13000 Years	12500	North China	Qinghai-Tibet Plateau Core	0.3921
+Similarity	12500-13000 Years	12500	North China	Western Highland	0.4962
+Similarity	12500-13000 Years	12500	Northern Segment	Panxi and Liangshan	0
+Similarity	12500-13000 Years	12500	Northern Segment	Qinghai-Tibet Plateau Core	0.5662
+Similarity	12500-13000 Years	12500	Northern Segment	Western Highland	0.4428
+Similarity	12500-13000 Years	12500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.0473
+Similarity	12500-13000 Years	12500	Panxi and Liangshan	Western Highland	0.1419
+Similarity	12500-13000 Years	12500	Qinghai-Tibet Plateau Core	Western Highland	0.8232
+Similarity	13000-13500 Years	13000	Central Segment	North China	0.5658
+Similarity	13000-13500 Years	13000	Central Segment	Northern Segment	0.4091
+Similarity	13000-13500 Years	13000	Central Segment	Panxi and Liangshan	0.245
+Similarity	13000-13500 Years	13000	Central Segment	Qinghai-Tibet Plateau Core	0.7421
+Similarity	13000-13500 Years	13000	Central Segment	Western Highland	0.7783
+Similarity	13000-13500 Years	13000	North China	Northern Segment	0.3713
+Similarity	13000-13500 Years	13000	North China	Panxi and Liangshan	0.1936
+Similarity	13000-13500 Years	13000	North China	Qinghai-Tibet Plateau Core	0.6834
+Similarity	13000-13500 Years	13000	North China	Western Highland	0.6491
+Similarity	13000-13500 Years	13000	Northern Segment	Panxi and Liangshan	0
+Similarity	13000-13500 Years	13000	Northern Segment	Qinghai-Tibet Plateau Core	0.4815
+Similarity	13000-13500 Years	13000	Northern Segment	Western Highland	0.5525
+Similarity	13000-13500 Years	13000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.0826
+Similarity	13000-13500 Years	13000	Panxi and Liangshan	Western Highland	0.1641
+Similarity	13000-13500 Years	13000	Qinghai-Tibet Plateau Core	Western Highland	0.8266
+Similarity	13500-14000 Years	13500	Central Segment	North China	0.1206
+Similarity	13500-14000 Years	13500	Central Segment	Northern Segment	0.3349
+Similarity	13500-14000 Years	13500	Central Segment	Panxi and Liangshan	0.4019
+Similarity	13500-14000 Years	13500	Central Segment	Qinghai-Tibet Plateau Core	0.5612
+Similarity	13500-14000 Years	13500	Central Segment	Western Highland	0.6333
+Similarity	13500-14000 Years	13500	North China	Northern Segment	0.5802
+Similarity	13500-14000 Years	13500	North China	Panxi and Liangshan	0
+Similarity	13500-14000 Years	13500	North China	Qinghai-Tibet Plateau Core	0.5192
+Similarity	13500-14000 Years	13500	North China	Western Highland	0.4333
+Similarity	13500-14000 Years	13500	Northern Segment	Panxi and Liangshan	0.3337
+Similarity	13500-14000 Years	13500	Northern Segment	Qinghai-Tibet Plateau Core	0.6126
+Similarity	13500-14000 Years	13500	Northern Segment	Western Highland	0.6215
+Similarity	13500-14000 Years	13500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.3321
+Similarity	13500-14000 Years	13500	Panxi and Liangshan	Western Highland	0.4284
+Similarity	13500-14000 Years	13500	Qinghai-Tibet Plateau Core	Western Highland	0.8823
+Similarity	14000-14500 Years	14000	Central Segment	North China	0.0309
+Similarity	14000-14500 Years	14000	Central Segment	Northern Segment	0.3654
+Similarity	14000-14500 Years	14000	Central Segment	Panxi and Liangshan	0.7558
+Similarity	14000-14500 Years	14000	Central Segment	Qinghai-Tibet Plateau Core	0.4661
+Similarity	14000-14500 Years	14000	Central Segment	Western Highland	0.4903
+Similarity	14000-14500 Years	14000	North China	Northern Segment	0.5443
+Similarity	14000-14500 Years	14000	North China	Panxi and Liangshan	0
+Similarity	14000-14500 Years	14000	North China	Qinghai-Tibet Plateau Core	0.3875
+Similarity	14000-14500 Years	14000	North China	Western Highland	0.371
+Similarity	14000-14500 Years	14000	Northern Segment	Panxi and Liangshan	0.3682
+Similarity	14000-14500 Years	14000	Northern Segment	Qinghai-Tibet Plateau Core	0.8244
+Similarity	14000-14500 Years	14000	Northern Segment	Western Highland	0.7957
+Similarity	14000-14500 Years	14000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.4762
+Similarity	14000-14500 Years	14000	Panxi and Liangshan	Western Highland	0.5216
+Similarity	14000-14500 Years	14000	Qinghai-Tibet Plateau Core	Western Highland	0.9199
+Similarity	14500-15000 Years	14500	Central Segment	North China	0.0468
+Similarity	14500-15000 Years	14500	Central Segment	Northern Segment	0.2915
+Similarity	14500-15000 Years	14500	Central Segment	Panxi and Liangshan	0.5788
+Similarity	14500-15000 Years	14500	Central Segment	Qinghai-Tibet Plateau Core	0.5471
+Similarity	14500-15000 Years	14500	Central Segment	Western Highland	0.6514
+Similarity	14500-15000 Years	14500	North China	Northern Segment	0.5217
+Similarity	14500-15000 Years	14500	North China	Panxi and Liangshan	0
+Similarity	14500-15000 Years	14500	North China	Qinghai-Tibet Plateau Core	0.3045
+Similarity	14500-15000 Years	14500	North China	Western Highland	0.3077
+Similarity	14500-15000 Years	14500	Northern Segment	Panxi and Liangshan	0.1641
+Similarity	14500-15000 Years	14500	Northern Segment	Qinghai-Tibet Plateau Core	0.6952
+Similarity	14500-15000 Years	14500	Northern Segment	Western Highland	0.5962
+Similarity	14500-15000 Years	14500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.3253
+Similarity	14500-15000 Years	14500	Panxi and Liangshan	Western Highland	0.4941
+Similarity	14500-15000 Years	14500	Qinghai-Tibet Plateau Core	Western Highland	0.7796
+Similarity	15000-15500 Years	15000	Central Segment	North China	0.1242
+Similarity	15000-15500 Years	15000	Central Segment	Northern Segment	0.3381
+Similarity	15000-15500 Years	15000	Central Segment	Panxi and Liangshan	0.4369
+Similarity	15000-15500 Years	15000	Central Segment	Qinghai-Tibet Plateau Core	0.4395
+Similarity	15000-15500 Years	15000	Central Segment	Western Highland	0.6659
+Similarity	15000-15500 Years	15000	North China	Northern Segment	0.6425
+Similarity	15000-15500 Years	15000	North China	Panxi and Liangshan	0
+Similarity	15000-15500 Years	15000	North China	Qinghai-Tibet Plateau Core	0.3944
+Similarity	15000-15500 Years	15000	North China	Western Highland	0.373
+Similarity	15000-15500 Years	15000	Northern Segment	Panxi and Liangshan	0.2423
+Similarity	15000-15500 Years	15000	Northern Segment	Qinghai-Tibet Plateau Core	0.6378
+Similarity	15000-15500 Years	15000	Northern Segment	Western Highland	0.6037
+Similarity	15000-15500 Years	15000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.4799
+Similarity	15000-15500 Years	15000	Panxi and Liangshan	Western Highland	0.3941
+Similarity	15000-15500 Years	15000	Qinghai-Tibet Plateau Core	Western Highland	0.6273
+Similarity	15500-16000 Years	15500	Central Segment	North China	0.0612
+Similarity	15500-16000 Years	15500	Central Segment	Northern Segment	0.3745
+Similarity	15500-16000 Years	15500	Central Segment	Panxi and Liangshan	0.5784
+Similarity	15500-16000 Years	15500	Central Segment	Qinghai-Tibet Plateau Core	0.4474
+Similarity	15500-16000 Years	15500	Central Segment	Western Highland	0.6313
+Similarity	15500-16000 Years	15500	North China	Northern Segment	0.4973
+Similarity	15500-16000 Years	15500	North China	Panxi and Liangshan	0
+Similarity	15500-16000 Years	15500	North China	Qinghai-Tibet Plateau Core	0.4708
+Similarity	15500-16000 Years	15500	North China	Western Highland	0.2733
+Similarity	15500-16000 Years	15500	Northern Segment	Panxi and Liangshan	0.3188
+Similarity	15500-16000 Years	15500	Northern Segment	Qinghai-Tibet Plateau Core	0.9096
+Similarity	15500-16000 Years	15500	Northern Segment	Western Highland	0.6198
+Similarity	15500-16000 Years	15500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.3516
+Similarity	15500-16000 Years	15500	Panxi and Liangshan	Western Highland	0.5322
+Similarity	15500-16000 Years	15500	Qinghai-Tibet Plateau Core	Western Highland	0.6635
+Similarity	16000-16500 Years	16000	Central Segment	North China	0
+Similarity	16000-16500 Years	16000	Central Segment	Northern Segment	0.3454
+Similarity	16000-16500 Years	16000	Central Segment	Panxi and Liangshan	0.5264
+Similarity	16000-16500 Years	16000	Central Segment	Qinghai-Tibet Plateau Core	0.3715
+Similarity	16000-16500 Years	16000	Central Segment	Western Highland	0.5911
+Similarity	16000-16500 Years	16000	North China	Northern Segment	0.2719
+Similarity	16000-16500 Years	16000	North China	Panxi and Liangshan	0.1515
+Similarity	16000-16500 Years	16000	North China	Qinghai-Tibet Plateau Core	0.2494
+Similarity	16000-16500 Years	16000	North China	Western Highland	0.1869
+Similarity	16000-16500 Years	16000	Northern Segment	Panxi and Liangshan	0.6318
+Similarity	16000-16500 Years	16000	Northern Segment	Qinghai-Tibet Plateau Core	0.7675
+Similarity	16000-16500 Years	16000	Northern Segment	Western Highland	0.5101
+Similarity	16000-16500 Years	16000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.6533
+Similarity	16000-16500 Years	16000	Panxi and Liangshan	Western Highland	0.4524
+Similarity	16000-16500 Years	16000	Qinghai-Tibet Plateau Core	Western Highland	0.5489
+Similarity	16500-17000 Years	16500	Central Segment	North China	0
+Similarity	16500-17000 Years	16500	Central Segment	Northern Segment	0.4439
+Similarity	16500-17000 Years	16500	Central Segment	Panxi and Liangshan	0.8761
+Similarity	16500-17000 Years	16500	Central Segment	Qinghai-Tibet Plateau Core	0.4068
+Similarity	16500-17000 Years	16500	Central Segment	Western Highland	0.4061
+Similarity	16500-17000 Years	16500	North China	Northern Segment	0.1916
+Similarity	16500-17000 Years	16500	North China	Panxi and Liangshan	0.0429
+Similarity	16500-17000 Years	16500	North China	Qinghai-Tibet Plateau Core	0.0477
+Similarity	16500-17000 Years	16500	North China	Western Highland	0.0754
+Similarity	16500-17000 Years	16500	Northern Segment	Panxi and Liangshan	0.493
+Similarity	16500-17000 Years	16500	Northern Segment	Qinghai-Tibet Plateau Core	0.4427
+Similarity	16500-17000 Years	16500	Northern Segment	Western Highland	0.4342
+Similarity	16500-17000 Years	16500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.4289
+Similarity	16500-17000 Years	16500	Panxi and Liangshan	Western Highland	0.4276
+Similarity	16500-17000 Years	16500	Qinghai-Tibet Plateau Core	Western Highland	0.9552
+Similarity	17000-17500 Years	17000	Central Segment	North China	0.0409
+Similarity	17000-17500 Years	17000	Central Segment	Northern Segment	0.4448
+Similarity	17000-17500 Years	17000	Central Segment	Panxi and Liangshan	0.624
+Similarity	17000-17500 Years	17000	Central Segment	Qinghai-Tibet Plateau Core	0.5152
+Similarity	17000-17500 Years	17000	Central Segment	Western Highland	0.6153
+Similarity	17000-17500 Years	17000	North China	Northern Segment	0.2166
+Similarity	17000-17500 Years	17000	North China	Panxi and Liangshan	0
+Similarity	17000-17500 Years	17000	North China	Qinghai-Tibet Plateau Core	0.0894
+Similarity	17000-17500 Years	17000	North China	Western Highland	0.1208
+Similarity	17000-17500 Years	17000	Northern Segment	Panxi and Liangshan	0.5443
+Similarity	17000-17500 Years	17000	Northern Segment	Qinghai-Tibet Plateau Core	0.4223
+Similarity	17000-17500 Years	17000	Northern Segment	Western Highland	0.5903
+Similarity	17000-17500 Years	17000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.4934
+Similarity	17000-17500 Years	17000	Panxi and Liangshan	Western Highland	0.6275
+Similarity	17000-17500 Years	17000	Qinghai-Tibet Plateau Core	Western Highland	0.7886
+Similarity	17500-18000 Years	17500	Central Segment	North China	0
+Similarity	17500-18000 Years	17500	Central Segment	Northern Segment	0.3363
+Similarity	17500-18000 Years	17500	Central Segment	Panxi and Liangshan	0.6446
+Similarity	17500-18000 Years	17500	Central Segment	Qinghai-Tibet Plateau Core	0.6485
+Similarity	17500-18000 Years	17500	Central Segment	Western Highland	0.5193
+Similarity	17500-18000 Years	17500	North China	Northern Segment	0.3087
+Similarity	17500-18000 Years	17500	North China	Panxi and Liangshan	0.1536
+Similarity	17500-18000 Years	17500	North China	Qinghai-Tibet Plateau Core	0.0831
+Similarity	17500-18000 Years	17500	North China	Western Highland	0.1732
+Similarity	17500-18000 Years	17500	Northern Segment	Panxi and Liangshan	0.5059
+Similarity	17500-18000 Years	17500	Northern Segment	Qinghai-Tibet Plateau Core	0.4228
+Similarity	17500-18000 Years	17500	Northern Segment	Western Highland	0.382
+Similarity	17500-18000 Years	17500	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.689
+Similarity	17500-18000 Years	17500	Panxi and Liangshan	Western Highland	0.6503
+Similarity	17500-18000 Years	17500	Qinghai-Tibet Plateau Core	Western Highland	0.7546
+Similarity	18000-18500 Years	18000	Central Segment	North China	0.2652
+Similarity	18000-18500 Years	18000	Central Segment	Northern Segment	0.2355
+Similarity	18000-18500 Years	18000	Central Segment	Panxi and Liangshan	0.4684
+Similarity	18000-18500 Years	18000	Central Segment	Qinghai-Tibet Plateau Core	0.5874
+Similarity	18000-18500 Years	18000	Central Segment	Western Highland	0.7068
+Similarity	18000-18500 Years	18000	North China	Northern Segment	0.2347
+Similarity	18000-18500 Years	18000	North China	Panxi and Liangshan	0.4824
+Similarity	18000-18500 Years	18000	North China	Qinghai-Tibet Plateau Core	0.065
+Similarity	18000-18500 Years	18000	North China	Western Highland	0.1288
+Similarity	18000-18500 Years	18000	Northern Segment	Panxi and Liangshan	0.1963
+Similarity	18000-18500 Years	18000	Northern Segment	Qinghai-Tibet Plateau Core	0
+Similarity	18000-18500 Years	18000	Northern Segment	Western Highland	0.1803
+Similarity	18000-18500 Years	18000	Panxi and Liangshan	Qinghai-Tibet Plateau Core	0.392
+Similarity	18000-18500 Years	18000	Panxi and Liangshan	Western Highland	0.3777
+Similarity	18000-18500 Years	18000	Qinghai-Tibet Plateau Core	Western Highland	0.7575
+Similarity	18500-19000 Years	18500	Central Segment	North China	0.2528
+Similarity	18500-19000 Years	18500	Central Segment	Northern Segment	0.1487
+Similarity	18500-19000 Years	18500	Central Segment	Qinghai-Tibet Plateau Core	0.3037
+Similarity	18500-19000 Years	18500	Central Segment	Western Highland	0.5517
+Similarity	18500-19000 Years	18500	North China	Northern Segment	0
+Similarity	18500-19000 Years	18500	North China	Qinghai-Tibet Plateau Core	0.417
+Similarity	18500-19000 Years	18500	North China	Western Highland	0.269
+Similarity	18500-19000 Years	18500	Northern Segment	Qinghai-Tibet Plateau Core	0.2904
+Similarity	18500-19000 Years	18500	Northern Segment	Western Highland	0.2331
+Similarity	18500-19000 Years	18500	Qinghai-Tibet Plateau Core	Western Highland	0.5181
+Similarity	19000-19500 Years	19000	Central Segment	North China	0.0594
+Similarity	19000-19500 Years	19000	Central Segment	Northern Segment	0.3638
+Similarity	19000-19500 Years	19000	Central Segment	Qinghai-Tibet Plateau Core	0.3848
+Similarity	19000-19500 Years	19000	Central Segment	Western Highland	0.7239
+Similarity	19000-19500 Years	19000	North China	Northern Segment	0
+Similarity	19000-19500 Years	19000	North China	Qinghai-Tibet Plateau Core	0.2966
+Similarity	19000-19500 Years	19000	North China	Western Highland	0.1141
+Similarity	19000-19500 Years	19000	Northern Segment	Qinghai-Tibet Plateau Core	0.5037
+Similarity	19000-19500 Years	19000	Northern Segment	Western Highland	0.2967
+Similarity	19000-19500 Years	19000	Qinghai-Tibet Plateau Core	Western Highland	0.4977
+Similarity	19500-20000 Years	19500	Central Segment	Northern Segment	0.2964
+Similarity	19500-20000 Years	19500	Central Segment	Qinghai-Tibet Plateau Core	0
+Similarity	19500-20000 Years	19500	Central Segment	Western Highland	0.3682
+Similarity	19500-20000 Years	19500	Northern Segment	Qinghai-Tibet Plateau Core	0.5199
+Similarity	19500-20000 Years	19500	Northern Segment	Western Highland	0.4329
+Similarity	19500-20000 Years	19500	Qinghai-Tibet Plateau Core	Western Highland	0.476
