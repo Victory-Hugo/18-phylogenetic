@@ -11,7 +11,9 @@ group_design_path   <- get_arg("--group-design")
 output_figure       <- get_arg("--output-figure")
 fill_mode           <- get_arg("--fill-mode")
 colour_ramp         <- get_arg("--colour-ramp", split = ",")
+height_mode         <- get_arg("--height-mode")
 ridge_scale         <- get_arg("--ridge-scale", numeric = TRUE)
+ridge_scale_indiv   <- get_arg("--ridge-scale-individual", numeric = TRUE)
 ridge_alpha         <- get_arg("--ridge-alpha", numeric = TRUE)
 outline_width       <- get_arg("--outline-width", numeric = TRUE)
 min_height_fraction <- get_arg("--min-height-fraction", numeric = TRUE)
@@ -41,27 +43,44 @@ groupings <- unique(df2$Grouping)
 windows <- df3 %>% distinct(`Time window`, x_max) %>% arrange(x_max)
 
 #* =====单个面板=====
-# 面板强制正方形（aspect.ratio = 1）；同一维度的各类别共用一个高度换算系数，脊线高度真正可比。
+# 面板强制正方形（aspect.ratio = 1）。高度换算有两种口径，见 conf 的 plot.height_mode：
+# shared 全面板共用一个系数、脊线高度真正可比；individual 逐条按自身上界归一化、形状可读。
 build_panel <- function(df, x_max) {
+  individual <- height_mode == "individual"
+  effective_scale <- if (individual) ridge_scale_indiv
+                     else min(ridge_scale, 0.9 * n_distinct(df$Group))
+
+  # 每条脊线自己的中位峰高与 5-95% 上界。individual 模式按各自的上界归一化，
+  # 因此每条都顶到同一个视觉高度，形状可读但高度不再可比；峰高数值改写进左侧类别名。
+  peaks <- df %>%
+    group_by(Group) %>%
+    summarise(peak = max(`Ridge height`, na.rm = TRUE),
+              cap = max(c(`Ridge height`, `Ridge height upper`), na.rm = TRUE),
+              .groups = "drop")
+
   levels_tbl <- df %>%
     distinct(Group, Order, Samples, `Share of events below the resolution limit`) %>%
+    left_join(peaks, by = "Group") %>%
     arrange(desc(Order)) %>%
     mutate(y_pos = row_number(),
            axis_label = paste0(str_wrap(Group, width = 22), "\nn = ", comma(Samples),
                                if_else(`Share of events below the resolution limit` > 0,
                                        paste0(", ", percent(
                                          `Share of events below the resolution limit`,
-                                         accuracy = 1), " excluded"), "")))
+                                         accuracy = 1), " excluded"), ""),
+                               if (individual) paste0("; peak = ", comma(peak, accuracy = 1))
+                               else ""))
   n_rows <- nrow(levels_tbl)
 
+  # shared 模式全面板一个系数；individual 模式逐条一个系数，故换算系数落成 df4 的一列
+  shared_factor <- effective_scale /
+    max(df$`Ridge height upper`, df$`Ridge height`, na.rm = TRUE)
   df4 <- df %>%
-    left_join(select(levels_tbl, Group, y_pos), by = "Group") %>%
+    left_join(select(levels_tbl, Group, y_pos, cap), by = "Group") %>%
+    mutate(factor = if (individual) effective_scale / cap else shared_factor) %>%
     arrange(desc(y_pos), `Node age (kya)`)
-  effective_scale <- min(ridge_scale, 0.9 * n_rows)
-  height_factor <- effective_scale /
-    max(df4$`Ridge height upper`, df4$`Ridge height`, na.rm = TRUE)
-  # 低于全图最高脊线该比例的部分不画：在共用高度尺子下这部分本来就细到看不见，
-  # 裁掉之后脊线左端收成尖角，而不是一路平铺成长条
+  # 低于该比例的部分不画：这部分本来就细到看不见，裁掉之后脊线左端收成尖角，
+  # 而不是一路平铺成长条
   ridge_min_height <- min_height_fraction * effective_scale
 
   p <- ggplot() +
@@ -71,10 +90,10 @@ build_panel <- function(df, x_max) {
 
   # 抽稀重复之间的区间垫在脊线之下，取该条脊线自己的填充色再调淡，不用中性灰
   if (!all(is.na(df$`Ridge height lower`))) {
-    band <- filter(df4, `Ridge height upper` * height_factor >= ridge_min_height)
+    band <- filter(df4, `Ridge height upper` * factor >= ridge_min_height)
     band_aes <- aes(x = `Node age (kya)`,
-                    ymin = y_pos + `Ridge height lower` * height_factor,
-                    ymax = y_pos + `Ridge height upper` * height_factor, group = Group)
+                    ymin = y_pos + `Ridge height lower` * factor,
+                    ymax = y_pos + `Ridge height upper` * factor, group = Group)
     p <- p + if (fill_mode == "category") {
       # age 模式的填充色由年龄决定，没有属于某条脊线的单色，那里才回落到中性色
       geom_ribbon(data = band, modifyList(band_aes, aes(fill = Colour)),
@@ -85,17 +104,17 @@ build_panel <- function(df, x_max) {
   }
 
   # 填充与描边分开画：填充带透明度，描边单独一条不透明的线，因此描边始终比填充更深更实
-  outline_data <- filter(df4, `Ridge height` * height_factor >= ridge_min_height)
+  outline_data <- filter(df4, `Ridge height` * factor >= ridge_min_height)
   if (fill_mode == "category") {
     # 每条脊线一个纯色，颜色沿色带按纵轴顺序插值；描边取同色压暗一档
     p <- p +
       geom_ridgeline(
         data = df4,
-        aes(x = `Node age (kya)`, y = y_pos, height = `Ridge height` * height_factor,
+        aes(x = `Node age (kya)`, y = y_pos, height = `Ridge height` * factor,
             group = Group, fill = Colour),
         colour = NA, alpha = ridge_alpha, min_height = ridge_min_height) +
       geom_line(data = outline_data,
-                aes(x = `Node age (kya)`, y = y_pos + `Ridge height` * height_factor,
+                aes(x = `Node age (kya)`, y = y_pos + `Ridge height` * factor,
                     group = Group, colour = Outline), linewidth = outline_width) +
       scale_fill_identity() +
       scale_colour_identity()
@@ -104,38 +123,42 @@ build_panel <- function(df, x_max) {
     p <- p +
       geom_ridgeline_gradient(
         data = df4,
-        aes(x = `Node age (kya)`, y = y_pos, height = `Ridge height` * height_factor,
+        aes(x = `Node age (kya)`, y = y_pos, height = `Ridge height` * factor,
             group = Group, fill = `Node age (kya)`),
         colour = NA, alpha = ridge_alpha, min_height = ridge_min_height) +
       geom_line(data = outline_data,
-                aes(x = `Node age (kya)`, y = y_pos + `Ridge height` * height_factor,
+                aes(x = `Node age (kya)`, y = y_pos + `Ridge height` * factor,
                     group = Group), colour = outline_colour, linewidth = outline_width) +
       scale_fill_gradientn(colours = colour_ramp, limits = c(0, x_max),
                            oob = scales::squish, guide = "none")
   }
 
-  # 高度标尺：面板左上角的竖直参照线段。同一面板内各类别共用一个高度换算系数，
-  # 脊线高度本身可比，这把标尺给出它的物理单位
-  bar_value <- signif(max(df4$`Ridge height`, na.rm = TRUE) / 4, 1)
-  bar_height <- bar_value * height_factor
+  # 高度标尺只在 shared 模式下有意义：那里各类别共用一个换算系数，标尺给出它的物理单位。
+  # individual 模式逐条归一化，画一根统一的标尺反而误导，峰高改由左侧类别名逐条给出。
   top_row <- filter(df4, y_pos == n_rows)
-  top_row_height <- max(c(top_row$`Ridge height`, top_row$`Ridge height upper`),
-                        na.rm = TRUE) * height_factor
-  left_height <- top_row %>%
-    filter(`Node age (kya)` >= x_max * 0.55) %>%
-    summarise(v = max(c(`Ridge height`, `Ridge height upper`), na.rm = TRUE)) %>%
-    pull(v) * height_factor
-  bar_x <- x_max * 0.97
-  bar_y <- n_rows + left_height + 0.06
-  # 纵轴范围已被最上一条脊线自身的高度撑开，这里只需补出标尺高过该脊线的那一点点
-  top_pad <- max(0, bar_y + bar_height + 0.16 - (n_rows + top_row_height)) + 0.1
+  top_row_height <- max(c(top_row$`Ridge height` * top_row$factor,
+                          top_row$`Ridge height upper` * top_row$factor), na.rm = TRUE)
+  top_pad <- 0.1
+  if (!individual) {
+    bar_value <- signif(max(df4$`Ridge height`, na.rm = TRUE) / 4, 1)
+    bar_height <- bar_value * shared_factor
+    left_height <- top_row %>%
+      filter(`Node age (kya)` >= x_max * 0.55) %>%
+      summarise(v = max(c(`Ridge height`, `Ridge height upper`), na.rm = TRUE)) %>%
+      pull(v) * shared_factor
+    bar_x <- x_max * 0.97
+    bar_y <- n_rows + left_height + 0.06
+    # 纵轴范围已被最上一条脊线自身的高度撑开，这里只需补出标尺高过该脊线的那一点点
+    top_pad <- max(0, bar_y + bar_height + 0.16 - (n_rows + top_row_height)) + 0.1
+    p <- p +
+      annotate("segment", x = bar_x, xend = bar_x, y = bar_y, yend = bar_y + bar_height,
+               colour = "black", linewidth = 0.35) +
+      annotate("text", x = bar_x - x_max * 0.025, y = bar_y + bar_height / 2,
+               label = comma(bar_value), family = plot_family, fontface = "plain",
+               colour = "black", size = font_size / .pt, hjust = 0, vjust = 0.5)
+  }
 
   p <- p +
-    annotate("segment", x = bar_x, xend = bar_x, y = bar_y, yend = bar_y + bar_height,
-             colour = "black", linewidth = 0.35) +
-    annotate("text", x = bar_x - x_max * 0.025, y = bar_y + bar_height / 2,
-             label = comma(bar_value), family = plot_family, fontface = "plain",
-             colour = "black", size = font_size / .pt, hjust = 0, vjust = 0.5) +
     scale_x_reverse(breaks = pretty(c(0, x_max), n = 6),
                     expand = expansion(mult = c(0.02, 0.02))) +
     scale_y_continuous(breaks = levels_tbl$y_pos,
@@ -161,7 +184,11 @@ build_figure <- function(grouping, standalone = TRUE) {
            else paste0(grouping, ", ", str_to_lower(windows$`Time window`[i])))
   }
   if (length(panels) == 0) return(NULL)
-  unit_label <- str_wrap(first(filter(df3, Grouping == grouping)$`Ridge height unit`), width = 30)
+  unit_label <- str_wrap(
+    if (height_mode == "individual")
+      paste0(first(filter(df3, Grouping == grouping)$`Ridge height unit`),
+             ", each ridge scaled to its own maximum")
+    else first(filter(df3, Grouping == grouping)$`Ridge height unit`), width = 30)
   panels <- map(panels, ~ .x + labs(y = unit_label) +
                   theme(axis.title.y = element_text(angle = 90, vjust = 1)))
   p <- wrap_plots(panels, nrow = 1)

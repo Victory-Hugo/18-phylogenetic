@@ -1,9 +1,9 @@
-2026-08-29 17:55:03,180 INFO 树 tip 8684 个，metadata 11987 行，取交集后 8684 个样本进入分析（树上未匹配 0，metadata 中未上树 3303）
-2026-08-29 17:55:03,189 INFO   Corridor_and_key_regions     8 个类别，抽稀目标样本量受限于 MSEA（64 例）
-2026-08-29 17:55:03,189 INFO   Corridor_NCS                 4 个类别，抽稀目标样本量受限于 Central（192 例）
-2026-08-29 17:55:03,189 INFO   Sichuan_geographic_regions   4 个类别，抽稀目标样本量受限于 West_Sichuan_Highland（69 例）
-2026-08-29 17:55:03,189 INFO   Elevation_group              3 个类别，抽稀目标样本量受限于 High（584 例）
-2026-08-29 17:55:03,189 INFO   Language                     剔除 11 个不足 50 例的类别：Turkic(38), Uralic(38), Koreanic(35), Papuan(18), Altaic(17), Sino_Tibetan(11), Tupi(7), Northwest_Caucasian(6), Khoisan(3), Mayan(2), Austronesian(1)
-2026-08-29 17:55:03,189 INFO   Language                     15 个类别，抽稀目标样本量受限于 Bantu（58 例）
-2026-08-29 17:55:03,202 INFO   All samples                  全样本总览，8684 个个体（单类别，不抽稀）
-2026-08-29 17:55:03,347 INFO 样本分组长表 51922 行，6 个维度 → output/result/1-prepare_input
+2026-08-31 09:45:13,244 INFO 树 tip 8684 个，metadata 11987 行，取交集后 8684 个样本进入分析（树上未匹配 0，metadata 中未上树 3303）
+2026-08-31 09:45:13,254 INFO   Corridor_and_key_regions     8 个类别，抽稀目标样本量受限于 MSEA（64 例）
+2026-08-31 09:45:13,254 INFO   Corridor_NCS                 4 个类别，抽稀目标样本量受限于 Central（192 例）
+2026-08-31 09:45:13,254 INFO   Sichuan_geographic_regions   4 个类别，抽稀目标样本量受限于 West_Sichuan_Highland（69 例）
+2026-08-31 09:45:13,254 INFO   Elevation_group              3 个类别，抽稀目标样本量受限于 High（584 例）
+2026-08-31 09:45:13,254 INFO   Language                     剔除 11 个不足 50 例的类别：Turkic(38), Uralic(38), Koreanic(35), Papuan(18), Altaic(17), Sino_Tibetan(11), Tupi(7), Northwest_Caucasian(6), Khoisan(3), Mayan(2), Austronesian(1)
+2026-08-31 09:45:13,254 INFO   Language                     15 个类别，抽稀目标样本量受限于 Bantu（58 例）
+2026-08-31 09:45:13,269 INFO   All samples                  全样本总览，8684 个个体（单类别，不抽稀）
+2026-08-31 09:45:13,362 INFO 样本分组长表 51922 行，6 个维度 → output/result/1-prepare_input

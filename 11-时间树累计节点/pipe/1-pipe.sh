@@ -69,7 +69,9 @@ RESULT_3="output/result/3-ridge_density"
   --output-figure "output/figure/4-plot_ridges" \
   --fill-mode              "$FILL_MODE" \
   --colour-ramp            "$COLOUR_RAMP" \
+  --height-mode            "$HEIGHT_MODE" \
   --ridge-scale            "$RIDGE_SCALE" \
+  --ridge-scale-individual "$RIDGE_SCALE_INDIVIDUAL" \
   --ridge-alpha            "$RIDGE_ALPHA" \
   --outline-width          "$OUTLINE_WIDTH" \
   --min-height-fraction    "$MIN_HEIGHT_FRACTION" \
