@@ -19,7 +19,7 @@ params:
   population_column: "Class"
   label_column: "Label"
   # 系统发育层级深度（Level 1..max_level）
-  max_level: 15
+  max_level: 4
   # 群体最小样本量，低于该值的群体不参与绘图
   min_sample_size: 20
   # 群体排列方式：alphabetical 按名称字母序；cluster 按单倍群组成聚类使相似群体相邻
@@ -28,9 +28,8 @@ params:
   cluster_level: "Level 2"
 
 figure:
-  width_per_population: 0.16   # inch
+  width_per_population: 0.15   # inch
   panel_height: 2.3            # inch
   legend_max_rows: 10
-  # 单个层级的类别数超过该阈值时，图例退化为主干单倍群
-  legend_max_categories: 100
+  legend_max_categories: 1000
   dpi: 600
