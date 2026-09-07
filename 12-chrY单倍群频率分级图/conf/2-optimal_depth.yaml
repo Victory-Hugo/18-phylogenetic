@@ -1,0 +1,43 @@
+project:
+  base_dir: "."
+
+paths:
+  input: "input/example.tsv"
+  color: "conf/color.tsv"
+  label_color: "conf/label_color.tsv"
+  output_result: "output/result/2-optimal_depth"
+  output_figure: "output/figure/2-optimal_depth"
+
+tools:
+  python_bin: "/home/luolintao/miniconda3/envs/BigLin/bin/python"
+  rscript_bin: "/usr/bin/Rscript"
+
+params:
+  # 输入列名
+  id_column: "ID"
+  haplogroup_column: "Haplogroup"
+  population_column: "Class"
+  label_column: "Label"
+  # 全局深度候选范围与群体最小样本量
+  max_level: 12
+  min_sample_size: 20
+  # 多项分布平滑强度
+  smoothing_alpha: 0.5
+  # 重复分层交叉验证
+  cv_folds: 5
+  cv_repeats: 10
+  random_seed: 42
+  # 自适应深度的复杂度惩罚 λ 搜索网格
+  lambda_min: 0.25
+  lambda_max: 20000
+  lambda_steps: 24
+  # 可选的最低 resolved 比例硬约束，0 表示不过滤
+  min_resolution_rate: 0
+  # 群体排序所用层级
+  cluster_level: "Level 2"
+
+figure:
+  width_per_population: 0.16   # inch
+  panel_height: 3.2            # inch
+  legend_max_rows: 26
+  dpi: 600

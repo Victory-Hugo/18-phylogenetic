@@ -1,0 +1,36 @@
+project:
+  base_dir: "."
+
+paths:
+  input: "input/example.tsv"
+  color: "conf/color.tsv"
+  label_color: "conf/label_color.tsv"
+  output_result: "output/result/1-haplogroup_level_frequency"
+  output_figure: "output/figure/1-haplogroup_level_frequency"
+
+tools:
+  python_bin: "/home/luolintao/miniconda3/envs/BigLin/bin/python"
+  rscript_bin: "/usr/bin/Rscript"
+
+params:
+  # 输入列名
+  id_column: "ID"
+  haplogroup_column: "Haplogroup"
+  population_column: "Class"
+  label_column: "Label"
+  # 系统发育层级深度（Level 1..max_level）
+  max_level: 15
+  # 群体最小样本量，低于该值的群体不参与绘图
+  min_sample_size: 20
+  # 群体排列方式：alphabetical 按名称字母序；cluster 按单倍群组成聚类使相似群体相邻
+  population_order: "cluster"
+  # population_order 为 cluster 时用于聚类的层级
+  cluster_level: "Level 2"
+
+figure:
+  width_per_population: 0.16   # inch
+  panel_height: 2.3            # inch
+  legend_max_rows: 10
+  # 单个层级的类别数超过该阈值时，图例退化为主干单倍群
+  legend_max_categories: 100
+  dpi: 600

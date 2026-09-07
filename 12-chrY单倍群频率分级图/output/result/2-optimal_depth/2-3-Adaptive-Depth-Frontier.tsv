@@ -1,0 +1,155 @@
+Haplogroup	Parent	Major Haplogroup	Depth	Resolution	Sample Count	Number of Populations	Stop Score	Split Score
+A		A	1	Resolved	8	2	-21.2961	-29.1519
+B		B	1	Resolved	17	7	-50.8896	-57.9534
+C1a	C1	C	3	Resolved	5	1	-15.3182	-15.3182
+C2a	C2	C	3	Resolved	161	23	-434.8393	-434.8393
+C2b1*	C2b	C	4	Unresolved	2	2	-997.7394	-947.0506
+C2b2	C2b	C	4	Resolved	8	4	-27.977	
+C2b1b	C2b1	C	5	Resolved	169	31	-465.3692	-466.9851
+C1b1a1	C1b1a	C	6	Resolved	20	7	-50.7119	-54.7717
+C1b1a2	C1b1a	C	6	Resolved	28	11	-84.75	-84.75
+C2b1a1*	C2b1a	C	6	Unresolved	15	8	-212.1823	-211.0413
+C2b1a2	C2b1a	C	6	Resolved	92	24	-259.1986	-269.6325
+C2b1a1a	C2b1a1	C	7	Resolved	56	18	-162.9655	-168.1546
+D1a1*	D1a	D	4	Unresolved	3	1	-1196.3372	-1076.8242
+D1a2	D1a	D	4	Resolved	26	1	-28.6749	-41.1488
+D1a1b	D1a1	D	5	Resolved	251	12	-350.3832	-350.3832
+D1a1a1b	D1a1a1	D	7	Resolved	28	7	-73.4346	-80.0731
+D1a1a1a1b*	D1a1a1a1	D	9	Unresolved	100	14	-268.0988	-265.725
+D1a1a1a1b2	D1a1a1a1b	D	10	Resolved	23	2	-31.3245	
+D1a1a1a1a1b*	D1a1a1a1a1	D	11	Unresolved	141	15	-375.5813	-374.9679
+D1a1a1a1a1b1	D1a1a1a1a1b	D	12	Resolved	7	3	-24.3551	
+D1a1a1a1a1b2	D1a1a1a1a1b	D	12	Resolved	8	5	-28.9986	
+E2	E	E	2	Resolved	7	4	-25.8753	-25.8753
+E1a	E1	E	3	Resolved	38	5	-75.5841	-75.5841
+E1b1b	E1b1	E	5	Resolved	70	18	-212.948	-212.948
+E1b1a1b	E1b1a1	E	7	Resolved	15	2	-27.1556	-34.5614
+E1b1a1a1b	E1b1a1a1	E	9	Resolved	1	1	-8.0736	
+E1b1a1a1a2	E1b1a1a1a	E	10	Resolved	148	11	-320.0543	-323.8615
+E1b1a1a1a3	E1b1a1a1a	E	10	Resolved	1	1	-8.0736	
+E1b1a1a1a1a	E1b1a1a1a1	E	11	Resolved	6	4	-23.314	-32.3271
+E1b1a1a1a1c2	E1b1a1a1a1c	E	12	Resolved	43	3	-58.6923	-86.1998
+E1b1a1a1a1c3	E1b1a1a1a1c	E	12	Resolved	1	1	-8.0736	
+E1b1a1a1a1c4	E1b1a1a1a1c	E	12	Resolved	1	1	-8.0736	
+E1b1a1a1a1c1a	E1b1a1a1a1c1	E	13	Resolved	158	9	-312.4586	-316.956
+E1b1a1a1a1c1b	E1b1a1a1a1c1	E	13	Resolved	22	6	-60.5776	-68.685
+F*		F	1	Unresolved	18	3	-490.5402	-460.8336
+F2	F	F	2	Resolved	185	17	-416.3659	
+F4	F	F	2	Resolved	1	1	-8.0736	
+G		G	1	Resolved	42	16	-133.3227	-137.5572
+H		H	1	Resolved	77	10	-172.0132	-181.99
+I		I	1	Resolved	64	12	-164.9981	-173.974
+J1	J	J	2	Resolved	47	14	-125.1342	-135.4624
+J2	J	J	2	Resolved	98	23	-302.6482	-307.4282
+L		L	1	Resolved	38	8	-98.4949	-98.4949
+N*		N	1	Unresolved	1	1	-1959.4679	-1809.6063
+N1a*	N1	N	3	Unresolved	15	5	-546.1203	-538.0128
+N1a2	N1a	N	4	Resolved	84	25	-252.5312	-253.3546
+N1a3	N1a	N	4	Resolved	18	9	-57.2648	
+N1b1*	N1b	N	4	Unresolved	47	9	-254.8967	-245.2426
+N1b2*	N1b	N	4	Unresolved	372	31	-1033.1909	-1018.2773
+N1b1a	N1b1	N	5	Resolved	29	11	-91.87	-100.4028
+N1b1b	N1b1	N	5	Resolved	19	9	-61.0596	-66.7308
+N1b2a	N1b2	N	5	Resolved	21	9	-63.8804	-69.5375
+N1b2b	N1b2	N	5	Resolved	1	1	-8.0736	
+N1a1a1	N1a1a	N	6	Resolved	40	8	-86.3254	-86.3254
+N1a1a3	N1a1a	N	6	Resolved	36	16	-100.4147	
+NO		NO	1	Resolved	2	2	-11.4415	
+O1*	O	O	2	Unresolved	2	1	-3825.644	-3364.1678
+O1a	O1	O	3	Resolved	425	41	-1185.899	-1186.2149
+O2b	O2	O	3	Resolved	29	10	-83.074	-90.3612
+O1b1*	O1b	O	4	Unresolved	3	3	-2360.0001	-2062.828
+O1b2	O1b	O	4	Resolved	46	10	-105.0209	-105.0209
+O1b1a*	O1b1	O	5	Unresolved	19	4	-2348.5749	-2047.9727
+O2a1a	O2a1	O	5	Resolved	109	21	-261.9182	-270.7205
+O2a1b	O2a1	O	5	Resolved	565	40	-1509.5885	-1512.2348
+O1b1a2	O1b1a	O	6	Resolved	88	24	-239.6388	-257.3728
+O2a2a2	O2a2a	O	6	Resolved	33	10	-89.9744	-96.6306
+O2a2b1*	O2a2b	O	6	Unresolved	6	3	-4747.7744	-4010.5978
+O1b1a1b	O1b1a1	O	7	Resolved	53	15	-136.0994	-143.2537
+O2a2a1b	O2a2a1	O	7	Resolved	4	2	-15.7716	
+O2a2b2b	O2a2b2	O	7	Resolved	24	8	-64.6585	-69.0807
+O1b1a1a1*	O1b1a1a	O	8	Unresolved	5	3	-1813.206	-1602.6842
+O1b1a1a2	O1b1a1a	O	8	Resolved	6	3	-20.9629	
+O2a2b1a2	O2a2b1a	O	8	Resolved	560	44	-1551.4743	-1557.8484
+O2a2b2a1	O2a2b2a	O	8	Resolved	51	17	-154.3702	-166.2546
+O2a2b2a2	O2a2b2a	O	8	Resolved	19	10	-63.6602	-67.8768
+O1b1a1a1b*	O1b1a1a1	O	9	Unresolved	4	3	-371.7797	-352.2123
+O2a2a1a1a*	O2a2a1a1	O	9	Unresolved	6	4	-94.5237	-93.9676
+O2a2a1a1b	O2a2a1a1	O	9	Resolved	25	12	-76.7515	-87.5378
+O2a2b1a1a*	O2a2b1a1	O	9	Unresolved	3	2	-3007.7047	-2401.9964
+O2a2b1a1b	O2a2b1a1	O	9	Resolved	10	6	-35.3333	
+O1b1a1a1a1*	O1b1a1a1a	O	10	Unresolved	4	4	-1192.383	-1107.1289
+O1b1a1a1a2	O1b1a1a1a	O	10	Resolved	45	11	-123.5717	-135.8318
+O1b1a1a1b1*	O1b1a1a1b	O	10	Unresolved	15	8	-266.0401	-254.0679
+O1b1a1a1b2	O1b1a1a1b	O	10	Resolved	30	11	-80.8526	-82.5991
+O2a2a1a1a1	O2a2a1a1a	O	10	Resolved	29	8	-71.1522	-80.515
+O2a2a1a2a3	O2a2a1a2a	O	10	Resolved	3	3	-14.8553	-19.5151
+O2a2b1a1a1*	O2a2b1a1a	O	10	Unresolved	42	16	-3000.5467	-2388.1628
+O1b1a1a1a1a*	O1b1a1a1a1	O	11	Unresolved	1	1	-658.9229	-614.1316
+O1b1a1a1b1a	O1b1a1a1b1	O	11	Resolved	23	7	-61.8674	-75.281
+O1b1a1a1b1b	O1b1a1a1b1	O	11	Resolved	43	11	-91.858	-97.018
+O1b1a1a1b1c	O1b1a1a1b1	O	11	Resolved	19	6	-50.9866	
+O2a2a1a2a1a*	O2a2a1a2a1	O	11	Unresolved	7	5	-602.9044	-592.993
+O2a2a1a2a1b	O2a2a1a2a1	O	11	Resolved	34	12	-97.6974	-105.2629
+O2a2b1a1a1b	O2a2b1a1a1	O	11	Resolved	40	13	-109.2343	-120.1456
+O2a2b1a1a1c	O2a2b1a1a1	O	11	Resolved	98	29	-298.2515	-306.101
+O2a2b1a1a1d	O2a2b1a1a1	O	11	Resolved	7	5	-26.8969	-36.7626
+O2a2b1a1a1e	O2a2b1a1a1	O	11	Resolved	30	13	-93.5157	-105.1734
+O2a2b1a1a1g	O2a2b1a1a1	O	11	Resolved	1	1	-8.0736	
+O2a2b1a1a1h	O2a2b1a1a1	O	11	Resolved	1	1	-8.0736	
+O1b1a1a1a1b1	O1b1a1a1a1b	O	12	Resolved	85	23	-225.1524	-231.8626
+O1b1a1a1a1b2*	O1b1a1a1a1b	O	12	Unresolved	2	2	-250.3304	-249.5314
+O2a2a1a2a1a1*	O2a2a1a2a1a	O	12	Unresolved	20	6	-585.577	-566.0961
+O2a2b1a1a1a1	O2a2b1a1a1a	O	12	Resolved	145	26	-380.4568	-393.8085
+O2a2b1a1a1a2	O2a2b1a1a1a	O	12	Resolved	28	12	-82.5805	-82.5805
+O2a2b1a1a1a3	O2a2b1a1a1a	O	12	Resolved	55	16	-137.2737	-137.2737
+O2a2b1a1a1a5	O2a2b1a1a1a	O	12	Resolved	11	7	-37.1543	-37.1543
+O1b1a1a1a1a1a*	O1b1a1a1a1a1	O	13	Unresolved	18	9	-465.2146	-436.4613
+O1b1a1a1a1a1b	O1b1a1a1a1a1	O	13	Resolved	64	19	-169.5967	-179.3179
+O1b1a1a1a1b2a*	O1b1a1a1a1b2	O	13	Unresolved	5	2	-242.3538	-238.0899
+O2a2a1a2a1a1b	O2a2a1a2a1a1	O	13	Resolved	30	11	-90.5248	-97.1911
+O2a2a1a2a1a1c	O2a2a1a2a1a1	O	13	Resolved	1	1	-8.0736	
+O2a2b1a1a1a4a*	O2a2b1a1a1a4	O	13	Unresolved	282	24	-1390.8183	-1082.5098
+O1b1a1a1a1b2a1*	O1b1a1a1a1b2a	O	14	Unresolved	5	4	-231.7857	-219.8388
+O2a2a1a2a1a1a1	O2a2a1a2a1a1a	O	14	Resolved	29	12	-86.7791	-94.4153
+O2a2b1a1a1a4a2*	O2a2b1a1a1a4a	O	14	Unresolved	45	14	-647.3756	-516.1794
+O1b1a1a1a1a1a1b	O1b1a1a1a1a1a1	O	15	Resolved	19	8	-52.6821	-56.7499
+O1b1a1a1a1b2a1b	O1b1a1a1a1b2a1	O	15	Resolved	5	3	-19.2727	
+O2a2a1a2a1a1a2a*	O2a2a1a2a1a1a2	O	15	Unresolved	5	3	-275.7369	-275.2627
+O2a2a1a2a1a1a2b	O2a2a1a2a1a1a2	O	15	Resolved	15	8	-49.9375	
+O2a2b1a1a1a4a2a*	O2a2b1a1a1a4a2	O	15	Unresolved	23	8	-476.2986	-379.3755
+O1b1a1a1a1a1a1a1	O1b1a1a1a1a1a1a	O	16	Resolved	95	15	-244.343	-246.7645
+O1b1a1a1a1a1a1a2	O1b1a1a1a1a1a1a	O	16	Resolved	23	16	-81.922	-89.8688
+O1b1a1a1a1b2a1a1*	O1b1a1a1a1b2a1a	O	16	Unresolved	20	1	-169.4724	-151.0692
+O1b1a1a1a1b2a1a2	O1b1a1a1a1b2a1a	O	16	Resolved	9	4	-28.7039	-33.7162
+O2a2a1a2a1a1a2a1	O2a2a1a2a1a1a2a	O	16	Resolved	78	20	-220.291	-222.9803
+O2a2a1a2a1a1a2a2	O2a2a1a2a1a1a2a	O	16	Resolved	9	8	-35.2003	
+O2a2b1a1a1a4a2a1	O2a2b1a1a1a4a2a	O	16	Resolved	96	11	-184.5002	-213.3572
+O2a2b1a1a1a4a2a2	O2a2b1a1a1a4a2a	O	16	Resolved	1	1	-8.0736	
+O2a2b1a1a1a4a2a3	O2a2b1a1a1a4a2a	O	16	Resolved	66	7	-127.5289	
+O1b1a1a1a1b2a1a1a	O1b1a1a1a1b2a1a1	O	17	Resolved	66	10	-116.5978	
+O1b1a1a1a1b2a1a1b	O1b1a1a1a1b2a1a1	O	17	Resolved	1	1	-8.0736	
+Q2	Q	Q	2	Resolved	8	7	-31.5405	-35.6483
+Q1a2	Q1a	Q	4	Resolved	4	3	-17.2918	-17.2918
+Q1b1	Q1b	Q	4	Resolved	55	10	-112.5612	-115.9127
+Q1b2	Q1b	Q	4	Resolved	6	3	-21.7938	-21.7938
+Q1a1a*	Q1a1	Q	5	Unresolved	1	1	-499.5201	-470.0101
+Q1a1a1*	Q1a1a	Q	6	Unresolved	92	13	-455.5492	-419.6446
+Q1a1a2	Q1a1a	Q	6	Resolved	17	5	-42.2918	
+Q1a1a1a*	Q1a1a1	Q	7	Unresolved	50	17	-250.9098	-249.1019
+Q1a1a1b	Q1a1a1	Q	7	Resolved	2	2	-11.4415	-11.4415
+Q1a1a1a1	Q1a1a1a	Q	8	Resolved	42	11	-108.3512	-109.7399
+R1b*	R1	R	3	Unresolved	2	2	-809.9065	-770.6502
+R2a	R2	R	3	Resolved	48	9	-121.5353	-121.5353
+R2b	R2	R	3	Resolved	4	3	-17.2918	-17.2918
+R1b2	R1b	R	4	Resolved	8	5	-28.1677	-28.1677
+R1b1b	R1b1	R	5	Resolved	1	1	-8.0736	-8.0736
+R1b1a2	R1b1a	R	6	Resolved	8	6	-30.5189	-40.2208
+R1a1a1a	R1a1a1	R	7	Resolved	1	1	-8.0736	-8.0736
+R1b1a1a	R1b1a1	R	7	Resolved	7	4	-25.3767	-25.3767
+R1a1a1b1	R1a1a1b	R	8	Resolved	13	6	-42.2386	-42.2386
+R1a1a1b2	R1a1a1b	R	8	Resolved	173	23	-504.5074	-507.6413
+R1b1a1b1a	R1b1a1b1	R	9	Resolved	276	11	-625.4644	-632.2709
+R1b1a1b1b	R1b1a1b1	R	9	Resolved	11	9	-41.6074	-46.1503
+T		T	1	Resolved	12	6	-40.2905	-40.2905
