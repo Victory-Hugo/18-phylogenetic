@@ -4,7 +4,7 @@
 
 ## 输入与配置
 
-示例输入为 `input/example.tsv`（制表符分隔），至少包含 `ID`、`Haplogroup`、`Class` 和 `Label` 四列。请在 `conf/1-haplogroup_level_frequency.yaml` 与 `conf/2-optimal_depth.yaml` 中设置输入路径、列名、阈值及 Python/R 路径；颜色配置位于 `conf/color.tsv` 和 `conf/label_color.tsv`。
+示例输入为 `input/example.tsv`（制表符分隔），至少包含 `ID`、`Haplogroup`、`Class` 和 `Label` 四列。请在 `conf/1-haplogroup_level_frequency.yaml` 与 `conf/2-optimal_depth.yaml` 中设置输入路径、列名、阈值及 Python/R 路径；颜色配置位于 `conf/color.tsv` 和 `conf/label_color.tsv`；`conf/afm/` 存放 Arial 字体度量，供 PDF 输出注册可编辑的 Arial 文本。
 
 ## 运行
 

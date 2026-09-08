@@ -22,6 +22,7 @@ mkdir -p "$OUTPUT_RESULT" "$OUTPUT_FIGURE"
     --population-column   "$POPULATION_COLUMN" \
     --label-column        "$LABEL_COLUMN" \
     --max-level           "$MAX_LEVEL" \
+    --max-selected-level  "$MAX_SELECTED_LEVEL" \
     --min-sample-size     "$MIN_SAMPLE_SIZE" \
     --smoothing-alpha     "$SMOOTHING_ALPHA" \
     --cv-folds            "$CV_FOLDS" \
@@ -39,6 +40,7 @@ mkdir -p "$OUTPUT_RESULT" "$OUTPUT_FIGURE"
     --color-tsv            "$COLOR" \
     --label-color-tsv      "$LABEL_COLOR" \
     --output-figure        "$OUTPUT_FIGURE" \
+    --afm-dir              "$AFM" \
     --width-per-population "$WIDTH_PER_POPULATION" \
     --panel-height         "$PANEL_HEIGHT" \
     --legend-max-rows      "$LEGEND_MAX_ROWS" \

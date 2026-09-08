@@ -2,11 +2,11 @@ project:
   base_dir: "."
 
 paths:
-  input: "input/example.tsv"
+  input: "/mnt/l/30-2026年6月9日藏彝走廊/12-单倍群频率柱状图/基础信息.tsv"
   color: "conf/color.tsv"
   label_color: "conf/label_color.tsv"
-  output_result: "output/result/1-haplogroup_level_frequency"
-  output_figure: "output/figure/1-haplogroup_level_frequency"
+  output_result: "/mnt/l/30-2026年6月9日藏彝走廊/12-单倍群频率柱状图/output/result/1-haplogroup_level_frequency"
+  output_figure: "/mnt/l/30-2026年6月9日藏彝走廊/12-单倍群频率柱状图/output/figure/1-haplogroup_level_frequency"
 
 tools:
   python_bin: "/home/luolintao/miniconda3/envs/BigLin/bin/python"
@@ -19,7 +19,7 @@ params:
   population_column: "Class"
   label_column: "Label"
   # 系统发育层级深度（Level 1..max_level）
-  max_level: 4
+  max_level: 10
   # 群体最小样本量，低于该值的群体不参与绘图
   min_sample_size: 20
   # 群体排列方式：alphabetical 按名称字母序；cluster 按单倍群组成聚类使相似群体相邻

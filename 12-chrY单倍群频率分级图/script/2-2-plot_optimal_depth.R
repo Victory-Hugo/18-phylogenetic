@@ -19,6 +19,7 @@ summary_tsv <- args[["summary-tsv"]]
 color_tsv <- args[["color-tsv"]]
 label_color_tsv <- args[["label-color-tsv"]]
 out_dir <- args[["output-figure"]]
+afm_dir <- args[["afm-dir"]]
 width_per_population <- as.numeric(args[["width-per-population"]])
 panel_height <- as.numeric(args[["panel-height"]])
 legend_max_rows <- as.integer(args[["legend-max-rows"]])
@@ -26,7 +27,19 @@ dpi <- as.integer(args[["dpi"]])
 
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
-plot_font <- if ("Arial" %in% systemfonts::system_fonts()$family) "Arial" else ""
+#* =====字体注册=====
+# 注册项目内的 Arial 字体度量，使 grDevices::pdf() 写出的 BaseFont 为 Arial，
+# 每个标签都是可在 Illustrator 中单独选中编辑的文本。
+# 度量文件缺失时回落到默认字体，不让整条流程因字体而失败。
+afm_files <- file.path(afm_dir, c("Arial.afm", "Arial-Bold.afm",
+                                  "Arial-Italic.afm", "Arial-BoldItalic.afm"))
+plot_font <- if (all(file.exists(afm_files))) {
+  grDevices::pdfFonts(Arial = grDevices::Type1Font("Arial", afm_files))
+  "Arial"
+} else {
+  message("未找到 Arial 字体度量，回落到默认字体: ", afm_dir)
+  ""
+}
 
 #* =====读取数据=====
 df1 <- read_tsv(frequency_tsv, show_col_types = FALSE)
@@ -153,22 +166,28 @@ for (i in seq_along(scheme_levels)) {
 }
 
 #* =====群体标签图例=====
-df_lab <- data.frame(
-  Population = factor(pop_labels[1], levels = pop_labels),
-  Frequency = 0,
-  Label = factor(label_levels, levels = label_levels)
-)
+# 数据未提供分组标签时（Group Label 全为空），跳过这组图例
+if (length(label_levels) > 0) {
+  df_lab <- data.frame(
+    Population = factor(pop_labels[1], levels = pop_labels),
+    Frequency = 0,
+    Label = factor(label_levels, levels = label_levels)
+  )
 
-plot_list[[1]] <- plot_list[[1]] +
-  new_scale_fill() +
-  geom_tile(data = df_lab, aes(x = Population, y = Frequency, fill = Label),
-            width = 0, height = 0, inherit.aes = FALSE) +
-  scale_fill_manual(values = label_color, name = "Population group") +
-  guides(fill = guide_legend(
-    ncol = 1, order = 2,
-    theme = theme(legend.key.size = unit(3, "mm"),
-                  legend.text = element_text(family = plot_font, size = 5.5),
-                  legend.title = element_text(family = plot_font, size = 6.5))))
+  plot_list[[1]] <- plot_list[[1]] +
+    new_scale_fill() +
+    geom_tile(data = df_lab, aes(x = Population, y = Frequency, fill = Label),
+              width = 0, height = 0, inherit.aes = FALSE) +
+    scale_fill_manual(values = label_color, name = "Population group") +
+    guides(fill = guide_legend(
+      ncol = 1, order = 2,
+      theme = theme(legend.key.size = unit(3, "mm"),
+                    legend.text = element_text(family = plot_font, size = 5.5),
+                    legend.title = element_text(family = plot_font,
+                                                size = 6.5))))
+} else {
+  message("未检测到群体分组标签，跳过群体标签图例")
+}
 
 plot_list[[1]] <- plot_list[[1]] |> remove_x_axis_labels()
 
@@ -255,9 +274,12 @@ label_width <- max(nchar(unique(df1$Haplogroup))) * 0.045 + 0.25
 combo_w <- n_pop * width_per_population + legend_cols_max * label_width + 1.8
 combo_h <- panel_height * length(plot_list) + 4.5
 
-grDevices::cairo_pdf(
+# 用 grDevices::pdf() 而非 cairo_pdf()，避免连续文字被合并进同一个文本对象，
+# 保证每个标签在 Illustrator 中可以单独选中编辑
+grDevices::pdf(
   file.path(out_dir, "⭐2-4-Optimal-Depth-Frequency.pdf"),
-  width = combo_w, height = combo_h, onefile = TRUE)
+  width = combo_w, height = combo_h, onefile = TRUE,
+  family = plot_font, useDingbats = FALSE, encoding = "WinAnsi.enc")
 print(p3)
 print(p7)
 grDevices::dev.off()

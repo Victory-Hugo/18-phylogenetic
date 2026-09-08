@@ -2,11 +2,12 @@ project:
   base_dir: "."
 
 paths:
-  input: "input/example.tsv"
+  input: "/mnt/l/30-2026年6月9日藏彝走廊/12-单倍群频率柱状图/基础信息.tsv"
   color: "conf/color.tsv"
   label_color: "conf/label_color.tsv"
-  output_result: "output/result/2-optimal_depth"
-  output_figure: "output/figure/2-optimal_depth"
+  afm: "conf/afm"
+  output_result: "/mnt/l/30-2026年6月9日藏彝走廊/12-单倍群频率柱状图/output/result/2-optimal_depth"
+  output_figure: "/mnt/l/30-2026年6月9日藏彝走廊/12-单倍群频率柱状图/output/figure/2-optimal_depth"
 
 tools:
   python_bin: "/home/luolintao/miniconda3/envs/BigLin/bin/python"
@@ -20,6 +21,8 @@ params:
   label_column: "Label"
   # 全局深度候选范围与群体最小样本量
   max_level: 12
+  # 全局统一深度可被选中的最深 Level，0 表示不限制；
+  max_selected_level: 0
   min_sample_size: 20
   # 多项分布平滑强度
   smoothing_alpha: 0.5

@@ -201,26 +201,31 @@ for (lv in level_names) {
 
 #* =====群体标签图例=====
 # 借用首个面板右侧的图例空白，追加一组群体标签色块说明
-df_lab <- data.frame(
-  Population = factor(pop_labels[1], levels = pop_labels),
-  Frequency = 0,
-  Label = factor(label_levels, levels = label_levels)
-)
+# 数据未提供分组标签时（Group Label 全为空），跳过这组图例
+if (length(label_levels) > 0) {
+  df_lab <- data.frame(
+    Population = factor(pop_labels[1], levels = pop_labels),
+    Frequency = 0,
+    Label = factor(label_levels, levels = label_levels)
+  )
 
-for (i in c(1, 2)) {
-  target <- if (i == 1) plot_list else plot_list2
-  target[[1]] <- target[[1]] +
-    new_scale_fill() +
-    geom_tile(data = df_lab, aes(x = Population, y = Frequency, fill = Label),
-              width = 0, height = 0, inherit.aes = FALSE) +
-    scale_fill_manual(values = label_color, name = "Population group") +
-    guides(fill = guide_legend(
-      ncol = 1, order = 2,
-      theme = theme(legend.key.size = unit(3, "mm"),
-                    legend.text = element_text(family = plot_font, size = 5.5),
-                    legend.title = element_text(family = plot_font,
-                                                size = 6.5))))
-  if (i == 1) plot_list <- target else plot_list2 <- target
+  for (i in c(1, 2)) {
+    target <- if (i == 1) plot_list else plot_list2
+    target[[1]] <- target[[1]] +
+      new_scale_fill() +
+      geom_tile(data = df_lab, aes(x = Population, y = Frequency, fill = Label),
+                width = 0, height = 0, inherit.aes = FALSE) +
+      scale_fill_manual(values = label_color, name = "Population group") +
+      guides(fill = guide_legend(
+        ncol = 1, order = 2,
+        theme = theme(legend.key.size = unit(3, "mm"),
+                      legend.text = element_text(family = plot_font, size = 5.5),
+                      legend.title = element_text(family = plot_font,
+                                                  size = 6.5))))
+    if (i == 1) plot_list <- target else plot_list2 <- target
+  }
+} else {
+  message("未检测到群体分组标签，跳过群体标签图例")
 }
 
 #* =====纵向组合图=====

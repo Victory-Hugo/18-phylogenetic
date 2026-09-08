@@ -1,0 +1,49 @@
+\documentclass[12pt]{article}
+\usepackage{ctex}
+\usepackage{sci-manuscript}
+\addbibresource{references.bib}
+
+\ManuscriptTitle{Hierarchical Visualization of Y Chromosome Haplogroup Frequencies and Selection of the Optimal Phylogenetic Depth}
+
+\ManuscriptAuthors{%
+  \AuthorORCID{Lintao Luo}{1,*}{0009-0001-5790-4866}
+}
+
+\ManuscriptAffiliations{%
+  \Affiliation{1}{giantlinlinlin@gmail.com}%
+}
+
+\Keywords{Y chromosome; haplogroup frequency; phylogenetic resolution; cross validation}
+
+% \Correspondence{*Corresponding author: author@example.edu}
+
+\begin{document}
+
+\MakeManuscriptTitle
+
+\section{Materials and Methods}
+
+\subsection{Hierarchical haplogroup frequencies and selection of the optimal phylogenetic depth}
+
+Terminal Y chromosome haplogroups were decomposed into successive phylogenetic levels following the Y Chromosome Consortium nomenclature \parencite{ycc2002,karafet2008}. Samples unresolved beyond a given level were retained at their deepest assigned ancestral lineage and denoted with an asterisk. Populations with fewer than 20 samples were excluded. Haplogroup frequencies were calculated as percentages of the population sample size, and populations were ordered by average linkage hierarchical clustering of Level 2 frequency profiles using Bray Curtis dissimilarity \parencite{bray1957} and optimal leaf ordering \parencite{barjoseph2001}.
+
+To determine an appropriate phylogenetic resolution, we evaluated the ability of haplogroup categories to predict population membership using repeated stratified five-fold cross validation with 10 repetitions. Population probabilities within each haplogroup category were estimated using Dirichlet smoothing, and predictive performance was assessed by multiclass logarithmic loss.
+
+Two strategies were implemented to determine the phylogenetic depth retained for haplogroup classification: a fixed-depth strategy and a branch-adaptive strategy.
+
+For the fixed-depth strategy, alternative phylogenetic levels were compared, and the shallowest level whose mean logarithmic loss fell within one standard error of the minimum was selected \parencite{breiman1984,hastie2009}.
+
+For the branch-adaptive strategy, cost complexity pruning was applied to the haplogroup prefix tree. For each tree cut $T$, the objective function was
+
+\begin{equation*}
+J(T)=\sum_i \log P\left(\text{Population}_i \mid g_T(H_i)\right)-\lambda K_T,
+\end{equation*}
+
+where $g_T(H_i)$ denotes the haplogroup category assigned to sample $i$ under tree cut $T$, and $K_T$ is the number of retained categories. Optimal tree cuts were obtained by dynamic programming across a range of $\lambda$ values and selected using the same cross validation and one standard error criterion. This strategy allowed informative branches to be resolved at greater phylogenetic depth while retaining shallower resolution for less informative lineages.
+
+Haplogroup frequency profiles and optimal-depth comparisons were visualized as stacked bar plots using consistent phylogenetically structured colours across populations and resolution levels. Analyses were conducted in Python and R using standard statistical and visualization packages.
+
+
+\printbibliography[title={References}]
+
+\end{document}

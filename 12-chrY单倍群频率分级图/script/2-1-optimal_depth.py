@@ -360,15 +360,25 @@ def subtree_root_prior(tree: HaplogroupTree, subtree: Dict[Key, np.ndarray],
 
 # ------------------------------------------------------------ 1-SE 规则选择
 
-def apply_one_se_rule(table: pd.DataFrame, simpler_is: str) -> pd.DataFrame:
-    """标注 CV 最优与 one-standard-error 规则下最简单的候选。"""
+def apply_one_se_rule(table: pd.DataFrame, simpler_is: str,
+                      eligible: pd.Series | None = None) -> pd.DataFrame:
+    """标注 CV 最优与 one-standard-error 规则下最简单的候选。
+
+    ``eligible`` 给出允许被选中的候选行（布尔掩码）。CV 曲线仍按整表输出，
+    但最优点与 1-SE 阈值都只在候选池内计算，用于施加人为的深度上限等约束。
+    """
     out = table.copy()
-    best = out["CV Mean Log Loss"].idxmin()
+    pool = out if eligible is None else out[eligible.reindex(out.index,
+                                                            fill_value=False)]
+    if pool.empty:
+        raise ValueError("候选池为空，请放宽深度上限等约束")
+    best = pool["CV Mean Log Loss"].idxmin()
     threshold = (out.loc[best, "CV Mean Log Loss"] + out.loc[best, "CV SE"])
     out["Delta From Best"] = (out["CV Mean Log Loss"]
                               - out.loc[best, "CV Mean Log Loss"])
+    out["Eligible"] = out.index.isin(pool.index)
     out["Within One SE"] = out["CV Mean Log Loss"] <= threshold
-    within = out[out["Within One SE"]]
+    within = pool[out.loc[pool.index, "Within One SE"]]
     if simpler_is == "smallest":
         pick = within["Parameter Value"].idxmin()
     else:
@@ -389,6 +399,7 @@ def run(
     population_column: str = "Class",
     label_column: str = "Label",
     max_level: int = 10,
+    max_selected_level: int = 0,
     min_sample_size: int = 20,
     smoothing_alpha: float = 0.5,
     cv_folds: int = 5,
@@ -439,7 +450,17 @@ def run(
         if not keep.any():
             raise ValueError("没有 Level 满足 min_resolution_rate")
         global_cv = global_cv[keep].reset_index(drop=True)
-    global_cv = apply_one_se_rule(global_cv, simpler_is="smallest")
+    if max_selected_level > 0:
+        eligible = global_cv["Parameter Value"] <= max_selected_level
+        if not eligible.any():
+            raise ValueError(
+                f"没有 Level 满足 max_selected_level={max_selected_level}")
+        log.info("全局深度选择上限 Level %d，深于该层级的候选仅参与作图",
+                 max_selected_level)
+    else:
+        eligible = None
+    global_cv = apply_one_se_rule(global_cv, simpler_is="smallest",
+                                  eligible=eligible)
     global_level = int(global_cv.loc[global_cv["Selected"],
                                      "Parameter Value"].iloc[0])
     log.info("全局最优 Level（1-SE 规则）: Level %d，CV log-loss %.4f",
@@ -524,7 +545,7 @@ def run(
         "Method", "Parameter", "Parameter Value", "Label",
         "Number of Categories", "Mean Depth", "Resolved Sample Count",
         "Unresolved Sample Count", "Resolved Rate", "CV Mean Log Loss",
-        "CV SD", "CV SE", "Delta From Best", "Within One SE",
+        "CV SD", "CV SE", "Delta From Best", "Eligible", "Within One SE",
         "Best Predictive", "Selected"]]
 
     paths = {
@@ -685,6 +706,9 @@ def build_parser() -> argparse.ArgumentParser:
                    default="Class")
     p.add_argument("--label-column", dest="label_column", default="Label")
     p.add_argument("--max-level", dest="max_level", type=int, default=10)
+    p.add_argument("--max-selected-level", dest="max_selected_level", type=int,
+                   default=0,
+                   help="全局统一深度可被选中的最深 Level，0 表示不限制")
     p.add_argument("--min-sample-size", dest="min_sample_size", type=int,
                    default=20)
     p.add_argument("--smoothing-alpha", dest="smoothing_alpha", type=float,
