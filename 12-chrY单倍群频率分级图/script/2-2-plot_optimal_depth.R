@@ -85,6 +85,16 @@ pop_labels <- ifelse(
          "'>■</span>")
 )
 
+# 无群体标签色块时，普通文本不应经 gridtext/Markdown 渲染；后者在旋转
+# PDF 文字时会把每个轴标签拆成多个片段。只有实际含 HTML 色块时才使用它。
+axis_text_x <- if (all(is.na(df_pop$`Group Label`))) {
+  element_text(angle = 90, hjust = 1, vjust = 0.5,
+               family = plot_font, size = 7)
+} else {
+  element_markdown(angle = 90, hjust = 1, vjust = 0.5,
+                   family = plot_font, size = 7)
+}
+
 #* =====系统发育配色=====
 # 与步骤 1 共用主干色表，后代在同色系内由深到浅，祖先残留类别用低饱和浅色
 df_color <- read_tsv(color_tsv, show_col_types = FALSE)
@@ -158,8 +168,7 @@ for (i in seq_along(scheme_levels)) {
   ) + theme(
     legend.justification = c(0, 0.5),
     legend.key.spacing.x = unit(1.5, "mm"),
-    axis.text.x = element_markdown(angle = 90, hjust = 1, vjust = 0.5,
-                                   family = plot_font, size = 7)
+    axis.text.x = axis_text_x
   )
 
   plot_list[[i]] <- p
